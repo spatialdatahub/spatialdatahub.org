@@ -1,0 +1,75 @@
+ZMT GIS Web Portal Technical Specifications
+
+
+AUTHOR
+
+Patrick Curry
+
+
+CREATED
+
+2016-05-04
+
+
+UPDATED
+
+2016-05-04
+
+
+DISCLAIMER
+
+This document is incomplete and will need to be revisited many times before it is complete.
+
+
+OVERVIEW
+
+This is the document that contains the technical specifications for the ZMT GIS Web Portal project. It's sister document "functional_specifications.txt" contains the project's functional specifications.
+
+The ZMT GIS Web Portal is a website that will allow the visualization of spatial data collected by the ZMT and other sources in a single location. Users will be able to view GIS maps populated with real time data (e.g. weather data, wave data, etc.). --> More to be added
+
+
+SOFTWARE
+
+  LANGUAGES TO BE USED
+    Python 3
+    Javascript
+    css
+    html
+
+  FRAMEWORKS
+    Django 1.9
+      -The plan is to continually upgrade this to stay current. 1.10, 1.11, 1.12... when do they get to 2.0?
+    Bootstrap 3
+      -Once version 4 is out and available we will try and move to it.
+
+  PACKAGES
+    POSTGRES
+      -PostGIS extension for the relational database.
+    DJANGO
+      -Possible Django Rest Framework
+      -psycopg2 - the django package for Postgres
+
+  SERVERS
+    This will all be put onto a virtual server that is at the ZMT, but to run python on the server we will be using Gunicorn, and to serve the static files we will use NGINX.
+
+
+OPEN ISSUES
+
+This project may require something special for the underlying database. I know how to hook Django up to a Postgres database, but I don't quite know how to hook it up to a database that is based on Arc software or something like that.
+
+SIDE NOTES
+
+
+
+
+SITE PAGES
+
+  Main Page
+
+  Shape File Meta Data Page
+
+  GPS Object Meta Data Page
+
+  About Page
+
+  Contact Page
