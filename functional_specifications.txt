@@ -38,14 +38,31 @@ The index page will be a standard front page to a website. It will have a descri
 
 It is also possible that we do not have an index page. We could just have the main page be the map page, and keep all the other information on the about page.
 
+-->DIAGRAM OF PAGE<--
+
+
+Map List
+
+This will be a page that lists all the maps available on the website. It should be sortable by search terms (title, author, keyword/tag, etc.), and then the map titles should be linked to the map page populated with the gis file's information.
+
+-->DIAGRAM OF PAGE<--
+
 
 Map Page
 
-This is the most important page of the website. This is the page that people will view the maps from. They will be able to see a standard background provided by one api or another, and then they will be able to load the gis map files onto the background. It would be nice to be able to change the look of the background with one switch or another, but we will deal with that in time, first things first.
+This is the most important page of the website. This is the page that people will view the maps from. They will be able to see a standard background provided by one api or another, probably google, and then they will be able to load the gis map files onto the background. It would be nice to be able to change the look of the background with one switch or another, but we will deal with that in time, first things first.
 
-We may have to restrict our maps to one type of geographic coordinate system (NAD83, WGS84, etc.) and decimal degrees (as opposed to Universal Transverse Mercator, UTM) which will keep things much simpler for us.  
+We may have to restrict our maps to one type of geographic coordinate system (NAD83, WGS84, etc.) and decimal degrees (as opposed to Universal Transverse Mercator, UTM) which will should things much simpler for us. It should also be possible to include decimals minutes seconds, and decimals minutes, as decimal degrees, decimals minutes seconds, and decimal minutes are all just transformations of each other. UTM is a bit different because it relies on a different type of projection system. 
 
 This map should also be able to show change over time, perhaps with some sort of a sliding bar or scroller at the bottom. I haven't figured this out just yet. 
+
+This page will also have a collapsible column on the side of the screen that has a selectible list of maps to display.
+
+The map needs to be clearable, and if we are showing multiple shape files their legends must not show up on top of each other.
+
+This page will also scale with the size of the screen. If someone decides that they just have to see a map while they're shopping for shoes at the mall, they should be able to pull up a scaled version of the page on their smart phone or tablet.
+
+-->DIAGRAM OF PAGE<--
 
 
 Shape File Meta Data Page
@@ -54,40 +71,55 @@ The shape file meta data page will important as it will have a description of th
 
 It could also be nice to show a graph or table with time as the independent variable on this page, or something along those lines. 
 
+-->DIAGRAM OF PAGE<--
+
 
 GIS Object Meta Data Page
 
 This page will be similar to the Shape File Meta Data Page, except that it will be specific to the GIS point, or polygon, or whatever it may be. If it is a point, it will have the GPS coordinates as well as other relevant information that is included by the author. If it is a polygon it should have the area and perimeter, and the rest of the information that the author may have wanted to include
 
+-->DIAGRAM OF PAGE<--
 
 About 
 
 The about page is probably not super important as a description of the site will be on the main Index page. Perhaps this will not even be a necessary page. 
+
+-->DIAGRAM OF PAGE<--
 
 
 Contact 
 
 This have the way to contact the ZMT, where the ZMT is, and a way to email the ZMT, and a way to email an account that website adminstrator can check.
 
+-->DIAGRAM OF PAGE<--
+
 
 Register
 
 This will allow authors to set up accounts that allow them to upload and edit information on their specific parts of the website. The login page will probably not be important until we figure out a way to have authors upload and edit information on the shapefiles.
+
+-->DIAGRAM OF PAGE<--
 
 
 Login 
 
 This will allow map authors to login to their parts of the website, and like the Register page the login page will probably not be important until a bit later in the development of the site.
 
+-->DIAGRAM OF PAGE<--
+
 
 Logout 
 
 This will be a simple "Are you sure you want to logout" warning page.
 
+-->DIAGRAM OF PAGE<--
+
 
 Reset Password
 
 This page will probably be set up to go through email authentication, but it could also just require the former password to be entered, then the new password to be entered twice. We should probably keep it simple and make this the same as the 'forgot password' type of link. 
+
+-->DIAGRAM OF PAGE<--
 
 
 SCENARIOS
