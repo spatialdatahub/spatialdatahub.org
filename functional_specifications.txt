@@ -1,6 +1,19 @@
-UPDATED
+ZMT GIS Web Portal Functional Specifications
+
+
+AUTHOR
+
+Patrick Curry
+
+
+CREATED
 
 2016-05-04
+
+
+UPDATED
+
+2016-05-09
 
 
 DISCLAIMER
@@ -8,14 +21,66 @@ DISCLAIMER
 This document is incomplete and will need to be revisited many times before it is complete.
 
 
-OVERVIEW
+OVERVIEW/ABSTRACT
 
 This is the document that contains the functional specifications for the ZMT GIS Web Portal project. It's sister document "technical_specifications.txt" contains the project's technical specifications.
 
 
-The ZMT GIS Web Portal is a website that will allow the visualization of spatial data collected by the ZMT and other sources in a single location. Users will be able to view GIS maps populated with real time data (e.g. weather data, wave data, etc.). --> More to be added
+The ZMT GIS Web Portal is a website that will allow the visualization of spatial data collected by the ZMT and other sources in a single location. Users will be able to view GIS maps populated with real time data (e.g. weather data, wave data, etc.). Further down the line, after the prototype has been created there will be a way for researchers to add GIS maps to the website. --> More to be added
 
 This website will avoid acronyms. ZMT and GIS are approved acronyms, but they will go no further than that! We will NOT subject the clients to the excruciating task of mentally decoding a drop down list of 20 seemingly identical acronyms WRITTEN IN ALL CAPS.
+
+
+PAGES/URLS
+
+Index
+
+The index page will be a standard front page to a website. It will have a description of the project and an explanation as to how to use it. It will also have a link to the map, and links to the other pages (contact, about, login, logout, password-reset, etc.).
+
+
+Map Page
+
+This is the most important page of the entire website. This is the page that people will view the maps from. They will be able to see a standard background provided by one api or another, and then they will be able to load the gis map files onto the background. It would be nice to be able to change the look of the background with one switch or another, but we will deal with that in time, first things first.
+
+We may have to restrict our maps to one type of geographic coordinate system (NAD83, WGS84, etc.) and decimal degrees (as opposed to Universal Transverse Mercator, UTM) which will keep things much simpler for us.  
+
+This map should also be able to show change over time, perhaps with some sort of a sliding bar or scroller at the bottom. I haven't figured this out just yet. 
+
+
+Shape File Meta Data Page
+
+The shape file meta data page will important as it will have a description of the file, as well as a way to download the file (if the file author makes this available). It would be nice to make it possible to link to a separate page on a separate website if the author would like.
+
+
+GPS Object Meta Data Page
+
+  '/map/<shape_file_slug>/<object_id>/'
+
+
+About Page
+
+The about page is probably not super important as a description of the site will be on the main Index page. Perhaps this will not even be a necessary page. 
+
+
+Contact Page
+
+  '/contact/'
+
+
+Login 
+
+  '/login/'
+
+
+Logout 
+
+  '/logout/'
+
+
+Reset Password
+
+  '/reset-password/'
+
 
 
 SCENARIOS
@@ -34,4 +99,5 @@ OPEN ISSUES
 
 
 SIDE NOTES
+
 

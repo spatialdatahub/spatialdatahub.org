@@ -13,7 +13,7 @@ CREATED
 
 UPDATED
 
-2016-05-04
+2016-05-09
 
 
 DISCLAIMER
@@ -41,6 +41,7 @@ SOFTWARE
       -The plan is to continually upgrade this to stay current. 1.10, 1.11, 1.12... when do they get to 2.0?
     Bootstrap 3
       -Once version 4 is out and available we will try and move to it.
+    jQuery
 
   PACKAGES
     POSTGRES
@@ -55,21 +56,52 @@ SOFTWARE
 
 OPEN ISSUES
 
-This project may require something special for the underlying database. I know how to hook Django up to a Postgres database, but I don't quite know how to hook it up to a database that is based on Arc software or something like that.
+This project may require something special for the underlying database. I know how to hook Django up to a Postgres database, but I don't quite know how to hook it up to a database that is based on Arc software or something like that. <-- I will start with a Postgres database, then see what I can figure out from there.
+
 
 SIDE NOTES
 
 
 
 
-SITE PAGES
+PAGES/URLS
 
-  Main Page
+Index
 
-  Shape File Meta Data Page
+  '/'
 
-  GPS Object Meta Data Page
+Map Page
 
-  About Page
+  '/map/'
 
-  Contact Page
+
+
+Shape File Meta Data Page
+
+  '/map/<gis_map_slug>/' 
+
+GPS Object Meta Data Page
+
+  '/map/<gis_map_slug>/<object_id>/'
+
+About Page
+
+  '/about/'
+
+Contact Page
+
+  '/contact/'
+
+Login 
+
+  '/login/'
+
+Logout 
+
+  '/logout/'
+
+Reset Password
+
+  '/reset-password/'
+
+
