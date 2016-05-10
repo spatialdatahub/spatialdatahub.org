@@ -1,4 +1,4 @@
-ZMT GIS Web Portal Functional Specifications
+﻿ZMT GIS Web Portal Functional Specifications
 
 
 AUTHOR
@@ -13,7 +13,7 @@ CREATED
 
 UPDATED
 
-2016-05-09
+2016-05-10
 
 
 DISCLAIMER
@@ -38,14 +38,14 @@ The index page will be a standard front page to a website. It will have a descri
 
 It is also possible that we do not have an index page. We could just have the main page be the map page, and keep all the other information on the about page.
 
--->DIAGRAM OF PAGE<--
+INDEX PAGE IMAGE
 
 
 Map List
 
 This will be a page that lists all the maps available on the website. It should be sortable by search terms (title, author, keyword/tag, etc.), and then the map titles should be linked to the map page populated with the gis file's information.
 
--->DIAGRAM OF PAGE<--
+MAP LIST PAGE IMAGE
 
 
 Map Page
@@ -60,9 +60,9 @@ This page will also have a collapsible column on the side of the screen that has
 
 The map needs to be clearable, and if we are showing multiple shape files their legends must not show up on top of each other.
 
-This page will also scale with the size of the screen. If someone decides that they just have to see a map while they're shopping for shoes at the mall, they should be able to pull up a scaled version of the page on their smart phone or tablet.
+This page will also scale with the size of the screen. If someone decides that they just have to see a map while they're shopping for shoes at the mall, they should be able to pull up a scaled version of the page on their smart phone or tablet. We are adhering to the "mobile first" method of development.
 
--->DIAGRAM OF PAGE<--
+MAP PAGE IMAGE
 
 
 Shape File Meta Data Page
@@ -71,55 +71,55 @@ The shape file meta data page will important as it will have a description of th
 
 It could also be nice to show a graph or table with time as the independent variable on this page, or something along those lines. 
 
--->DIAGRAM OF PAGE<--
+SHAPE FILE META DATA PAGE IMAGE
 
 
 GIS Object Meta Data Page
 
 This page will be similar to the Shape File Meta Data Page, except that it will be specific to the GIS point, or polygon, or whatever it may be. If it is a point, it will have the GPS coordinates as well as other relevant information that is included by the author. If it is a polygon it should have the area and perimeter, and the rest of the information that the author may have wanted to include
 
--->DIAGRAM OF PAGE<--
+GIS OBJECT META DATA PAGE IMAGE
 
 About 
 
 The about page is probably not super important as a description of the site will be on the main Index page. Perhaps this will not even be a necessary page. 
 
--->DIAGRAM OF PAGE<--
+ABOUT PAGE IMAGE
 
 
 Contact 
 
 This have the way to contact the ZMT, where the ZMT is, and a way to email the ZMT, and a way to email an account that website adminstrator can check.
 
--->DIAGRAM OF PAGE<--
+CONTACT PAGE IMAGE
 
 
 Register
 
 This will allow authors to set up accounts that allow them to upload and edit information on their specific parts of the website. The login page will probably not be important until we figure out a way to have authors upload and edit information on the shapefiles.
 
--->DIAGRAM OF PAGE<--
+REGISTER PAGE IMAGE
 
 
 Login 
 
 This will allow map authors to login to their parts of the website, and like the Register page the login page will probably not be important until a bit later in the development of the site.
 
--->DIAGRAM OF PAGE<--
+LOGIN PAGE IMAGE
 
 
 Logout 
 
 This will be a simple "Are you sure you want to logout" warning page.
 
--->DIAGRAM OF PAGE<--
+LOGOUT PAGE IMAGE
 
 
 Reset Password
 
-This page will probably be set up to go through email authentication, but it could also just require the former password to be entered, then the new password to be entered twice. We should probably keep it simple and make this the same as the 'forgot password' type of link. 
+This page will probably be set up to go through email authentication, but it could also just require the former password to be entered, then the new password to be entered twice. We should probably keep it simple and make this the same as the "forgot password" type of link. 
 
--->DIAGRAM OF PAGE<--
+RESET PASSWORD PAGE IMAGE
 
 
 SCENARIOS

@@ -1,4 +1,4 @@
-ZMT GIS Web Portal Technical Specifications
+﻿ZMT GIS Web Portal Technical Specifications
 
 
 AUTHOR
@@ -31,27 +31,34 @@ The ZMT GIS Web Portal is a website that will allow the visualization of spatial
 SOFTWARE
 
   LANGUAGES TO BE USED
+
     Python 3
     Javascript
     css
     html
 
   FRAMEWORKS
+
     Django 1.9
-      -The plan is to continually upgrade this to stay current. 1.10, 1.11, 1.12... when do they get to 2.0?
+      -The plan is to continually upgrade the version to stay current. 1.10 in August 2016, 1.11 LTS (long-term support) in April 2017, and 2.0 in December 2017
+
     Bootstrap 3
       -Once version 4 is out and available we will try and move to it.
+
     jQuery
 
   PACKAGES
+
     POSTGRES
       -PostGIS extension for the relational database.
+
     DJANGO
       -Django Rest Framework
       -django-rest-framework-gis
       -psycopg2 - the django package for Postgres
 
   SERVERS
+
     This will all be put onto a virtual server that is at the ZMT, but to run python on the server we will be using Gunicorn, and to serve the static files we will use NGINX.
 
 
