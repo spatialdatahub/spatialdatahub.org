@@ -1,7 +1,7 @@
-$WebGis
+WebGis
 ========
 
-$WebGis will solve your problem of where to start with documentation,
+WebGis will solve your problem of where to start with documentation,
 by providing a basic explanation of how to do it easily.
 
 Look how easy it is to use:
@@ -19,9 +19,9 @@ Features
 Installation
 ------------
 
-Install $project by running:
+Install WebGis by running:
 
-    install project
+    NOT READY YET
 
 Contribute
 ----------
