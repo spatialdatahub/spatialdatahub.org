@@ -22,7 +22,21 @@
   <div>
     <h1>Google Maps JavaScript API Tester</h1>
   </div>
-  <div id=map></div>
+  <div>
+    <h2>yes</h2>
+  </div>
+  <div>
+
+  {% for location in locations %}
+    <p> 
+      {% for coord in location %}
+        {{ coord }}
+      {% endfor %}
+    </p>
+  {% endfor %}
+
+  </div>
+  <div id='map'></div>
 
 <script>
 
@@ -35,22 +49,21 @@
         setMarkers(map);
       }
 
-      var beaches = [
-        ['Bremen', 53.0793, 8.8017],
-        ['Indio', 33.7206, -116.2156],
-        ['Honolulu', 21.3069, -157.8583],
-        ['Cape Town', -33.9249, 18.4241],
-        ['Jakarta',-6.1745, 106.8227]
+      var locations = [
+        [53.0793, 8.8017], //Bremen
+        [33.7206, -116.2156], //Indio
+        [21.3069, -157.8583], //Honolulu
+        [-33.9249, 18.4241], //Cape Town
+        [-6.1745, 106.8227] //Jakarta
       ];
-
+    
 
 function setMarkers(map) {
-  for (var i = 0; i < beaches.length; i++) {
-    var beach = beaches[i];
+  for (var i = 0; i < locations.length; i++) {
+    var beach = locations[i];
     var marker = new google.maps.Marker({
-      position: {lat: beach[1], lng: beach[2]},
+      position: {lat: beach[0], lng: beach[1]},
       map: map,
-      title: beach[0]
     });
   }
 }
