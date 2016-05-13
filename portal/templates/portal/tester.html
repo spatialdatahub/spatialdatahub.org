@@ -1,0 +1,63 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<title>Google Maps Tester</title>
+<style>
+  html, body {
+    font-family: sans-serif;
+    height: 100%;
+    margin: 10px;
+  }
+  #map {
+    height: 80%;
+    margin: 10px;
+  }
+</style>
+
+
+</head>
+
+<body>
+
+  <div>
+    <h1>Google Maps JavaScript API Tester</h1>
+  </div>
+  <div id=map></div>
+
+<script>
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 2,
+          center: {lat: 53.0793, lng: 8.8017}
+        });
+
+        setMarkers(map);
+      }
+
+      var beaches = [
+        ['Bremen', 53.0793, 8.8017],
+        ['Indio', 33.7206, -116.2156],
+        ['Honolulu', 21.3069, -157.8583],
+        ['Cape Town', -33.9249, 18.4241],
+        ['Jakarta',-6.1745, 106.8227]
+      ];
+
+
+function setMarkers(map) {
+  for (var i = 0; i < beaches.length; i++) {
+    var beach = beaches[i];
+    var marker = new google.maps.Marker({
+      position: {lat: beach[1], lng: beach[2]},
+      map: map,
+      title: beach[0]
+    });
+  }
+}
+</script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqHKJOCH3Wp0fzcr3oPShWe9h9_74qYbU&callback=initMap">
+    </script>
+</body>
+</html>    
+    
