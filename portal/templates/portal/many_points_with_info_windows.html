@@ -37,41 +37,49 @@
 
 <script>
 
-function initializeMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
-  zoom: 2,
-  center: {lat: 53.0793, lng: 8.8017}
-  });
- // setMarkers(map);
-}
+    function initializeMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 2,
+        center: {lat: 53.0793, lng: 8.8017}
+      });
+      setMarkers(map, locations);
+    }
 
-  var locations = [
-    {% for location in locations %}
-      [{{ location.cityname }}, {{ location.lat }}, {{ location.lng }}],
-    {% endfor %}
-  ];
 
-/*
-  var infoWindow = new google.maps.InfoWindow({
-    {% for location in locations %}
-      content: {{ location.description }}  
-    {% endfor %}
-  });
+    var locations = [
+      {% for location in locations %}
+        [{{ location.lat }}, {{ location.lng }}, {{ location.cityname }}],
+      {% endfor %}
+    ];
 
-function setMarkers(map) {
-  for (var i = 0; i < locations.length; i++) {
-    var loc = locations[i];
-    var marker = new google.maps.Marker({
-      position: {lat: loc[1], lng: loc[2]},
-      map: map,
-      title: loc[0]
-    });
-    marker.addListener('click', function() {
-      infowindow.open(map, marker);
-    });
+
+  function setMarkers(map, locations) {
+    for (var i = 0; i < locations.length; i++) {
+      var lat = locations[i][0];
+      var lng = locations[i][1];
+      var title = locations[i][2];
+
+      latlngSet = new google.maps.LatLng(lat, lng):
+      
+      var marker = new google.maps.Marker({
+        map: map,
+        position: latlngSet,
+        title: title
+      });
+      map.setCenter(marker.getPosition())
+
+      var content = "title";
+
+      var infowindow = new google.maps.InfoWindow()
+
+      google.maps.event.addListener(marker, 'click', (function(marker, content, infowindow){
+        return function() {
+          infowindow.setContent(content);
+          infowindow.open(map, marker);
+        }; 
+      })(marker, content, infowindow));
+    }
   }
-}
-*/
 
 </script>
 

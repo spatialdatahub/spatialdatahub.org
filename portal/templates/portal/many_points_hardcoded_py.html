@@ -30,29 +30,32 @@
 
 <script>
 
-      function initializeMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 2,
-          center: {lat: 53.0793, lng: 8.8017}
-        });
-        setMarkers(map);
-      }
+    function initializeMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 2,
+        center: {lat: 53.0793, lng: 8.8017}
+      });
+      setMarkers(map);
+    }
 
-      var locations = [
-        {% for location in locations %}
-            [{{ location.lat }}, {{ location.lng }}],
-        {% endfor %}
-      ];
 
-function setMarkers(map) {
-  for (var i = 0; i < locations.length; i++) {
-    var beach = locations[i];
-    var marker = new google.maps.Marker({
-      position: {lat: beach[0], lng: beach[1]},
-      map: map,
-    });
+    var locations = [
+      {% for location in locations %}
+          [{{ location.lat }}, {{ location.lng }}],
+      {% endfor %}
+    ];
+
+
+  function setMarkers(map) {
+    for (var i = 0; i < locations.length; i++) {
+      var loc = locations[i];
+      var marker = new google.maps.Marker({
+        position: {lat: loc[0], lng: loc[1]},
+        map: map,
+      });
+    }
   }
-}
+
 </script>
 
     

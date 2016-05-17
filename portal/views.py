@@ -92,4 +92,12 @@ def many_points_with_info_windows(request):
     locations = [bremen, indio, honolulu, cape_town, jakarta]
     context = {'locations': locations}
 
-    return render(request, 'portal/many_points_with_info_windows.html', context) 
+    return render(request, 'portal/many_points_with_info_windows.html', context)
+
+
+#def many_points_from_external_file(request):
+
+
+
+
+
