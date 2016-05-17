@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block head_title %}Many Points Hardcoded With Info Windows{% endblock head_title %}
+
+{% block content %}
+  <div>
+    <h1>Google Maps JavaScript API Tester</h1>
+    <p>
+      Many points hardcoded into python list of dictionary objects in the view file, 
+      then passed to a javascript object. In each dictionary is a latitude, longitude, city name, description, and link to 
+      the wikipedia page.
+    </p>
+  </div>
+<br/>
+
+  <div>
+    <p>I have written a for loop with the django templating language that prints out the latitude and longitude here.</p>
+    <p>The next thing I need to do is import the points directly into the setMarkers JavaScript function.</p>
+  <br />
+    {% for location in locations %}
+      <p>
+        <ul>
+          <li> City: {{ location.cityname }},</li>
+          <li>
+            Latitude: {{ location.lat }},
+            Longitude: {{ location.lng }}
+          </li>
+          <li>Description: {{ location.description }}</li>
+<!--          <li>Wikipedia Page: {{ location.wikipedia }}</li> -->
+        </ul>
+      </p>
+    {% endfor %}
+  </div>
+<br/>
+
+  <div id='map'></div>
+
+<script>
+
+function initializeMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+  zoom: 2,
+  center: {lat: 53.0793, lng: 8.8017}
+  });
+ // setMarkers(map);
+}
+
+  var locations = [
+    {% for location in locations %}
+      [{{ location.cityname }}, {{ location.lat }}, {{ location.lng }}],
+    {% endfor %}
+  ];
+
+/*
+  var infoWindow = new google.maps.InfoWindow({
+    {% for location in locations %}
+      content: {{ location.description }}  
+    {% endfor %}
+  });
+
+function setMarkers(map) {
+  for (var i = 0; i < locations.length; i++) {
+    var loc = locations[i];
+    var marker = new google.maps.Marker({
+      position: {lat: loc[1], lng: loc[2]},
+      map: map,
+      title: loc[0]
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+}
+*/
+
+</script>
+
+    
+{% endblock content %}

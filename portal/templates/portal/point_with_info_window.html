@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block head_title %}
+  point with info window
+{% endblock head_title %}
+
+{% block content %}
+
+
+<script>
+
+  function initializeMap() {
+    var bremen = {lat: 53.0793, lng: 8.8017};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 9,
+      center: bremen,
+      mapTypeId: google.maps.MapTypeId.TERRAIN
+    });
+
+    var contentString = '<div id="content">' +
+        '<div id="siteNotice">' +
+        '</div>' +
+        '<h1 id="firstHeading" class="firstHeading">Bremen</h1>' +
+        '<div id="bodyContent">' +
+        '<p><b>Bremen</b>, is a hanseatic city in northern Germany</p>' +
+        '<p><a href="https://en.wikipedia.org/wiki/Bremen">Bremen on Wikipedia</a></p>' +
+        '</div>' +
+        '</div>';
+
+    var infoWindow = new google.maps.InfoWindow({
+        content: contentString
+    });
+        
+    var marker = new google.maps.Marker({
+      position: bremen,
+      map: map,
+      title: 'Bremen'
+    });
+
+    marker.addListener('click', function() {
+        infoWindow.open(map, marker);
+    });
+  }
+  
+</script>
+
+<body onload='initializeMap()'>
+
+  <div>
+    <h1>Google Maps Background With Many Markers And No Info Windows</h1>
+  </div>
+  <div id=map>
+  </div>
+    
+{% endblock content %}

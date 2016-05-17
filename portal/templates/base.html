@@ -1,0 +1,46 @@
+<html>
+<head>
+
+<title>
+  {% block head_title %}
+  {% endblock head_title %}
+</title>
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<!-- <script src="http://maps.google.com/maps/api/js?sensor=false"></script> -->
+<script src="http://maps.google.com/maps/api/js"></script>
+
+<style>
+  html, body {
+    font-family: sans-serif;
+    height: 100%;
+    margin: 10px;
+  }
+  #map {
+    height: 80%;
+    margin: 10px;
+  }
+  #links {
+    width: 80%;
+  }
+</style>
+
+
+</head>
+
+<body onload='initializeMap()'>
+  <div id='links'>
+    <ul>
+      <a href="{% url 'index' %}">| Main |</a>
+      <a href="{% url 'point_with_info_window' %}">| Point with info window |</a>
+      <a href="{% url 'many_points_hardcoded_js' %}">| Many Points Hardcoded JS |</a>
+      <a href="{% url 'many_points_hardcoded_py' %}">| Many Points Hardcoded Py |</a>
+      <a href="{% url 'many_points_with_info_windows' %}">| Many Points With Info Windows |</a>
+    </ul>
+  </div>
+{% block content %}
+{% endblock content %}
+
+</body>
+</html>    
+    

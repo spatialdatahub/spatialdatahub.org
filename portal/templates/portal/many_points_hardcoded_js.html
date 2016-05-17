@@ -1,31 +1,15 @@
-<html>
-<head>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<title>Google Maps Tester</title>
-<style>
-  html, body {
-    font-family: sans-serif;
-    height: 100%;
-    margin: 10px;
-  }
-  #map {
-    height: 80%;
-    margin: 10px;
-  }
-</style>
+{% extends 'base.html' %}
 
+{% block head_title %}Many Points Hardcoded JS{% endblock head_title %}
 
-</head>
-
-<body>
-
+{% block content %}
   <div>
     <h1>Google Maps JavaScript API Tester</h1>
+    <h2>Many Points Hardcoded JS</h2>
+    <p>This is a page that has many points hard coded into a javascript object.</p>
   </div>
-  <div>
-    <h2>yes</h2>
-  </div>
-  <div>
+
+<div>
 
   {% for location in locations %}
     <p> 
@@ -40,7 +24,7 @@
 
 <script>
 
-      function initMap() {
+      function initializeMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 2,
           center: {lat: 53.0793, lng: 8.8017}
@@ -56,7 +40,7 @@
         [-33.9249, 18.4241], //Cape Town
         [-6.1745, 106.8227] //Jakarta
       ];
-    
+
 
 function setMarkers(map) {
   for (var i = 0; i < locations.length; i++) {
@@ -68,9 +52,6 @@ function setMarkers(map) {
   }
 }
 </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqHKJOCH3Wp0fzcr3oPShWe9h9_74qYbU&callback=initMap">
-    </script>
-</body>
-</html>    
+
     
+{% endblock content %}
