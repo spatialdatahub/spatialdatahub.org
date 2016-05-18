@@ -95,7 +95,9 @@ def many_points_with_info_windows(request):
     return render(request, 'portal/many_points_with_info_windows.html', context)
 
 
-#def many_points_from_external_file(request):
+def drag_and_drop_GeoJSON(request):
+    return render(request, 'portal/drag_and_drop_GeoJSON.html')
+
 
 
 

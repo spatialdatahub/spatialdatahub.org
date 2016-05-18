@@ -26,5 +26,8 @@ urlpatterns = [
         views.many_points_with_info_windows,
         name='many_points_with_info_windows'),
 
+    url(r'^drag_and_drop_geojson/$',
+        views.drag_and_drop_GeoJSON,
+        name='drag_and_drop_geojson'),
 
 ]

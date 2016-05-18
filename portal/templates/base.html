@@ -23,12 +23,16 @@
   #links {
     width: 80%;
   }
+
+{% block additional_css %}
+{% endblock additional_css %}
+
 </style>
 
 
 </head>
 
-<body onload='initializeMap()'>
+<body onload='{% block onload %} {% endblock onload %}'>
   <div id='links'>
     <ul>
       <a href="{% url 'index' %}">| Main |</a>
