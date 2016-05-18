@@ -30,4 +30,11 @@ urlpatterns = [
         views.drag_and_drop_GeoJSON,
         name='drag_and_drop_geojson'),
 
+    url(r'^json_from_web_url/$',
+        views.json_from_web_url,
+        name='json_from_web_url'),
+
+    url(r'^json_from_web_to_python/$',
+        views.json_from_web_to_python,
+        name='json_from_web_to_python'),
 ]

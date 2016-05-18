@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% block onload %}initMap(){% endblock onload %}
+
+<script type="text/javascript">
+  var map;
+  var jsonData = {{ json_data|safe }};
+
+  function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+      center: new google.maps.LatLng(40.7128, -74.0059),
+      zoom: 12 
+    });
+      map.data.addGeoJson(jsonData);
+  }
+  
+</script>
+<!-- <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initialize"></script> -->
+  <div>
+    <h1>Google Maps Background With Drag And Drop GeoJSON Functionality</h1>
+  </div>
+
+  <div id='map'></div>
+
+{% endblock content %}

@@ -1,6 +1,8 @@
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 
+import requests
+import json
 
 def index(request):
     """
@@ -98,8 +100,25 @@ def many_points_with_info_windows(request):
 def drag_and_drop_GeoJSON(request):
     return render(request, 'portal/drag_and_drop_GeoJSON.html')
 
+def json_from_web_to_python(request):
+    """
+    This view will pull GeoJSON data from the url
+    'http://api.tiles.mapbox.com/v3/mapbox.o11ipb8h/markers.geojson'
+    and pass it to the django template where it will be parsed through with
+    javascript and put onto the map.
+    """
+
+    r = requests.get('http://api.tiles.mapbox.com/v3/mapbox.o11ipb8h/markers.geojson').json()
+    json_data = json.dumps(r)
+    context = {'json_data': json_data}
+    return render(request, 'portal/json_from_web_to_python.html', context)
 
 
-
-
-
+def json_from_web_url(request):
+    """
+    This view loads a template with a simple javascript function that pulls
+    GeoJSON data from the url
+    'http://api.tiles.mapbox.com/v3/mapbox.o11ipb8h/markers.geojson'
+    and loads it to the map.
+    """
+    return render(request, 'portal/json_from_web_url.html')
