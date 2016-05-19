@@ -37,4 +37,12 @@ urlpatterns = [
     url(r'^json_from_web_to_python/$',
         views.json_from_web_to_python,
         name='json_from_web_to_python'),
+
+    url(r'^map_with_clearable_points/$',
+        views.map_with_clearable_points,
+	name='map_with_clearable_points'),
+
+    url(r'^map_with_clearable_points_from_multiple_sources/$',
+        views.map_with_clearable_points_from_multiple_sources,
+	name='map_with_clearable_points_from_multiple_sources'),
 ]

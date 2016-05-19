@@ -122,3 +122,16 @@ def json_from_web_url(request):
     and loads it to the map.
     """
     return render(request, 'portal/json_from_web_url.html')
+
+def map_with_clearable_points(request):
+    """
+    This view will load a template with GeoJSON data obtained using the python requests
+    module, and it will have a button that allows the map to be cleared.
+    """
+
+    r = requests.get('http://api.tiles.mapbox.com/v3/mapbox.o11ipb8h/markers.geojson').json()
+    json_data = json.dumps(r)
+    context = {'json_data': json_data}
+    return render(request, 'portal/map_with_clearable_points.html', context)
+
+

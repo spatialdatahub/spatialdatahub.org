@@ -13,7 +13,7 @@ CREATED
 
 UPDATED
 
-2016-05-09
+2016-05-19
 
 
 DISCLAIMER
@@ -52,10 +52,23 @@ SOFTWARE
     POSTGRES
       -PostGIS extension for the relational database.
 
-    DJANGO
-      -Django Rest Framework
-      -django-rest-framework-gis
-      -psycopg2 - the django package for Postgres
+    PYTHON
+
+      GREQUESTS
+        -requests
+        -grequests
+	-gevent
+        -greenlet
+
+      DJANGO
+	-Django Rest Framework
+        -django-rest-framework-gis
+        -psycopg2 - the django package for Postgres
+
+    JAVASCRIPT
+    
+      JQUERY
+        jQuery
 
   SERVERS
 
@@ -64,7 +77,10 @@ SOFTWARE
 
 OPEN ISSUES
 
-This project may require something special for the underlying database. I know how to hook Django up to a Postgres database, but I don't quite know how to hook it up to a database that is based on Arc software or something like that. <-- I will start with a Postgres database, then see what I can figure out from there.
+This project may require something special for the underlying database. I know how to hook Django up to a Postgres database, but I don't quite know how to hook it up to a database that is based on Arc software or something like that. <-- I will start with a Postgres database, then see what I can figure out from there. <-- So far this project may not need an internal database. The only reason we would need one would be to deal with users, but if it is simply a platform that connects ReST webservice data to views then there is no need for an internal database.
+
+
+It is not difficult to connect to a ReSTful webservice using python, but it also seems easy to connect to a ReSTful webservice with JavaScript. I am trying to figure out which is better to use. Which will provide the most security? Which will be the fastest? Which will require the least amount of code? Which will be stable without updates for the longest period of time? Which will allow me the most flexibility in terms of bringing data in, projecting data to the maps, and connecting to other webservices? Which will be easier to test? Which will be easier to run as a development version? Is there any reason that I might want to connect requests to a django specific database?
 
 
 SIDE NOTES
