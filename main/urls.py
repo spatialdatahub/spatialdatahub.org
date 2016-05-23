@@ -6,17 +6,9 @@ from portal import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^$', 
+    url(r'^$',
         views.index,
         name='index'),
-
-    url(r'^many_points_hardcoded_js/$',
-        views.many_points_hardcoded_js,
-        name='many_points_hardcoded_js'),
-
-    url(r'^many_points_hardcoded_py/$',
-        views.many_points_hardcoded_py,
-        name='many_points_hardcoded_py'),
 
     url(r'^point_with_info_window/$',
         views.point_with_info_window,
@@ -30,14 +22,6 @@ urlpatterns = [
         views.drag_and_drop_GeoJSON,
         name='drag_and_drop_geojson'),
 
-    url(r'^json_from_web_url/$',
-        views.json_from_web_url,
-        name='json_from_web_url'),
-
-    url(r'^json_from_web_to_python/$',
-        views.json_from_web_to_python,
-        name='json_from_web_to_python'),
-
     url(r'^map_with_clearable_points/$',
         views.map_with_clearable_points,
 	name='map_with_clearable_points'),
@@ -45,4 +29,14 @@ urlpatterns = [
     url(r'^map_with_clearable_points_from_multiple_sources/$',
         views.map_with_clearable_points_from_multiple_sources,
 	name='map_with_clearable_points_from_multiple_sources'),
+
+    url(r'^json_requests_python/$',
+        views.json_requests_python,
+        name='json_requests_python'),
+
+    url(r'^json_requests_js/$',
+        views.json_requests_js,
+        name='json_requests_js'),
+
 ]
+

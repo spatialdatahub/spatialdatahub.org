@@ -1,7 +1,9 @@
+{% load staticfiles %}
 <html>
 <head>
 
 <title>
+  ZMT 
   {% block head_title %}
   {% endblock head_title %}
 </title>
@@ -28,7 +30,7 @@
 {% endblock additional_css %}
 
 </style>
-
+<link rel="stylesheet" type="text/css" href='{% static "portal/css/style.css" %}' />
 
 </head>
 
@@ -37,13 +39,9 @@
     <ul>
       <a href="{% url 'index' %}">| Main |</a>
       <a href="{% url 'point_with_info_window' %}">| Point with info window |</a>
-      <a href="{% url 'many_points_hardcoded_js' %}">| Many Points Hardcoded JS |</a>
-      <a href="{% url 'many_points_hardcoded_py' %}">| Many Points Hardcoded Py |</a>
       <a href="{% url 'many_points_with_info_windows' %}">| Many Points With Info Windows |</a>
-      <a href="{% url 'json_from_web_url' %}">| Many Points As JSON From URL |</a>
-      <a href="{% url 'json_from_web_to_python' %}">| Many Points As JSON From Web To Python |</a>
       <a href="{% url 'map_with_clearable_points' %}">| Map With Clearable Points |</a>
-      <a href="{% url 'map_with_clearable_points_from_multiple_sources' %}">| Map With Clearable Points |</a>
+      <a href="{% url 'map_with_clearable_points_from_multiple_sources' %}">| Map With Clearable Points From Multiple Sources |</a>
       </ul>
   </div>
 {% block content %}

@@ -1,35 +1,18 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
-{% block content %}
 
 {% block onload %}initializeMap(){% endblock onload %}
 
-<script>
-
-  function initializeMap() {
-    var bremen = {lat: 53.0793, lng: 8.8017};
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 9,
-      center: bremen,
-      mapTypeId: google.maps.MapTypeId.TERRAIN
-    });
-
-    var marker = new google.maps.Marker({
-      position: bremen,
-      map: map,
-      title: 'Bremen'
-    });
-
-  }
-  
-</script>
-
-<body onload='initializeMap()'>
+{% block content %}
 
   <div>
-    <h1>Google Maps Background With Many Markers And No Info Windows</h1>
+    <h1>ZMT Google Maps Background With Many Markers And No Info Windows</h1>
   </div>
+
   <div id=map>
   </div>
+
+<script type="text/javascript" src="{% static 'portal/js/index_map.js' %}" ></script>
     
 {% endblock content %}
