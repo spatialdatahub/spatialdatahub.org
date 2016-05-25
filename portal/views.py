@@ -189,6 +189,8 @@ def json_requests_python(request):
     return render(request, 'portal/json_requests_python.html', context)
 
 
+
+
 def bremen_weather_forecast(request):
     """
     Using the python requests module and an api key I will get the weather from the website
