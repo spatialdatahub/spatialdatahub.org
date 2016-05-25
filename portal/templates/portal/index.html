@@ -2,17 +2,34 @@
 {% load staticfiles %}
 
 
-{% block onload %}initializeMap(){% endblock onload %}
+{% block onload %}initMap(){% endblock onload %}
 
 {% block content %}
-
-  <div>
+<div class="container-fluid">
+  <div class="header">
     <h1>ZMT Google Maps Background With Many Markers And No Info Windows</h1>
   </div>
+  <div class="row">
+    <div class="col-sm-3 col-lg-3 sidebar" >  
+      <ul class="nav nav-sidebar">
+        {% if dataset_list %}
+          {% for dataset in dataset_list %}
+            <li id="jsonDataset" onClick="showJsonData('{{ dataset.url }}')">
+              <a href="#">{{ dataset.title }}</a> 
+            </li>
+          {% endfor %}
+        {% else %}
+          <h4>There are no datasets available</h4>
+        {% endif %}
+      </li>
+    </div>
 
-  <div id=map>
+    <div class="col-12 col-sm-9 col-lg-9" role="main">
+      <div id=map>
+      </div>
+    </div>
   </div>
-
+</div>
 <script type="text/javascript" src="{% static 'portal/js/index_map.js' %}" ></script>
     
 {% endblock content %}

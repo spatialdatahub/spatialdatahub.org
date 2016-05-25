@@ -36,7 +36,7 @@ class DataSetModelTests(TestCase):
 
         self.ds4 = Dataset.objects.create(author="zmtdummy",
                                     title="ZMT GeoJSON Polygon",
-                                    description="Polygons spelling 'Bienvenidos' over the location of the ZMT",
+                                    description="Polygons spelling 'ZMT' over the location of the ZMT",
                                     url="https://bitbucket.org/zmtdummy/geojsondata/raw/0f318d948d74a67bceb8da5257a97b7df80fd2dd/zmt_polygons.json",
                                     dataset_user="zmtdummy",
                                     dataset_password="zmtBremen1991")
