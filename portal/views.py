@@ -1,3 +1,4 @@
+from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 
@@ -8,13 +9,41 @@ import json
 
 def index(request):
     """
-    Display template with progressively more items.
+    display template with progressively more items.
     """
     dataset_list = Dataset.objects.all()
 
-
     context = {'dataset_list': dataset_list}
     return render(request, 'portal/index.html', context)
+
+
+def index2(request):
+    """
+    display template with progressively more items.
+
+    I want to make url requests from python so that passwords and usernames
+    never have to be passed to the templates, but I can't make calls for dataset
+    access and add the results to the model items.
+    """
+    dataset_list = Dataset.objects.all()
+    serialized_dataset_list = serializers.serialize('json', dataset_list)
+    serialized_dataset_list = json.loads(serialized_dataset_list)
+    for dataset in serialized_dataset_list:
+        if dataset['fields']['dataset_user'] != '' and dataset['fields']['dataset_password'] != '':
+            dataset['fields']['json'] = requests.get(dataset['fields']['url'],
+                                                     auth=(dataset['fields']['dataset_user'],
+                                                           dataset['fields']['dataset_password'])).json()
+            dataset['fields']['dataset_user']=''
+            dataset['fields']['dataset_password']=''
+
+    context = {'dataset_list': serialized_dataset_list}
+    return render(request, 'portal/index2.html', context)
+
+
+
+
+
+
 
 def point_with_info_window(request):
     """

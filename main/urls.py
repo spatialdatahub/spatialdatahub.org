@@ -10,6 +10,11 @@ urlpatterns = [
         views.index,
         name='index'),
 
+    url(r'^index2/$',
+        views.index2,
+        name='index2'),
+
+
     url(r'^point_with_info_window/$',
         views.point_with_info_window,
          name='point_with_info_window'),

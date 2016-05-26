@@ -14,9 +14,15 @@
         {% if dataset_list %}
           {% for dataset in dataset_list %}
             <li>
-              <a href="#{{ dataset.slug }}" onClick="showJsonData('{{ dataset.url }}')">
-                {{ dataset.title }}
-              </a> 
+              {% if dataset.fields.json %}
+                <a href="#{{ dataset.fields.slug }}" onClick="showJsonDataPassword({{ dataset.fields.json }})">
+                  {{ dataset.fields.title }}
+                </a> 
+              {% else %}
+                <a href="#{{ dataset.fields.slug }}" onClick="showJsonData('{{ dataset.fields.url }}')">
+                  {{ dataset.fields.title }}
+                </a> 
+              {% endif %}
             </li>
           {% endfor %}
         {% else %}
