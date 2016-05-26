@@ -6,17 +6,30 @@
 {% block content %}
 <div class="container-fluid">
   <div class="header">
-    <h1>ZMT Google Maps Background With Many Markers And No Info Windows</h1>
+    <h1>Leibniz Zentrum für Marine Tropenökologie GIS Portal</h1>
   </div>
   <div class="row">
     <div class="col-sm-3 col-lg-3 sidebar" >  
+    <form action="" method="get">
+      <input type="text" class="form-control text-center" name="q" placeholder="Search Datasets by Title">
+      <a role="button" class="btn btn-default btn-block" href="{% url 'index' %}">Show All</a>
+      <button class="btn btn-default btn-block" id="clear data" onClick="clearData();">
+        Clear Map
+      </button>
+    </form>
       <ul class="nav nav-sidebar">
         {% if dataset_list %}
           {% for dataset in dataset_list %}
-            <li>
-              <a href="#{{ dataset.slug }}" onClick="showJsonData('{{ dataset.url }}')">
-                {{ dataset.title }}
-              </a> 
+            <li class="text-left">
+              {% if dataset.fields.json %}
+                <a href="#{{ dataset.fields.slug }}" onClick="showJsonDataPassword({{ dataset.fields.json }});">
+                  {{ dataset.fields.title }}
+                </a> 
+              {% else %}
+                <a href="#{{ dataset.fields.slug }}" onClick="showJsonData('{{ dataset.fields.url }}');">
+                  {{ dataset.fields.title }}
+                </a> 
+              {% endif %}
             </li>
           {% endfor %}
         {% else %}

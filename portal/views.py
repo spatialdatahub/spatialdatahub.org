@@ -10,22 +10,17 @@ import json
 def index(request):
     """
     display template with progressively more items.
-    """
-    dataset_list = Dataset.objects.all()
-
-    context = {'dataset_list': dataset_list}
-    return render(request, 'portal/index.html', context)
-
-
-def index2(request):
-    """
-    display template with progressively more items.
 
     I want to make url requests from python so that passwords and usernames
     never have to be passed to the templates, but I can't make calls for dataset
     access and add the results to the model items.
     """
+    error = False
     dataset_list = Dataset.objects.all()
+    if 'q' in request.GET:
+        q = request.GET['q']
+        dataset_list = Dataset.objects.filter(title__icontains=q)
+
     serialized_dataset_list = serializers.serialize('json', dataset_list)
     serialized_dataset_list = json.loads(serialized_dataset_list)
     for dataset in serialized_dataset_list:
@@ -37,7 +32,7 @@ def index2(request):
             dataset['fields']['dataset_password']=''
 
     context = {'dataset_list': serialized_dataset_list}
-    return render(request, 'portal/index2.html', context)
+    return render(request, 'portal/index.html', context)
 
 
 
