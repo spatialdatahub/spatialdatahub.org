@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.text import slugify
 
@@ -12,7 +13,7 @@ class Dataset(models.Model):
     """
 
     author = models.CharField(max_length=200)
-    title = models.CharField(max_length=120)
+    title = models.CharField(max_length=50)
     description = models.TextField()
     url = models.URLField(max_length=500)
     dataset_user = models.CharField(max_length=100, blank=True)
@@ -26,3 +27,7 @@ class Dataset(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Dataset, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        kwargs = {'slug': self.slug, 'pk': self.pk}
+        return reverse('datasets:dataset_detail', kwargs=kwargs)

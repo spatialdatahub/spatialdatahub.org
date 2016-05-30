@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block onload %}initMap(){% endblock onload %}
+
+{% block content %}
+
+<h1>Dataset Detail</h1>
+
+<a href="/">back</a>
+
+<ul>
+  <li>pk: {{ dataset.pk }}</li>
+  <li>title: {{ dataset.title }}</li>
+  <li>author: {{ dataset.author }}</li>
+  <li>url: {{ dataset.url }}</li>
+  <li>json: {{ dataset.json }}</li>
+</ul>
+ 
+{% endblock content %}

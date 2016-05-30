@@ -20,9 +20,8 @@ class NewVisitorTest(unittest.TestCase):
         # mention the ZMT and wonders what it is.
         self.assertIn('ZMT', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('ZMT', header_text)
+        self.assertIn('Leibniz Zentrum für Marine Tropenökologie', header_text)
 
-        self.fail('finish the test!')
 
 
 
