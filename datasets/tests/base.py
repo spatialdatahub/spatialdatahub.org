@@ -6,7 +6,7 @@ import json
 from datasets.models import Dataset
 
 
-class DataSetTestSetUp(TestCase):
+class BaseDatasetTest(TestCase):
     """
     This class will test that (1) dataset references and metadata can be saved,
     (2) that data at the dataset urls can be accessed through the python requests
@@ -15,6 +15,7 @@ class DataSetTestSetUp(TestCase):
     authors via needing authentication.
     """
 
+    @classmethod
     def setUp(self):
 
         self.ds1 = Dataset.objects.create(author="Google",
