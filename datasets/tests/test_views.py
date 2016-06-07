@@ -1,4 +1,4 @@
-from django.core.urlresolvers import resolve
+from django.core.urlresolvers import resolve, reverse
 from django.test import Client, TestCase
 from django.utils.text import slugify
 
@@ -118,4 +118,42 @@ class DatasetMetaDataViewTests(BaseDatasetTest):
         remove them from the context variable, and add the json dataset to the
         context variable.
         """
-        pass
+
+        title = "Password protected dataset test title"
+        dataset_entry = Dataset.objects.create(title=title, author="Secret Test Testerson",
+                                               description="This is a test dataset that" +
+                                                           "is password protected",
+                                               url="https://bitbucket.org/zmtdummy/geojsondata/" +
+                                                   "raw/ad675d6fd6e2256b365e79e785603c2ab454006b/" +
+                                                   "password_protected_dataset.json",
+                                               dataset_user='zmtdummy',
+                                               dataset_password='zmtBremen1991')
+
+        slug = slugify(title)
+        url = "/{slug}-{pk}/".format(slug=slug, pk=dataset_entry.pk,)
+
+        # check that dataset url is correct
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, template_name="datasets/dataset_detail.html")
+
+        # make new response object
+        response2 = client.get(reverse('datasets:dataset_detail',
+                                       kwargs={'slug':slug, 'pk':dataset_entry.pk}))
+
+        # check that page title is correct
+        self.assertIn(title, response.content.decode("utf-8"))
+
+        # check that correct variables are displayed on page
+        self.assertIn(dataset_entry.author, response.content.decode("utf-8"))
+        self.assertIn(dataset_entry.url, response.content.decode("utf-8"))
+        self.assertIn(dataset_entry.description, response.content.decode("utf-8"))
+
+        # check that dataset password can be pulled up from dataset object
+        self.assertEqual(dataset_entry.dataset_password, 'zmtBremen1991')
+
+        # check that dataset password is not displayed on page
+        self.assertNotIn(dataset_entry.dataset_password, response.content.decode("utf-8"))
+        self.assertNotIn(dataset_entry.dataset_password, response.context)
+        self.assertNotIn(dataset_entry.dataset_password, response2.content.decode("utf-8"))
+        self.assertNotIn(dataset_entry.dataset_password, response2.context)

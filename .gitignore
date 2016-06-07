@@ -4,3 +4,4 @@ __pycache__
 static
 migrations
 node_modules
+htmlcov
