@@ -43,10 +43,22 @@ def dataset_detail(request, slug, pk):
     also have a link for a dataset specific map that is embedable. It will use the dataset's slug and id
     as the url building blocks.
     """
+
     dataset = Dataset.objects.get(pk=pk, slug=slug)
 
-    context =  {'dataset':dataset}
+    serialized_dataset = json.loads(serializers.serialize('json', [dataset, ]))
+    serialized_dataset = serialized_dataset[0]
+    if serialized_dataset['fields']['dataset_user'] != '' and serialized_dataset['fields']['dataset_password'] != '':
+        serialized_dataset['fields']['json'] = requests.get(serialized_dataset['fields']['url'],
+                                                 auth=(serialized_dataset['fields']['dataset_user'],
+                                                       serialized_dataset['fields']['dataset_password'])).json()
+        serialized_dataset['fields']['dataset_user']=''
+        serialized_dataset['fields']['dataset_password']=''
+
+    context = {'dataset': serialized_dataset}
+
     return render(request, 'datasets/dataset_detail.html', context)
+
 
 
 #########################################################################

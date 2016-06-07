@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
-{% block onload %}initMap(){% endblock onload %}
-
 {% block content %}
 <div class="container-fluid">
   <div class="header">
     <h1>Leibniz Zentrum für Marine Tropenökologie GIS Portal</h1>
    </div>
+
+<button onClick="alert(map.getCenter());">Get Center</button>
+<button onClick="alert(map.getBounds());">Get Bounds</button>
+<button onClick="alert(map.getMapTypeId());">Get Map Type ID</button>
+<button onClick="alert(map.Data.Feature());">Get Data</button>
+
   <div class="row">
     <div class="col-sm-3 col-lg-3 sidebar" >  
     <form action="" method="get">
@@ -24,7 +28,7 @@
               <div class="btn-group">
               {% if dataset.fields.json %}
                 <!-- I should probably come up with a better name for this function. -->
-                <a href="#" class="btn btn-primary" onClick="showJsonDataPassword({{ dataset.fields.json }});">
+                <a href="#" class="btn btn-primary" onClick="showProtectedJsonData({{ dataset.fields.json }});">
                   {{ dataset.fields.title }}
                 </a> 
                 <a href="{% url 'datasets:dataset_detail' dataset.fields.slug dataset.pk %}" class="btn btn-default">
@@ -50,17 +54,6 @@
     <div class="col-12 col-sm-9 col-lg-9" role="main">
       <div id=map>
       </div>
-      <div>
-    {% for dataset in dataset_list %}
-    <h2>{{ dataset.pk }}</h2>
-    <h2>{{ dataset.fields.slug }}</h2>
- <a href="{% url 'datasets:dataset_detail' dataset.fields.slug dataset.pk %}" class="btn btn-default">
-                  Meta
-                </a>
-   {% endfor %}
-      </div> 
-
-
     </div>
   </div>
 </div>

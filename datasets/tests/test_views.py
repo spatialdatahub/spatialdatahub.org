@@ -74,6 +74,16 @@ class DatasetMetadataViewTests(TestCase):
                                                url="http://www.google.com")
         slug = slugify(title)
         url = "/{slug}-{pk}/".format(slug=slug, pk=dataset_entry.pk,)
+
+        # 1 -- check that dataset url is correct
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, template_name="datasets/dataset_detail.html")
+
+        #2 -- check that page title is correct
+        self.assertIn(title, response.content.decode("utf-8"))
+
+        #3 -- check that correct variables are displayed on page
+        self.assertIn(dataset_entry.author, response.content.decode("utf-8"))
+        self.assertIn(dataset_entry.url, response.content.decode("utf-8"))
+        self.assertIn(dataset_entry.description, response.content.decode("utf-8"))
