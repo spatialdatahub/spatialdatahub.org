@@ -1,0 +1,972 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2'>
+	<Document>
+		<name>Berlin Craft Beer Locations</name>
+		<description><![CDATA[www.berlincraftbeer.com<br><br>Maintained since 2008, this is the original list of craft beer places in Berlin: microbreweries, pubs with interesting beer selections and beer retail outlets worth visiting for their craft or international beers.<br><br>[Berlin Craft Beer] logo = must visit location for any visitor to Berlin.<br><br>For more information:<br>Twitter: @berlincraftbeer<br>Facebook: www.facebook.com/BerlinCraftBeer/<br>www.berlincraftbeer.com]]></description>
+		<Folder>
+			<name>Berlin Craft Beer locations</name>
+			<Placemark>
+				<name>Bier Kombinat Kreuzberg</name>
+				<description><![CDATA[Selection of beers from Schoppe Bräu, including XPA from tap, Black Flag Stout, Holy Shit Ale and Roggen Roll Ale.<br><br>Manteuffelstrasse 53,<br>10999 Berlin]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.4247949,52.4977202,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Brauhaus Georgbraeu Peter Härig</name>
+				<description><![CDATA[Spreeufer 4,<br>10178 Berlin]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.40547,52.516467000000006,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Microbrauerei Barkowsky - Marcus Bräu</name>
+				<description><![CDATA[Münzstraße 1 - 3,<br>10178 Berlin]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.409217,52.52400300000001,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Brauhaus Mitte GmbH</name>
+				<description><![CDATA[Karl-Liebknecht-Str. 13<br>10178 Berlin]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.408034,52.522549,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Brauhaus in Spandau</name>
+				<description><![CDATA[Neuendorfer Str. 1<br>13585 Berlin]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.206488,52.54069,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Rollberg</name>
+				<description><![CDATA[Privatbrauerei am Rollberg.<br><br>Microbrewery brewing traditional German styles in the historical Kindl brewery in Neukölln.<br><br>Tap room has all their beers on tap. Good spot to visit, if off the beaten track.]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.4313439,52.4793402,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Pfefferbräu</name>
+				<description><![CDATA[New brewery opened as part of the theater complex in 2014.<br><br>Thorsten Schoppe (Schoppe Bräu) is the brewmaster.<br><br>Selection includes:<br>- Pfefferbräu Pils: Deliciously bitter pils<br>- Pfefferbräu Dunkel: more traditional Münchner dunkel<br>- Seasonals.]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.411646,52.531564,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Brauerei Flessa</name>
+				<description><![CDATA[Nanobrewery with limited capacity (2HL).<br>Sells bottles in neighbouring bars & cafés.<br><br><br>No tap room.<br><br><br>Brauerei Flessa<br>Petersburger Str. 39 (1. Hinterhof)<br>10249 Berlin]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.450481,52.522912,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Brauhaus Südstern KG</name>
+				<description><![CDATA[Large BrewPub with outdoor seating are on the end of Hasenheide Park.<br><br>Selection of German traditional styles:<br>- Pils<br>- Dunkles<br>- Hefeweizen<br>- Seasonals (can be very good, including IPAs and spiced beers).<br><br>Brewmaster is Thorsten Schoppe of Schoppe Bräu fame.<br><br>Hasenheide 69,<br>10967 Berlin]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.409457,52.488504,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Schloßplatzbrauerei Cöpenick</name>
+				<description><![CDATA[Grünstraße 24,<br>Köpenick]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.574432,52.444624,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Brauerei Eschenbräu</name>
+				<description><![CDATA[Triftstrasse 67,<br>13353 Berlin]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.359694,52.543505,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Brauhaus Bohnsdorf</name>
+				<description><![CDATA[Buntzelstrasse 89,<br>12526 Berlin]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.564876,52.401843,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Schalander</name>
+				<description><![CDATA[New brewpub open since 2011. Helles, dunkles, Hefeweizen and seasonals (Märzen, Maibock....)]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.471384,52.517292,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Brauerei Heldenblut</name>
+				<description><![CDATA[http://www.brauerei-heldenblut.de/<br><br>Biebersdorfer Weg<br>12527 Berlin, Germany]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.637781,52.390595,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Marzahner</name>
+				<description><![CDATA[Small microbrewery brewing German traditional styles.<br>https://www.facebook.com/marzahner.de]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.5262872,52.5203476,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Brauhaus Lemke - Am Hackescher Markt</name>
+				<description><![CDATA[Dircksenstraße 143,<br>10178 Berlin<br><br>Brewpub with selection of traditional German beer styles:<br><br>- Pils<br>- Dunkles<br>- Hefeweizen<br>- Seasonal (Zwickelbier 50% time).]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.404179,52.523272,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Söhnel-Werft Alfred Söhnel e.K.</name>
+				<description><![CDATA[Nanobrewery with courses for home-brewers.<br><br>Brew some new specialities, e.g. "Söhnel Bräu Pale Ale"]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.14187,52.40095,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>BrewBaker</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/6ALtyj6RwfK76BQ6BKPddoy5ySHrhfwtjnbks5vIO6UENm5CFD35Wf2dmj_L9rjxanWXIW57fe6NyEwoec2ezedz2_xXg4CO-JVIJkYf4Wnx2DI0E0ZOP3VzyMAxaocSKIVJvbUTfBcz" height="200" width="auto" /><br><br>Brewbaker Brewery, founded in 2006, has moved the brewery several times.<br> <br>This is the official tap room for the brewery.<br><br> <br>Arminiusstraße 2-4, 10551 Berlin, Germany]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/6ALtyj6RwfK76BQ6BKPddoy5ySHrhfwtjnbks5vIO6UENm5CFD35Wf2dmj_L9rjxanWXIW57fe6NyEwoec2ezedz2_xXg4CO-JVIJkYf4Wnx2DI0E0ZOP3VzyMAxaocSKIVJvbUTfBcz</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>13.338363,52.5280913,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Circus Hostel Brewing Co.</name>
+				<description><![CDATA[Circus Hostel Brewing Co.Katz & MausThe Circus HostelWeinsbergsweg 1a (U Rosenthaler Platz)]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.401625200000002,52.5299881,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Bierfabrik</name>
+				<description><![CDATA[Formerly Bier4Wedding, this is the new location of the Bierfabrik production brewery. Full details of the beers on the brewery page:  http://www.bierfabrik.de/]]></description>
+				<styleUrl>#icon-124</styleUrl>
+				<Point>
+					<coordinates>13.526919200000002,52.5208431,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Frenc</name>
+				<description><![CDATA[Creperie with a very own house Pale Ale, brewed in collaboration with BRLO. Also two taps and selection of bottled craft beers.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.458508,52.513284,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Brauhaus Rixdorf</name>
+				<description><![CDATA[Glasower Strasse 27,<br>12051 Berlin<br><br><br>Brewpub. Used to brew on site. Now brew elsewhere and have beer delivered (unconfirmed).]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.436391,52.464369,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Brauereigaststätte Leibhaftig</name>
+				<description><![CDATA[With beer brewed at a microbrewery in Spreewald, Wanke Bräu has been operating since 2010:<br><br>- Wanke Pils<br>- Wanke Weizen<br>- Wanke Doppelbock<br>- Wanke Schwarzbier<br><br>Brauereigaststätte Leibhaftig<br>Metzer Str. 30<br>10405 Berlin]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.416938,52.531526,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Monterey Bar</name>
+				<description><![CDATA[Rock bar. Selection of kegged & bottles beers from craft brewers.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.422562000000001,52.539666,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Aufsturz</name>
+				<description><![CDATA[Large selection of bottled beers (British, Belgian) from the large international distributors.<br><br>Some good beers, including St. Bernardus, Chimay, but not rarities.<br><br> <br>Oranienburger Straße 67,<br>10117 Berlin]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.392055,52.524982,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Lindenbräu</name>
+				<description><![CDATA[Sony Centre,<br>Potsdamer Platz,<br>10785 Berlin]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.37277,52.510331,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Brauhaus Lemke - Am Schloss</name>
+				<description><![CDATA[(formerly Luisen-Bräu),<br>Luisenplatz 1,<br>10585 Berlin<br><br><br>Sister brewpub of Brauhaus Lemke in Mitte.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.299465,52.520086,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Lindenbräu‎</name>
+				<description><![CDATA[Berlin Hauptbahnhof]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.370394,52.526007,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Yuma Belgian Beer Bar</name>
+				<description><![CDATA[Hip smoking bar with quite a good selection of Belgians including:<br><br>- Chimay Blue<br>- Westmalle Tripel<br>- Orval<br>- many more....]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.428737,52.487295,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Prater</name>
+				<description><![CDATA[Biergarten with very large outdoor seating area.<br><br>Beers:<br>- "Prater Hell" (Pils)<br>- "Pater Dunkel" Schwarzbier <br><br>Claimed (on ratebeer.com) to be brewed by Kindl Brewery in Berlin (unconfirmed)]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.410444,52.539614,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Max &amp; Moritz</name>
+				<description><![CDATA[They have a house beer brewed for them:<br><br>- "Kreuzberger Molle" - an unfiltered Pils brewed by Brauhaus Südstern]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.413993,52.502725,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Vaust - Braugaststätte Berlin</name>
+				<description><![CDATA[Not brewed in-house, but a Pils and a Dunkles brewed to their own recipe by BrewBaker.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.318408,52.507671,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Hopfingerbräu im Palais</name>
+				<description><![CDATA[Ebertstraße 24<br>10117 Berlin, Germany<br>030 20458637<br>hopfingerbraeu-im-palais.de‎]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.377496,52.517233,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Eeetcafé Linda Carrell</name>
+				<description><![CDATA[Rhinower Strasse 3,<br>10437 Berlin<br><br>Dutch beer bar with large selection of Belgian and some Dutch beers.<br><br>https://www.facebook.com/eetcafelindacarrell]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.410069,52.548064,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Gaffel Haus</name>
+				<description><![CDATA[Kölsch-House<br><br>Hardly craft beer, but worth including as it's the only real Kölsch house selling fresh Kölsch in Berlin.<br><br>Also, this tapped Gaffel is probably the best Kölsch you will find in Berlin.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.386835,52.518509,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Das Meisterstück</name>
+				<description><![CDATA[Restaurant specialising in Sausages, Bread and Craft Beer.<br><br>Excellent beer menu, but quite pricey.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.39625,52.513319,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Landhaus Schupke GmbH</name>
+				<description><![CDATA[Has on Draught:<br>- Ratsherrn Pils<br>- "Schupke Bräu original" (unfiltered)<br>- "Schupke Bräu Pale Ale" (Ratsherrn Pale Ale)<br>- Weihenstephaner Hefeweizen]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.29071,52.627645,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>O Tannenbaum</name>
+				<description><![CDATA[Selection of about 20 bottled Belgian ales, including Westmalle Tripel/Dubbel, Rochefort 10, Hoegaarden, Gulden Draak, Duvel.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.429486,52.486538,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>John Muir</name>
+				<description><![CDATA[Changing beer selection, with a special "Beer Monday" theme night.<br><br> <br>Beers available by the pitcher.<br><br> <br>Good selection of bottled craft beers.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.437009,52.499843,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Das Gift</name>
+				<description><![CDATA[Scottish Bar. Selection of German beers, but with growing selection of changing Scottish ales in bottles (e.g. stouts, PunkIPA).]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.432424,52.48403,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>F-Bar</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/NBYpYjPqdfFA6sKOk2NCm8xB1dJ22ljzi2ZaaVGwzMYs5xZZe2C1Sucv44dKrSkLWuHQDt26nhLCQTKECsiwgojzhDZwMRURH5nV4eR5eniAIlmKPe5urSVGFmYUydB4eCQh0sANJ37M" height="200" width="auto" /><br><br>Authentic local Berlin bar.<br>Large selection of beers.<br><br> <br>Grüntaler Strasse 913357 Berlin, Germany]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/NBYpYjPqdfFA6sKOk2NCm8xB1dJ22ljzi2ZaaVGwzMYs5xZZe2C1Sucv44dKrSkLWuHQDt26nhLCQTKECsiwgojzhDZwMRURH5nV4eR5eniAIlmKPe5urSVGFmYUydB4eCQh0sANJ37M</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>13.386779,52.551912,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Gaststätte W. Prassnik - Kneipe &amp; Bar</name>
+				<description><![CDATA[Have an own beer "Prassnik"]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.40814,52.529234,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Loch Ness Scottish Pub and Whisky Bar</name>
+				<description><![CDATA[5-6 British ales on tap from Belhaven and Fullers.<br><br>To the best of my knowledge, Germany's only Cask Ale (Real Ale) hand-pumped from casks that the owners pick up in Scotland.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.311214,52.446948,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Zum böhmischen Dorf</name>
+				<description><![CDATA[First bar in Germany to sell Urquell unpasteurised (but filtered) Tankbier.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.42596,52.49233000000001,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>BadFish</name>
+				<description><![CDATA[Bar with Schneider Weisse and selection of bottles of British ales and some German craft beers.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.417504000000001,52.546544,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>The Black Lodge</name>
+				<description><![CDATA[Sanderstrasse 6<br><br><br>This bar is styled after the Black Lodge from Twin Peaks. The Dutch owner has stocked up a great selection of Dutch beers:<br><br>La Trappe: <br>- Blond<br>- Dubbel<br>- Tripel<br>- Quadrupel<br><br>Brouwerij 't IJ:<br>- IJwit<br>- I.P.A<br>- Columbus<br><br>Also on tap:<br>- Flensburger<br>- Budvar<br><br>German bottled beer:<br>- Rothaus Tannenzäpfle<br>- Weihenstaphaner Pilsner<br>- Berliner Kindel Jubileums Pilsner]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.424349000000001,52.492214,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Foersters Feine Biere</name>
+				<description><![CDATA[Excellent beer selection with a dedicated beer menu. Expanding range includes beers from BrauKunstKeller, Püttner, Fiege, Unertl, Camba, Gutmann,]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.32173,52.46626,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Honalulu Bar @ Michelberger Hotel</name>
+				<description><![CDATA[The Honalulu Bar at Michelberger Hotel usually has a couple of Mikkeller beers in stock:<br><br>- The Mikkellerberger is the house beer that was brewed especially for the hotel.<br>- Other Mikkeller beers have included Hoppy Lovin' Christmas]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.447609,52.50452,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Kaschk</name>
+				<description><![CDATA[Linienstrasse 40<br><br>Unique third-wave coffee, shuffle-board and craft beer bar.<br><br>Focus on Nordic craft beers: selection from Mikkeller and To Øl from bottle and rotating tap selection.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.410037,52.528383,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Twin Pigs</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/6UVuFJG4-TdiYJeVH1AtCF884Xn_nhTaTgzbXw061vsKK-9vflg0XscDdyy_6Sf-F2Q3wVmmJt2y0hJIy_nSUmTOGTp3Wj08LBQAINB91Nl-r-kDUvyY4uAaI7rV4kG_jF4zVl6WsAQR" height="200" width="auto" /><br><br>New craft beer bar with Heidenpeters beer on tap and some bottles (Maisels & Friends).<br><br> Boddinstraße 57A, 12053 Berlin, Germany]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/6UVuFJG4-TdiYJeVH1AtCF884Xn_nhTaTgzbXw061vsKK-9vflg0XscDdyy_6Sf-F2Q3wVmmJt2y0hJIy_nSUmTOGTp3Wj08LBQAINB91Nl-r-kDUvyY4uAaI7rV4kG_jF4zVl6WsAQR</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>13.4318213,52.4805411,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Leuchtstoff - Kaffeebar</name>
+				<description><![CDATA[This café offers a small and regularly changing selection of bottled craft beers to drink in or for take-away. e.g. beers from Brlo, KuehnKunzRosen and Spent Brewer's Collective.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.432597,52.468121,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>IPA Bar</name>
+				<description><![CDATA[More than 100 bottles IPAs from around the world and more on tap...]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.441225199999963,52.4729398,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Tiergartenquelle</name>
+				<description><![CDATA[Pub with selected mico-brewed beers from the Lemke brewery. Wonderful indoor beer hall, with ability to order beers from beer garden across the road.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.33689800000002,52.515154,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Salt'n Bone</name>
+				<styleUrl>#icon-24-nodesc</styleUrl>
+				<Point>
+					<coordinates>13.41984500000001,52.544156,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Home</name>
+				<description><![CDATA[New beer bar, opened in June 2015. Good selection of US and German beers on tap and a large selection of bottled beers.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.4708664,52.5071219,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Offside Pub &amp; Whisky Bar</name>
+				<description><![CDATA[Large selection of Scottish and English bottled beers.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.391544000000067,52.553393,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Café Mauerwerk</name>
+				<description><![CDATA[Selection of 8 beers from Berlin breweries on tap, including Brewbaker, Heidenpeters and Eschenbräu.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.33293900000001,52.525608000000005,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Bourbon Dogs</name>
+				<description><![CDATA[New bar in Kreuzberg serving bourbon, hot dogs and with a well-curated craft beer selection. Includes: Heidenpeters, Mikkeller, Brew Dog, Brooklyn Brewery, Gose and some seaonal Belgian ales.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.430662800000002,52.4981835,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Lager Lager</name>
+				<description><![CDATA[Craft Bier Laden und Verkostungsraum /<br>Specialty beers, tasting room, and growler refill shop]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.42865,52.49166,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>The Pier</name>
+				<description><![CDATA[The PIER Bar & Deli - large selection of beers on tap - http://thepier.de/en/]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.38434,52.53114,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Zum starken August</name>
+				<description><![CDATA[Event Cafe & Craft Beer Bar with a well-curated selection of 6 beers on tap and a large selection of bottles on the menu.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.4126866,52.5434444,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>MA CHE SIETE VENUTI A FA' / Birrificio Lambrate</name>
+				<description><![CDATA[Opening party on Saturday April 30th, Prenzlauer Allee 198.]]></description>
+				<styleUrl>#icon-24</styleUrl>
+				<Point>
+					<coordinates>13.4234878,52.5386011,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Drink Drunk Berlin</name>
+				<styleUrl>#icon-24-nodesc</styleUrl>
+				<Point>
+					<coordinates>13.442104500000028,52.50068199999999,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Dolden Mädel Braugasthaus</name>
+				<styleUrl>#icon-24-nodesc</styleUrl>
+				<Point>
+					<coordinates>13.38584030000004,52.48945579999999,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>KaDeWe</name>
+				<description><![CDATA[KaDeWe has a selection of world beers from larger breweries.<br><br>Of interest mainly for the selection of Belgian ales]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<Point>
+					<coordinates>13.340972,52.501715,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Ambrosetti</name>
+				<description><![CDATA[Schillerstraße 103<br>10625 Berlin]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<Point>
+					<coordinates>13.313858,52.510495,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Ganick Getränkehandel</name>
+				<description><![CDATA[Selection of Belgian beers available, e.g. Chimay B&R, Orval, Westmalle D&T, La Chouffe, Barbar]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<Point>
+					<coordinates>13.411273,52.530933,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Galeria Kaufhof Berlin Alexanderplatz</name>
+				<description><![CDATA[The food section at Galleria Kaufhof has a section dedicated to the Braufactum craft beer range and the beers that they distribute (Firestone Walker, Brooklyn Brewery).<br><br>In the beers section, there is a small selection of British Ales (Fullers, Samuel Smith)]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<Point>
+					<coordinates>13.412118,52.522358000000004,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Getränkeabholmarkt Margot Grabsch</name>
+				<description><![CDATA[Bottle shop specialising in beers from south Germany]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<Point>
+					<coordinates>13.337643,52.417214,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Kley Getränke</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/NycPn6D1v4VeTZPmvdtZeX2G7i9GD0RwLuwgfTmzzfPZ-szKeEWjMCXQu_czypconnIgNUhxOqUjQuCUkf_j_K722zojMlIHRVqooWRzxS48z7AO_47VOwkzy-ZnMHcj5vecvXmlq4sV" height="200" width="auto" /><br><br>Berlin Getränkemarkt with a small selection (<10) of some very rare beers from Great Britain, including Bear Hug Brewing and Hop Stuff, London.<br><br><br>http://kley-getraenke.de/<br><br> <br>Bürknerstrasse 3212047 Berlin, Germany]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/NycPn6D1v4VeTZPmvdtZeX2G7i9GD0RwLuwgfTmzzfPZ-szKeEWjMCXQu_czypconnIgNUhxOqUjQuCUkf_j_K722zojMlIHRVqooWRzxS48z7AO_47VOwkzy-ZnMHcj5vecvXmlq4sV</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>13.42766,52.49329,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Getränke Töpper</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/rrZ_yS05G4nmSx8u5U482d-WhgTTmvUgCkMT8_sPbwzDDa_z5dsqkBZ2jsez76G01njHlX8ODaDQWKGHHF8t4TUgLDtqPr8KXupiPOpQI4EtndRqu5EXYHQu0GkkQ3OismjfuU4hvEUx" height="200" width="auto" /><br><br>Selection of some craft beers available in this Getränkemarkt.<br><br><br>Getränke Töpper<br>Bredowstraße 43<br>10551 Berlin<br>www.getraenke-toepper.de (http://www.getraenke-toepper.de/)]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/rrZ_yS05G4nmSx8u5U482d-WhgTTmvUgCkMT8_sPbwzDDa_z5dsqkBZ2jsez76G01njHlX8ODaDQWKGHHF8t4TUgLDtqPr8KXupiPOpQI4EtndRqu5EXYHQu0GkkQ3OismjfuU4hvEUx</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>13.33958,52.528,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Bierlieb</name>
+				<description><![CDATA[Craft beer store with large collection of beers from breweries from Berlin, Germany, Ireland, UK and the U.S.<br><br>Offers seminars and has a nano-brewery for home-brewers and classes in the back. <br><br>Petersburger Strasse 30,<br>Friedrichshain]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<Point>
+					<coordinates>13.449047,52.523546,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Bis Späti</name>
+				<description><![CDATA[Oderberger Strasse 30]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<Point>
+					<coordinates>13.405112000000003,52.5405277,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Spätkauf</name>
+				<description><![CDATA[Karlsgartenstraße 26 has a small selection of craft beers - Sierra Nevada, Crew Republic etc.,]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<Point>
+					<coordinates>13.4237587,52.482068000000005,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Boxi Späti</name>
+				<description><![CDATA[Has a huge selection of beers from German breweries, Belgian ales.]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<Point>
+					<coordinates>13.4611119,52.5109848,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Bierlinie Laden</name>
+				<description><![CDATA[The showcase store for range of beers from Bierlinie distributors.  Very large range of beers at good prices: http://www.bierlinie.de/kontakt/laden]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<Point>
+					<coordinates>13.416983500000002,52.540916,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Biererei</name>
+				<description><![CDATA[Bottle shop with wide selection of craft beers from Germany and international brewers.]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<Point>
+					<coordinates>13.422545,52.5005108,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Café Am Ende der Welt</name>
+				<description><![CDATA[Great coffee and great selection of beers in an odd location: Firestone Walker, Flying Dog and Polish rarities.<br><br>Definitely worth checking out to see what is in stock.]]></description>
+				<styleUrl>#icon-158</styleUrl>
+				<Point>
+					<coordinates>13.371696,52.533291,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>The Castle Pub - Craft Bar</name>
+				<description><![CDATA[The Castle Pub has a dedicated craft beer bar with a selection of kegged and bottled beers from German and International brewers.]]></description>
+				<styleUrl>#icon-ci-1</styleUrl>
+				<Point>
+					<coordinates>13.384601,52.5496179,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Szimpla Kaffeehaus Budapest</name>
+				<description><![CDATA[Beer bar and restaurant with 9 taps of largely eastern European (Polish and Hungarian) beers.  Recommended for beers that you will not find elswhere!]]></description>
+				<styleUrl>#icon-ci-1</styleUrl>
+				<Point>
+					<coordinates>13.4612346,52.5112031,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Hops &amp; Barley</name>
+				<description><![CDATA[Classic BrewPub operating in the heart of Friedrichshain since 2008.<br><br> <br>Beers on tap:<br>- Friedrichshainer Pils (nice Tettnanger nose)<br>- Friedrichshainer Dunkel (best Dunkel in Berlin)<br>- Hefeweizen<br>- Seasonals (including IPAs, Irish Red Ale...)<br>- Cider<br><br> <br>Wühlischstrasse 22,<br>10245 Berlin<br>www.hopsandbarley-berlin.de]]></description>
+				<styleUrl>#icon-ci-1</styleUrl>
+				<Point>
+					<coordinates>13.460588,52.50895,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>HERMAN Belgian Ales</name>
+				<description><![CDATA[Belgian Ale Café with over 100 bottled Belgian ales and four taps with rotating beers.<br><br>Schönhauser Allee 173<br>10119 Berlin]]></description>
+				<styleUrl>#icon-ci-1</styleUrl>
+				<Point>
+					<coordinates>13.412182,52.532410000000006,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Vagabund Brauerei</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/WOXzgnQ7XL7x4Nc0IeAhk4s8hSa9wHHD4qsBlPKV38I9RbXixGK2mLYHEQWnKnGcQrCoD3YArztoURZxCui7HOtmnGv8JnvILgR92kIL-erunxFfOX1x4KlPFtx7FIq18aF2I2IhL4cr" height="200" width="auto" /><br><br>Antwerpener Straße 3,13353 Berlin, Germany]]></description>
+				<styleUrl>#icon-ci-1</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/WOXzgnQ7XL7x4Nc0IeAhk4s8hSa9wHHD4qsBlPKV38I9RbXixGK2mLYHEQWnKnGcQrCoD3YArztoURZxCui7HOtmnGv8JnvILgR92kIL-erunxFfOX1x4KlPFtx7FIq18aF2I2IhL4cr</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>13.349333000000001,52.547992,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Hopfen &amp; Malz</name>
+				<description><![CDATA[Specialist bottle shop with excellent selection of non-pasteurised German beers from Franken & Bayern. <br><br>Also an ever expanding selection of new German craft beers (e.g. hoppy ales, stouts), British ales and Belgian ales.]]></description>
+				<styleUrl>#icon-ci-1</styleUrl>
+				<Point>
+					<coordinates>13.355878,52.543113,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Getränkefeinkost Berlin</name>
+				<description><![CDATA[Mixed drinks store with selection of German craft beers, Belgian, British and US beers, as well as a large selection of German traditional beers.<br>www.getraenkefeinkost.de (http://www.getraenkefeinkost.de/)<br><br> Boxhagener Straße 24,<br>10245 Berlin, Germany]]></description>
+				<styleUrl>#icon-ci-1</styleUrl>
+				<Point>
+					<coordinates>13.456933,52.512975,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Berlin Beer Shop</name>
+				<description><![CDATA[The Berlin Beer Shop stocks a great collection of German, US and European craft beers, many of which are not available anywhere else in Berlin.<br><br>Good selection of e.g. BrauKunstKeller, De Molen, Mikkeller and and Belgian ales.<br><br>Kirchstr. 23<br>10557 BERLIN - Tiergarten<br>(S-Bahn Bellevue)<br><br>http://www.berlinbiershop.com/]]></description>
+				<styleUrl>#icon-ci-1</styleUrl>
+				<Point>
+					<coordinates>13.342944,52.524872,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Hopfenreich Craft Beer Bar</name>
+				<description><![CDATA[Dedicated craft beer bar with 15 taps. Mainly German craft breweries, including BrauKunstKeller, Hops & Barley, Schönramer, Camba Bavaria.<br><br>Promising location for a craft beer bar.]]></description>
+				<styleUrl>#icon-ci-1</styleUrl>
+				<Point>
+					<coordinates>13.439302,52.499584,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Heidenpeters</name>
+				<description><![CDATA[Brewing the best Pale Ale in Germany at the moment, Heidenpeters in a Berlin institution and brewer Johannes makes uncompromising to-fermented beers.                Markthalle 9,<br>Eisenbahnstraße 42<br>10997 Berlin, Germany<br><br>heidenpeters.de]]></description>
+				<styleUrl>#icon-ci-1</styleUrl>
+				<Point>
+					<coordinates>13.4313384,52.50205770000001,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stone Brewing Berlin</name>
+				<styleUrl>#icon-124-nodesc</styleUrl>
+				<Point>
+					<coordinates>13.368320799999992,52.4380545,0.0</coordinates>
+				</Point>
+			</Placemark>
+		</Folder>
+		<Style id='icon-124-normal'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/124-red.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+		</Style>
+		<Style id='icon-124-highlight'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/124-red.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>1.1</scale>
+			</LabelStyle>
+		</Style>
+		<StyleMap id='icon-124'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#icon-124-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#icon-124-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='icon-124-nodesc-normal'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/124-red.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<BalloonStyle>
+				<text><![CDATA[<h3>$[name]</h3>]]></text>
+			</BalloonStyle>
+		</Style>
+		<Style id='icon-124-nodesc-highlight'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/124-red.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>1.1</scale>
+			</LabelStyle>
+			<BalloonStyle>
+				<text><![CDATA[<h3>$[name]</h3>]]></text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='icon-124-nodesc'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#icon-124-nodesc-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#icon-124-nodesc-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='icon-158-normal'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/158-yellow.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+		</Style>
+		<Style id='icon-158-highlight'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/158-yellow.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>1.1</scale>
+			</LabelStyle>
+		</Style>
+		<StyleMap id='icon-158'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#icon-158-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#icon-158-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='icon-24-normal'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/24-blue.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+		</Style>
+		<Style id='icon-24-highlight'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/24-blue.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>1.1</scale>
+			</LabelStyle>
+		</Style>
+		<StyleMap id='icon-24'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#icon-24-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#icon-24-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='icon-24-nodesc-normal'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/24-blue.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<BalloonStyle>
+				<text><![CDATA[<h3>$[name]</h3>]]></text>
+			</BalloonStyle>
+		</Style>
+		<Style id='icon-24-nodesc-highlight'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/24-blue.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>1.1</scale>
+			</LabelStyle>
+			<BalloonStyle>
+				<text><![CDATA[<h3>$[name]</h3>]]></text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='icon-24-nodesc'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#icon-24-nodesc-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#icon-24-nodesc-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='icon-ci-1-normal'>
+			<IconStyle>
+				<scale>1.0</scale>
+				<Icon>
+					<href>images/icon-1.png</href>
+				</Icon>
+			</IconStyle>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+		</Style>
+		<Style id='icon-ci-1-highlight'>
+			<IconStyle>
+				<scale>1.0</scale>
+				<Icon>
+					<href>images/icon-1.png</href>
+				</Icon>
+			</IconStyle>
+			<LabelStyle>
+				<scale>1.0</scale>
+			</LabelStyle>
+		</Style>
+		<StyleMap id='icon-ci-1'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#icon-ci-1-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#icon-ci-1-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+	</Document>
+</kml>

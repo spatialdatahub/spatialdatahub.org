@@ -10,6 +10,12 @@ urlpatterns = [
         views.portal,
         name='portal'),
 
+#####################################################
+    url(r'^kml_test/$',
+        views.kml_test,
+        name='kml_test'),
+#####################################################
+
    url(r'^new_dataset/$',
         views.DatasetCreate.as_view(),
         name='dataset_create'),

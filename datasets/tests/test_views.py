@@ -6,6 +6,10 @@ from datasets.models import Dataset
 from .base import BaseDatasetTest
 from datasets.views import portal
 
+import requests
+import json
+from zipfile import ZipFile
+
 client = Client()
 
 class RootUrlViewTests(BaseDatasetTest):
@@ -20,14 +24,12 @@ class RootUrlViewTests(BaseDatasetTest):
     def test_base_url_resolves_to_home_page(self):
         found = resolve('/')
         response = client.get('/')
-
         self.assertEqual(response.status_code, 200)
         self.assertEqual(found.func, portal)
 
     # 2
     def test_view_title_is_correct(self):
         response = client.get('/')
-
         self.assertIn('GIS Portal', response.content.decode('utf-8'))
 
     # 3
@@ -157,3 +159,52 @@ class DatasetMetaDataViewTests(BaseDatasetTest):
         self.assertNotIn(dataset_entry.dataset_password, response.context)
         self.assertNotIn(dataset_entry.dataset_password, response2.content.decode("utf-8"))
         self.assertNotIn(dataset_entry.dataset_password, response2.context)
+
+
+class DatasetKmlViewTests(BaseDatasetTest):
+    """
+    This is a view that I will incorporate into the portal view, once it works. It
+    will check what type of file is being loaded and make a decision as to how to handle
+    the file from there.
+    """
+
+    def test_file_type(self):
+
+        title1 = "kmz test dataset"
+        title2 = "kml test dataset"
+        dataset_entry1 = Dataset.objects.create(title=title1, author="Test Testerson",
+                                               description="This is a test dataset that" +
+                                                           "is password protected",
+                                               url="https://github.com/zmtdummy/GeoJsonData/" +
+                                                   "raw/master/berlin_craft_beer_locations.kmz")
+
+
+        dataset_entry2 = Dataset.objects.create(title=title2, author="KML Test Testerson",
+                                               description="This is a test kml dataset",
+                                               url="https://raw.githubusercontent.com/" +
+                                                   "zmtdummy/GeoJsonData/master/westcampus.kml")
+
+        dataset_list = [dataset_entry1, dataset_entry2, self.ds1]
+
+        for dataset in dataset_list:
+            if str(dataset.url.lower()).endswith('.json'):
+                print("Its name is JSON")
+            elif str(dataset.url.lower()).endswith('.kml'):
+                print("kml")
+            elif str(dataset.url.lower()).endswith('.kmz'):
+                print("kmz")
+            else:
+                print("Totally Unknown")
+
+    def test_kmz_file_can_be_unzipped_and_displayed(self):
+        title = "kmz test dataset"
+        dataset_entry1 = Dataset.objects.create(title=title, author="Test Testerson",
+                                               description="This is a test dataset that" +
+                                                           "is password protected",
+                                               url="https://github.com/zmtdummy/GeoJsonData/" +
+                                                   "raw/master/berlin_craft_beer_locations.kmz")
+
+        dataset = requests.get(dataset_entry1.url)
+        kmz_dataset = ZipFile(dataset, 'r')
+        kml_dataset = kmz_dataset.open('doc.kml', 'r')
+        print(kml_dataset)

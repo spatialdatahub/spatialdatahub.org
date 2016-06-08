@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div>
+  <h1>kml</h1>
+</div>
+
+<div>
+  <button class="btn btn-default" id="show kml" onClick="showKmlData();">
+    Show KML 
+  </button>
+</div>
+
+<div class="col-12 col-sm-9 col-lg-9" role="main">
+  <div id='map'>
+  </div>
+</div>
+ 
+
+<script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}" ></script>
+<script type="text/javascript" src="{% static 'datasets/js/kml_test.js' %}" ></script>
+{% endblock content %}

@@ -61,6 +61,14 @@ def dataset_detail(request, slug, pk):
 
 
 
+
+def kml_test(request):
+    """
+    This page is here simply to test kml file loading.
+    """
+    return render(request, 'datasets/kml_test.html')
+
+
 #########################################################################
 class DatasetCreate(CreateView):
     model = Dataset
