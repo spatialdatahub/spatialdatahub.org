@@ -65,6 +65,12 @@ def dataset_detail(request, slug, pk):
 def kml_test(request):
     """
     This page is here simply to test kml file loading.
+
+    It turns out that the google maps function 'google.maps.KmlLayer'
+    can deal with both kml and kmz files. This means that it is not neccesary to do any extra work
+    unzipping the kmz files, or specifying that they are infact kmz files.
+
+    There simply needs to be a way to designate the files as kml/kmz.
     """
     return render(request, 'datasets/kml_test.html')
 

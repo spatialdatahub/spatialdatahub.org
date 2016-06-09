@@ -6,9 +6,6 @@ from datasets.models import Dataset
 from .base import BaseDatasetTest
 from datasets.views import portal
 
-import requests
-import json
-from zipfile import ZipFile
 
 client = Client()
 
@@ -164,10 +161,12 @@ class DatasetMetaDataViewTests(BaseDatasetTest):
 class DatasetKmlViewTests(BaseDatasetTest):
     """
     This is a view that I will incorporate into the portal view, once it works. It
-    will check what type of file is being loaded and make a decision as to how to handle
-    the file from there.
+    will check (1) what type of file is being loaded and (2) it will add a field to the
+    serialized list that says what type of file it is, which will be used by the template
+    language to determine which JavaScript command to use.
     """
 
+    # 1
     def test_file_type(self):
 
         title1 = "kmz test dataset"
@@ -177,7 +176,6 @@ class DatasetKmlViewTests(BaseDatasetTest):
                                                            "is password protected",
                                                url="https://github.com/zmtdummy/GeoJsonData/" +
                                                    "raw/master/berlin_craft_beer_locations.kmz")
-
 
         dataset_entry2 = Dataset.objects.create(title=title2, author="KML Test Testerson",
                                                description="This is a test kml dataset",
@@ -205,6 +203,4 @@ class DatasetKmlViewTests(BaseDatasetTest):
                                                    "raw/master/berlin_craft_beer_locations.kmz")
 
         dataset = requests.get(dataset_entry1.url)
-        kmz_dataset = ZipFile(dataset, 'r')
-        kml_dataset = kmz_dataset.open('doc.kml', 'r')
         print(kml_dataset)
