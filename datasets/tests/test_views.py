@@ -194,13 +194,3 @@ class DatasetKmlViewTests(BaseDatasetTest):
             else:
                 print("Totally Unknown")
 
-    def test_kmz_file_can_be_unzipped_and_displayed(self):
-        title = "kmz test dataset"
-        dataset_entry1 = Dataset.objects.create(title=title, author="Test Testerson",
-                                               description="This is a test dataset that" +
-                                                           "is password protected",
-                                               url="https://github.com/zmtdummy/GeoJsonData/" +
-                                                   "raw/master/berlin_craft_beer_locations.kmz")
-
-        dataset = requests.get(dataset_entry1.url)
-        print(kml_dataset)

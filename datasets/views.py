@@ -1,9 +1,11 @@
+from django import forms
 from django.core import serializers
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from datasets.models import Dataset
+from datasets.forms import DatasetForm
 
 import requests
 import json
@@ -67,7 +69,8 @@ def kml_test(request):
     This page is here simply to test kml file loading.
 
     It turns out that the google maps function 'google.maps.KmlLayer'
-    can deal with both kml and kmz files. This means that it is not neccesary to do any extra work
+    can deal with both kml and kmz files. This means that it is not neccesary
+    to do any extra work
     unzipping the kmz files, or specifying that they are infact kmz files.
 
     There simply needs to be a way to designate the files as kml/kmz.
@@ -76,12 +79,52 @@ def kml_test(request):
 
 
 #########################################################################
-class DatasetCreate(CreateView):
-    model = Dataset
-    fields = ['author', 'title', 'description',
-              'url', 'dataset_user', 'dataset_password',
-              'public_access']
-    template_name_suffix = '_create'
+# I will probably be changing these to function based views that use a
+# modelform. This should allow me to implement data more checking mechanisms.
+# or maybe I can just implement the extra checks with the form_valid() call.
+
+"""
+This dataset creation view (1) checks for a username and password for the url,
+it checks whether the url is valid, then (2)it checks whether the url with the
+password and username returns a positive status code. In the case that the
+dataset url does not need a username and password it checks (3) that the url
+returns a positive status code.
+
+The next step is to add a file extension checker. This will determine how the
+dataset is handled by the view and JavaScript functions. Something for KML and
+KMZ files.
+"""
+
+def dataset_create(request):
+    if request.method == "POST":
+        form = DatasetForm(request.POST)
+        if form.is_valid():
+            dataset = form.save(commit=False)
+            # 1
+            if dataset.dataset_user != "" and dataset.dataset_password != "":
+                r = requests.get(dataset.url,
+                                 auth=(dataset.dataset_user, dataset.dataset_password))
+                # 2
+                if r.status_code == 200:
+                    dataset.save()
+                    return redirect('datasets:dataset_detail', slug=dataset.slug, pk=dataset.pk)
+                else:
+                    raise forms.ValidationError('Check your dataset url, username and password; ' +
+                                            'there seems to be an error')
+            else:
+                r = requests.get(dataset.url)
+            # 3
+                if r.status_code == 200:
+                    dataset.save()
+                    return redirect('datasets:dataset_detail', slug=dataset.slug, pk=dataset.pk)
+                else:
+                    raise forms.ValidationError('Check your dataset url, username and password; ' +
+                                                'there seems to be an error')
+        else:
+            raise forms.ValidationError('There seems to be an error.')
+    else:
+        form = DatasetForm()
+    return render(request, 'datasets/dataset_create.html', {'form':form})
 
 
 class DatasetUpdate(UpdateView):

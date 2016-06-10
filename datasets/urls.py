@@ -16,8 +16,8 @@ urlpatterns = [
         name='kml_test'),
 #####################################################
 
-   url(r'^new_dataset/$',
-        views.DatasetCreate.as_view(),
+    url(r'^new_dataset/$',
+        views.dataset_create,
         name='dataset_create'),
 
     url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/update/$',
