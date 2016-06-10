@@ -2,13 +2,30 @@ from django import forms
 from django.core import serializers
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import UpdateView, DeleteView
 
 from datasets.models import Dataset
 from datasets.forms import DatasetForm
 
 import requests
 import json
+
+
+"""
+Is there a good way to serialize all information before it actually
+passes to the views? I suppose I could try out DjangoRESTFramework,
+but that would require refactoring everything and learning a new
+framework. I just want to have serialized data to deal with for all
+views.
+
+It's a huge pain to serialize datasets in every view. I just wonder
+how everything will go with kml and kmz files. I suppose that all
+the data I keep here are addresses... but what if someone needs to
+connect password protected kml and kmz urls to the database?
+
+Dealing with passwords and usernames is frustrating, I need a better
+way of making sure that they are secure.
+"""
 
 
 def portal(request):
@@ -126,14 +143,61 @@ def dataset_create(request):
         form = DatasetForm()
     return render(request, 'datasets/dataset_create.html', {'form':form})
 
+def dataset_update(request, slug, pk):
+    """
+#    This view gets the specific dataset instance, then does the same thing as the create view,
+#    with the data from that instance.
 
+#    This dataset creation view (1) checks for a username and password for the url,
+#    it checks whether the url is valid, then (2)it checks whether the url with the
+#    password and username returns a positive status code. In the case that the
+#    dataset url does not need a username and password it checks (3) that the url
+#    returns a positive status code.
+    """
+
+
+    # Get specific dataset instance
+    dataset = Dataset.objects.get(slug=slug, pk=pk)
+
+    # Check to see that this really is a POST request
+    if request.method == "POST":
+        form = DatasetForm(request.POST, instance=dataset)
+        if form.is_valid():
+            dataset=form.save(commit=False)
+            # 1
+            if dataset.dataset_user != "" and dataset.dataset_password != "":
+                r = requests.get(dataset.url,
+                                 auth=(dataset.dataset_user, dataset.dataset_password))
+                # 2
+                if r.status_code == 200:
+                    dataset.save()
+                    return redirect('datasets:dataset_detail', slug=dataset.slug, pk=dataset.pk)
+                else:
+                    raise forms.ValidationError('Check your dataset url, username and password; ' +
+                                            'there seems to be an error')
+            else:
+                r = requests.get(dataset.url)
+            # 3
+                if r.status_code == 200:
+                    dataset.save()
+                    return redirect('datasets:dataset_detail', slug=dataset.slug, pk=dataset.pk)
+                else:
+                    raise forms.ValidationError('Check your dataset url, username and password; ' +
+                                                'there seems to be an error')
+        else:
+            raise forms.ValidationError('There seems to be an error.')
+    else:
+        form = DatasetForm()
+    return render(request, 'datasets/dataset_create.html', {'form':form})
+
+"""
 class DatasetUpdate(UpdateView):
     model = Dataset
     fields = ['author', 'title', 'description',
               'url', 'dataset_user', 'dataset_password',
               'public_access']
     template_name_suffix = '_update'
-
+"""
 
 class DatasetDelete(DeleteView):
     model = Dataset
