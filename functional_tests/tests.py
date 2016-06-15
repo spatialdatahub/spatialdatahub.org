@@ -41,8 +41,7 @@ class DatasetFormPageTests(BaseLiveTest):
     dataset can be deleted.
 
     Test that (4) datasets that are password protected can be changed to not password
-    protected, and that (5) datasets that are not password protected can be changed to
-    being password protected.
+    protected.
     """
 
     # 1
@@ -77,6 +76,7 @@ class DatasetFormPageTests(BaseLiveTest):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Dum Dum Dataset', page_text)
 
+
     # 2
     def test_can_update_existing_dataset(self):
 
@@ -109,6 +109,9 @@ class DatasetFormPageTests(BaseLiveTest):
         description_input.clear()
         description_input.send_keys('This is an UPDATED dummy dataset on the zmtdummy github account')
 
+        url_input.clear()
+        url_input.send_keys('https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/dumdum.json')
+
         # Submit data 
         submit_button.click()
 
@@ -117,7 +120,6 @@ class DatasetFormPageTests(BaseLiveTest):
         # actually being saved to the dummy_dataset instance.
 
         updatedslugpk = ('/super-dum-dum-dataset-%s/' % self.dummy_dataset.pk)
-
         # Check Homepage URL to see that the dataset title is there in the text
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
@@ -128,6 +130,7 @@ class DatasetFormPageTests(BaseLiveTest):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Rat', page_text)
         self.assertIn('UPDATED', page_text)
+
 
     # 3
     def test_can_delete_dataset(self):
@@ -147,11 +150,8 @@ class DatasetFormPageTests(BaseLiveTest):
         self.assertNotIn('dummy dataset', page_text)
         self.assertIn('There are no datasets available', page_text)
 
-    # 4
-    def test_can_change_dataset_from_password_protected_to_NOT_password_protected(self):
-        pass
 
-    # 5
+    # 4
     def test_can_change_dataset_from_NOT_password_protected_to_password_protected(self):
 
         # Get dummy_dataset slug and pk
@@ -160,17 +160,39 @@ class DatasetFormPageTests(BaseLiveTest):
         self.browser.get('%s%s%s' % (self.live_server_url, slugpk, 'update'))
 
         # Get dataset_user, dataset_password, and url form inputs
+
+        # Get form inputs
+        author_input =  self.browser.find_element_by_id('id_author')
+        title_input = self.browser.find_element_by_id('id_title')
+        description_input = self.browser.find_element_by_id('id_description')
+        public_access_input = self.browser.find_element_by_id('id_public_access')
         url_input = self.browser.find_element_by_id('id_url')
         dataset_user_input = self.browser.find_element_by_id('id_dataset_user')
         dataset_password_input = self.browser.find_element_by_id('id_dataset_password')
         submit_button = self.browser.find_element_by_id('submit_dataset')
 
         # Send inputs information
+
+        ######## I need to remove this once I find out how to auto populate the
+        ######## form fields.
+
+        author_input.clear()
+        author_input.send_keys('Rat')
+
+        title_input.clear()
+        title_input.send_keys('dummy dataset')
+
+        description_input.clear()
+        description_input.send_keys('This is an UPDATED dummy dataset on the zmtdummy github account')
+
+        ######## 
+        ######## 
+
         dataset_user_input.clear()
         dataset_user_input.send_keys('zmtdummy')
 
         dataset_password_input.clear()
-        dataset_password_input.send_keys('zmtdummy')
+        dataset_password_input.send_keys('zmtBremen1991')
 
         url_input.clear()
         url_input.send_keys("https://bitbucket.org/zmtdummy/geojsondata/raw/" +
@@ -181,10 +203,11 @@ class DatasetFormPageTests(BaseLiveTest):
 
         # Check the main page for the dummy dataset, it should be gone
         self.browser.get(self.live_server_url)
-        print(self.browser.get(self.live_server_url))
         self.browser.implicitly_wait(9)
 
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('dummy dataset', page_text)
+
         self.browser.get('%s%s' % (self.live_server_url, slugpk))
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('https://bitbucket.org/zmtdummy/geojsondata/raw/0f318d948d74a67bceb8da5257a97b7df80fd2dd/zmt_polygons.json', page_text)

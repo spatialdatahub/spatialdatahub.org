@@ -188,7 +188,7 @@ def dataset_update(request, slug, pk):
             raise forms.ValidationError('There seems to be an error.')
     else:
         form = DatasetForm()
-    return render(request, 'datasets/dataset_create.html', {'form':form})
+    return render(request, 'datasets/dataset_update.html', {'form':form})
 
 """
 class DatasetUpdate(UpdateView):

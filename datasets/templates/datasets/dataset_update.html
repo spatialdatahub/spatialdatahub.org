@@ -1,5 +1,36 @@
-dataset update
-<form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input id="submit_dataset" type="submit" value="Update" />
-</form>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container-fluid">
+
+  <div class="header">
+    <h1>Leibniz Zentrum für Marine Tropenökologie GIS Portal</h1>
+    <h2>Update Map Dataset</h2>
+  </div>
+
+<!--
+  <div class="col-sm-3 col-lg-3 sidebar" >  
+    {% crispy form %}
+    <input id="submit_dataset" class="btn btn-default" type="submit" value="Submit">
+  </div>
+-->
+
+  <div class="col-sm-3 col-lg-3 sidebar" >  
+    <form action="." method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <input id="submit_dataset" class="btn btn-default" type="submit" value="Submit">
+    </form>
+  </div>
+
+
+  <div class="col-12 col-sm-9 col-lg-9" role="main">
+    <div id="map">
+    </div>
+  </div>
+
+</div>
+<script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}" ></script>
+{% endblock content %}
