@@ -5,8 +5,8 @@
 
 <h1>{{ dataset.fields.title }} meta data</h1>
 
-<a href="/">back</a>
 
+<div class="col-12 col-sm-3 col-lg-3" role="main">
 <ul>
   <li>pk: {{ dataset.pk }}</li>
   <li>title: {{ dataset.fields.title }}</li>
@@ -14,7 +14,13 @@
   <li>url: {{ dataset.fields.url }}</li>
   <li>description: {{ dataset.fields.description }}</li>
   <li>json: {{ dataset.fields.json }}</li>
+  <li>extension: {{ dataset.fields.extension }}</li>
+  <li>password: {{ dataset.fields.dataset_password }}</li>
+  <li>username: {{ dataset.fields.dataset_username }}</li>
+  <li><a href="/">back</a></li>
 </ul>
+</div>
+
 <div class="col-12 col-sm-9 col-lg-9" role="main">
   <div id=map>
   </div>

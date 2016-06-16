@@ -7,25 +7,22 @@ from datasets.models import Dataset
 
 class DatasetFormTest(TestCase):
     """
-    This set of tests checks (1) something I don't understand,
-    (2) whether the form shows the right css styling
-    and (3) that all the required fields return an error if
+    Test (1) that all the required fields return an error if
     they are left blank.
-    Test that (4) when valid data are submitted via the form that they
+
+    Test that (2) when valid data are submitted via the form that they
     can in fact be saved as a dataset object, and retrieved from the
     list of dataset objects.
+
+    The third test is an extension of the second, it simply tests (3) whether
+    valid password protected datasets can be saved to the dataset.
+
+    Test that (4) valid data with incorrect information (ie url that passes, but
+    actually codes for a broken link) is somehow stopped.
     """
 
-    # 1
-#    def test_form_renders_dataset_text_input(self):
-#        form  = DatasetForm()
-#        self.fail(form.as_p())
 
-    # 2 
-    def test_form_dataset_input_has_css_classes(self):
-        form = DatasetForm()
-        self.assertIn('class="form-control input-lg"', form.as_p())
-    # 3
+    # 1
     def test_form_rejects_blank_data(self):
         """
         I honestly don't remember writing this set of tests, but it
@@ -64,7 +61,7 @@ class DatasetFormTest(TestCase):
         )
 
 
-    # 4 
+    # 2 
     def test_form_saved_dataset_is_retreivable_from_database(self):
         # Get dataset info to save
         form_data ={'author': 'Johan Sundström',
@@ -82,6 +79,7 @@ class DatasetFormTest(TestCase):
         d1 = Dataset.objects.get(title='world.geo.json')
         self.assertEqual(form.instance.title, d1.title)
 
+    # 3
     def test_form_can_save_password_protected_dataset(self):
         form_data = {'author':"zmtdummy",
                      'title':"ZMT GeoJSON Polygon",
@@ -103,6 +101,8 @@ class DatasetFormTest(TestCase):
         d1 = Dataset.objects.get(title='ZMT GeoJSON Polygon')
         self.assertEqual(form.instance.title, d1.title)
 
+
+    # 4
     # I need to write some tests for broken stuff. For instance, if the 
     # Url or Password or Username are incorrect but pass the '.is_valid()'
     # test.
