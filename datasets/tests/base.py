@@ -1,18 +1,11 @@
 from django.test import TestCase
 
-import requests
-import json
-
 from datasets.models import Dataset
 
 
 class BaseDatasetTest(TestCase):
     """
-    This class will test that (1) dataset references and metadata can be saved,
-    (2) that data at the dataset urls can be accessed through the python requests
-    module, that (3) data at dataset urls requiring passwords can be accessed through
-    python requests, and (4) that access to datasets can be limited by dataset
-    authors via needing authentication.
+    This simply setting up dummy data for the rest of the tests
     """
 
     @classmethod

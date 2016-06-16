@@ -39,16 +39,16 @@ def dataset_model_serializer(dataset_list):
         if dataset['fields']['url'].lower().endswith('.kmz'):
             dataset['fields']['extension'] = 'kmz'
 
-    '''
     # 4
     for dataset in serialized_dataset_list:
         if dataset['fields']['dataset_user'] != "" and dataset['fields']['dataset_password'] != "" :
-            dataset['fields']['json'] = request.get(dataset['fields']['url'],
-                                                auth=(dataset['fields']['dataset_user'],
-                                                      dataset['fields']['dataset_password'])).json()
+            r = requests.get(dataset['fields']['url'],
+                             auth=(dataset['fields']['dataset_user'],
+                             dataset['fields']['dataset_password']))
+            dataset['fields']['json'] = r.json()
+            dataset['fields']['status_code'] = r.status_code
         dataset['fields']['dataset_user'] = ""
         dataset['fields']['dataset_password'] = ""
-    '''
 
     return serialized_dataset_list
 

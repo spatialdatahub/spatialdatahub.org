@@ -89,6 +89,10 @@ def kml_test(request):
 # modelform. This should allow me to implement data more checking mechanisms.
 # or maybe I can just implement the extra checks with the form_valid() call.
 
+# It would be nice to create a function that does a dataset check, that way
+# I wouldn't have to repeat the code between the create and update views. Maybe
+# the code should be part of the DatasetForm
+
 """
 This dataset creation view (1) checks for a username and password for the url,
 it checks whether the url is valid, then (2)it checks whether the url with the

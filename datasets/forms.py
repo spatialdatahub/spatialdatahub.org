@@ -9,6 +9,10 @@ from datasets.models import Dataset
 
 
 class DatasetForm(ModelForm):
+    """
+    I am going to add a lot of custom checking methods to this form
+    which will cut down a lot on the logic that is in the views file.
+    """
 
     class Meta:
         model = Dataset

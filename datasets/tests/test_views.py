@@ -157,7 +157,7 @@ class DatasetMetaDataViewTests(BaseDatasetTest):
         self.assertNotIn(dataset_entry.dataset_password, response2.content.decode("utf-8"))
         self.assertNotIn(dataset_entry.dataset_password, response2.context)
 
-
+'''
 class DatasetKmlViewTests(BaseDatasetTest):
     """
     This is a view that I will incorporate into the portal view, once it works. It
@@ -193,4 +193,4 @@ class DatasetKmlViewTests(BaseDatasetTest):
                 print("kmz")
             else:
                 print("Totally Unknown")
-
+'''

@@ -70,7 +70,7 @@ class DatasetFormTest(TestCase):
                     'url':'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json'}
         form = DatasetForm(data=form_data)
         # Save the dataset
-        self.assert_(form.is_valid())
+        self.assertEqual(form.is_valid(), True)
         self.assertEqual(form.instance.author, 'Johan Sundström')
 
         form.save()
@@ -92,7 +92,7 @@ class DatasetFormTest(TestCase):
                      'dataset_password':"zmtBremen1991"}
         form = DatasetForm(data=form_data)
         # Save the dataset
-        self.assert_(form.is_valid())
+        self.assertEqual(form.is_valid(), True)
         self.assertEqual(form.instance.author, 'zmtdummy')
 
         form.save()
