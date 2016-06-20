@@ -68,7 +68,9 @@ def dataset_detail(request, slug, pk):
     return render(request, 'datasets/dataset_detail.html', context)
 
 
+def leaflet_test(request):
 
+    return render(request, 'datasets/leaflet_test.html')
 
 def kml_test(request):
     """

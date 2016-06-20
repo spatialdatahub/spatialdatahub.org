@@ -1,0 +1,24 @@
+{% load staticfiles %}
+
+<html>
+  <head>
+
+    <link rel="stylesheet" href="{% static 'leaflet/leaflet.css' %}" />
+    <script src="{% static 'leaflet/leaflet.js' %}"></script>
+    <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+  <style>
+    #mapid { height: 80%; }
+  </style> 
+  </head>
+
+  <body onLoad="initMap();">
+
+    <button onclick="addJsonDataFromURL();">JSON</button>
+
+    <div id="mapid">
+    </div>
+
+    <script type="text/javascript" src="{% static 'datasets/js/portal_map_leaflet.js' %}"></script>
+
+  </body>
+</html>

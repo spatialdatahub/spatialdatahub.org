@@ -14,6 +14,10 @@ urlpatterns = [
     url(r'^kml_test/$',
         views.kml_test,
         name='kml_test'),
+
+    url(r'^leaflet_test/$',
+        views.leaflet_test,
+        name='leaflet_test'),
 #####################################################
 
     url(r'^new_dataset/$',
