@@ -1,0 +1,11 @@
+{
+  "name": "project",
+  "version": "0.0.1",
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
+  },
+  "dependencies": {
+    "chai": "^3.5.0"
+  }
+}
