@@ -5,20 +5,27 @@
 
     <link rel="stylesheet" href="{% static 'leaflet/leaflet.css' %}" />
     <script src="{% static 'leaflet/leaflet.js' %}"></script>
+    <script src="{% static 'leaflet-ajax-gh-pages/dist/leaflet.ajax.js' %}"></script>
     <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
   <style>
-    #mapid { height: 80%; }
+    #mapid { height: 90%; }
   </style> 
   </head>
 
   <body>
+    <div class="container-fluid">
 
-    <button onclick="addJsonDataFromURL();">JSON</button>
-    <a href="http://jquery.com/">jQuery</a>
-    <div id="mapid">
+      <button onclick="addDummyMarker();">Marker</button>
+      <button onclick="addDummyCircle();">Circle</button>
+      <button onclick="addDummyPolygon();">Polygon</button>
+      <button onclick="addDummyData();">Data</button>
+      <button onclick='getJsonFromUrl("https://storage.googleapis.com/maps-devrel/google.json");'>json</button>
+
+      <div id="mapid">
+      </div>
+
     </div>
-
-    <script type="text/javascript" src="{% static 'datasets/js/portal_map_leaflet.js' %}"></script>
-
+    <script type="text/javascript" src="{% static 'dummy_data/us-states.js' %}"></script>
+    <script type="text/javascript" src="{% static 'datasets/js/portal_map_leaflet.js' %}"></script> 
   </body>
 </html>

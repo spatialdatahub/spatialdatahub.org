@@ -1,0 +1,100 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'leaflet-ajax-gh-pages' ]
+2 info using npm@2.15.1
+3 info using node@v4.4.4
+4 verbose install initial load of /Users/pcu_adm/patswork/WebGIS/package.json
+5 warn package.json project@0.0.1 No repository field.
+6 warn package.json project@0.0.1 No license field.
+7 verbose installManyTop reading scoped package data from /Users/pcu_adm/patswork/WebGIS/node_modules/chai/package.json
+8 verbose installManyTop reading scoped package data from /Users/pcu_adm/patswork/WebGIS/node_modules/leaflet/package.json
+9 verbose installManyTop reading scoped package data from /Users/pcu_adm/patswork/WebGIS/node_modules/mocha/package.json
+10 info package.json leaflet@0.7.7 No license field.
+11 verbose readDependencies loading dependencies from /Users/pcu_adm/patswork/WebGIS/package.json
+12 silly cache add args [ 'leaflet-ajax-gh-pages', null ]
+13 verbose cache add spec leaflet-ajax-gh-pages
+14 silly cache add parsed spec Result {
+14 silly cache add   raw: 'leaflet-ajax-gh-pages',
+14 silly cache add   scope: null,
+14 silly cache add   name: 'leaflet-ajax-gh-pages',
+14 silly cache add   rawSpec: '',
+14 silly cache add   spec: 'latest',
+14 silly cache add   type: 'tag' }
+15 silly addNamed leaflet-ajax-gh-pages@latest
+16 verbose addNamed "latest" is being treated as a dist-tag for leaflet-ajax-gh-pages
+17 info addNameTag [ 'leaflet-ajax-gh-pages', 'latest' ]
+18 silly mapToRegistry name leaflet-ajax-gh-pages
+19 silly mapToRegistry using default registry
+20 silly mapToRegistry registry https://registry.npmjs.org/
+21 silly mapToRegistry data Result {
+21 silly mapToRegistry   raw: 'leaflet-ajax-gh-pages',
+21 silly mapToRegistry   scope: null,
+21 silly mapToRegistry   name: 'leaflet-ajax-gh-pages',
+21 silly mapToRegistry   rawSpec: '',
+21 silly mapToRegistry   spec: 'latest',
+21 silly mapToRegistry   type: 'tag' }
+22 silly mapToRegistry uri https://registry.npmjs.org/leaflet-ajax-gh-pages
+23 verbose addNameTag registry:https://registry.npmjs.org/leaflet-ajax-gh-pages not in flight; fetching
+24 verbose request uri https://registry.npmjs.org/leaflet-ajax-gh-pages
+25 verbose request no auth needed
+26 info attempt registry request try #1 at 5:03:16 PM
+27 verbose request id df4e6c8f56f317fe
+28 http request GET https://registry.npmjs.org/leaflet-ajax-gh-pages
+29 http 404 https://registry.npmjs.org/leaflet-ajax-gh-pages
+30 verbose headers { 'content-type': 'application/json',
+30 verbose headers   'cache-control': 'max-age=0',
+30 verbose headers   'content-length': '2',
+30 verbose headers   'accept-ranges': 'bytes',
+30 verbose headers   date: 'Tue, 21 Jun 2016 15:03:16 GMT',
+30 verbose headers   via: '1.1 varnish',
+30 verbose headers   age: '0',
+30 verbose headers   connection: 'keep-alive',
+30 verbose headers   'x-served-by': 'cache-ams4136-AMS',
+30 verbose headers   'x-cache': 'MISS',
+30 verbose headers   'x-cache-hits': '0',
+30 verbose headers   'x-timer': 'S1466521396.569836,VS0,VE195',
+30 verbose headers   vary: 'Accept-Encoding' }
+31 silly get cb [ 404,
+31 silly get   { 'content-type': 'application/json',
+31 silly get     'cache-control': 'max-age=0',
+31 silly get     'content-length': '2',
+31 silly get     'accept-ranges': 'bytes',
+31 silly get     date: 'Tue, 21 Jun 2016 15:03:16 GMT',
+31 silly get     via: '1.1 varnish',
+31 silly get     age: '0',
+31 silly get     connection: 'keep-alive',
+31 silly get     'x-served-by': 'cache-ams4136-AMS',
+31 silly get     'x-cache': 'MISS',
+31 silly get     'x-cache-hits': '0',
+31 silly get     'x-timer': 'S1466521396.569836,VS0,VE195',
+31 silly get     vary: 'Accept-Encoding' } ]
+32 verbose stack Error: Registry returned 404 for GET on https://registry.npmjs.org/leaflet-ajax-gh-pages
+32 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+32 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:242:14)
+32 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+32 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:199:22)
+32 verbose stack     at emitTwo (events.js:87:13)
+32 verbose stack     at Request.emit (events.js:172:7)
+32 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1036:10)
+32 verbose stack     at emitOne (events.js:82:20)
+32 verbose stack     at Request.emit (events.js:169:7)
+32 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:963:12)
+33 verbose statusCode 404
+34 verbose pkgid leaflet-ajax-gh-pages
+35 verbose cwd /Users/pcu_adm/patswork/WebGIS
+36 error Darwin 15.4.0
+37 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "leaflet-ajax-gh-pages"
+38 error node v4.4.4
+39 error npm  v2.15.1
+40 error code E404
+41 error 404 Registry returned 404 for GET on https://registry.npmjs.org/leaflet-ajax-gh-pages
+41 error 404
+41 error 404 'leaflet-ajax-gh-pages' is not in the npm registry.
+41 error 404 You should bug the author to publish it (or use the name yourself!)
+41 error 404 It was specified as a dependency of 'project'
+41 error 404
+41 error 404 Note that you can also install from a
+41 error 404 tarball, folder, http url, or git url.
+42 verbose exit [ 1, true ]
