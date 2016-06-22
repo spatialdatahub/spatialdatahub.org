@@ -1,0 +1,49 @@
+var myMap = L.map('mapid').setView([0, 8.8460], 2);
+var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+
+// This is the default layer for the map. I don't really like the way it looks with the
+// ZMT colors. It clashes. So this will probably change. Other maps will be provided
+// for users to choose.
+
+L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  minZoom: 0,
+  maxZoom: 20,
+  maxNativeZoom: 18,  
+  attribution: osmAttrib
+}).addTo(myMap);
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////// 
+// These two functions are probably the main geoJson functions the webapp will rely on
+////////////////////////////////////////////////////////////////////////////////////// 
+
+// I still may have a bit of trouble with these functions and loading many layers
+
+function getJsonFromLocal(data) {
+  L.geoJson(data).addTo(myMap);
+}
+
+function getJsonFromUrl(data) {
+  var geoJsonLayer = new L.GeoJSON.AJAX(data);
+  geoJsonLayer.addTo(myMap);
+}
+
+////////////////////////////////////////////////////////////////////////////////////// 
+////////////////////////////////////////////////////////////////////////////////////// 
+
+
+var popup = L.popup();
+
+function onMapClick(e) {
+  popup
+    .setLatLng(e.latlng)
+    .setContent(e.latlng.toString())
+    .openOn(myMap);
+}
+
+myMap.on('click', onMapClick);

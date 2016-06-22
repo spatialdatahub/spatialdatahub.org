@@ -1,0 +1,15 @@
+{
+  "name": "project",
+  "version": "0.0.1",
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "chai": "^3.5.0",
+    "leaflet": "^0.7.7",
+    "leaflet-ajax": "^2.0.0",
+    "mocha": "^2.5.3"
+  }
+}
