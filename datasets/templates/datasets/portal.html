@@ -3,31 +3,29 @@
 
 {% block content %}
 <div class="container-fluid">
-  <div class="header">
-    <h1>Leibniz Zentrum für Marine Tropenökologie GIS Portal</h1>
+  <div class="row">
+    <div class="header">
+      <h1>Leibniz Zentrum für Marine Tropenökologie GIS Portal</h1>
+    </div>
   </div>
-
-<!--
-<button onClick="alert(map.getCenter());">Get Center</button>
-<button onClick="alert(map.getBounds());">Get Bounds</button>
-<button onClick="alert(map.getMapTypeId());">Get Map Type ID</button>
-<button onClick="alert(map.Data.Feature());">Get Data</button>
--->
-      <button onclick="addDummyMarker();">Marker</button>
-      <button onclick="addDummyCircle();">Circle</button>
-      <button onclick="addDummyPolygon();">Polygon</button>
-      <button onclick="addDummyData();">Data</button>
-      <button onclick='getJsonFromUrl("https://storage.googleapis.com/maps-devrel/google.json");'>json</button>
-
+  <div class="row">
+    <div class="col-sm-3 col-lg-3 sidebar" >  
+      <button class="btn btn-warning" onClick="waterColorMap();">Water Color Map!</button>
+      <button class="btn btn-danger" onClick="spinalMap();">Spinal Map!</button>
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-sm-3 col-lg-3 sidebar" >  
     <form action="" method="get">
       <input type="text" class="form-control text-center" name="q" placeholder="Search Datasets by Title">
       <a role="button" class="btn btn-default btn-block" href="{% url 'datasets:portal' %}">Show All</a>
-      <button class="btn btn-default btn-block" id="clear data" onClick="clearData();">
+      <button class="btn btn-default btn-block" id="clear data" onClick="clearAllLayers();">
         Clear Map
       </button>
+      <a role="button" class="btn btn-info btn-block" href="{% url 'datasets:dataset_create' %}">
+        * Add Your Map *
+      </a>
     </form>
       <ul class="nav nav-sidebar">
         {% if dataset_list %}

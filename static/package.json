@@ -10,6 +10,7 @@
     "chai": "^3.5.0",
     "leaflet": "^0.7.7",
     "leaflet-ajax": "^2.0.0",
+    "leaflet-providers": "^1.1.11",
     "mocha": "^2.5.3"
   }
 }

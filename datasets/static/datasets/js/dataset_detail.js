@@ -1,4 +1,2 @@
-// actually initialize the map on page load. 
-google.maps.event.addDomListener(window, "load",function() {
-  initMap();
-});
+// The only thing that should be here is a function that automatically adds
+// data to the map, on page load

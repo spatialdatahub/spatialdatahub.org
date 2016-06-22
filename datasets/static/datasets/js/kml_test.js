@@ -1,3 +1,6 @@
+// I have to make these work using Leaflet now.
+
+
 function showKmlData1() {
   new google.maps.KmlLayer({
     url: 'https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/westcampus.kml',

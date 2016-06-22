@@ -12,11 +12,19 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: osmAttrib
 }).addTo(myMap);
 
+////////////////////////////////////////////////////////////////////////////////////// 
+// Allow different background maps to be selected
+////////////////////////////////////////////////////////////////////////////////////// 
 
+function waterColorMap() {
+  L.tileLayer.provider('Stamen.Watercolor').addTo(myMap);
+}
 
+function spinalMap() {
+  L.tileLayer.provider('Thunderforest.SpinalMap').addTo(myMap);
+}
 
-
-
+////////////////////////////////////////////////////////////////////////////////////// 
 
 ////////////////////////////////////////////////////////////////////////////////////// 
 // These two functions are probably the main geoJson functions the webapp will rely on
@@ -47,3 +55,10 @@ function onMapClick(e) {
 }
 
 myMap.on('click', onMapClick);
+
+// This takes it too far and actually removes the map background as well.
+function clearAllLayers() {
+  myMap.eachLayer(function (layer) {
+    myMap.removeLayer(layer);
+  });
+}
