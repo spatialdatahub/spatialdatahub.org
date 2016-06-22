@@ -46,6 +46,30 @@ def portal(request):
     return render(request, 'datasets/portal.html', context)
 
 
+def portal_google(request):
+    """
+    display template with progressively more items.
+
+    I want to make url requests from python so that passwords and usernames
+    never have to be passed to the templates, but I can't make calls for dataset
+    access and add the results to the model items.
+    """
+    # error = False
+    dataset_list = Dataset.objects.all().order_by('title')
+
+    ### Do I need this queryset thing here? Can I just write something in
+    ### javascript that does it for me?
+    if 'q' in request.GET:
+        q = request.GET['q']
+        dataset_list = Dataset.objects.filter(title__icontains=q).order_by('title')
+    ###
+
+    serialized_dataset_list = dataset_model_serializer(dataset_list)
+
+    context = {'dataset_list': serialized_dataset_list}
+    return render(request, 'datasets/portal_google.html', context)
+
+
 def dataset_detail(request, slug, pk):
     """
     This page will have all data entered by the people linking datasets to this program. This page will

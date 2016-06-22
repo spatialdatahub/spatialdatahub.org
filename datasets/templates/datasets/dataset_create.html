@@ -18,30 +18,13 @@
   </div>
 
   <div class="col-12 col-sm-9 col-lg-9" role="main">
-    <div id="map">
+    <div id="mapid">
     </div>
   </div>
 
 <h3>I need to write some javascript that takes the info from the url, dataset
 user, and dataset password fields and automatically loads a map with it.</h3>
 
-
-  <script>
-    // initialize map, centered at lat: 0, lng: 0
-    function initMap() {
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 2,
-        center: {lat: 0, lng: 0},
-        mapTypeId: google.maps.MapTypeId.TERRAIN
-      });
-    }
-
-    // load data to map
-    function showJsonData(jsonDataset) {
-      var jsonDataset = document.getElementById("urlValue").value;
-      map.data.loadGeoJson(jsonDataset);
-    }
-  </script>
 
 </div>
 <script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}" ></script>

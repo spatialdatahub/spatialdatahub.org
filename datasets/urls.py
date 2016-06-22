@@ -10,6 +10,10 @@ urlpatterns = [
         views.portal,
         name='portal'),
 
+    url(r'^google_map$',
+        views.portal_google,
+        name='portal_google'),
+
 #####################################################
     url(r'^kml_test/$',
         views.kml_test,
@@ -27,6 +31,7 @@ urlpatterns = [
     url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/update/$',
         views.dataset_update,
         name='dataset_update'),
+
 
 
 #    url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/update/$',
