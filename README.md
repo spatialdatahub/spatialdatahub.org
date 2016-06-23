@@ -1,41 +1,30 @@
 WebGis
 ========
 
-WebGis will solve your problem of where to start with documentation,
-by providing a basic explanation of how to do it easily.
+WebGis or ZMT_GIS_PORTAL is (will be) a web application 
+that allows anyone with locally stored GIS files to project
+their GIS files onto a map background.
 
-Look how easy it is to use:
-
-    import project
-    # Get your stuff done
-    project.do_stuff()
 
 Features
 --------
 
-- Be awesome
-- Make things faster
 
 Installation
 ------------
 
-Install WebGis by running:
-
-    NOT READY YET
 
 Contribute
 ----------
 
-- Issue Tracker: github.com/$project/$project/issues
-- Source Code: github.com/$project/$project
 
 Support
 -------
 
 If you are having issues, please let us know.
-We have a mailing list located at: project@google-groups.com
+We have a mailing list located at: patrick.curry@leibniz-zmt.de
 
 License
 -------
 
-The project is licensed under the BSD license.
+The project is licensed under the ??? license.
