@@ -92,29 +92,8 @@ def dataset_detail(request, slug, pk):
     return render(request, 'datasets/dataset_detail.html', context)
 
 
-def leaflet_test(request):
-
-    return render(request, 'datasets/leaflet_test.html')
-
-def kml_test(request):
-    """
-    This page is here simply to test kml file loading.
-
-    It turns out that the google maps function 'google.maps.KmlLayer'
-    can deal with both kml and kmz files. This means that it is not neccesary
-    to do any extra work
-    unzipping the kmz files, or specifying that they are infact kmz files.
-
-    There simply needs to be a way to designate the files as kml/kmz.
-    """
-    return render(request, 'datasets/kml_test.html')
-
 
 #########################################################################
-# I will probably be changing these to function based views that use a
-# modelform. This should allow me to implement data more checking mechanisms.
-# or maybe I can just implement the extra checks with the form_valid() call.
-
 # It would be nice to create a function that does a dataset check, that way
 # I wouldn't have to repeat the code between the create and update views. Maybe
 # the code should be part of the DatasetForm

@@ -19,11 +19,18 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 function waterColorMap() {
   L.tileLayer.provider('Stamen.Watercolor').addTo(myMap);
 }
-
+function topoMap() {
+  L.tileLayer.provider('OpenTopoMap').addTo(myMap);
+}
 function spinalMap() {
   L.tileLayer.provider('Thunderforest.SpinalMap').addTo(myMap);
 }
-
+function aerialMap() {
+  L.tileLayer.provider('MapQuestOpen.Aerial').addTo(myMap);
+}
+function nasaNight() {
+  L.tileLayer.provider('NASAGIBS.ViirsEarthAtNight2012').addTo(myMap);
+}
 ////////////////////////////////////////////////////////////////////////////////////// 
 
 ////////////////////////////////////////////////////////////////////////////////////// 
