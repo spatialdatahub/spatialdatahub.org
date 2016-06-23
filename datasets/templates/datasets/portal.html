@@ -1,18 +1,14 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block head_title %}
+  GIS Portal
+{% endblock head_title %}
+
 {% block content %}
-  <div class="row">
-    <div class="col-sm-3 col-lg-3 sidebar" >  
-      <button class="btn btn-success" onClick="topoMap();">Topo Map!</button>
-      <button class="btn btn-success" onClick="aerialMap();">Aerial Map!</button>
-      <button class="btn btn-warning" onClick="waterColorMap();">Water Color Map!</button>
-      <button class="btn btn-danger" onClick="spinalMap();">Spinal Map!</button>
-      <button class="btn btn-danger" onClick="nasaNight();">Night Map!</button>
-    </div>
-  </div>
 
   <div class="row">
+<!-- Dataset Choices Sidebar -->
     <div class="col-sm-3 col-lg-3 sidebar" >  
     <form action="" method="get">
       <input type="text" class="form-control text-center" name="q" placeholder="Search Datasets by Title">
@@ -53,11 +49,14 @@
         {% endif %}
       </li>
     </div>
+<!-- End Dataset Choices Sidebar -->
 
-    <div class="col-12 col-sm-9 col-lg-9" role="main">
-      <div id='mapid'>
-      </div>
-    </div>
+<!-- Map and Background Choices -->
+<div class="col-12 col-sm-9 col-lg-9" role="main">
+{% include 'map.html' %}
+</div>
+<!-- End Map and Background Choices -->
+
   </div>
 
 <script type="text/javascript" src="{% static 'dummy_data/us-states.js' %}"></script>

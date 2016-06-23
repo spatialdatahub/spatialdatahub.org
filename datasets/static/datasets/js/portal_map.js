@@ -5,7 +5,7 @@ var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> 
 // ZMT colors. It clashes. So this will probably change. Other maps will be provided
 // for users to choose.
 
-L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+L.tileLayer.provider('OpenStreetMap.Mapnik', {
   minZoom: 0,
   maxZoom: 20,
   maxNativeZoom: 18,  
@@ -13,24 +13,22 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(myMap);
 
 ////////////////////////////////////////////////////////////////////////////////////// 
-// Allow different background maps to be selected
+// Allow different background maps to be selected by saving them as variables, and
+// creating a selector function.
 ////////////////////////////////////////////////////////////////////////////////////// 
 
-function waterColorMap() {
-  L.tileLayer.provider('Stamen.Watercolor').addTo(myMap);
+var openStreetMapMapnik = 'OpenStreetMap.Mapnik'
+var mapQuestOpenAerial = 'MapQuestOpenAerial'
+var openTopoMap = 'OpenTopoMap'
+var stamenWaterColor = 'Stamen.Watercolor'
+var thunderForestSpinalMap = 'Thunderforest.SpinalMap'
+var nasaNight = 'NASAGIBS.ViirsEarthAtNight2012'
+var thunderForestTransportDark = 'Thunderforest.TransportDark'
+
+function selectBackground(layer) {
+  L.tileLayer.provider(layer).addTo(myMap);
 }
-function topoMap() {
-  L.tileLayer.provider('OpenTopoMap').addTo(myMap);
-}
-function spinalMap() {
-  L.tileLayer.provider('Thunderforest.SpinalMap').addTo(myMap);
-}
-function aerialMap() {
-  L.tileLayer.provider('MapQuestOpen.Aerial').addTo(myMap);
-}
-function nasaNight() {
-  L.tileLayer.provider('NASAGIBS.ViirsEarthAtNight2012').addTo(myMap);
-}
+
 ////////////////////////////////////////////////////////////////////////////////////// 
 
 ////////////////////////////////////////////////////////////////////////////////////// 

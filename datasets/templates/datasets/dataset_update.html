@@ -4,27 +4,22 @@
 
 {% block content %}
 
-
-<!--
-  <div class="col-sm-3 col-lg-3 sidebar" >  
-    {% crispy form %}
-    <input id="submit_dataset" class="btn btn-default" type="submit" value="Submit">
-  </div>
--->
-
-  <div class="col-12 col-sm-3 col-lg-3 sidebar" >  
+<!-- The Form -->
+  <div class="col-12 col-sm-6 col-lg-6 sidebar" >  
     <form action="." method="post">
       {% csrf_token %}
       {{ form|crispy }}
       <input id="submit_dataset" class="btn btn-default" type="submit" value="Submit">
     </form>
   </div>
+<!-- End The Form -->
 
+<!-- Map and Background Choices -->
+<div class="col-12 col-sm-6 col-lg-6" role="main">
+{% include 'map.html' %}
+</div>
+<!-- End Map and Background Choices -->
 
-  <div class="col-12 col-sm-9 col-lg-9" role="main">
-    <div id="mapid">
-    </div>
-  </div>
 
 <script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}" ></script>
 {% endblock content %}

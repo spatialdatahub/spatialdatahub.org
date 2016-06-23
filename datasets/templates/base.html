@@ -3,7 +3,7 @@
   <head>
 
     <title>
-      ZMT 
+      ZMT | 
       {% block head_title %}
       {% endblock head_title %}
     </title>
@@ -23,22 +23,25 @@
     <link rel="stylesheet" type="text/css" href='{% static "node_modules/bootstrap/dist/css/bootstrap.min.css" %} '/>
     <link rel="stylesheet" type="text/css" href='{% static "datasets/css/style.css" %}' />
 
-<!-- LEAFLET MAP STUFF -->
+<!-- Leaflet and Plugin Scripts -->
     <link rel="stylesheet" href="{% static 'node_modules/leaflet/dist/leaflet.css' %}" />
     <script src="{% static 'node_modules/leaflet/dist/leaflet-src.js' %}"></script>
     <script src="{% static 'node_modules/leaflet-ajax/dist/leaflet.ajax.js' %}"></script>
     <script src="{% static 'node_modules/leaflet-providers/leaflet-providers.js' %}"></script>
-<!-- LEAFLET MAP STUFF -->
+<!-- End Leaflet and Plugin Scripts -->
 
   </head>
 
   <body>
     <div class="container-fluid">
-      <div class="text-center">
-        <div class="header">
+
+<!-- Header -->
+      <div class="header">
+        <div class="text-center">
           <h1>Leibniz Zentrum für Marine Tropenökologie GIS Portal</h1>
         </div>
       </div>
+<!-- End Header -->
  
       {% block content %}
       {% endblock content %}

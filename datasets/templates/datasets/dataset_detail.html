@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block head_title %}
+  {{ dataset.fields.title }}
+{% endblock head_title %}
+
 {% block content %}
+<br />
+  <h2 class="text-center">{{ dataset.fields.title }} meta data</h2>
 
-  <h2>{{ dataset.fields.title }} meta data</h2>
-
-  <div class="col-12 col-sm-6 col-lg-6" role="main">
+  <div class="col-12 col-sm-4 col-lg-4" role="main">
     <ul>
       <li>pk: {{ dataset.pk }}</li>
       <li>title: {{ dataset.fields.title }}</li>
@@ -20,13 +24,13 @@
     </ul>
   </div>
 
-  <div class="col-12 col-sm-6 col-lg-6" role="main">
-    <div id="mapid">
-    </div>
+<!-- Map and Background Choices -->
+  <div class="col-12 col-sm-8 col-lg-8" role="main">
+    {% include 'map.html' %}
   </div>
+<!-- End Map and Background Choices -->
 
 <script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}" ></script>
 <script type="text/javascript" src="{% static 'datasets/js/dataset_detail_map.js' %}" ></script>
-
 
 {% endblock content %}

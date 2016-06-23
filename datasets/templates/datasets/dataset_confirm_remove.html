@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block head_title %}
+  Remove Dataset 
+{% endblock head_title %}
 
 {% block content %}
+<br />
 <div class="text-center">
   <!--
     If user authenticated or whatever
   -->
     <form action="" method="post">{% csrf_token %}
       <H3>Are you sure you want to remove "{{ object }}"?</H3>
+      <br />
       <input id="confirm_delete" class="btn btn-danger btn-lg" type="submit"
              value="Yes, please remove {{ object }}" />
     </form>
@@ -16,5 +23,16 @@
   <!--
     Sorry, you are not authorized to delete this dataset.
   -->
+
+<br />
+
+<!-- Map and Background Choices -->
+<div class="col-12 col-sm-12 col-lg-12" role="main">
+{% include 'map.html' %}
 </div>
+<!-- End Map and Background Choices -->
+
+</div>
+
+<script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}" ></script>
 {% endblock content %}

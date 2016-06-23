@@ -189,7 +189,8 @@ def dataset_update(request, slug, pk):
     return render(request, 'datasets/dataset_update.html', {'form':form})
 
 
-class DatasetDelete(DeleteView):
+class DatasetRemove(DeleteView):
     model = Dataset
     success_url = reverse_lazy('datasets:portal')
+    template_name_suffix = '_confirm_remove'
 #########################################################################
