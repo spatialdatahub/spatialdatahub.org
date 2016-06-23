@@ -3,13 +3,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container-fluid">
-  <div class="header">
-    <h1>Leibniz Zentrum für Marine Tropenökologie GIS Portal</h1>
-    <h2>Add New Map Dataset</h2>
-  </div>
 
-  <div class="col-sm-3 col-lg-3 sidebar" >  
+  <div class="col-12 col-sm-3 col-lg-3 sidebar" >  
     <form action="." method="post">
       {% csrf_token %}
       {{ form|crispy }}
@@ -26,6 +21,5 @@
 user, and dataset password fields and automatically loads a map with it.</h3>
 
 
-</div>
 <script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}" ></script>
 {% endblock content %}

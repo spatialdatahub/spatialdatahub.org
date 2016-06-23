@@ -3,12 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container-fluid">
 
-  <div class="header">
-    <h1>Leibniz Zentrum für Marine Tropenökologie GIS Portal</h1>
-    <h2>Update Map Dataset</h2>
-  </div>
 
 <!--
   <div class="col-sm-3 col-lg-3 sidebar" >  
@@ -17,7 +12,7 @@
   </div>
 -->
 
-  <div class="col-sm-3 col-lg-3 sidebar" >  
+  <div class="col-12 col-sm-3 col-lg-3 sidebar" >  
     <form action="." method="post">
       {% csrf_token %}
       {{ form|crispy }}
@@ -31,6 +26,5 @@
     </div>
   </div>
 
-</div>
 <script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}" ></script>
 {% endblock content %}

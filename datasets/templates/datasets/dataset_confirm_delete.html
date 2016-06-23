@@ -1,4 +1,20 @@
-<form action="" method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
-    <input id="confirm_delete" type="submit" value="Confirm" />
-</form>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center">
+  <!--
+    If user authenticated or whatever
+  -->
+    <form action="" method="post">{% csrf_token %}
+      <H3>Are you sure you want to remove "{{ object }}"?</H3>
+      <input id="confirm_delete" class="btn btn-danger btn-lg" type="submit"
+             value="Yes, please remove {{ object }}" />
+    </form>
+  <!--
+    else
+  -->
+  <!--
+    Sorry, you are not authorized to delete this dataset.
+  -->
+</div>
+{% endblock content %}

@@ -33,9 +33,16 @@
   </head>
 
   <body>
+    <div class="container-fluid">
+      <div class="text-center">
+        <div class="header">
+          <h1>Leibniz Zentrum für Marine Tropenökologie GIS Portal</h1>
+        </div>
+      </div>
+ 
+      {% block content %}
+      {% endblock content %}
 
-    {% block content %}
-    {% endblock content %}
-
+    </div>
   </body>
 </html>    
