@@ -9,10 +9,6 @@ urlpatterns = [
         views.portal,
         name='portal'),
 
-    url(r'^google_map$',
-        views.portal_google,
-        name='portal_google'),
-
     url(r'^new_dataset/$',
         views.dataset_create,
         name='dataset_create'),
@@ -22,8 +18,12 @@ urlpatterns = [
         name='dataset_update'),
 
     url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/remove/$',
-        views.DatasetRemove.as_view(),
+       views.DatasetRemove.as_view(),
         name='dataset_remove'),
+
+#    url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/remove/$',
+#        views.dataset_remove,
+#        name='dataset_remove'),
 
     url(r'^(?P<slug>[-\w]*)-(?P<pk>\d+)/$',
         views.dataset_detail,

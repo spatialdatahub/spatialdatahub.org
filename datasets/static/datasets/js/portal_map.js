@@ -37,6 +37,38 @@ var baseLayers = {
 
 L.control.layers(baseLayers).addTo(myMap);
 
+
+/*
+function selectBackground(layer) {
+  L.tileLayer.provider(layer).addTo(myMap);
+}
+
+function topoMap() {
+  L.tileLayer.provider('OpenTopoMap').addTo(myMap);
+}
+
+function aerialMap() {
+  L.tileLayer.provider('MapQuestOpen.Aerial').addTo(myMap);
+}
+
+function waterColorMap() {
+  L.tileLayer.provider('Stamen.Watercolor').addTo(myMap);
+}
+
+function spinalMap() {
+  L.tileLayer.provider('Thunderforest.SpinalMap').addTo(myMap);
+}
+
+function darkMap() {
+  L.tileLayer.provider('Thunderforest.TransportDark').addTo(myMap);
+}
+
+function nasaNight() {
+  L.tileLayer.provider('NASAGIBS.ViirsEarthAtNight2012').addTo(myMap);
+}
+*/
+
+
 ////////////////////////////////////////////////////////////////////////////////////// 
 
 ////////////////////////////////////////////////////////////////////////////////////// 

@@ -6,11 +6,11 @@
 {% endblock head_title %}
 
 {% block content %}
-<br />
   <h2 class="text-center">{{ dataset.fields.title }} meta data</h2>
-
   <div class="col-12 col-sm-4 col-lg-4" role="main">
     <ul>
+      <li><a href="{% url 'datasets:dataset_update' dataset.fields.slug dataset.pk %}">Update this dataset</a></li> 
+      <li><a href="{% url 'datasets:portal' %}">Back to map list</a></li> 
       <li>pk: {{ dataset.pk }}</li>
       <li>title: {{ dataset.fields.title }}</li>
       <li>author: {{ dataset.fields.author }}</li>
@@ -20,7 +20,6 @@
       <li>extension: {{ dataset.fields.extension }}</li>
       <li>password: {{ dataset.fields.dataset_password }}</li>
       <li>username: {{ dataset.fields.dataset_username }}</li>
-      <li><a href="/">back</a></li>
     </ul>
   </div>
 
@@ -32,6 +31,18 @@
 <!-- End Map and Background Choices -->
 
 <script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}" ></script>
-<script type="text/javascript" src="{% static 'datasets/js/dataset_detail_map.js' %}" ></script>
+
+<!-- Autoload Dataset to Map -->
+<!-- I should write this as a jQuery function. That way it can be put on all the dataset specific pages -->
+{% if dataset.fields.json %}
+  <script type="text/javascript">
+    getJsonFromLocal('{{ dataset.fields.json }}');
+  </script>
+{% else %}
+  <script type="text/javascript">
+    getJsonFromUrl('{{ dataset.fields.url }}');
+  </script>
+{% endif %}
+<!-- End Autoload Dataset to Map -->
 
 {% endblock content %}

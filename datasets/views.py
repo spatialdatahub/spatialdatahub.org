@@ -46,30 +46,6 @@ def portal(request):
     return render(request, 'datasets/portal.html', context)
 
 
-def portal_google(request):
-    """
-    display template with progressively more items.
-
-    I want to make url requests from python so that passwords and usernames
-    never have to be passed to the templates, but I can't make calls for dataset
-    access and add the results to the model items.
-    """
-    # error = False
-    dataset_list = Dataset.objects.all().order_by('title')
-
-    ### Do I need this queryset thing here? Can I just write something in
-    ### javascript that does it for me?
-    if 'q' in request.GET:
-        q = request.GET['q']
-        dataset_list = Dataset.objects.filter(title__icontains=q).order_by('title')
-    ###
-
-    serialized_dataset_list = dataset_model_serializer(dataset_list)
-
-    context = {'dataset_list': serialized_dataset_list}
-    return render(request, 'datasets/portal_google.html', context)
-
-
 def dataset_detail(request, slug, pk):
     """
     This page will have all data entered by the people linking datasets to this program. This page will
@@ -188,9 +164,46 @@ def dataset_update(request, slug, pk):
         form = DatasetForm()
     return render(request, 'datasets/dataset_update.html', {'form':form})
 
+def dataset_remove(request, slug, pk):
+    """
+    I don't really like the class based delete view. I want to see all the
+    different moving parts, that way it will be easier to see how to call
+    them in the template.
+    """
+    # Get specific dataset instance
+    dataset = Dataset.objects.get(slug=slug, pk=pk)
+
+    if request.method == "POST":
+        form = DatasetForm(request.POST, instance=dataset)
+        if form.is_valid():
+            dataset=form.save(commit=False)
+
+    # Check to see that this really is a POST request
+    if request.method == "POST":
+        dataset.delete()
+        return redirect('datasets:portal')
+    else:
+        return 'error'
+
+    return render(request,
+                  'datasets/dataset_confirm_remove.html',
+                  {'dataset':dataset})
+
 
 class DatasetRemove(DeleteView):
+    """
+    I need to have a bit more control over this view, it allows the secret
+    password and the secret user name to be passed through to it.
+    """
+
     model = Dataset
     success_url = reverse_lazy('datasets:portal')
     template_name_suffix = '_confirm_remove'
+
+#    def get_context_data(self, **kwargs):
+
+#        context = super(DatasetRemove, self).get_context_data(**kwargs)
+#        return context
+
+
 #########################################################################

@@ -17,6 +17,17 @@
       <input id="confirm_delete" class="btn btn-danger btn-lg" type="submit"
              value="Yes, please remove {{ object }}" />
     </form>
+
+
+{{ object.title }}
+{{ object.slug }}
+{{ object.description }}
+{{ object.dataset_password }}
+{{ object.dataset_user }}
+
+
+
+
   <!--
     else
   -->
@@ -36,4 +47,18 @@
 </div>
 
 <script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}" ></script>
+
+<!-- Autoload Dataset to Map -->
+<!-- I should write this as a jQuery function. That way it can be put on all the dataset specific pages -->
+{% if dataset.fields.json %}
+  <script type="text/javascript">
+    getJsonFromLocal('{{ dataset.fields.json }}');
+  </script>
+{% else %}
+  <script type="text/javascript">
+    getJsonFromUrl('{{ dataset.fields.url }}');
+  </script>
+{% endif %}
+<!-- End Autoload Dataset to Map -->
+
 {% endblock content %}
