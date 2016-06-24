@@ -17,17 +17,25 @@ L.tileLayer.provider('OpenStreetMap.Mapnik', {
 // creating a selector function.
 ////////////////////////////////////////////////////////////////////////////////////// 
 
-var openStreetMapMapnik = 'OpenStreetMap.Mapnik'
-var mapQuestOpenAerial = 'MapQuestOpenAerial'
-var openTopoMap = 'OpenTopoMap'
-var stamenWaterColor = 'Stamen.Watercolor'
-var thunderForestSpinalMap = 'Thunderforest.SpinalMap'
-var nasaNight = 'NASAGIBS.ViirsEarthAtNight2012'
-var thunderForestTransportDark = 'Thunderforest.TransportDark'
+var openStreetMapMapnik = L.tileLayer.provider('OpenStreetMap.Mapnik'),
+    mapQuestOpenAerial = L.tileLayer.provider('MapQuestOpen.Aerial'),
+    openTopoMap = L.tileLayer.provider('OpenTopoMap'),
+    stamenWaterColor = L.tileLayer.provider('Stamen.Watercolor'),
+    thunderForestSpinalMap = L.tileLayer.provider('Thunderforest.SpinalMap'),
+    thunderForestTransportDark = L.tileLayer.provider('Thunderforest.TransportDark'),
+    nasaNight = L.tileLayer.provider('NASAGIBS.ViirsEarthAtNight2012');
 
-function selectBackground(layer) {
-  L.tileLayer.provider(layer).addTo(myMap);
-}
+var baseLayers = {
+  "Basic Street Map": openStreetMapMapnik,
+  "Aerial": mapQuestOpenAerial,
+  "Topo": openTopoMap,
+  "Water Color": stamenWaterColor,
+  "Spinal Map": thunderForestSpinalMap,
+  "Dark Map": thunderForestTransportDark,
+  "NASA Night": nasaNight
+};
+
+L.control.layers(baseLayers).addTo(myMap);
 
 ////////////////////////////////////////////////////////////////////////////////////// 
 
