@@ -12,18 +12,15 @@
     If user authenticated or whatever
   -->
     <form action="" method="post">{% csrf_token %}
-      <H3>Are you sure you want to remove "{{ object }}"?</H3>
+      <H3>Are you sure you want to remove "{{ dataset.fields.title }}"?</H3>
       <br />
       <input id="confirm_delete" class="btn btn-danger btn-lg" type="submit"
-             value="Yes, please remove {{ object }}" />
+             value="Yes, please remove {{ dataset.fields.title }}" />
     </form>
 
-
-{{ object.title }}
-{{ object.slug }}
-{{ object.description }}
-{{ object.dataset_password }}
-{{ object.dataset_user }}
+{{ dataset.fields.dataset_password }}
+<br />
+{{ dataset.fields.dataset_user }}
 
 
 

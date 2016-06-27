@@ -52,5 +52,3 @@ def dataset_model_serializer(dataset_list):
 
     return serialized_dataset_list
 
-
-

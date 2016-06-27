@@ -7,6 +7,10 @@
 
 {% block content %}
 
+<!-- navbar -->
+  {% include 'navbar.html' %}
+<!-- end navbar -->
+<div class="container-fluid">
   <div class="row">
 <!-- Dataset Choices Sidebar -->
     <div class="col-sm-3 col-lg-3 sidebar" >  
@@ -59,6 +63,7 @@
 <!-- End Map and Background Choices -->
 
   </div>
+</div>
 
 <script type="text/javascript" src="{% static 'dummy_data/us-states.js' %}"></script>
 <script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}"></script> 

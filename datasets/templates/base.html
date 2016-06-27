@@ -7,7 +7,7 @@
       {% block head_title %}
       {% endblock head_title %}
     </title>
-
+    <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
     <style>
@@ -20,8 +20,9 @@
     {% endblock additional_css %}
 
     </style>
-    <link rel="stylesheet" type="text/css" href='{% static "node_modules/bootstrap/dist/css/bootstrap.min.css" %} '/>
+    <link rel="stylesheet" type="text/css" href='{% static "node_modules/bootstrap/dist/css/bootstrap.min.css" %}' />
     <link rel="stylesheet" type="text/css" href='{% static "datasets/css/style.css" %}' />
+    <link rel="stylesheet" type="text/css" href='{% static "datasets/css/navbar.css" %}' />
 
 <!-- Leaflet and Plugin Scripts -->
     <link rel="stylesheet" href="{% static 'node_modules/leaflet/dist/leaflet.css' %}" />
@@ -33,19 +34,20 @@
   </head>
 
   <body>
-    <div class="container-fluid">
 
-<!-- Header -->
+<!-- Header 
       <div class="header">
         <div class="text-center">
           <h1>Leibniz Zentrum für Marine Tropenökologie GIS Portal</h1>
         </div>
       </div>
-<!-- End Header -->
+ End Header -->
  
       {% block content %}
+
+
       {% endblock content %}
 
-    </div>
+  <script src='{% static "node_modules/bootstrap/dist/js/bootstrap.min.js" %}'></script>
   </body>
 </html>    

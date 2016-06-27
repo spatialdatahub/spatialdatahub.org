@@ -164,6 +164,7 @@ def dataset_update(request, slug, pk):
         form = DatasetForm()
     return render(request, 'datasets/dataset_update.html', {'form':form})
 
+
 def dataset_remove(request, slug, pk):
     """
     I don't really like the class based delete view. I want to see all the
@@ -171,23 +172,21 @@ def dataset_remove(request, slug, pk):
     them in the template.
     """
     # Get specific dataset instance
-    dataset = Dataset.objects.get(slug=slug, pk=pk)
+    dataset = Dataset.objects.filter(slug=slug, pk=pk)
 
-    if request.method == "POST":
-        form = DatasetForm(request.POST, instance=dataset)
-        if form.is_valid():
-            dataset=form.save(commit=False)
+    # serialize it, and remove any passwords or usernames
+    serialized_dataset = dataset_model_serializer(dataset)
+    serialized_dataset = serialized_dataset[0]
 
-    # Check to see that this really is a POST request
     if request.method == "POST":
         dataset.delete()
         return redirect('datasets:portal')
-    else:
-        return 'error'
+
+    context = {'dataset': serialized_dataset}
 
     return render(request,
                   'datasets/dataset_confirm_remove.html',
-                  {'dataset':dataset})
+                  context)
 
 
 class DatasetRemove(DeleteView):
@@ -200,10 +199,18 @@ class DatasetRemove(DeleteView):
     success_url = reverse_lazy('datasets:portal')
     template_name_suffix = '_confirm_remove'
 
-#    def get_context_data(self, **kwargs):
+    '''
+    dataset = Dataset.objects.filter(pk=pk, slug=slug)
 
-#        context = super(DatasetRemove, self).get_context_data(**kwargs)
-#        return context
+    # Things get a little hacky here, but to deal with serializers there needs
+    # to be a queryset, so filter, which returns a queryset is used instead of
+    # get, and then we have to select the first item in the serialized list to
+    # pass it to the template without having to write a for loop in the
+    # template.
 
+    serialized_dataset = dataset_model_serializer(dataset)
+    serialized_dataset = serialized_dataset[0]
+    context = {'dataset': serialized_dataset}
+    '''
 
 #########################################################################

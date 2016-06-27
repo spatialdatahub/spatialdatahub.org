@@ -5,7 +5,7 @@ var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> 
 // ZMT colors. It clashes. So this will probably change. Other maps will be provided
 // for users to choose.
 
-L.tileLayer.provider('OpenStreetMap.Mapnik', {
+L.tileLayer.provider('MapQuestOpen.Aerial', {
   minZoom: 0,
   maxZoom: 20,
   maxNativeZoom: 18,  
@@ -26,7 +26,7 @@ var openStreetMapMapnik = L.tileLayer.provider('OpenStreetMap.Mapnik'),
     nasaNight = L.tileLayer.provider('NASAGIBS.ViirsEarthAtNight2012');
 
 var baseLayers = {
-  "Basic Street Map": openStreetMapMapnik,
+  "Street Map": openStreetMapMapnik,
   "Aerial": mapQuestOpenAerial,
   "Topo": openTopoMap,
   "Water Color": stamenWaterColor,
