@@ -1,14 +1,29 @@
 {% load staticfiles %}
-<html>
+<html lang="en">
   <head>
-
-    <title>
-      ZMT | 
-      {% block head_title %}
-      {% endblock head_title %}
-    </title>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+ 
+    <title>
+      ZMT | {% block head_title %} {% endblock head_title %}
+    </title>
+
+    <link rel="stylesheet" type="text/css" href='{% static "node_modules/bootstrap/dist/css/bootstrap.min.css" %}' />
+    <link rel="stylesheet" href='{% static "font-awesome-4.6.3/css/font-awesome.min.css" %}' />
+    <link rel="stylesheet" type="text/css" href='{% static "datasets/css/style.css" %}' />
+    <link rel="stylesheet" type="text/css" href='{% static "datasets/css/navbar.css" %}' />
+
+    <link rel="stylesheet" href="{% static 'node_modules/leaflet/dist/leaflet.css' %}" />
+
+<!-- Leaflet and Plugin Scripts -->
+    <script src="{% static 'node_modules/leaflet/dist/leaflet-src.js' %}"></script>
+    <script src="{% static 'node_modules/leaflet-ajax/dist/leaflet.ajax.js' %}"></script>
+    <script src="{% static 'node_modules/leaflet-providers/leaflet-providers.js' %}"></script>
+<!-- End Leaflet and Plugin Scripts -->
 
     <style>
       #mapid {
@@ -18,36 +33,43 @@
 
     {% block additional_css %}
     {% endblock additional_css %}
-
     </style>
-    <link rel="stylesheet" type="text/css" href='{% static "node_modules/bootstrap/dist/css/bootstrap.min.css" %}' />
-    <link rel="stylesheet" type="text/css" href='{% static "datasets/css/style.css" %}' />
-    <link rel="stylesheet" type="text/css" href='{% static "datasets/css/navbar.css" %}' />
-
-<!-- Leaflet and Plugin Scripts -->
-    <link rel="stylesheet" href="{% static 'node_modules/leaflet/dist/leaflet.css' %}" />
-    <script src="{% static 'node_modules/leaflet/dist/leaflet-src.js' %}"></script>
-    <script src="{% static 'node_modules/leaflet-ajax/dist/leaflet.ajax.js' %}"></script>
-    <script src="{% static 'node_modules/leaflet-providers/leaflet-providers.js' %}"></script>
-<!-- End Leaflet and Plugin Scripts -->
 
   </head>
 
   <body>
+    <!-- navbar -->
+    <nav class="navbar navbar-static-top navbar-dark bg-inverse">
+      <a class="navbar-brand" href="http://www.zmt-bremen.de/en/zmt.html">
+        <img src="{% static 'images/zmt_logo_bw.png' %}" height=40 alt='ZMT Logo' />
+      </a>
+      <ul class="nav navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'datasets:portal' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'datasets:about' %}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'datasets:contact' %}">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-success font-weight-bold" href="{% url 'datasets:dataset_create' %}">New Map</a>
+        </li>
+      </ul>
+    </nav>
+    <!-- end navbar -->
 
-<!-- Header 
-      <div class="header">
-        <div class="text-center">
-          <h1>Leibniz Zentrum für Marine Tropenökologie GIS Portal</h1>
-        </div>
-      </div>
- End Header -->
- 
       {% block content %}
-
 
       {% endblock content %}
 
-  <script src='{% static "node_modules/bootstrap/dist/js/bootstrap.min.js" %}'></script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+  <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
   </body>
 </html>    

@@ -214,3 +214,9 @@ class DatasetRemove(DeleteView):
     '''
 
 #########################################################################
+
+def about(request):
+    return render(request, 'datasets/about.html')
+
+def contact(request):
+    return render(request, 'datasets/contact.html')

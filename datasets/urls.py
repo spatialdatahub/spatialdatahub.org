@@ -9,6 +9,14 @@ urlpatterns = [
         views.portal,
         name='portal'),
 
+    url(r'^about/$',
+        views.about,
+        name='about'),
+
+    url(r'^contact/$',
+        views.contact,
+        name='contact'),
+
     url(r'^new_dataset/$',
         views.dataset_create,
         name='dataset_create'),
