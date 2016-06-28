@@ -187,32 +187,6 @@ def dataset_remove(request, slug, pk):
     return render(request,
                   'datasets/dataset_confirm_remove.html',
                   context)
-
-
-class DatasetRemove(DeleteView):
-    """
-    I need to have a bit more control over this view, it allows the secret
-    password and the secret user name to be passed through to it.
-    """
-
-    model = Dataset
-    success_url = reverse_lazy('datasets:portal')
-    template_name_suffix = '_confirm_remove'
-
-    '''
-    dataset = Dataset.objects.filter(pk=pk, slug=slug)
-
-    # Things get a little hacky here, but to deal with serializers there needs
-    # to be a queryset, so filter, which returns a queryset is used instead of
-    # get, and then we have to select the first item in the serialized list to
-    # pass it to the template without having to write a for loop in the
-    # template.
-
-    serialized_dataset = dataset_model_serializer(dataset)
-    serialized_dataset = serialized_dataset[0]
-    context = {'dataset': serialized_dataset}
-    '''
-
 #########################################################################
 
 def about(request):

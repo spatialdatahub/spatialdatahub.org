@@ -17,8 +17,10 @@ class NewVisitorTest(BaseLiveTest):
         self.browser.get(self.live_server_url)
 
         self.assertIn('ZMT', self.browser.title)
-        header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('Leibniz Zentrum für Marine Tropenökologie', header_text)
+
+#        We don't really have a header anymore.
+#        header_text = self.browser.find_element_by_tag_name('h1').text
+#        self.assertIn('Leibniz Zentrum für Marine Tropenökologie', header_text)
 
     """
     def test_only_authenticated_users_can_see_secret_datasets(self):
@@ -138,7 +140,7 @@ class DatasetFormPageTests(BaseLiveTest):
         # Get dummy_dataset slug and pk
         slugpk = ('/%s-%s/' % (self.dummy_dataset.slug, self.dummy_dataset.pk))
         # Get URL for delete page
-        self.browser.get('%s%s%s' % (self.live_server_url, slugpk, 'delete'))
+        self.browser.get('%s%s%s' % (self.live_server_url, slugpk, 'remove'))
 
         # Get delete button and click it
         delete_button = self.browser.find_element_by_id('confirm_delete')
