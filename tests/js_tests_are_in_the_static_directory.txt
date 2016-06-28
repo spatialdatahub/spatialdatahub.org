@@ -1,0 +1,1 @@
+The Javascript Tests are in the base directory's 'static' folder
