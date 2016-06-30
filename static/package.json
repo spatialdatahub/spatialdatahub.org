@@ -2,8 +2,9 @@
   "name": "project",
   "version": "1.0.0",
   "devDependencies": {
+    "chai": "*",
     "mocha": "*",
-    "chai": "*"
+    "wdio-mocha-framework": "^0.3.4"
   },
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.2",
