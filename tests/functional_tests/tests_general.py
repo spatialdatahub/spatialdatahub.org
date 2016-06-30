@@ -3,14 +3,6 @@ from selenium.webdriver.common.keys import Keys
 
 from .base import BaseLiveTest
 
-"""
-For some reason the tests are running from the bottom of the page to the top of the
-page. This includes the functions within the classes (DatasetFormPageTests runs first,
-but within this class the 'test can update dataset' function runs before the 'test can
-save dataset function'.
-"""
-
-
 class NewVisitorTest(BaseLiveTest):
 
     def test_can_find_correct_web_page(self):
@@ -35,6 +27,8 @@ class NewVisitorTest(BaseLiveTest):
     def test_can_query_datasets(self):
         pass
     """
+
+
 
 class DatasetFormPageTests(BaseLiveTest):
     """

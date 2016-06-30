@@ -23,7 +23,7 @@
 
 <!-- List of maps -->
       <div>
-        <ul class="nav nav-sidebar">
+        <ul id="sidebar_map_list" class="nav nav-sidebar">
           <li><b>Map Name <div class="pull-right">Meta Data</div></b></li>
         {% if dataset_list %}
           {% for dataset in dataset_list %}
@@ -56,7 +56,7 @@
 
 
 <!-- Map and Background Choices -->
-    <div class="col-12 col-xs-12 col-sm-6 col-md-8 col-lg-9" role="main">
+    <div class="col-12 col-xs-12 col-sm-6 col-md-8 col-lg-9" role="main" id="main_map">
       <div id="mapid">
       </div>
     </div>

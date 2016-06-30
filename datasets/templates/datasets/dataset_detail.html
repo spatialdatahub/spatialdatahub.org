@@ -10,7 +10,7 @@
 
 
   <h2 class="text-center">{{ dataset.fields.title }} meta data</h2>
-  <div class="col-12 col-sm-4 col-lg-4" role="main">
+  <div class="col-12 col-xs-12 col-sm-6 col-md-4" role="main" id="meta_data">
     <ul>
       <li><a href="{% url 'datasets:dataset_update' dataset.fields.slug dataset.pk %}">Update this dataset</a></li> 
       <li><a href="{% url 'datasets:portal' %}">Back to map list</a></li> 
@@ -27,7 +27,7 @@
   </div>
 
 <!-- Map and Background Choices -->
-  <div class="col-12 col-sm-8 col-lg-8" role="main">
+  <div class="col-12 col-xs-12 col-sm-6 col-md-8" role="main" id="main_map">
     <div id="mapid">
     </div>
   </div>
