@@ -8,14 +8,14 @@
 {% block content %}
 
 
-<div class="text-center">
+<div class="col-12 col-xs-12 text-xs-center" id="confirm_remove_form">
   <!--
     If user authenticated or whatever
   -->
     <form action="" method="post">{% csrf_token %}
       <H3>Are you sure you want to remove "{{ dataset.fields.title }}"?</H3>
       <br />
-      <input id="confirm_delete" class="btn btn-danger btn-lg" type="submit"
+      <input id="confirm_remove_button" class="btn btn-danger btn-lg" type="submit"
              value="Yes, please remove {{ dataset.fields.title }}" />
     </form>
 
@@ -36,7 +36,7 @@
 <br />
 
 <!-- Map and Background Choices -->
-<div class="col-12 col-sm-12 col-lg-12" role="main">
+<div class="col-12 col-xs-12 text-xs-center" role="main" id="main_map">
   <div id="mapid">
   </div>
 </div>

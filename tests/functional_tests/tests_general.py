@@ -129,16 +129,16 @@ class DatasetFormPageTests(BaseLiveTest):
 
 
     # 3
-    def test_can_delete_dataset(self):
+    def test_can_remove_dataset(self):
 
         # Get dummy_dataset slug and pk
         slugpk = ('/%s-%s/' % (self.dummy_dataset.slug, self.dummy_dataset.pk))
-        # Get URL for delete page
+        # Get URL for remove page
         self.browser.get('%s%s%s' % (self.live_server_url, slugpk, 'remove'))
 
-        # Get delete button and click it
-        delete_button = self.browser.find_element_by_id('confirm_delete')
-        delete_button.click()
+        # Get remove button and click it
+        remove_button = self.browser.find_element_by_id('confirm_remove_button')
+        remove_button.click()
 
         # Check the main page for the dummy dataset, it should be gone
         self.browser.get(self.live_server_url)
