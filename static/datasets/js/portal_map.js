@@ -38,18 +38,22 @@ var baseLayers = {
 L.control.layers(baseLayers).addTo(myMap);
 
 ////////////////////////////////////////////////////////////////////////////////////// 
-// These two functions are probably the main geoJson functions the webapp will rely on
-////////////////////////////////////////////////////////////////////////////////////// 
 
 // I still may have a bit of trouble with these functions and loading many layers
 
+// password protected
 function getJsonFromLocal(data) {
-  L.geoJson(data).addTo(myMap);
+    L.geoJson(data).addTo(myMap);
 }
 
+// not password protected
 function getJsonFromUrl(data) {
-  var geoJsonLayer = new L.GeoJSON.AJAX(data);
-  geoJsonLayer.addTo(myMap);
+    omnivore.geojson(data).addTo(myMap);
+}
+
+// not password protected
+function getKMLFromUrl(data) {
+    omnivore.kml(data).addTo(myMap);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////// 
@@ -74,5 +78,3 @@ function clearAllLayers() {
   });
 }
 
-
-omnivore.geojson('static/dummy_data/us-states.json').addTo(myMap);

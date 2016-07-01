@@ -28,7 +28,7 @@
         </a>
       </form>
 
-<!-- List of maps -->
+<!-- List of maps with if statements parsing through them-->
       <div>
         <ul id="sidebar_map_list" class="nav nav-sidebar">
           <li><b>Map Name <div class="pull-right">Meta Data</div></b></li>
@@ -44,15 +44,28 @@
                 </a>
               </li>
             {% else %}
-              <li>
-                <a href="#" onClick="getJsonFromUrl('{{ dataset.fields.url }}');">
-                  {{ dataset.fields.title }}
-                </a>
-                <a href="{% url 'datasets:dataset_detail' dataset.fields.slug dataset.pk %}" >
-                  <i class="fa fa-newspaper-o fa-pull-right fa-border" aria-hidden="true"></i>
-                </a>
-              </li>
-            {% endif %} 
+
+              {% if dataset.fields.extension = 'kml' %}
+                <li>
+                  <a href="#" onClick="getKMLFromUrl('{{ dataset.fields.url }}');">
+                    {{ dataset.fields.title }}
+                  </a>
+                  <a href="{% url 'datasets:dataset_detail' dataset.fields.slug dataset.pk %}" >
+                    <i class="fa fa-newspaper-o fa-pull-right fa-border" aria-hidden="true"></i>
+                  </a>
+                </li>
+              {% else %}
+                <li>
+                  <a href="#" onClick="getJsonFromUrl('{{ dataset.fields.url }}');">
+                    {{ dataset.fields.title }}
+                  </a>
+                  <a href="{% url 'datasets:dataset_detail' dataset.fields.slug dataset.pk %}" >
+                    <i class="fa fa-newspaper-o fa-pull-right fa-border" aria-hidden="true"></i>
+                  </a>
+                </li>
+              {% endif %} 
+
+            {% endif %}
           {% endfor %}
         {% else %}
           <h4>There are no datasets available</h4>
@@ -73,12 +86,5 @@
 </div>
 
 <script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}"></script> 
-
-<!-- mapbox omnivore test -->
-<script>
-// omnivore.csv('/mapbox.js/assets/data/airports.csv').addTo(map); 
-omnivore.geojson({% static 'dummy_data/us-states.json' %}).addTo(map);
-</script>
-<!-- mapbox omnivore test -->
 
 {% endblock content %}
