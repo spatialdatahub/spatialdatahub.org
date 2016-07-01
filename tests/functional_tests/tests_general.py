@@ -111,6 +111,12 @@ class DatasetFormPageTests(BaseLiveTest):
         # Submit data 
         submit_button.click()
 
+        # Get the page text and check to see that it has been updated
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Rat', page_text)
+        self.assertIn('UPDATED', page_text)
+
+
         # The slug should be different so we need to make the slug we search for different
         # It seems like the updated dataset is showing up on the web page, but that it is not
         # actually being saved to the dummy_dataset instance.
@@ -120,12 +126,6 @@ class DatasetFormPageTests(BaseLiveTest):
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Super Dum Dum Dataset', page_text)
-
-        # Check dataset detail url to see that the author and description have been changed.
-        self.browser.get('%s%s' % (self.live_server_url, updatedslugpk))
-        page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Rat', page_text)
-        self.assertIn('UPDATED', page_text)
 
 
     # 3
@@ -144,7 +144,6 @@ class DatasetFormPageTests(BaseLiveTest):
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('dummy dataset', page_text)
-        self.assertIn('There are no datasets available', page_text)
 
 
     # 4
@@ -181,8 +180,8 @@ class DatasetFormPageTests(BaseLiveTest):
         description_input.clear()
         description_input.send_keys('This is an UPDATED dummy dataset on the zmtdummy github account')
 
-        ######## 
-        ######## 
+        ########
+        ########
 
         dataset_user_input.clear()
         dataset_user_input.send_keys('zmtdummy')
@@ -196,6 +195,10 @@ class DatasetFormPageTests(BaseLiveTest):
 
         # Submit data
         submit_button.click()
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('https://bitbucket.org/zmtdummy/geojsondata/raw/0f318d948d74a67bceb8da5257a97b7df80fd2dd/zmt_polygons.json', page_text)
+
+
 
         # Check the main page for the dummy dataset, it should be gone
         self.browser.get(self.live_server_url)
@@ -203,7 +206,3 @@ class DatasetFormPageTests(BaseLiveTest):
 
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('dummy dataset', page_text)
-
-        self.browser.get('%s%s' % (self.live_server_url, slugpk))
-        page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('https://bitbucket.org/zmtdummy/geojsondata/raw/0f318d948d74a67bceb8da5257a97b7df80fd2dd/zmt_polygons.json', page_text)

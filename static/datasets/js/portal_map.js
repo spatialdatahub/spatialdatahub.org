@@ -73,3 +73,6 @@ function clearAllLayers() {
     myMap.removeLayer(layer);
   });
 }
+
+
+omnivore.geojson('static/dummy_data/us-states.json').addTo(myMap);

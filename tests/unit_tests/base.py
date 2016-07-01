@@ -35,4 +35,7 @@ class BaseDatasetTest(TestCase):
                                     dataset_user="zmtdummy",
                                     dataset_password="zmtBremen1991")
 
-
+        self.ds5 = Dataset.objects.create(author="KML_Test",
+                                    title="KML Test Dataset",
+                                    description="This is a KML test dataset",
+                                    url="https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/westcampus.kml")

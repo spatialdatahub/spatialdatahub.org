@@ -25,6 +25,13 @@ urlpatterns = [
         views.dataset_update,
         name='dataset_update'),
 
+#####################################################
+    url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/update2/$',
+        views.DatasetUpdateView.as_view(),
+        name='dataset_update2'),
+#####################################################
+
+
     url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/remove/$',
         views.dataset_remove,
         name='dataset_remove'),

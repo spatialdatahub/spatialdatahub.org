@@ -1,7 +1,7 @@
 from django import forms
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, redirect
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView, UpdateView
 
 from datasets.models import Dataset
 from datasets.forms import DatasetForm
@@ -133,9 +133,18 @@ def dataset_update(request, slug, pk):
     # Get specific dataset instance
     dataset = Dataset.objects.get(slug=slug, pk=pk)
 
+    initial_data = {'title': dataset.title,
+                    'author': dataset.author,
+                     'url': dataset.url,
+                     'dataset_user': dataset.dataset_user,
+                     'dataset_password': dataset.dataset_password,
+                     'public_access': dataset.public_access,
+                     'description': dataset.description
+    }
+
     # Check to see that this really is a POST request
     if request.method == "POST":
-        form = DatasetForm(request.POST, instance=dataset)
+        form = DatasetForm(request.POST, initial=initial_data)
         if form.is_valid():
             dataset=form.save(commit=False)
             # 1
@@ -162,7 +171,22 @@ def dataset_update(request, slug, pk):
             raise forms.ValidationError('There seems to be an error.')
     else:
         form = DatasetForm()
-    return render(request, 'datasets/dataset_update.html', {'form':form})
+    return render(request, 'datasets/dataset_update.html', {'form':form,
+                                                            'dataset':dataset})
+
+
+
+class DatasetUpdateView(UpdateView):
+    """
+    I don't mind dealing with this view if I can figure out how to (1) block the
+    dataset and password from being accessible, and (2) make validation errors if
+    the dataset url status codes are not 200.
+    """
+    model = Dataset
+    fields= '__all__'
+    template_name_suffix = '_update_2'
+
+
 
 
 def dataset_remove(request, slug, pk):
@@ -187,6 +211,7 @@ def dataset_remove(request, slug, pk):
     return render(request,
                   'datasets/dataset_confirm_remove.html',
                   context)
+
 #########################################################################
 
 def about(request):
