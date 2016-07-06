@@ -12,6 +12,7 @@
     } 
   </style>
 </head>
+<!-- <body onload="initMap();"> -->
 <body>
   <div id="mocha"></div>
   <div id="mapid"></div>
@@ -22,7 +23,11 @@
   <script src="../node_modules/leaflet/dist/leaflet-src.js"></script>
   <script
 src="../node_modules/leaflet-providers/leaflet-providers.js"></script>
-  <script src="../datasets/js/portal_map.js"></script>
+  <script src="../datasets/js/portal_map_test.js"></script>
+
+  <script>
+      initMap();  
+  </script>
 
   <script>
     mocha.setup('bdd');
@@ -31,12 +36,7 @@ src="../node_modules/leaflet-providers/leaflet-providers.js"></script>
   <script src="specs/tests.js"></script>
 
   <script>
-      mocha.checkLeaks();
-      if (window.mochaPhantomJS) {
-          mochaPhantomJS.run();
-      } else {
           mocha.run();
-      }
   </script>
 </body>
 </html>

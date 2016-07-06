@@ -1,6 +1,13 @@
 // I think that to use the testing functions it maybe easier to wrap everything
 // in a larger function called 'portalMap'. I can make it an 'L' function, as
 // in 'L.portalMap'.  
+
+// empty test function
+
+L.TestApp = {
+    compute: function () { return 2; }
+}
+
 var myMap;
 
 var openStreetMapMapnik = L.tileLayer.provider('OpenStreetMap.Mapnik'),
@@ -77,7 +84,7 @@ function onMapClick(e) {
     .openOn(myMap);
 }
 
-myMap.on('click', onMapClick);
+//myMap.on('click', onMapClick);
 
 // This takes it too far and actually removes the map background as well.
 function clearAllLayers() {

@@ -2,7 +2,7 @@
   "name": "project",
   "version": "1.0.0",
   "scripts": {
-    "test": "mocha test/specs/tests.js -w"
+    "test": "mocha test/specs/tests.js"
   },
   "devDependencies": {
     "chai": "*",
