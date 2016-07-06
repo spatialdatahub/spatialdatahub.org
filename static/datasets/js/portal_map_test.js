@@ -1,28 +1,7 @@
-L.MochaTest = {
-    compute: function () { return 2; }
-}
-
-L.map('mapid').setView([0, 0], 2);
-
-
-var myMap = L.map('mapid').setView([0, 8.8460], 2);
-var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
-
-// This is the default layer for the map. I don't really like the way it looks with the
-// ZMT colors. It clashes. So this will probably change. Other maps will be provided
-// for users to choose.
-
-L.tileLayer.provider('OpenStreetMap.Mapnik', {
-  minZoom: 0,
-  maxZoom: 20,
-  maxNativeZoom: 18,  
-  attribution: osmAttrib
-}).addTo(myMap);
-
-////////////////////////////////////////////////////////////////////////////////////// 
-// Allow different background maps to be selected by saving them as variables, and
-// creating a selector function.
-////////////////////////////////////////////////////////////////////////////////////// 
+// I think that to use the testing functions it maybe easier to wrap everything
+// in a larger function called 'portalMap'. I can make it an 'L' function, as
+// in 'L.portalMap'.  
+var myMap;
 
 var openStreetMapMapnik = L.tileLayer.provider('OpenStreetMap.Mapnik'),
     mapQuestOpenAerial = L.tileLayer.provider('MapQuestOpen.Aerial'),
@@ -42,7 +21,29 @@ var baseLayers = {
   "NASA Night": nasaNight
 };
 
-L.control.layers(baseLayers).addTo(myMap);
+
+function initMap() {
+    // set up the map
+    myMap = new L.map('mapid');
+  
+    // set up default layer for the map, which is the osm mapnik layer
+    var osm = L.tileLayer.provider('OpenStreetMap.Mapnik', {
+        minZoom: 0,
+        maxZoom: 20,
+        maxNativeZoom: 18,  
+    })
+
+    // set view
+    myMap.setView(new L.LatLng(0, 8.8460), 2);
+
+    // add default layer to map
+    myMap.addLayer(osm);
+
+    // add base layer controller to map
+    L.control.layers(baseLayers).addTo(myMap);
+}
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////// 
 

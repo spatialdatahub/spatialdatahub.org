@@ -1,3 +1,9 @@
+// I think that to use the testing functions it maybe easier to wrap everything
+// in a larger function called 'portalMap'. I can make it an 'L' function, as
+// in 'L.portalMap'.  
+
+
+
 var myMap = L.map('mapid').setView([0, 8.8460], 2);
 var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
 

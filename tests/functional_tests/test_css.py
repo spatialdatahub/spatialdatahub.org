@@ -57,7 +57,7 @@ class BrowserSizeChangerTest(BaseLiveTest):
         )
         self.assertAlmostEqual(
             main_map.size['width'],
-            525,
+            515,
             delta = 10
         )
 
@@ -70,7 +70,7 @@ class BrowserSizeChangerTest(BaseLiveTest):
         )
         self.assertAlmostEqual(
             main_map.size['width'],
-            750,
+            745,
             delta = 10
         )
 

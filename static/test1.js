@@ -16,10 +16,21 @@ GLOBAL.navigator = {
 };
 GLOBAL.L = require('leaflet');
 
-var assert = require('assert');
+var chai = require('chai')
 var expect = require('chai').expect;
+var assert = chai.assert;
 
 L.MochaTest = require('./datasets/js/mocha_test').MochaTest;
+L.map = require('./datasets/js/mocha_test').map;
+
+describe('MochaTest', function() {
+  it('should exist', function() {
+    var MochaTest= require('./datasets/js/mocha_test');
+    expect(MochaTest).to.not.be.undefined;
+  });
+});
+
+// describe('myMap', 
 
 /*
 if (typeof require == 'function') {

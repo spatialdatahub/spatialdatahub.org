@@ -11,6 +11,7 @@ class BaseLiveTest(StaticLiveServerTestCase):
     @classmethod
     def setUp(self):
         self.browser = webdriver.Firefox()
+#        self.browser = webdriver.Chrome()
         self.browser.implicitly_wait(3)
         self.dummy_dataset = Dataset.objects.create(title='dummy dataset',
                                  author='dummy_author',
