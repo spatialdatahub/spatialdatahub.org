@@ -39,7 +39,7 @@
               </li>
             {% else %}
 
-              {% if dataset.fields.extension = 'kml' %}
+              {% if dataset.fields.extension == 'kml' %}
                 <li>
                   <a href="#" onClick="getKMLFromUrl('{{ dataset.fields.url }}');">
                     {{ dataset.fields.title }}
