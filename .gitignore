@@ -3,4 +3,6 @@ db.sqlite3
 __pycache__
 node_modules
 htmlcov
+migrations/*.py
+!migrations/__init__.py
 *.swp
