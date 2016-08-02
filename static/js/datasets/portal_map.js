@@ -2,16 +2,28 @@
 // in a larger function called 'portalMap'. I can make it an 'L' function, as
 // in 'L.portalMap'.  
 
-// empty test function
 
-L.TestApp = {
-    compute: function () { return 2; }
-}
 
-var myMap;
+var myMap = L.map('mapid').setView([0, 8.8460], 2);
+var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+
+// This is the default layer for the map. I don't really like the way it looks with the
+// ZMT colors. It clashes. So this will probably change. Other maps will be provided
+// for users to choose.
+
+L.tileLayer.provider('OpenStreetMap.Mapnik', {
+  minZoom: 0,
+  maxZoom: 20,
+  maxNativeZoom: 18,  
+  attribution: osmAttrib
+}).addTo(myMap);
+
+////////////////////////////////////////////////////////////////////////////////////// 
+// Allow different background maps to be selected by saving them as variables, and
+// creating a selector function.
+////////////////////////////////////////////////////////////////////////////////////// 
 
 var openStreetMapMapnik = L.tileLayer.provider('OpenStreetMap.Mapnik'),
-    mapQuestOpenAerial = L.tileLayer.provider('MapQuestOpen.Aerial'),
     openTopoMap = L.tileLayer.provider('OpenTopoMap'),
     stamenWaterColor = L.tileLayer.provider('Stamen.Watercolor'),
     thunderForestSpinalMap = L.tileLayer.provider('Thunderforest.SpinalMap'),
@@ -20,7 +32,6 @@ var openStreetMapMapnik = L.tileLayer.provider('OpenStreetMap.Mapnik'),
 
 var baseLayers = {
   "Street Map": openStreetMapMapnik,
-  "Aerial": mapQuestOpenAerial,
   "Topo": openTopoMap,
   "Water Color": stamenWaterColor,
   "Spinal Map": thunderForestSpinalMap,
@@ -28,29 +39,7 @@ var baseLayers = {
   "NASA Night": nasaNight
 };
 
-
-function initMap() {
-    // set up the map
-    myMap = new L.map('mapid');
-  
-    // set up default layer for the map, which is the osm mapnik layer
-    var osm = L.tileLayer.provider('OpenStreetMap.Mapnik', {
-        minZoom: 0,
-        maxZoom: 20,
-        maxNativeZoom: 18,  
-    })
-
-    // set view
-    myMap.setView(new L.LatLng(0, 8.8460), 2);
-
-    // add default layer to map
-    myMap.addLayer(osm);
-
-    // add base layer controller to map
-    L.control.layers(baseLayers).addTo(myMap);
-}
-
-
+L.control.layers(baseLayers).addTo(myMap);
 
 ////////////////////////////////////////////////////////////////////////////////////// 
 
@@ -84,7 +73,7 @@ function onMapClick(e) {
     .openOn(myMap);
 }
 
-//myMap.on('click', onMapClick);
+myMap.on('click', onMapClick);
 
 // This takes it too far and actually removes the map background as well.
 function clearAllLayers() {
