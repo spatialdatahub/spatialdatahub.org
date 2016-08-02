@@ -42,9 +42,13 @@ def dataset_model_serializer(dataset_list):
     # 4
     for dataset in serialized_dataset_list:
         if dataset['fields']['dataset_user'] != "" and dataset['fields']['dataset_password'] != "" :
+            requests.packages.urllib3.disable_warnings()
             r = requests.get(dataset['fields']['url'],
                              auth=(dataset['fields']['dataset_user'],
-                             dataset['fields']['dataset_password']))
+                             dataset['fields']['dataset_password']),
+                             verify=False) # THIS IS FOR TESTING AND WILL BE
+                                 #REMOVED IMMEDIATELY AFTER THE TEST
+
             dataset['fields']['json'] = r.json()
             dataset['fields']['status_code'] = r.status_code
         dataset['fields']['dataset_user'] = ""

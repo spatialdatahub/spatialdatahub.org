@@ -1,7 +1,6 @@
 db.sqlite3
 *.pyc
 __pycache__
-migrations
 node_modules
 htmlcov
 *.swp
