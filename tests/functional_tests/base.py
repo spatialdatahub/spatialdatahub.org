@@ -10,9 +10,9 @@ class BaseLiveTest(StaticLiveServerTestCase):
 
     @classmethod
     def setUp(self):
-        self.browser = webdriver.Firefox()
-#        self.browser = webdriver.Chrome()
-        self.browser.implicitly_wait(3)
+        self.firefox = webdriver.Firefox()
+        self.chrome = webdriver.Chrome()
+        self.browsers = [self.firefox, self.chrome]
         self.dummy_dataset = Dataset.objects.create(title='dummy dataset',
                                  author='dummy_author',
                                  description='dummy dataset description',
@@ -37,5 +37,6 @@ class BaseLiveTest(StaticLiveServerTestCase):
 
     @classmethod
     def tearDown(self):
-        self.browser.quit()
+        for browser in self.browsers:
+            browser.quit()
 
