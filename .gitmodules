@@ -1,0 +1,6 @@
+[submodule "static/leaflet_packages/leaflet-providers"]
+	path = static/leaflet_packages/leaflet-providers
+	url = https://github.com/leaflet-extras/leaflet-providers.git
+[submodule "static/leaflet_packages/leaflet-omnivore"]
+	path = static/leaflet_packages/leaflet-omnivore
+	url = https://github.com/mapbox/leaflet-omnivore.git
