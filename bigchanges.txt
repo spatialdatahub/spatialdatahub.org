@@ -1,0 +1,1 @@
+Going to move data type conversion from being split between python and javascript to being run by gdal. Hopefully this is a good idea.
