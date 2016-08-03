@@ -1,10 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-from .base import BaseLiveTest
+from .base import CssBaseLiveTest
 
 
-class BrowserSizeChangerTest(BaseLiveTest):
+class BrowserSizeChangerTest(CssBaseLiveTest):
     """
     This class will be set up to go through all the web pages and make sure
     that the css classes encourage the correct sizes.
