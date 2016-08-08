@@ -1,22 +1,7 @@
 name: wg_dev
 dependencies:
-- curl=7.49.0=1
-- gdal=2.1.0=py35_0
-- geos=3.5.0=0
-- geotiff=1.4.1=0
-- hdf4=4.2.12=0
-- hdf5=1.8.17=1
-- jbig=2.1=0
-- jpeg=8d=1
-- kealib=1.4.6=0
-- libgdal=2.1.0=0
-- libnetcdf=4.4.1=0
-- libtiff=4.0.6=2
-- mkl=11.3.3=0
-- numpy=1.11.1=py35_0
 - openssl=1.0.2h=1
 - pip=8.1.2=py35_0
-- proj4=4.9.2=0
 - psycopg2=2.6.1=py35_1
 - python=3.5.2=0
 - readline=6.2=2
@@ -25,11 +10,7 @@ dependencies:
 - sqlite=3.13.0=0
 - tk=8.5.18=0
 - wheel=0.29.0=py35_0
-- xerces-c=3.1.4=0
 - xz=5.2.2=0
 - zlib=1.2.8=3
-- pip:
-  - django==1.10
-  - django-crispy-forms==1.6.0
 prefix: /Users/pcu_adm/miniconda3/envs/wg_dev
 

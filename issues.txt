@@ -1,0 +1,27 @@
+On the main portal page the 'Show All' button reloads the page.
+    Change this so that the page doesn't reload, but the map
+    list reloads all maps.
+
+On the main portal page the 'Clear Map' button clears everything,
+including the background layers. 
+    Change this so that only the user created map layers are cleared.
+
+On the main portal page the Search box reloads the entire page when
+a search is performed.
+    Change this so that the searches can be performed without reloading
+    the entire page.
+
+The meta data page should be rewritten to show the map on half the page and
+to show the metadata on the other half of the page. 
+    Change the page so that meta data is only the Author, the title, and the 
+    description of the map. Make sure that the data and map parts of the page
+    stay in their specified sections.
+
+Create a documentation portion of the website that describes how everything works
+and how to recreate it.
+
+Make all url requests with python, and load the data from local source.
+
+Set python only to make requests for data when people click buttons. Attempting to load
+all of the map data on the initial page load could be very taxing on time. It currently
+loads all data made by a python request on start up.
