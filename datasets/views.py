@@ -12,6 +12,9 @@ import json
 
 
 """
+Making big change:
+    Removing serializer from the project.
+
 The dataset serializer has been moved to a different file. I will probably
 have to do a bunch more work in this file when I bring in User objects.
 
@@ -22,15 +25,16 @@ way of making sure that they are secure.
 """
 
 
+
 def portal(request):
     """
-    display template with progressively more items.
-
-    I want to make url requests from python so that passwords and usernames
-    never have to be passed to the templates, but I can't make calls for dataset
-    access and add the results to the model items.
+    I need to make a way for the data requests to be called from the template.
+    That way I can load only the names of the datasets into the portal page as
+    a list, and then pull in the data when the user wants it. It is extremely
+    slow to have to load all the data on every page load. There are already too
+    different javascript and css files linked up to this page.
     """
-    # error = False
+
     dataset_list = Dataset.objects.all().order_by('title')
 
     ### Do I need this queryset thing here? Can I just write something in
@@ -40,10 +44,39 @@ def portal(request):
         dataset_list = Dataset.objects.filter(title__icontains=q).order_by('title')
     ###
 
-    serialized_dataset_list = dataset_model_serializer(dataset_list)
+    ### This logic needs to be a function that can be called. Perhaps from a
+    ### different file. 
+    ### Maybe as a class with defined functions. 
+    for dataset in dataset_list:
+        if dataset.dataset_user:
+            dataset.data = requests.get(dataset.url,
+                auth=(dataset.dataset_user,
+                dataset.dataset_password)).content
+        else:
+            dataset.data = requests.get(dataset.url).content
+    ###
 
-    context = {'dataset_list': serialized_dataset_list}
+    context = {'dataset_list': dataset_list}
     return render(request, 'datasets/portal.html', context)
+
+
+
+def requeststojstest(request):
+#    bienvenidos='https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/bienvenidos.json'
+    simpleline='https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/simpleline.json'
+
+#    bienvenidos=requests.get(bienvenidos).json()
+
+    simpleline=requests.get(simpleline).json()
+
+    steve = 'steve is my friend'
+    context = {'steve':steve, 'simpleline': simpleline}
+
+    return render(request, 'datasets/requeststojstest.html', context)
+
+
+
+
 
 
 def dataset_detail(request, slug, pk):

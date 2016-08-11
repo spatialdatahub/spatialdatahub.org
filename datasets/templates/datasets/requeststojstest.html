@@ -1,0 +1,37 @@
+{% load staticfiles %}
+<html>
+<head>
+<link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+<script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+<style>
+  #mapid { height: 280px; }
+</style>
+</head>
+<body>
+
+<button onclick='addData(data)'>Push Me</button>    
+
+<div id="mapid"></div>
+
+
+<script type="text/javascript">
+
+var myMap = L.map('mapid').setView([0,0], 2);
+
+L.tileLayer('http://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png',
+{
+    attribution: 'no',
+    maxXoom: 19
+}).addTo(myMap);
+
+var data = {{ simpleline|safe }};
+
+// L.geoJson(data).addTo(myMap);
+
+function addData (stuff) {
+    L.geoJson(stuff).addTo(myMap);
+}
+
+</script>
+</body>
+</html>

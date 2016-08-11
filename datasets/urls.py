@@ -9,6 +9,10 @@ urlpatterns = [
         views.portal,
         name='portal'),
 
+    url(r'^requeststojstest$',
+        views.requeststojstest,
+        name='requeststojstest'),
+
     url(r'^about/$',
         views.about,
         name='about'),

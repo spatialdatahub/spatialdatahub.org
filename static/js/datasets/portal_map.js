@@ -3,7 +3,6 @@
 // in 'L.portalMap'.  
 
 
-
 var myMap = L.map('mapid').setView([0, 8.8460], 2);
 var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
 
@@ -45,10 +44,13 @@ L.control.layers(baseLayers).addTo(myMap);
 
 // I still may have a bit of trouble with these functions and loading many layers
 
-// password protected
 function getJsonFromLocal(data) {
-    L.geoJson(data).addTo(myMap);
+    console.log(data);
+//    L.geoJson(data).addTo(myMap);
 }
+
+//L.geoJson(data).addTo(myMap);
+//L.geoJson(test).addTo(myMap);
 
 // not password protected
 function getJsonFromUrl(data) {
@@ -62,6 +64,52 @@ function getKMLFromUrl(data) {
 
 ////////////////////////////////////////////////////////////////////////////////////// 
 ////////////////////////////////////////////////////////////////////////////////////// 
+
+
+var states = [{
+    "type": "Feature",
+    "properties": {"party": "Republican"},
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+            [-104.05, 48.99],
+            [-97.22,  48.98],
+            [-96.58,  45.94],
+            [-104.03, 45.94],
+            [-104.05, 48.99]
+        ]]
+    }
+}, {
+    "type": "Feature",
+    "properties": {"party": "Democrat"},
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+            [-109.05, 41.00],
+            [-102.06, 40.99],
+            [-102.03, 36.99],
+            [-109.04, 36.99],
+            [-109.05, 41.00]
+        ]]
+    }
+}];
+
+L.geoJson(states, {
+    style: function(feature) {
+        switch (feature.properties.party) {
+            case 'Republican': return {color: "#ff0000"};
+            case 'Democrat':   return {color: "#0000ff"};
+        }
+    }
+}).addTo(myMap);
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////// 
+////////////////////////////////////////////////////////////////////////////////////// 
+
+
 
 
 var popup = L.popup();
