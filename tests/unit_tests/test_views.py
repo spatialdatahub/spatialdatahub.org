@@ -93,7 +93,7 @@ class DatasetMetaDataViewTests(BaseDatasetTest):
         title = "This is my test title"
         dataset_entry = Dataset.objects.create(title=title, author="Test Testerson",
                                                description="This is a test dataset",
-                                               url="http://www.google.com")
+                                               url="http://www.duckduckgo.com")
         slug = slugify(title)
         url = "/{slug}-{pk}/".format(slug=slug, pk=dataset_entry.pk,)
 

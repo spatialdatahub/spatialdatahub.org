@@ -6,7 +6,6 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from datasets.models import Dataset
 from datasets.forms import DatasetForm
-from datasets.serializers import dataset_model_serializer
 
 import requests
 import json
@@ -14,11 +13,6 @@ import json
 
 """
 Making big change:
-    Removing serializer from the project.
-
-The dataset serializer has been moved to a different file. I will probably
-have to do a bunch more work in this file when I bring in User objects.
-
 I still need to figure out a good way to deal with KML and KMZ files.
 
 Dealing with passwords and usernames is frustrating, I need a better
@@ -93,7 +87,12 @@ class DatasetDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DatasetDetailView, self).get_context_data(**kwargs)
-        r = requests.get(self.object.url).content# .decode('utf-8')
+        if self.object.dataset_user and self.object.dataset_password:
+            r = requests.get(self.object.url,
+                auth=(self.object.dataset_user,
+                self.object.dataset_password)).content
+        else:
+            r = requests.get(self.object.url).content# .decode('utf-8')
         context['data'] = r
         return context
 
