@@ -2,27 +2,26 @@
 {% load staticfiles %}
 
 {% block head_title %}
-  {{ dataset.fields.title }}
+  {{ dataset.title }}
 {% endblock head_title %}
 
 {% block content %}
 
 
 
-  <h2 class="text-center">{{ dataset.fields.title }} meta data</h2>
+  <h2 class="text-center">{{ dataset.title }} meta data</h2>
   <div class="col-12 col-xs-12 col-sm-6 col-md-4" role="main" id="meta_data">
     <ul>
-      <li><a href="{% url 'datasets:dataset_update' dataset.fields.slug dataset.pk %}">Update this dataset</a></li> 
+      <li><a href="{% url 'datasets:dataset_update' dataset.slug dataset.pk %}">Update this dataset</a></li> 
       <li><a href="{% url 'datasets:portal' %}">Back to map list</a></li> 
       <li>pk: {{ dataset.pk }}</li>
-      <li>title: {{ dataset.fields.title }}</li>
-      <li>author: {{ dataset.fields.author }}</li>
-      <li>url: {{ dataset.fields.url }}</li>
-      <li>description: {{ dataset.fields.description }}</li>
-      <li>json: {{ dataset.fields.json }}</li>
-      <li>extension: {{ dataset.fields.extension }}</li>
-      <li>password: {{ dataset.fields.dataset_password }}</li>
-      <li>username: {{ dataset.fields.dataset_username }}</li>
+      <li>title: {{ dataset.title }}</li>
+      <li>author: {{ dataset.author }}</li>
+      <li>url: {{ dataset.url }}</li>
+      <li>description: {{ dataset.description }}</li>
+      <li>password: {{ dataset.dataset_password }}</li>
+      <li>username: {{ dataset.dataset_username }}</li>
+      <li>data: {{ data }}</li>
     </ul>
   </div>
 
@@ -37,13 +36,13 @@
 
 <!-- Autoload Dataset to Map -->
 <!-- I should write this as a jQuery function. That way it can be put on all the dataset specific pages -->
-{% if dataset.fields.json %}
+{% if dataset.data %}
   <script type="text/javascript">
-    getJsonFromLocal('{{ dataset.fields.json }}');
+    getJsonFromLocal('{{ dataset.data }}');
   </script>
 {% else %}
   <script type="text/javascript">
-    getJsonFromUrl('{{ dataset.fields.url }}');
+    getJsonFromUrl('{{ dataset.url }}');
   </script>
 {% endif %}
 <!-- End Autoload Dataset to Map -->

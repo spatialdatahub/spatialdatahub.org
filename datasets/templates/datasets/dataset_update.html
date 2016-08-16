@@ -32,21 +32,19 @@
   </div>
 </div>
 <!-- End Map and Background Choices -->
+<div>
+  <p>{{ data }}</p>
+</div>
 
-
-<script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}" ></script>
+<script type="text/javascript" src="{% static 'js/datasets/portal_map.js' %}" ></script>
 
 <!-- Autoload Dataset to Map -->
 <!-- I should write this as a jQuery function. That way it can be put on all the dataset specific pages -->
-{% if dataset.fields.json %}
-  <script type="text/javascript">
-    getJsonFromLocal('{{ dataset.fields.json }}');
-  </script>
-{% else %}
-  <script type="text/javascript">
-    getJsonFromUrl('{{ dataset.fields.url }}');
-  </script>
-{% endif %}
+<script type="text/javascript">
+
+//    getJsonFromLocal({{ 
+
+</script>
 <!-- End Autoload Dataset to Map -->
 
 {% endblock content %}

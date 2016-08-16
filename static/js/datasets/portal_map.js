@@ -45,27 +45,30 @@ L.control.layers(baseLayers).addTo(myMap);
 // I still may have a bit of trouble with these functions and loading many layers
 
 function getJsonFromLocal(data) {
-    console.log(data);
-//    L.geoJson(data).addTo(myMap);
+    L.geoJson(data).addTo(myMap);
 }
+
+// function getKMLFromLocal(data) {
+//    omnivore.kml(data).addTo(myMap);
+// }
 
 //L.geoJson(data).addTo(myMap);
 //L.geoJson(test).addTo(myMap);
 
 // not password protected
-function getJsonFromUrl(data) {
-    omnivore.geojson(data).addTo(myMap);
-}
+// function getJsonFromUrl(data) {
+//    omnivore.geojson(data).addTo(myMap);
+//}
 
 // not password protected
-function getKMLFromUrl(data) {
-    omnivore.kml(data).addTo(myMap);
-}
+// function getKMLFromUrl(data) {
+//    omnivore.kml(data).addTo(myMap);
+//}
 
 ////////////////////////////////////////////////////////////////////////////////////// 
 ////////////////////////////////////////////////////////////////////////////////////// 
 
-
+/*
 var states = [{
     "type": "Feature",
     "properties": {"party": "Republican"},
@@ -102,7 +105,7 @@ L.geoJson(states, {
         }
     }
 }).addTo(myMap);
-
+*/
 
 
 
@@ -111,7 +114,7 @@ L.geoJson(states, {
 
 
 
-
+/*
 var popup = L.popup();
 
 function onMapClick(e) {
@@ -122,7 +125,7 @@ function onMapClick(e) {
 }
 
 myMap.on('click', onMapClick);
-
+*/
 // This takes it too far and actually removes the map background as well.
 function clearAllLayers() {
   myMap.eachLayer(function (layer) {

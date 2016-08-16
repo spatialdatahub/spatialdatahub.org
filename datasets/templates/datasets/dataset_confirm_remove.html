@@ -13,15 +13,15 @@
     If user authenticated or whatever
   -->
     <form action="" method="post">{% csrf_token %}
-      <H3>Are you sure you want to remove "{{ dataset.fields.title }}"?</H3>
+      <H3>Are you sure you want to remove "{{ dataset.title }}"?</H3>
       <br />
       <input id="confirm_remove_button" class="btn btn-danger btn-lg" type="submit"
-             value="Yes, please remove {{ dataset.fields.title }}" />
+             value="Yes, please remove {{ dataset.title }}" />
     </form>
 
-{{ dataset.fields.dataset_password }}
+{{ dataset.dataset_password }}
 <br />
-{{ dataset.fields.dataset_user }}
+{{ dataset.dataset_user }}
 
 
 
@@ -48,13 +48,13 @@
 
 <!-- Autoload Dataset to Map -->
 <!-- I should write this as a jQuery function. That way it can be put on all the dataset specific pages -->
-{% if dataset.fields.json %}
+{% if dataset.json %}
   <script type="text/javascript">
-    getJsonFromLocal('{{ dataset.fields.json }}');
+    getJsonFromLocal('{{ dataset.json }}');
   </script>
 {% else %}
   <script type="text/javascript">
-    getJsonFromUrl('{{ dataset.fields.url }}');
+    getJsonFromUrl('{{ dataset.url }}');
   </script>
 {% endif %}
 <!-- End Autoload Dataset to Map -->

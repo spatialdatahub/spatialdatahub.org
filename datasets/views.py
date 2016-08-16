@@ -1,7 +1,8 @@
 from django import forms
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, redirect
-from django.views.generic.edit import DeleteView, UpdateView
+from django.views.generic import DetailView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from datasets.models import Dataset
 from datasets.forms import DatasetForm
@@ -33,6 +34,11 @@ def portal(request):
     a list, and then pull in the data when the user wants it. It is extremely
     slow to have to load all the data on every page load. There are already too
     different javascript and css files linked up to this page.
+
+    AJAX calls to an asynchronous request function will be used to get the
+    data from the urls
+
+    Can I do this with a class based view? Like a list view?
     """
 
     dataset_list = Dataset.objects.all().order_by('title')
@@ -44,8 +50,9 @@ def portal(request):
         dataset_list = Dataset.objects.filter(title__icontains=q).order_by('title')
     ###
 
-    ### This logic needs to be a function that can be called. Perhaps from a
-    ### different file. 
+    ### This logic needs to be a function that can be called by ajax. 
+    ### Perhaps from a different file. 
+    ### Maybe as a separate view.
     ### Maybe as a class with defined functions. 
     for dataset in dataset_list:
         if dataset.dataset_user:
@@ -65,41 +72,32 @@ def requeststojstest(request):
 #    bienvenidos='https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/bienvenidos.json'
     simpleline='https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/simpleline.json'
 
+    kml_url='https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/westcampus.kml'
+
 #    bienvenidos=requests.get(bienvenidos).json()
 
     simpleline=requests.get(simpleline).json()
+#    simpleline = list(simpleline)
 
-    steve = 'steve is my friend'
-    context = {'steve':steve, 'simpleline': simpleline}
+    kml_data = requests.get(kml_url).content.decode('utf-8')
+
+    data = {"data":{"kml":kml_data, "simpleline":simpleline}}
+
+    context = {'data': data}
 
     return render(request, 'datasets/requeststojstest.html', context)
 
 
+class DatasetDetailView(DetailView):
+    model = Dataset
 
+    def get_context_data(self, **kwargs):
+        context = super(DatasetDetailView, self).get_context_data(**kwargs)
+        r = requests.get(self.object.url).content# .decode('utf-8')
+        context['data'] = r
+        return context
 
-
-
-def dataset_detail(request, slug, pk):
-    """
-    This page will have all data entered by the people linking datasets to this program. This page will
-    also have a link for a dataset specific map that is embedable. It will use the dataset's slug and id
-    as the url building blocks.
-    """
-
-    dataset = Dataset.objects.filter(pk=pk, slug=slug)
-
-    # Things get a little hacky here, but to deal with serializers there needs
-    # to be a queryset, so filter, which returns a queryset is used instead of
-    # get, and then we have to select the first item in the serialized list to
-    # pass it to the template without having to write a for loop in the
-    # template.
-
-    serialized_dataset = dataset_model_serializer(dataset)
-    serialized_dataset = serialized_dataset[0]
-    context = {'dataset': serialized_dataset}
-
-    return render(request, 'datasets/dataset_detail.html', context)
-
+    context_object_name = 'dataset'
 
 
 #########################################################################
@@ -107,106 +105,17 @@ def dataset_detail(request, slug, pk):
 # I wouldn't have to repeat the code between the create and update views. Maybe
 # the code should be part of the DatasetForm
 
-"""
-This dataset creation view (1) checks for a username and password for the url,
-it checks whether the url is valid, then (2)it checks whether the url with the
-password and username returns a positive status code. In the case that the
-dataset url does not need a username and password it checks (3) that the url
-returns a positive status code.
 
-The next step is to add a file extension checker. This will determine how the
-dataset is handled by the view and JavaScript functions. Something for KML and
-KMZ files.
-"""
-
-def dataset_create(request):
-    if request.method == "POST":
-        form = DatasetForm(request.POST)
-        if form.is_valid():
-            dataset = form.save(commit=False)
-            # 1
-            if dataset.dataset_user != "" and dataset.dataset_password != "":
-                r = requests.get(dataset.url,
-                                 auth=(dataset.dataset_user, dataset.dataset_password))
-                # 2
-                if r.status_code == 200:
-                    dataset.save()
-                    return redirect('datasets:dataset_detail', slug=dataset.slug, pk=dataset.pk)
-                else:
-                    raise forms.ValidationError('Check your dataset url, username and password; ' +
-                                            'there seems to be an error')
-            else:
-                r = requests.get(dataset.url)
-            # 3
-                if r.status_code == 200:
-                    dataset.save()
-                    return redirect('datasets:dataset_detail', slug=dataset.slug, pk=dataset.pk)
-                else:
-                    raise forms.ValidationError('Check your dataset url, username and password; ' +
-                                                'there seems to be an error')
-        else:
-            raise forms.ValidationError('There seems to be an error.')
-    else:
-        form = DatasetForm()
-    return render(request, 'datasets/dataset_create.html', {'form':form})
-
-
-def dataset_update(request, slug, pk):
+class DatasetCreateView(CreateView):
     """
-#    This view gets the specific dataset instance, then does the same thing as the create view,
-#    with the data from that instance.
-
-#    This dataset creation view (1) checks for a username and password for the url,
-#    it checks whether the url is valid, then (2)it checks whether the url with the
-#    password and username returns a positive status code. In the case that the
-#    dataset url does not need a username and password it checks (3) that the url
-#    returns a positive status code.
+    Test this out.
+    Having serious difficulty with the get context data method, going to try it
+    out on a detail view first
     """
-
-    # Get specific dataset instance
-    dataset = Dataset.objects.get(slug=slug, pk=pk)
-
-    initial_data = {'title': dataset.title,
-                    'author': dataset.author,
-                     'url': dataset.url,
-                     'dataset_user': dataset.dataset_user,
-                     'dataset_password': dataset.dataset_password,
-                     'public_access': dataset.public_access,
-                     'description': dataset.description
-    }
-
-    # Check to see that this really is a POST request
-    if request.method == "POST":
-        form = DatasetForm(request.POST, initial=initial_data)
-        if form.is_valid():
-            dataset=form.save(commit=False)
-            # 1
-            if dataset.dataset_user != "" and dataset.dataset_password != "":
-                r = requests.get(dataset.url,
-                                 auth=(dataset.dataset_user, dataset.dataset_password))
-                # 2
-                if r.status_code == 200:
-                    dataset.save()
-                    return redirect('datasets:dataset_detail', slug=dataset.slug, pk=dataset.pk)
-                else:
-                    raise forms.ValidationError('Check your dataset url, username and password; ' +
-                                            'there seems to be an error')
-            else:
-                r = requests.get(dataset.url)
-            # 3
-                if r.status_code == 200:
-                    dataset.save()
-                    return redirect('datasets:dataset_detail', slug=dataset.slug, pk=dataset.pk)
-                else:
-                    raise forms.ValidationError('Check your dataset url, username and password; ' +
-                                                'there seems to be an error')
-        else:
-            raise forms.ValidationError('There seems to be an error.')
-    else:
-        form = DatasetForm()
-    return render(request, 'datasets/dataset_update.html', {'form':form,
-                                                            'dataset':dataset})
-
+    model = Dataset
+    fields= ['author', 'title', 'url', 'dataset_user', 'dataset_password',
+             'public_access', 'description']
+    template_name_suffix = '_create'
 
 
 class DatasetUpdateView(UpdateView):
@@ -214,38 +123,35 @@ class DatasetUpdateView(UpdateView):
     I don't mind dealing with this view if I can figure out how to (1) block the
     dataset and password from being accessible, and (2) make validation errors if
     the dataset url status codes are not 200.
+
+    I need to load up the map data in this view so that it is automatically
+    displayed.
     """
     model = Dataset
-    fields= '__all__'
-    template_name_suffix = '_update_2'
+    fields= ['author', 'title', 'url', 'dataset_user', 'dataset_password',
+             'public_access', 'description']
+    template_name_suffix = '_update'
+
+    def get_context_data(self, **kwargs):
+        context = super(DatasetUpdateView, self).get_context_data(**kwargs)
+        r = requests.get(self.object.url).content #.decode('utf-8')
+        context['data'] = r
+        return context
+
+    context_object_name = 'dataset'
 
 
+class DatasetRemoveView(DeleteView):
+    model = Dataset
+    success_url = reverse_lazy('datasets:portal')
+    context_object_name = 'dataset'
+    template_name = 'datasets/dataset_confirm_remove.html'
 
-
-def dataset_remove(request, slug, pk):
-    """
-    I don't really like the class based delete view. I want to see all the
-    different moving parts, that way it will be easier to see how to call
-    them in the template.
-    """
-    # Get specific dataset instance
-    dataset = Dataset.objects.filter(slug=slug, pk=pk)
-
-    # serialize it, and remove any passwords or usernames
-    serialized_dataset = dataset_model_serializer(dataset)
-    serialized_dataset = serialized_dataset[0]
-
-    if request.method == "POST":
-        dataset.delete()
-        return redirect('datasets:portal')
-
-    context = {'dataset': serialized_dataset}
-
-    return render(request,
-                  'datasets/dataset_confirm_remove.html',
-                  context)
 
 #########################################################################
+'''
+More or less static views here, no logic required.
+'''
 
 def about(request):
     return render(request, 'datasets/about.html')

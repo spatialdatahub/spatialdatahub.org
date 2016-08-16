@@ -22,25 +22,19 @@ urlpatterns = [
         name='contact'),
 
     url(r'^new_dataset/$',
-        views.dataset_create,
+        views.DatasetCreateView.as_view(),
         name='dataset_create'),
 
     url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/update/$',
-        views.dataset_update,
+        views.DatasetUpdateView.as_view(),
         name='dataset_update'),
 
-#####################################################
-    url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/update2/$',
-        views.DatasetUpdateView.as_view(),
-        name='dataset_update2'),
-#####################################################
-
-
     url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/remove/$',
-        views.dataset_remove,
+        views.DatasetRemoveView.as_view(),
         name='dataset_remove'),
 
     url(r'^(?P<slug>[-\w]*)-(?P<pk>\d+)/$',
-        views.dataset_detail,
+        views.DatasetDetailView.as_view(),
         name='dataset_detail'),
+
 ]

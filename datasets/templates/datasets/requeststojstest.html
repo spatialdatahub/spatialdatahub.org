@@ -1,37 +1,37 @@
 {% load staticfiles %}
 <html>
 <head>
+
 <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
 <script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+
 <style>
-  #mapid { height: 280px; }
+  #mapid { height: 500px; }
 </style>
+
 </head>
 <body>
 
-<button onclick='addData(data)'>Push Me</button>    
+<button onclick='addData({{ simpleline }})'>Push Me</button>    
+<button onclick='getKMLFromLocal({{ kml_data|safe }})'>KML</button>    
+<button onclick='console.log("yeah")'>Yeah</button>    
+<button onclick="console.log('{{ kml_data|safe }}')">Yeah</button>    
 
 <div id="mapid"></div>
 
+<div>
+  <h3>{{ simpleline|safe }}</h3>
+</div>
 
-<script type="text/javascript">
+<div>
+  <h3>{{ data.data.kml }}</h3>
+</div>
 
-var myMap = L.map('mapid').setView([0,0], 2);
 
-L.tileLayer('http://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png',
-{
-    attribution: 'no',
-    maxXoom: 19
-}).addTo(myMap);
-
-var data = {{ simpleline|safe }};
-
-// L.geoJson(data).addTo(myMap);
-
-function addData (stuff) {
-    L.geoJson(stuff).addTo(myMap);
-}
-
+<script type="text/javascript" src="{% static 'js/datasets/verysimple.js' %}"></script>
+<script>
+var kml_str = '{{ data.data.kml|safe }}';
+console.log(kml_str);
 </script>
 </body>
 </html>

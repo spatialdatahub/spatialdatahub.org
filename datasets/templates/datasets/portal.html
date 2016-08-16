@@ -20,12 +20,6 @@
           Clear Map
         </a>
       </form>
-{% for dataset in dataset_list %}
-<div onClick="printData('{{ dataset.data|safe }}')">
-  Nachos
-</div>
-{% endfor %}
-
 
 <!-- List of maps with if statements parsing through them-->
       <div>
@@ -35,6 +29,7 @@
           {% for dataset in dataset_list %}
               <li>
                 <a href="#" onClick="printData('{{ dataset.data }}')">
+                <a href="#" onClick="getJsonFromLocal({{ dataset.data }})">
                   {{ dataset.title }}
                 </a> 
                 <a href="{% url 'datasets:dataset_detail' dataset.slug dataset.pk %}" >
@@ -59,6 +54,5 @@
 <!-- End Map and Background Choices -->
 
 <script type="text/javascript" src="{% static 'js/datasets/portal_map.js' %}"></script> 
-<script type="text/javascript" src="{% static 'js/datasets/verysimple.js' %}"></script> 
 
 {% endblock content %}
