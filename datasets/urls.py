@@ -9,10 +9,6 @@ urlpatterns = [
         views.portal,
         name='portal'),
 
-    url(r'^requeststojstest$',
-        views.requeststojstest,
-        name='requeststojstest'),
-
     url(r'^about/$',
         views.about,
         name='about'),
@@ -36,5 +32,4 @@ urlpatterns = [
     url(r'^(?P<slug>[-\w]*)-(?P<pk>\d+)/$',
         views.DatasetDetailView.as_view(),
         name='dataset_detail'),
-
 ]

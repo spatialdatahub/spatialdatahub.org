@@ -1,11 +1,9 @@
-from django import forms
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from datasets.models import Dataset
-from datasets.forms import DatasetForm
 
 import requests
 import json
@@ -61,25 +59,16 @@ def portal(request):
     return render(request, 'datasets/portal.html', context)
 
 
+#########################################################################
+# It would be nice to create a function that does a dataset check, that way
+# I wouldn't have to repeat the code between the create and update views. Maybe
+# the code should be part of the DatasetForm
 
-def requeststojstest(request):
-#    bienvenidos='https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/bienvenidos.json'
-    simpleline='https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/simpleline.json'
+# I need to think of a good way to deal with password/username data for
+# authentication with requests.
 
-    kml_url='https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/westcampus.kml'
+# I also need to make everything work with ajax calls
 
-#    bienvenidos=requests.get(bienvenidos).json()
-
-    simpleline=requests.get(simpleline).json()
-#    simpleline = list(simpleline)
-
-    kml_data = requests.get(kml_url).content.decode('utf-8')
-
-    data = {"data":{"kml":kml_data, "simpleline":simpleline}}
-
-    context = {'data': data}
-
-    return render(request, 'datasets/requeststojstest.html', context)
 
 
 class DatasetDetailView(DetailView):
@@ -92,25 +81,15 @@ class DatasetDetailView(DetailView):
                 auth=(self.object.dataset_user,
                 self.object.dataset_password)).content
         else:
-            r = requests.get(self.object.url).content# .decode('utf-8')
+            r = requests.get(self.object.url).content
         context['data'] = r
         return context
 
     context_object_name = 'dataset'
 
 
-#########################################################################
-# It would be nice to create a function that does a dataset check, that way
-# I wouldn't have to repeat the code between the create and update views. Maybe
-# the code should be part of the DatasetForm
-
-
 class DatasetCreateView(CreateView):
-    """
-    Test this out.
-    Having serious difficulty with the get context data method, going to try it
-    out on a detail view first
-    """
+
     model = Dataset
     fields= ['author', 'title', 'url', 'dataset_user', 'dataset_password',
              'public_access', 'description']
@@ -119,10 +98,6 @@ class DatasetCreateView(CreateView):
 
 class DatasetUpdateView(UpdateView):
     """
-    I don't mind dealing with this view if I can figure out how to (1) block the
-    dataset and password from being accessible, and (2) make validation errors if
-    the dataset url status codes are not 200.
-
     I need to load up the map data in this view so that it is automatically
     displayed.
     """
@@ -147,10 +122,6 @@ class DatasetRemoveView(DeleteView):
     template_name = 'datasets/dataset_confirm_remove.html'
 
 
-#########################################################################
-'''
-More or less static views here, no logic required.
-'''
 
 def about(request):
     return render(request, 'datasets/about.html')
