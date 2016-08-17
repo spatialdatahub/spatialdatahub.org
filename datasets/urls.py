@@ -10,11 +10,11 @@ urlpatterns = [
         name='portal'),
 
     url(r'^about/$',
-        views.about,
+        views.AboutView.as_view(),
         name='about'),
 
     url(r'^contact/$',
-        views.contact,
+        views.ContactView.as_view(),
         name='contact'),
 
     url(r'^new_dataset/$',

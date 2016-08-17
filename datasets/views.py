@@ -1,6 +1,6 @@
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from datasets.models import Dataset
@@ -122,9 +122,9 @@ class DatasetRemoveView(DeleteView):
     template_name = 'datasets/dataset_confirm_remove.html'
 
 
+class AboutView(TemplateView):
+    template_name="datasets/about.html"
 
-def about(request):
-    return render(request, 'datasets/about.html')
 
-def contact(request):
-    return render(request, 'datasets/contact.html')
+class ContactView(TemplateView):
+    template_name="datasets/contact.html"
