@@ -1,12 +1,11 @@
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render
-from django.views.generic import DetailView, TemplateView
+from django.shortcuts import render # This will be removed with portal cbv
+from django.views.generic import DetailView, TemplateView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from datasets.models import Dataset
 
 import requests
-import json
 
 
 """
@@ -31,6 +30,7 @@ def portal(request):
     data from the urls
 
     Can I do this with a class based view? Like a list view?
+
     """
 
     dataset_list = Dataset.objects.all().order_by('title')
