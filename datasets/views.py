@@ -66,6 +66,11 @@ class PortalView(ListView):
 
     def get_queryset(self):
         queryset = super(PortalView, self).get_queryset()
+
+        if 'q' in self.request.GET:
+            q = self.request.GET['q']
+            queryset = Dataset.objects.filter(title__icontains=q).order_by('title')
+
         for dataset in queryset:
             if dataset.dataset_user and dataset.dataset_password:
                 dataset.data = requests.get(dataset.url,
@@ -75,6 +80,8 @@ class PortalView(ListView):
                 dataset.data = requests.get(dataset.url).content
 
         return queryset
+
+
 
 #########################################################################
 # It would be nice to create a function that does a dataset check, that way
