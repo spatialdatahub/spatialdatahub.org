@@ -5,9 +5,14 @@ from datasets import views
 app_name = 'datasets'
 
 urlpatterns = [
+#    url(r'^$',
+#        views.portal,
+#        name='portal'),
+
     url(r'^$',
-        views.portal,
+        views.PortalView.as_view(),
         name='portal'),
+
 
     url(r'^about/$',
         views.AboutView.as_view(),

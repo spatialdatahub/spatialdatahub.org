@@ -17,7 +17,7 @@ way of making sure that they are secure.
 """
 
 
-
+'''
 def portal(request):
     """
     I need to make a way for the data requests to be called from the template.
@@ -42,10 +42,10 @@ def portal(request):
         dataset_list = Dataset.objects.filter(title__icontains=q).order_by('title')
     ###
 
-    ### This logic needs to be a function that can be called by ajax. 
-    ### Perhaps from a different file. 
+    ### This logic needs to be a function that can be called by ajax.
+    ### Perhaps from a different file.
     ### Maybe as a separate view.
-    ### Maybe as a class with defined functions. 
+    ### Maybe as a class with defined functions.
     for dataset in dataset_list:
         if dataset.dataset_user:
             dataset.data = requests.get(dataset.url,
@@ -57,7 +57,24 @@ def portal(request):
 
     context = {'dataset_list': dataset_list}
     return render(request, 'datasets/portal.html', context)
+'''
 
+class PortalView(ListView):
+    model = Dataset
+    context_object_name = 'dataset_list'
+    template_name = 'datasets/portal.html'
+
+    def get_queryset(self):
+        queryset = super(PortalView, self).get_queryset()
+        for dataset in queryset:
+            if dataset.dataset_user and dataset.dataset_password:
+                dataset.data = requests.get(dataset.url,
+                    auth=(dataset.dataset_user,
+                    dataset.dataset_password)).content
+            else:
+                dataset.data = requests.get(dataset.url).content
+
+        return queryset
 
 #########################################################################
 # It would be nice to create a function that does a dataset check, that way

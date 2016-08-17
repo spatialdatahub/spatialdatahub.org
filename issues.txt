@@ -25,3 +25,9 @@ Make all url requests with python, and load the data from local source.
 Set python only to make requests for data when people click buttons. Attempting to load
 all of the map data on the initial page load could be very taxing on time. It currently
 loads all data made by a python request on start up.
+
+
+Add ability to put disclaimer or license or health warning on the data, with a that has to
+be clicked to access the data.
+
+
