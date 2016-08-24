@@ -10,10 +10,6 @@ urlpatterns = [
         views.PortalView.as_view(),
         name='portal'),
 
-    url(r'^playground/$',
-        views.Playground.as_view(),
-        name='playground'),
-
     url(r'^ajax/load_dataset/(?P<pk>[0-9]+)/$',
         views.ajax_load_dataset,
         name='ajax_load_dataset'),

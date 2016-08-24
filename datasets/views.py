@@ -6,7 +6,6 @@ from datasets.models import Dataset
 
 import requests
 
-from django.shortcuts import render
 from django.http import HttpResponse, Http404
 
 
@@ -35,14 +34,8 @@ def ajax_load_dataset(request, pk):
             r = requests.get(dataset.url).content
             message = r
     else:
-        message="Ajax Call"
+        message="Ajax Dataset Call"
     return HttpResponse(message)
-
-
-class Playground(ListView):
-    model = Dataset
-    context_object_name = 'dataset_list'
-    template_name="datasets/playground.html"
 
 
 class PortalView(ListView):
@@ -73,18 +66,6 @@ class PortalView(ListView):
 
 class DatasetDetailView(DetailView):
     model = Dataset
-
-    def get_context_data(self, **kwargs):
-        context = super(DatasetDetailView, self).get_context_data(**kwargs)
-        if self.object.dataset_user and self.object.dataset_password:
-            r = requests.get(self.object.url,
-                auth=(self.object.dataset_user,
-                self.object.dataset_password)).content
-        else:
-            r = requests.get(self.object.url).content
-        context['data'] = r
-        return context
-
     context_object_name = 'dataset'
 
 
@@ -105,13 +86,6 @@ class DatasetUpdateView(UpdateView):
     fields= ['author', 'title', 'url', 'dataset_user', 'dataset_password',
              'public_access', 'description']
     template_name_suffix = '_update'
-
-    def get_context_data(self, **kwargs):
-        context = super(DatasetUpdateView, self).get_context_data(**kwargs)
-        r = requests.get(self.object.url).content #.decode('utf-8')
-        context['data'] = r
-        return context
-
     context_object_name = 'dataset'
 
 
