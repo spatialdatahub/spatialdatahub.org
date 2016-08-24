@@ -5,14 +5,18 @@ from datasets import views
 app_name = 'datasets'
 
 urlpatterns = [
-#    url(r'^$',
-#        views.portal,
-#        name='portal'),
 
     url(r'^$',
         views.PortalView.as_view(),
         name='portal'),
 
+    url(r'^playground/$',
+        views.Playground.as_view(),
+        name='playground'),
+
+    url(r'^ajax/load_dataset/(?P<pk>[0-9]+)/$',
+        views.ajax_load_dataset,
+        name='ajax_load_dataset'),
 
     url(r'^about/$',
         views.AboutView.as_view(),

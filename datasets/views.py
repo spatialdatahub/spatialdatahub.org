@@ -1,11 +1,13 @@
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render # This will be removed with portal cbv
 from django.views.generic import DetailView, TemplateView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from datasets.models import Dataset
 
 import requests
+
+from django.shortcuts import render
+from django.http import HttpResponse, Http404
 
 
 """
@@ -17,47 +19,25 @@ way of making sure that they are secure.
 """
 
 
-'''
-def portal(request):
+def ajax_load_dataset(request, pk):
     """
-    I need to make a way for the data requests to be called from the template.
-    That way I can load only the names of the datasets into the portal page as
-    a list, and then pull in the data when the user wants it. It is extremely
-    slow to have to load all the data on every page load. There are already too
-    different javascript and css files linked up to this page.
-
-    AJAX calls to an asynchronous request function will be used to get the
-    data from the urls
-
-    Can I do this with a class based view? Like a list view?
-
+    This will be a function that loads the datasets to the leafletjs map
+    background on button click, instead on initial page load.
     """
+    dataset = Dataset.objects.get(pk=pk)
+    if request.is_ajax():
+        r = requests.get(dataset.url).content
+        message=r
+    else:
+        message="no"
+    return HttpResponse(message)
 
-    dataset_list = Dataset.objects.all().order_by('title')
 
-    ### Do I need this queryset thing here? Can I just write something in
-    ### javascript that does it for me?
-    if 'q' in request.GET:
-        q = request.GET['q']
-        dataset_list = Dataset.objects.filter(title__icontains=q).order_by('title')
-    ###
+class Playground(TemplateView):
+    template_name="datasets/playground.html"
 
-    ### This logic needs to be a function that can be called by ajax.
-    ### Perhaps from a different file.
-    ### Maybe as a separate view.
-    ### Maybe as a class with defined functions.
-    for dataset in dataset_list:
-        if dataset.dataset_user:
-            dataset.data = requests.get(dataset.url,
-                auth=(dataset.dataset_user,
-                dataset.dataset_password)).content
-        else:
-            dataset.data = requests.get(dataset.url).content
-    ###
 
-    context = {'dataset_list': dataset_list}
-    return render(request, 'datasets/portal.html', context)
-'''
+
 
 class PortalView(ListView):
     model = Dataset
