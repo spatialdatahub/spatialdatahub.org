@@ -52,7 +52,9 @@
     </div>
 <!-- End Map and Background Choices -->
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
+{% endblock content %}
+
+{% block js %}
 <script type="text/javascript" src="{% static 'js/datasets/portal_map.js' %}"></script> 
 
 <script type="text/javascript">
@@ -68,7 +70,4 @@ $(document).ready(function(){
 
 </script>
 
-
-
-
-{% endblock content %}
+{% endblock js %}
