@@ -37,4 +37,5 @@ urlpatterns = [
     url(r'^(?P<slug>[-\w]*)-(?P<pk>\d+)/$',
         views.DatasetDetailView.as_view(),
         name='dataset_detail'),
+
 ]

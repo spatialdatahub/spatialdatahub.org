@@ -30,4 +30,4 @@ loads all data made by a python request on start up.
 Add ability to put disclaimer or license or health warning on the data, with a that has to
 be clicked to access the data.
 
-Going to add ajax to search function on portal page
+*** Going to add ajax to search function on portal page

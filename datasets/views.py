@@ -33,9 +33,11 @@ def ajax_load_dataset(request, pk):
         else:
             r = requests.get(dataset.url).content
             message = r
+
+        return HttpResponse(message)
     else:
         message="Ajax Dataset Call"
-    return HttpResponse(message)
+        raise Http404
 
 
 class PortalView(ListView):
