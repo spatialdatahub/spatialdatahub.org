@@ -26,8 +26,14 @@ def ajax_load_dataset(request, pk):
     """
     dataset = Dataset.objects.get(pk=pk)
     if request.is_ajax():
-        r = requests.get(dataset.url).content
-        message=r
+        if dataset.dataset_user and dataset.dataset_password:
+            r = requests.get(dataset.url,
+                auth = (dataset.dataset_user,
+                dataset.dataset_password)).content
+            message = r
+        else:
+            r = requests.get(dataset.url).content
+            message = r
     else:
         message="Ajax Call"
     return HttpResponse(message)
@@ -50,17 +56,7 @@ class PortalView(ListView):
         if 'q' in self.request.GET:
             q = self.request.GET['q']
             queryset = Dataset.objects.filter(title__icontains=q).order_by('title')
-
-        for dataset in queryset:
-            if dataset.dataset_user and dataset.dataset_password:
-                dataset.data = requests.get(dataset.url,
-                    auth=(dataset.dataset_user,
-                    dataset.dataset_password)).content
-            else:
-                dataset.data = requests.get(dataset.url).content
-
         return queryset
-
 
 
 #########################################################################
