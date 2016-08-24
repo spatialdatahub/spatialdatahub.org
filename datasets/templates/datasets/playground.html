@@ -7,27 +7,25 @@
 </head>
 <body>
 
-<h1>Bring in dataset data</h1>
-<button value=3>3</button>
-<div id="loaditup"></div>
+{% for dataset in dataset_list %}
+    <button value={{ dataset.id }}>{{ dataset.title }}</button>
+{% endfor %}
+
+<div class='stuff'></div>
+
 
 <script type="text/javascript"
 src="https://code.jquery.com/jquery-3.1.0.js"></script>
 <script type="text/javascript">
 $(document).ready( function() {
 
-
 $('button').on('click', function() {
 	var value = $(this).attr('value')
 	$.get("/ajax/load_dataset/" + value, function(data){
-		document.write(data);
+		$('div.stuff').append(data);
 	});
 });
 
-//var button = $('button')
-//button.on('click', function() {
-//	console.log($(this).attr('id'));
-//});
 
 
 });

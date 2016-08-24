@@ -28,8 +28,7 @@
         {% if dataset_list %}
           {% for dataset in dataset_list %}
               <li>
-                <a href="#" onClick="printData('{{ dataset.data }}')">
-                <a href="#" onClick="getJsonFromLocal({{ dataset.data }})">
+                <a href="#" class='dataset-button' value={{ dataset.pk }}>
                   {{ dataset.title }}
                 </a> 
                 <a href="{% url 'datasets:dataset_detail' dataset.slug dataset.pk %}" >
@@ -52,6 +51,24 @@
       </div>
     </div>
 <!-- End Map and Background Choices -->
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
 <script type="text/javascript" src="{% static 'js/datasets/portal_map.js' %}"></script> 
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$('a.dataset-button').on('click', function() {
+		var value = $(this).attr('value');
+		$.ajax({url:"/ajax/load_dataset/" + value, success: function(data){
+			getJsonFromLocal($.parseJSON(data));
+		}});
+	});
+});
+
+</script>
+
+
+
 
 {% endblock content %}

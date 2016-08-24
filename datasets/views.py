@@ -29,14 +29,14 @@ def ajax_load_dataset(request, pk):
         r = requests.get(dataset.url).content
         message=r
     else:
-        message="no"
+        message="Ajax Call"
     return HttpResponse(message)
 
 
-class Playground(TemplateView):
+class Playground(ListView):
+    model = Dataset
+    context_object_name = 'dataset_list'
     template_name="datasets/playground.html"
-
-
 
 
 class PortalView(ListView):

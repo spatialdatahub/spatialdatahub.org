@@ -48,70 +48,6 @@ function getJsonFromLocal(data) {
     L.geoJson(data).addTo(myMap);
 }
 
-// function getKMLFromLocal(data) {
-//    omnivore.kml(data).addTo(myMap);
-// }
-
-//L.geoJson(data).addTo(myMap);
-//L.geoJson(test).addTo(myMap);
-
-// not password protected
-// function getJsonFromUrl(data) {
-//    omnivore.geojson(data).addTo(myMap);
-//}
-
-// not password protected
-// function getKMLFromUrl(data) {
-//    omnivore.kml(data).addTo(myMap);
-//}
-
-////////////////////////////////////////////////////////////////////////////////////// 
-////////////////////////////////////////////////////////////////////////////////////// 
-
-/*
-var states = [{
-    "type": "Feature",
-    "properties": {"party": "Republican"},
-    "geometry": {
-        "type": "Polygon",
-        "coordinates": [[
-            [-104.05, 48.99],
-            [-97.22,  48.98],
-            [-96.58,  45.94],
-            [-104.03, 45.94],
-            [-104.05, 48.99]
-        ]]
-    }
-}, {
-    "type": "Feature",
-    "properties": {"party": "Democrat"},
-    "geometry": {
-        "type": "Polygon",
-        "coordinates": [[
-            [-109.05, 41.00],
-            [-102.06, 40.99],
-            [-102.03, 36.99],
-            [-109.04, 36.99],
-            [-109.05, 41.00]
-        ]]
-    }
-}];
-
-L.geoJson(states, {
-    style: function(feature) {
-        switch (feature.properties.party) {
-            case 'Republican': return {color: "#ff0000"};
-            case 'Democrat':   return {color: "#0000ff"};
-        }
-    }
-}).addTo(myMap);
-*/
-
-
-
-////////////////////////////////////////////////////////////////////////////////////// 
-////////////////////////////////////////////////////////////////////////////////////// 
-
 
 
 /*
@@ -127,6 +63,7 @@ function onMapClick(e) {
 myMap.on('click', onMapClick);
 */
 // This takes it too far and actually removes the map background as well.
+
 function clearAllLayers() {
   myMap.eachLayer(function (layer) {
     myMap.removeLayer(layer);
