@@ -109,6 +109,7 @@ class ViewContentTests(BaseDatasetTest):
     def test_that_PortalView_brings_in_correct_list_of_dataset_objects(self):
         """
         This test should be written with a for loop
+
         """
         response = self.client.get('/')
         self.assertEqual(self.ds1, response.context['dataset_list'][0])
