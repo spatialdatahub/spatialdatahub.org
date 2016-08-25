@@ -56,13 +56,13 @@ class PortalView(ListView):
     context object view. As it is this is just extra work that the view has
     to do.
     """
-#    def get_queryset(self):
-#        queryset = super(PortalView, self).get_queryset()
-#
-#        if 'q' in self.request.GET:
-#            q = self.request.GET['q']
-#            queryset = Dataset.objects.filter(title__icontains=q).order_by('title')
-#        return queryset
+    def get_queryset(self):
+        queryset = super(PortalView, self).get_queryset()
+
+        if 'q' in self.request.GET:
+            q = self.request.GET['q']
+            queryset = Dataset.objects.filter(title__icontains=q).order_by('title')
+        return queryset
 
 
 #########################################################################
