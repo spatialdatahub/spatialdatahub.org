@@ -51,13 +51,18 @@ class PortalView(ListView):
     context_object_name = 'dataset_list'
     template_name = 'datasets/portal.html'
 
-    def get_queryset(self):
-        queryset = super(PortalView, self).get_queryset()
-
-        if 'q' in self.request.GET:
-            q = self.request.GET['q']
-            queryset = Dataset.objects.filter(title__icontains=q).order_by('title')
-        return queryset
+    """
+    I need to figure out how to fix this so that it works with ajax and the
+    context object view. As it is this is just extra work that the view has
+    to do.
+    """
+#    def get_queryset(self):
+#        queryset = super(PortalView, self).get_queryset()
+#
+#        if 'q' in self.request.GET:
+#            q = self.request.GET['q']
+#            queryset = Dataset.objects.filter(title__icontains=q).order_by('title')
+#        return queryset
 
 
 #########################################################################

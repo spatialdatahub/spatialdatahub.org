@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, RequestFactory, Client
 
 from datasets.models import Dataset
 
@@ -10,6 +10,9 @@ class BaseDatasetTest(TestCase):
 
     @classmethod
     def setUp(self):
+
+        self.factory = RequestFactory()
+        self.client = Client()
 
         self.ds1 = Dataset.objects.create(author="Google",
                                     title="Google GeoJSON Example",

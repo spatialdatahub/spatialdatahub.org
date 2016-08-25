@@ -8,9 +8,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
  
-    <title>
-      ZMT | {% block head_title %} {% endblock head_title %}
-    </title>
+<title>ZMT | {% block head_title %}{% endblock head_title %}</title>
+
+
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href='{% static "font-awesome-4.6.3/css/font-awesome.min.css" %}' />
 
@@ -54,7 +54,7 @@
           <a class="nav-link" href="{% url 'datasets:contact' %}">Contact</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-success font-weight-bold" href="{% url 'datasets:dataset_create' %}">New Map</a>
+          <a class="nav-link text-success font-weight-bold" href="{% url 'datasets:dataset_create' %}">New Dataset</a>
         </li>
       </ul>
     </nav>

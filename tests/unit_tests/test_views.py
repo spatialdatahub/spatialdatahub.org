@@ -1,15 +1,100 @@
 from django.core.urlresolvers import resolve, reverse
-from django.test import Client, TestCase
 from django.utils.text import slugify
 
 from datasets.models import Dataset
 from .base import BaseDatasetTest
-from datasets.views import PortalView
+
+from datasets.views import PortalView, AboutView, ContactView, DatasetCreateView
+from datasets.views import DatasetDetailView, DatasetUpdateView, DatasetRemoveView
 
 
-client = Client()
+class UrlsAndViewsTests(BaseDatasetTest):
+    """
+    This class will test that all the different urls return a status code of
+    200
+    These tests are set up to deal with the change to Class Based Views
+    """
 
-class RootUrlViewTests(BaseDatasetTest):
+    def test_base_url_resolves_to_PortalView(self):
+        request = self.factory.get('/')
+        response = PortalView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_about_url_resolves_to_AboutView(self):
+        request = self.factory.get('/about/')
+        response = AboutView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_contact_url_resolves_to_ContactView(self):
+        request = self.factory.get('/Contact/')
+        response = ContactView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_dataset_create_url_resolves_to_DatasetCreateView(self):
+        request = self.factory.get('/new_dataset/')
+        response = DatasetCreateView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_dataset_detail_url_resolves_to_DatasetDetailView(self):
+        test_url = '/%s/%s/'% (self.ds1.slug, self.ds1.pk)
+        request = self.factory.get(test_url)
+        response = DatasetDetailView.as_view()(request,
+                                               slug=self.ds1.slug,
+                                               pk=self.ds1.pk)
+        self.assertEqual(response.status_code, 200)
+
+    def test_dataset_update_url_resolves_to_DatasetUpdateView(self):
+        test_url = '/%s/%s/update/'% (self.ds1.slug, self.ds1.pk)
+        request = self.factory.get(test_url)
+        response = DatasetUpdateView.as_view()(request,
+                                               slug=self.ds1.slug,
+                                               pk=self.ds1.pk)
+        self.assertEqual(response.status_code, 200)
+
+    def test_dataset_remove_url_resolves_to_DatasetRemoveView(self):
+        test_url = '/%s/%s/remove/'% (self.ds1.slug, self.ds1.pk)
+        request = self.factory.get(test_url)
+        response = DatasetRemoveView.as_view()(request,
+                                               slug=self.ds1.slug,
+                                               pk=self.ds1.pk)
+        self.assertEqual(response.status_code, 200)
+
+
+class ViewTitleTests(BaseDatasetTest):
+
+    def test_PortalView_title_is_correct(self):
+        response = self.client.get('/')
+
+    def test_about_url_title_is_correct(self):
+        response = self.client.get('/about/')
+        self.assertIn('<title>ZMT | About</title>', response.content.decode('utf-8'))
+
+    def test_contact_url_title_is_correct(self):
+        response = self.client.get('/contact/')
+        self.assertIn('<title>ZMT | Contact</title>', response.content.decode('utf-8'))
+
+    def test_dataset_create_url_title_is_correct(self):
+        response = self.client.get('/new_dataset/')
+        self.assertIn('<title>ZMT | New Dataset</title>', response.content.decode('utf-8'))
+
+    def test_dataset_detail_url_title_is_correct(self):
+        test_url = '/%s-%s/' % (self.ds1.slug, self.ds1.pk)
+        response = self.client.get(test_url)
+        self.assertIn('<title>ZMT | %s</title>' % self.ds1.title, response.content.decode('utf-8'))
+
+    def test_dataset_update_url_title_is_correct(self):
+        test_url = '/%s-%s/update/' % (self.ds1.slug, self.ds1.pk)
+        response = self.client.get(test_url)
+        self.assertIn('<title>ZMT | Update %s</title>' % self.ds1.title, response.content.decode('utf-8'))
+
+    def test_dataset_remove_url_title_is_correct(self):
+        test_url = '/%s-%s/remove/' % (self.ds1.slug, self.ds1.pk)
+        response = self.client.get(test_url)
+        self.assertIn('<title>ZMT | Remove Dataset</title>', response.content.decode('utf-8'))
+
+
+
+class ViewContentTests(BaseDatasetTest):
     """
     This class will test that (1) the root url resolves to the correct
     view, (2) that the title on the view is correct, (3) that the correct
@@ -17,40 +102,37 @@ class RootUrlViewTests(BaseDatasetTest):
     the search function brings up the correct objects.
     """
 
-    # 1
-    def test_base_url_resolves_to_home_page(self):
-#        found = resolve('/')
-        response = client.get('/')
-        self.assertEqual(response.status_code, 200)
-#        self.assertEqual(found.func, PortalView())
+    def test_that_PortalView_brings_in_correct_number_of_dataset_objects(self):
+        response = self.client.get('/')
+        self.assertEqual(5, len(response.context['dataset_list']))
 
-    # 2
-    def test_view_title_is_correct(self):
-        response = client.get('/')
-        self.assertIn('GIS Portal', response.content.decode('utf-8'))
-
-    # 3
-    def test_that_view_can_bring_in_variables_and_display_them(self):
-
-        # Use the set up from the tests file in the datasets app
-
-        # GET the portal view
-        response = client.get('/')
+    def test_that_PortalView_brings_in_correct_list_of_dataset_objects(self):
+        """
+        This test should be written with a for loop
+        """
+        response = self.client.get('/')
+        self.assertEqual(self.ds1, response.context['dataset_list'][0])
+        self.assertEqual(self.ds2, response.context['dataset_list'][1])
+        self.assertEqual(self.ds3, response.context['dataset_list'][2])
+        self.assertEqual(self.ds4, response.context['dataset_list'][3])
+        self.assertEqual(self.ds5, response.context['dataset_list'][4])
 
 
-        ### THIS PART OF THE TEST MUST BE REFACTORED ###
+    # for every view test that dataset object are correct
 
-        # GET specific property of the specific variable in view 
-        # r2 = response.context[1]['id']
+    def test_that_DatasetDetailView_brings_in_correct_dataset_object(self):
+        test_url = '/%s-%s/' % (self.ds1.slug, self.ds1.pk)
+        response = self.client.get(test_url)
+        self.assertEqual(self.ds1, response.context['dataset'])
 
-        # check to see that the expected value is returned
-        # print(r2)
-        # self.assertEqual(r2.json()['id'], 'mapbox.o11ipb8h')
 
-        ### THIS PART OF THE TEST MUST BE REFACTORED ###
 
     # 4
+    '''
     def test_view_search_function(self):
+        """
+        This will be refactoed to use an ajax call
+        """
 
         # Use the set up from the tests file in the datasets app
 
@@ -64,10 +146,11 @@ class RootUrlViewTests(BaseDatasetTest):
         self.assertEqual(len(dataset_list), 1)
 
         # now run it as a get request for "zmt"
-        response = client.get('/?q=zmt')
+        response = self.client.get('/?q=zmt')
         self.assertEqual(response.status_code, 200)
         self.assertIn('ZMT GeoJSON Polygon', response.content.decode('utf-8'))
         self.assertNotIn('Mapbox GeoJson Example', response.content.decode('utf-8'))
+    '''
 
 
 class DatasetMetaDataViewTests(BaseDatasetTest):
@@ -98,7 +181,7 @@ class DatasetMetaDataViewTests(BaseDatasetTest):
         url = "/{slug}-{pk}/".format(slug=slug, pk=dataset_entry.pk,)
 
         # 1 -- check that dataset url is correct
-        response = client.get(url)
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, template_name="datasets/dataset_detail.html")
 
@@ -132,12 +215,12 @@ class DatasetMetaDataViewTests(BaseDatasetTest):
         url = "/{slug}-{pk}/".format(slug=slug, pk=dataset_entry.pk,)
 
         # check that dataset url is correct
-        response = client.get(url)
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, template_name="datasets/dataset_detail.html")
 
         # make new response object
-        response2 = client.get(reverse('datasets:dataset_detail',
+        response2 = self.client.get(reverse('datasets:dataset_detail',
                                        kwargs={'slug':slug, 'pk':dataset_entry.pk}))
 
         # check that page title is correct
@@ -157,40 +240,4 @@ class DatasetMetaDataViewTests(BaseDatasetTest):
         self.assertNotIn(dataset_entry.dataset_password, response2.content.decode("utf-8"))
         self.assertNotIn(dataset_entry.dataset_password, response2.context)
 
-'''
-class DatasetKmlViewTests(BaseDatasetTest):
-    """
-    This is a view that I will incorporate into the portal view, once it works. It
-    will check (1) what type of file is being loaded and (2) it will add a field to the
-    serialized list that says what type of file it is, which will be used by the template
-    language to determine which JavaScript command to use.
-    """
 
-    # 1
-    def test_file_type(self):
-
-        title1 = "kmz test dataset"
-        title2 = "kml test dataset"
-        dataset_entry1 = Dataset.objects.create(title=title1, author="Test Testerson",
-                                               description="This is a test dataset that" +
-                                                           "is password protected",
-                                               url="https://github.com/zmtdummy/GeoJsonData/" +
-                                                   "raw/master/berlin_craft_beer_locations.kmz")
-
-        dataset_entry2 = Dataset.objects.create(title=title2, author="KML Test Testerson",
-                                               description="This is a test kml dataset",
-                                               url="https://raw.githubusercontent.com/" +
-                                                   "zmtdummy/GeoJsonData/master/westcampus.kml")
-
-        dataset_list = [dataset_entry1, dataset_entry2, self.ds1]
-
-        for dataset in dataset_list:
-            if str(dataset.url.lower()).endswith('.json'):
-                print("Its name is JSON")
-            elif str(dataset.url.lower()).endswith('.kml'):
-                print("kml")
-            elif str(dataset.url.lower()).endswith('.kmz'):
-                print("kmz")
-            else:
-                print("Totally Unknown")
-'''
