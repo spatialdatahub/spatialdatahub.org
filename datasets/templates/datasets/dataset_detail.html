@@ -7,14 +7,18 @@
 
 {% block content %}
 
-  <h2 class="text-center">{{ dataset.title }} meta data</h2>
+  <h2 class="text-xs-center">{{ dataset.title }} meta data</h2>
+<hr class="divider">
   <div class="col-12 col-xs-12 col-sm-6 col-md-4" role="main" id="meta_data">
-    <ul>
-      <li><a href="{% url 'datasets:dataset_update' dataset.slug dataset.pk %}">Update this dataset</a></li> 
-      <li><a href="{% url 'datasets:portal' %}">Back to map list</a></li> 
-    </ul>
+    <p>Author: {{ dataset.author }}</p> 
+    <p>Dataset Description</p>
+    <p>{{ dataset.description }}</p> 
+    <p>Dataset URL</p>
+    <p>{{ dataset.url }}</p> 
+    <p><a href="{% url 'datasets:dataset_update' dataset.slug dataset.pk %}">Update this dataset</a></p> 
+    <p ><a class="text-danger font-weight-bold" href="{% url 'datasets:dataset_remove' dataset.slug dataset.pk %}">Remove this dataset</a></p> 
+    <p><a href="{% url 'datasets:portal' %}">Back to map list</a></p> 
   </div>
-  <div class='stuff'></div>
 
 <!-- Map and Background Choices -->
   <div class="col-12 col-xs-12 col-sm-6 col-md-8" role="main" id="main_map">

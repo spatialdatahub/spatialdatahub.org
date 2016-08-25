@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponse, Http404
 from django.views.generic import DetailView, TemplateView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
@@ -6,7 +7,6 @@ from datasets.models import Dataset
 
 import requests
 
-from django.http import HttpResponse, Http404
 
 
 """
@@ -23,24 +23,30 @@ def ajax_load_dataset(request, pk):
     This will be a function that loads the datasets to the leafletjs map
     background on button click, instead on initial page load.
     """
+
     dataset = Dataset.objects.get(pk=pk)
     if request.is_ajax():
         if dataset.dataset_user and dataset.dataset_password:
             r = requests.get(dataset.url,
                 auth = (dataset.dataset_user,
                 dataset.dataset_password)).content
-            message = r
+            data = r
         else:
             r = requests.get(dataset.url).content
-            message = r
-
-        return HttpResponse(message)
+            data = r
+        return HttpResponse(data)
     else:
-        message="Ajax Dataset Call"
         raise Http404
 
 
 class PortalView(ListView):
+    """
+    This is the main view on the site. It should be a simple list view without
+    any special methods. Only the model, context object name and template
+    should be defined. I will remove the get_queryset method and replace it
+    with an ajax call function.
+    """
+
     model = Dataset
     context_object_name = 'dataset_list'
     template_name = 'datasets/portal.html'
@@ -67,28 +73,40 @@ class PortalView(ListView):
 
 
 class DatasetDetailView(DetailView):
+    """
+    This is the view that will show all of a dataset's meta data. The map will
+    be autopopulated with the dataset on page load. The page load will use the
+    same ajax call as that the portal page uses. This ajax call will be reused
+    on the dataset update page as well.
+    """
+
     model = Dataset
     context_object_name = 'dataset'
+    template_name = 'datasets/dataset_detail.html'
 
 
 class DatasetCreateView(CreateView):
+    """
+    """
 
     model = Dataset
     fields= ['author', 'title', 'url', 'dataset_user', 'dataset_password',
              'public_access', 'description']
-    template_name_suffix = '_create'
+    template_name = 'datasets/dataset_create.html'
 
 
 class DatasetUpdateView(UpdateView):
     """
-    I need to load up the map data in this view so that it is automatically
-    displayed.
+    This is the view that will allow a user to modify a dataset's meta data and
+    url. The map will be autopopulated with the dataset on page load.
+    The page load will use the same ajax call as that the portal page uses.
     """
+
     model = Dataset
     fields= ['author', 'title', 'url', 'dataset_user', 'dataset_password',
              'public_access', 'description']
-    template_name_suffix = '_update'
     context_object_name = 'dataset'
+    template_name = 'datasets/dataset_update.html'
 
 
 class DatasetRemoveView(DeleteView):
