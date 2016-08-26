@@ -20,14 +20,14 @@
     <form action="." method="post">
       {% csrf_token %}
       {{ form|crispy }}
-      <input id="submit_dataset" class="btn btn-default" type="submit" value="Submit">
+      <input id="submit_dataset" class="btn btn-success" type="submit" value="Update">
     </form>
   </div>
 <!-- End The Form -->
 
 <!-- Map and Background Choices -->
 <div class="col-12 col-xs-12" role="main" id="main_map">
-  <div id="mapid">
+  <div id="mapid" value="{{ dataset.pk }}">
   </div>
 </div>
 <!-- End Map and Background Choices -->
@@ -40,17 +40,6 @@
 {% block js %}
 
 <script type="text/javascript" src="{% static 'js/datasets/portal_map.js' %}" ></script>
-
-<!-- Autoload Dataset to Map -->
-
-<script type="text/javascript">
-
-$(document).ready(function(){
-	$.ajax({url:"/ajax/load_dataset/" + {{ dataset.pk }}, success: function(data){
-		getJsonFromLocal($.parseJSON(data));
-	}});
-});
-
-</script>
+<script type="text/javascript" src="{% static 'js/datasets/map_autoload_jquery.js' %}"></script>
 
 {% endblock js%}

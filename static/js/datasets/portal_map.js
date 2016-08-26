@@ -70,3 +70,13 @@ function clearAllLayers() {
   });
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////// 
+// Is it good to keep jQuery as separate functions in the main javascript file? //////
+////////////////////////////////////////////////////////////////////////////////////// 
+//
+//		var value = $(this).attr('value');
+//		$.ajax({url:"/ajax/load_dataset/" + value, success: function(data){
+//			getJsonFromLocal($.parseJSON(data));
+//		}});
+

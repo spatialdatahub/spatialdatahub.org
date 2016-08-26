@@ -53,19 +53,8 @@
 {% endblock content %}
 
 {% block js %}
+
 <script type="text/javascript" src="{% static 'js/datasets/portal_map.js' %}"></script> 
-
-<script type="text/javascript">
-
-$(document).ready(function(){
-	$('a.dataset-button').on('click', function() {
-		var value = $(this).attr('value');
-		$.ajax({url:"/ajax/load_dataset/" + value, success: function(data){
-			getJsonFromLocal($.parseJSON(data));
-		}});
-	});
-});
-
-</script>
+<script type="text/javascript" src="{% static 'js/datasets/portal_jquery.js' %}"></script>
 
 {% endblock js %}
