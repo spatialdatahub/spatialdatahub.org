@@ -117,7 +117,6 @@ class DatasetUpdateView(UpdateView):
 class DatasetRemoveView(DeleteView):
     model = Dataset
     success_url = reverse_lazy('datasets:portal')
-    context_object_name = 'dataset'
     template_name = 'datasets/dataset_confirm_remove.html'
 
 

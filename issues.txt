@@ -31,3 +31,6 @@ Add ability to put disclaimer or license or health warning on the data, with a t
 be clicked to access the data.
 
 *** Going to add ajax to search function on portal page
+
+I need to figure out a better way to deal with the password and username variables because they are still 
+available as response context variables

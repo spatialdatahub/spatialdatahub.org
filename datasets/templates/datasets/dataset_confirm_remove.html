@@ -17,44 +17,15 @@
              value="Yes, please remove {{ dataset.title }}" />
     </form>
 
+<h1>These are here as a reminder</h1>
+<p>Figure out how to get rid of these variables from the page context or
+protect them</p>
 {{ dataset.dataset_password }}
 <br />
 {{ dataset.dataset_user }}
 
+<h1>These are here as a reminder</h1>
 
-
-
-  <!--
-    else
-  -->
-  <!--
-    Sorry, you are not authorized to delete this dataset.
-  -->
-
-<br />
-
-<!-- Map and Background Choices -->
-<div class="col-12 col-xs-12 text-xs-center" role="main" id="main_map">
-  <div id="mapid">
-  </div>
-</div>
-<!-- End Map and Background Choices -->
 
 </div>
-
-<script type="text/javascript" src="{% static 'datasets/js/portal_map.js' %}" ></script>
-
-<!-- Autoload Dataset to Map -->
-<!-- I should write this as a jQuery function. That way it can be put on all the dataset specific pages -->
-{% if dataset.json %}
-  <script type="text/javascript">
-    getJsonFromLocal('{{ dataset.json }}');
-  </script>
-{% else %}
-  <script type="text/javascript">
-    getJsonFromUrl('{{ dataset.url }}');
-  </script>
-{% endif %}
-<!-- End Autoload Dataset to Map -->
-
 {% endblock content %}
