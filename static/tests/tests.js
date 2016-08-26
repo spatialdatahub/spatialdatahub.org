@@ -17,3 +17,19 @@ QUnit.test("isEven()", function( assert ){
 	assert.ok(isEven(-2), 'negative two is an even number');
 });
 
+function ajaxLoadDataset() {
+	var value = $('#mapid').attr('value');
+	$.ajax({url:"/ajax/load_dataset/" + value,  
+		success: function(data){
+			getJsonFromLocal($.parseJSON(data));
+		}
+	});
+};
+
+Qunit.test("ajax load dataset", function( assert ) {
+	// asynchronous so it has to start with a pause
+	stop();
+	ajax(
+
+	assert.ok(
+});
