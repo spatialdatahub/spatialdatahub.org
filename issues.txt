@@ -20,11 +20,17 @@ to show the metadata on the other half of the page.
 Create a documentation portion of the website that describes how everything works
 and how to recreate it.
 
-Make all url requests with python, and load the data from local source.
 
+############################## DONE ############################## 
+Make all url requests with python, and load the data from local source.
+############################## DONE ############################## 
+
+
+############################## DONE ############################## 
 Set python only to make requests for data when people click buttons. Attempting to load
 all of the map data on the initial page load could be very taxing on time. It currently
 loads all data made by a python request on start up.
+############################## DONE ############################## 
 
 
 Add ability to put disclaimer or license or health warning on the data, with a that has to
@@ -34,3 +40,9 @@ be clicked to access the data.
 
 I need to figure out a better way to deal with the password and username variables because they are still 
 available as response context variables
+
+
+
+Clean up the Javascript and rebuild it with tests. One piece at a time.
+
+Make example site with only the map page and the data that we collect from the publications.

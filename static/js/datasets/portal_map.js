@@ -1,82 +1,25 @@
-// I think that to use the testing functions it maybe easier to wrap everything
-// in a larger function called 'portalMap'. I can make it an 'L' function, as
-// in 'L.portalMap'.  
+var myNamespace = (function(w, d, $) {
+	// w = window, d = document, $ = jQuery
 
+	// set up the map
+	var myMap;
+	myMap = new L.Map('mapid')
 
-var myMap = L.map('mapid').setView([0, 8.8460], 2);
-var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+	// create base tile layer for map
+	var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+	var osm = new L.TileLayer(osmUrl, 
+		{
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+		minZoom:0, 
+		maxZoom: 18
+		}
+	);
 
-// This is the default layer for the map. I don't really like the way it looks with the
-// ZMT colors. It clashes. So this will probably change. Other maps will be provided
-// for users to choose.
+	// set map view and add base layer
+	myMap.setView({lat: 0, lng: 8.8460}, 2);
+	myMap.addLayer(osm);
 
-L.tileLayer.provider('OpenStreetMap.Mapnik', {
-	minZoom: 0,
-	maxZoom: 20,
-	maxNativeZoom: 18,  
-	attribution: osmAttrib
-}).addTo(myMap);
+})(window, document, jQuery);
 
-////////////////////////////////////////////////////////////////////////////////////// 
-// Allow different background maps to be selected by saving them as variables, and
-// creating a selector function.
-////////////////////////////////////////////////////////////////////////////////////// 
-
-var openStreetMapMapnik = L.tileLayer.provider('OpenStreetMap.Mapnik'),
-	openTopoMap = L.tileLayer.provider('OpenTopoMap'),
-	stamenWaterColor = L.tileLayer.provider('Stamen.Watercolor'),
-	thunderForestSpinalMap = L.tileLayer.provider('Thunderforest.SpinalMap'),
-	thunderForestTransportDark = L.tileLayer.provider('Thunderforest.TransportDark'),
-	nasaNight = L.tileLayer.provider('NASAGIBS.ViirsEarthAtNight2012');
-
-var baseLayers = {
-	"Street Map": openStreetMapMapnik,
-	"Topo": openTopoMap,
-	"Water Color": stamenWaterColor,
-	"Spinal Map": thunderForestSpinalMap,
-	"Dark Map": thunderForestTransportDark,
-	"NASA Night": nasaNight
-};
-
-L.control.layers(baseLayers).addTo(myMap);
-
-////////////////////////////////////////////////////////////////////////////////////// 
-
-// I still may have a bit of trouble with these functions and loading many layers
-
-function getJsonFromLocal(data) {
-	L.geoJson(data).addTo(myMap);
-}
-
-
-
-/*
-var popup = L.popup();
-
-function onMapClick(e) {
-	popup
-		.setLatLng(e.latlng)
-		.setContent(e.latlng.toString())
-		.openOn(myMap);
-}
-
-myMap.on('click', onMapClick);
-*/
-// This takes it too far and actually removes the map background as well.
-
-function clearAllLayers() {
-	myMap.eachLayer(function (layer) {
-		myMap.removeLayer(layer);
-	});
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////// 
-// Is it good to keep jQuery as separate functions in the main javascript file? //////
-////////////////////////////////////////////////////////////////////////////////////// 
-//
-//		var value = $(this).attr('value');
-//		$.ajax({url:"/ajax/load_dataset/" + value, success: function(data){
-//			getJsonFromLocal($.parseJSON(data));
-//		}});
-
+console.log(typeof myNamespace);
+console.log(typeof myMap);
