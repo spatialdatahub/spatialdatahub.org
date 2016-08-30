@@ -12,7 +12,7 @@ QUnit.test("Test base layer (osm) URL", function( assert ) {
 
 QUnit.test("Test base layer (osm) attribution?", function( assert ){
 	assert.equal(osm.options.attribution, 
-		'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>');
+		'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>');
 });
 
 QUnit.test("Test base layer (osm) minZoom?", function( assert ){
@@ -20,5 +20,7 @@ QUnit.test("Test base layer (osm) minZoom?", function( assert ){
 });
 
 QUnit.test("Test base layer (osm) maxZoom?", function( assert ){
-	assert.equal(osm.options.maxZoom, 18);
+	assert.equal(osm.options.maxZoom, 19);
 });
+
+
