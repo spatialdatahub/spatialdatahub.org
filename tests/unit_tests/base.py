@@ -1,11 +1,10 @@
 from django.test import TestCase, RequestFactory, Client
-
 from datasets.models import Dataset
 
 
 class BaseDatasetTest(TestCase):
     """
-    This simply setting up dummy data for the rest of the tests
+    dummy data for the tests
     """
 
     @classmethod
