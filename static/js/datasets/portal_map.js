@@ -27,7 +27,6 @@ myMap = new L.Map('mapid', {
 var datasets = L.layerGroup();
 
 // add GeoJSON dataset to map with jQuery ajax call
-
 var geoJsonFeature = {
     "type": "Feature",
     "properties": {
@@ -40,3 +39,5 @@ var geoJsonFeature = {
         "coordinates": [8.846278, 53.108312]
     }
 };
+
+datasets.addLayer(geoJsonFeature);
