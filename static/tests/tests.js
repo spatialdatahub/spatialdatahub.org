@@ -32,7 +32,24 @@ QUnit.test("baseLayer layerGroup", function( assert ) {
 	);
 });
 
-QUnit.test("add dummy GeoJSON to map", function( assert ) {
+
+QUnit.test("jQuery button can make ajax call that brings in datasets", function( assert ) {
+	assert.expect( 2 );
+	var $datasetButton =  $('.dataset-button');
+
+	$datasetButton.on("click", function() {
+		assert.ok( true, "body was clicked!" );
+	}); 
+
+	$datasetButton.on("click", function() {
+		assert.ok( true, "body was clicked!" );
+	});
+
+	$datasetButton.trigger( "click" );
+});
+
+
+QUnit.test("add dummy GeoJSON to datasets layer", function( assert ) {
 	// add GeoJSON dataset to map with jQuery ajax call
 	datasets.addLayer(geoJsonFeature);
 
@@ -55,9 +72,6 @@ QUnit.test("add dummy GeoJSON to map", function( assert ) {
 		"The coordinates are for the ZMT longitude: 8.846, latitude: 53.108"
 	);
 });
-
-
-QUnit.test("Use Layer Control to select base map layer", function( assert ) {});
 
 //QUnit.test("Use Ajax call to bring GeoJson data in and add data to datasets layerGroup", function( assert ) {});
 
