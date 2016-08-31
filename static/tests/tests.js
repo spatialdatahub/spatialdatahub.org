@@ -32,8 +32,11 @@ QUnit.test("baseLayer layerGroup", function( assert ) {
 	);
 });
 
-
 QUnit.test("add dummy GeoJSON to map", function( assert ) {
+	// add GeoJSON dataset to map with jQuery ajax call
+	datasets.addLayer(geoJsonFeature);
+
+	// make assertions
 	assert.equal(datasets.getLayers().length,
 		1,
 		"One layer has been added to the datasets layer group"
@@ -56,15 +59,15 @@ QUnit.test("add dummy GeoJSON to map", function( assert ) {
 
 QUnit.test("Use Layer Control to select base map layer", function( assert ) {});
 
-QUnit.test("Use Ajax call to bring GeoJson data in and add data to datasets layerGroup", function( assert ) {});
+//QUnit.test("Use Ajax call to bring GeoJson data in and add data to datasets layerGroup", function( assert ) {});
 
-QUnit.test("Can add and remove, or activate and deactivate, dataset on map", function( assert ) {});
+//QUnit.test("Can add and remove, or activate and deactivate, dataset on map", function( assert ) {});
 
-QUnit.test("Can use leaflet providers to bring in map tile layers and put them on the map", function( assert ) {});
+//QUnit.test("Can use leaflet providers to bring in map tile layers and put them on the map", function( assert ) {});
 
-QUnit.test("Can click on data points and get popup with information about point", function( assert ) {});
+//QUnit.test("Can click on data points and get popup with information about point", function( assert ) {});
 
-QUnit.test("Slider bar", function( assert ) {});
+//QUnit.test("Slider bar", function( assert ) {});
 
-QUnit.test("KML files", function( assert ) {});
+//QUnit.test("KML files", function( assert ) {});
 

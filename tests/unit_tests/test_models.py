@@ -10,7 +10,7 @@ class DatasetModelTests(BaseDatasetTest):
 
     def test_that_dataset_model_has_objects_already(self):
         dataset_list = Dataset.objects.all()
-        self.assertEqual(dataset_list.count(), 5)
+        self.assertEqual(dataset_list.count(), 3)
 
     def test_that_dataset_object_can_be_saved_to_database_and_found(self):
         Dataset.objects.create(author="pat",

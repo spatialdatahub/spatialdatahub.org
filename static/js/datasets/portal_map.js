@@ -25,19 +25,3 @@ myMap = new L.Map('mapid', {
 
 // create layer group to add datasets too
 var datasets = L.layerGroup();
-
-// add GeoJSON dataset to map with jQuery ajax call
-var geoJsonFeature = {
-    "type": "Feature",
-    "properties": {
-        "name": "Leibniz-Zentrum für Marine Tropenökologie",
-        "type": "Research Institute",
-        "popupContent": "This is where the ZMT is located!"
-    },
-    "geometry": {
-        "type": "Point",
-        "coordinates": [8.846278, 53.108312]
-    }
-};
-
-datasets.addLayer(geoJsonFeature);

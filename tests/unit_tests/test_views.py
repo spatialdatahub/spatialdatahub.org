@@ -158,7 +158,7 @@ class ViewContextTests(BaseDatasetTest):
 
     def test_that_PortalView_brings_in_correct_number_of_dataset_objects(self):
         response = self.client.get('/')
-        self.assertEqual(5, len(response.context['dataset_list']))
+        self.assertEqual(3, len(response.context['dataset_list']))
 
     def test_that_PortalView_brings_in_correct_list_of_dataset_objects(self):
         response = self.client.get('/')
@@ -186,7 +186,6 @@ class ViewContextTests(BaseDatasetTest):
 
 
 class PortalViewSearchTest(BaseDatasetTest):
-    # 4
     def test_view_search_function(self):
         """
         This will be refactoed to use an ajax call
@@ -206,46 +205,6 @@ class PortalViewSearchTest(BaseDatasetTest):
 
 
 class DatasetMetaDataViewTests(BaseDatasetTest):
-    """
-    This class will test that (1) the dataset url resolves to the correct
-    view, (2) that the title on the view is correct, (3) that the correct
-    variables are brought into the view and displayed, and more. (4) Test
-    that a dataset that is protectd by a password and username can be called
-    and that the username and password are removed before the final stage.
-    """
-
-    def test_dataset_detail_url_resolves_correct_page(self):
-
-        # We will use the set up from the datasets test file eventually
-        # but first we will use a simple locally defined instance
-
-        # Use the set up from the tests file in the datsets app
-
-        # Call the dataset slug and the dataset pk for the url, which 
-        # is defined with the "get_absolute_url" function in the model
-        # and is "/<slug>-<pk>/"
-
-        title = "This is my test title"
-        dataset_entry = Dataset.objects.create(title=title, author="Test Testerson",
-                                               description="This is a test dataset",
-                                               url="http://www.duckduckgo.com")
-        slug = slugify(title)
-        url = "/{slug}-{pk}/".format(slug=slug, pk=dataset_entry.pk,)
-
-        # 1 -- check that dataset url is correct
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, template_name="datasets/dataset_detail.html")
-
-        # 2 -- check that page title is correct
-        self.assertIn(title, response.content.decode("utf-8"))
-
-        # 3 -- check that correct variables are displayed on page
-        self.assertIn(dataset_entry.author, response.content.decode("utf-8"))
-        self.assertIn(dataset_entry.url, response.content.decode("utf-8"))
-        self.assertIn(dataset_entry.description, response.content.decode("utf-8"))
-
-    # 4
     def test_password_protected_dataset_does_not_have_user_password_in_final_stage(self):
         """
         The view function should be able to use the special username and password,
@@ -253,43 +212,7 @@ class DatasetMetaDataViewTests(BaseDatasetTest):
         context variable.
         """
 
-        title = "Password protected dataset test title"
-        dataset_entry = Dataset.objects.create(title=title, author="Secret Test Testerson",
-                                               description="This is a test dataset that" +
-                                                           "is password protected",
-                                               url="https://bitbucket.org/zmtdummy/geojsondata/" +
-                                                   "raw/ad675d6fd6e2256b365e79e785603c2ab454006b/" +
-                                                   "password_protected_dataset.json",
-                                               dataset_user='zmtdummy',
-                                               dataset_password='zmtBremen1991')
-
-        slug = slugify(title)
-        url = "/{slug}-{pk}/".format(slug=slug, pk=dataset_entry.pk,)
-
-        # check that dataset url is correct
+        url = "/{slug}-{pk}/".format(slug=self.ds3.slug, pk=self.ds3.pk)
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, template_name="datasets/dataset_detail.html")
-
-        # make new response object
-        response2 = self.client.get(reverse('datasets:dataset_detail',
-                                       kwargs={'slug':slug, 'pk':dataset_entry.pk}))
-
-        # check that page title is correct
-        self.assertIn(title, response.content.decode("utf-8"))
-
-        # check that correct variables are displayed on page
-        self.assertIn(dataset_entry.author, response.content.decode("utf-8"))
-        self.assertIn(dataset_entry.url, response.content.decode("utf-8"))
-        self.assertIn(dataset_entry.description, response.content.decode("utf-8"))
-
-        # check that dataset password can be pulled up from dataset object
-        self.assertEqual(dataset_entry.dataset_password, 'zmtBremen1991')
-
-        # check that dataset password is not displayed on page
-        self.assertNotIn(dataset_entry.dataset_password, response.content.decode("utf-8"))
-        self.assertNotIn(dataset_entry.dataset_password, response.context)
-        self.assertNotIn(dataset_entry.dataset_password, response2.content.decode("utf-8"))
-        self.assertNotIn(dataset_entry.dataset_password, response2.context)
-
-
+        self.assertNotIn(self.ds3.dataset_password, response.content.decode("utf-8"))
+        self.assertNotIn(self.ds3.dataset_password, response.context)

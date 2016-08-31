@@ -293,3 +293,42 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
     def test_ABOUT_page_has_correct_bootstrap_grid_setup(self):
         pass
     """
+
+class DatasetCreateViewMiscCSS(CssBaseLiveTest):
+
+    def test_dataset_create_view_Submit_button_is_green_and_bold(self):
+        for browser in self.browsers:
+            browser.get('{localhost}/{new_dataset}'.format(localhost=self.live_server_url,
+                                                           new_dataset='new_dataset'))
+
+            submit_button = browser.find_element_by_id('submit_dataset')
+            submit_button_class = submit_button.get_attribute('class')
+            self.assertEqual(submit_button_class, 'btn btn-success')
+
+
+class DatasetUpdateViewMiscCSS(CssBaseLiveTest):
+
+    def test_dataset_update_view_Submit_button_is_green_and_bold(self):
+        for browser in self.browsers:
+            browser.get('{localhost}/{slug}-{pk}/update/'.format(localhost=self.live_server_url,
+                                                                 slug=self.dummy_dataset.slug,
+                                                                 pk=self.dummy_dataset.pk))
+            submit_button = browser.find_element_by_id('submit_dataset')
+            submit_button_class = submit_button.get_attribute('class')
+            self.assertEqual(submit_button_class, 'btn btn-success')
+
+
+
+'''
+class DatasetDetailViewMiscCSS(CssBaseLiveTest):
+
+    def test_dataset_create_view_Submit_button_is_green_and_bold(self):
+        for browser in self.browsers:
+            browser.get('{localhost}/{new_dataset}'.format(localhost=self.live_server_url,
+                                                           new_dataset='new_dataset'))
+
+            submit_button = browser.find_element_by_id('submit_dataset')
+            submit_button_class = submit_button.get_attribute('class')
+            self.assertEqual(submit_button_class, 'btn btn-success')
+'''
+

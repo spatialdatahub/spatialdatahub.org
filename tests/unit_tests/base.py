@@ -26,18 +26,8 @@ class BaseDatasetTest(TestCase):
                                     public_access=True)
 
         self.ds3 = Dataset.objects.create(author="zmtdummy",
-                                    title="Bienvenidos GeoJSON Polygon",
-                                    description="Polygons spelling 'Bienvenidos' over the United States",
-                                    url="https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/bienvenidos.json")
-
-        self.ds4 = Dataset.objects.create(author="zmtdummy",
                                     title="ZMT GeoJSON Polygon",
                                     description="Polygons spelling 'ZMT' over the location of the ZMT",
                                     url="https://bitbucket.org/zmtdummy/geojsondata/raw/0f318d948d74a67bceb8da5257a97b7df80fd2dd/zmt_polygons.json",
                                     dataset_user="zmtdummy",
                                     dataset_password="zmtBremen1991")
-
-        self.ds5 = Dataset.objects.create(author="KML_Test",
-                                    title="KML Test Dataset",
-                                    description="This is a KML test dataset",
-                                    url="https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/westcampus.kml")
