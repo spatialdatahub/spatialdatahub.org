@@ -37,10 +37,13 @@ QUnit.test("jQuery button can make ajax call that brings in datasets", function(
 	assert.expect( 2 );
 	var $datasetButton =  $('.dataset-button');
 
+	// Test click function
 	$datasetButton.on("click", function() {
 		assert.ok( true, "body was clicked!" );
 	}); 
 
+
+	// Why isn't there anything new here?
 	$datasetButton.on("click", function() {
 		assert.ok( true, "body was clicked!" );
 	});
@@ -85,7 +88,12 @@ QUnit.test("add dummy GeoJSON to datasets layer", function( assert ) {
 
 //QUnit.test("Can use leaflet providers to bring in map tile layers and put them on the map", function( assert ) {});
 
-//QUnit.test("Can click on data points and get popup with information about point", function( assert ) {});
+QUnit.test("Can click on data points and get popup with information about point", function( assert ) {
+	// add GeoJSON dataset to map with jQuery ajax call
+	datasets.addLayer(rB);
+
+
+});
 
 //QUnit.test("Slider bar", function( assert ) {});
 
