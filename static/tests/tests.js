@@ -73,6 +73,12 @@ QUnit.test("add dummy GeoJSON to datasets layer", function( assert ) {
 	);
 });
 
+
+//QUnit.test("autoload dataset to detail/update pages", function( assert ) {
+	// this is testing the same functionality as the button dataset add dataset,
+	// but it's automatic. I probably need to do some refactoring relatively soon.
+//}); 
+
 //QUnit.test("Use Ajax call to bring GeoJson data in and add data to datasets layerGroup", function( assert ) {});
 
 //QUnit.test("Can add and remove, or activate and deactivate, dataset on map", function( assert ) {});
