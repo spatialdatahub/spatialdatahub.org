@@ -2,7 +2,7 @@
 	var value = $('#mapid').attr('value');
 	$.ajax({url:"/ajax/load_dataset/" + value,  
 		success: function(data){
-			getJsonFromLocal($.parseJSON(data));
+			L.geoJson($.parseJSON(data)).addTo(myMap);
 		}
 	});
 }(window.jQuery, window, document));

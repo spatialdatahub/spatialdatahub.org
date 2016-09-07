@@ -35,7 +35,7 @@ $('.dataset-button').on('click', function( value ) {
 		url:"/ajax/load_dataset/" + value,
 		success: function( data ) {
 			L.geoJson($.parseJSON(data)).addTo(myMap);
-// I want to add the dataset layer to the map, but maybe this is uneccesasry... how do i do this beter?
+// I want to add the dataset layer to the map, but maybe this is uneccesasry... how do i do this better?
 //			datasets.addLayer( data );
 //			datasets.addTo(myMap);
 		}
