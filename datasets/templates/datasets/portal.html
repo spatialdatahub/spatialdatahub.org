@@ -10,7 +10,7 @@
 <!-- Dataset Choices Sidebar NEW -->
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 sidebar-offcanvas" id="sidebar">
 
-<!-- This form needs to be reworked -->
+<!-- This form needs to be reworked 
       <form action="" method="get">
         <input type="text" class="form-control text-center" name="q" placeholder="Search Datasets by Title">
         <a role="button" class="btn btn-secondary btn-block" href="{% url 'datasets:portal' %}">Show All</a>
@@ -18,6 +18,7 @@
           Clear Map
         </a>
       </form>
+This ^^  form ^^ needs to be reworked -->
 
 <!-- List of maps with if statements parsing through them-->
       <div>
@@ -25,14 +26,16 @@
           <li><b>Map Name <div class="pull-right">Meta Data</div></b></li>
         {% if dataset_list %}
           {% for dataset in dataset_list %}
+
               <li>
-                <a href="#" class='dataset-button' value={{ dataset.pk }}>
-                  {{ dataset.title }}
-                </a> 
+                <label>
+                  <input type="checkbox" id="datasetCheckbox" value={{ dataset.pk }}>{{ dataset.title }} {{ dataset.pk }}
+                </label>
                 <a href="{% url 'datasets:dataset_detail' dataset.slug dataset.pk %}" >
                   <i class="fa fa-newspaper-o fa-pull-right fa-border" aria-hidden="true"></i>
                 </a>
               </li>
+
           {% endfor %}
         {% else %}
           <h4>There are no datasets available</h4>
@@ -41,7 +44,6 @@
       </ul>
     </div>
 <!-- End List of maps -->
-
 
 <!-- Map and Background Choices -->
     <div class="col-12 col-xs-12 col-sm-6 col-md-8 col-lg-9" role="main" id="main_map">

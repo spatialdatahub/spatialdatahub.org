@@ -1,5 +1,4 @@
-QUnit.test("map default options", function( assert ) {
-	assert.equal(myMap.getCenter().toString(),
+QUnit.test("map default options", function( assert ) { assert.equal(myMap.getCenter().toString(),
 		"LatLng(0, 8.846)",
 		"The map is centered at the ZMT's longitude, and the equator"
 	);
@@ -88,12 +87,12 @@ QUnit.test("add dummy GeoJSON to datasets layer", function( assert ) {
 
 //QUnit.test("Can use leaflet providers to bring in map tile layers and put them on the map", function( assert ) {});
 
-QUnit.test("Can click on data points and get popup with information about point", function( assert ) {
+//QUnit.test("Can click on data points and get popup with information about point", function( assert ) {
 	// add GeoJSON dataset to map with jQuery ajax call
-	datasets.addLayer(rB);
+//	datasets.addLayer(rB);
 
 
-});
+//});
 
 //QUnit.test("Slider bar", function( assert ) {});
 

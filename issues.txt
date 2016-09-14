@@ -46,3 +46,6 @@ available as response context variables
 Clean up the Javascript and rebuild it with tests. One piece at a time.
 
 Make example site with only the map page and the data that we collect from the publications.
+
+
+Fork this project on github and make a version with webglearth

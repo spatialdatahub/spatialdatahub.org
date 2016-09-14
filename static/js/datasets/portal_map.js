@@ -1,64 +1,75 @@
 // create base tile layer variable for map
 var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 	minZoom:0, 
 	maxZoom: 19 
+}),
+stamenToner = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
+	subdomains: 'abcd',
+	minZoom: 0,
+	maxZoom: 20,
+	ext: 'png'
 });
-
-
-// create layer group and add base tile layer to layer group
-var baseLayer = L.layerGroup();
-baseLayer.addLayer(osm);
-
-
 // set up map, view and base layer
 var myMap;
 myMap = new L.Map('mapid', {
 	center: {lat: 0, lng: 8.8460}, 
 	zoom: 2,
-	layers: baseLayer
+	layers: osm 
+});
+// create layer group and add base tile layer to layer group
+var baseLayers = {
+	"Open Street Maps": osm,
+	"Black and White": stamenToner
+};
+L.control.layers(baseLayers).addTo(myMap);
+
+// create object to add datasets too
+datasets = []; 
+
+// add values from the html elements to the dataset list
+// add "ds" to the numbers to that they can be called as variables
+$("input#datasetCheckbox").each(function() {
+	value = "ds"+$(this).val();
+	datasets.push(value);
+});
+
+// add layers to variables stored in dataset list
+$("input#datasetCheckbox").on("click", function( event ) {
+	var value = event.target.value,
+	dsUrl = "/load_dataset/"+value,
+	dsValue = "ds" + value,
+	ds = datasets[dsValue];
+
+	// if map already has dataset, remove it, otherwise, add it
+	if (myMap.hasLayer(ds)) {
+		myMap.removeLayer(ds);	
+	} else {
+	// add if/then for kml/geojson/csv ... how do i check?
+		//datasets[dsValue] = omnivore.kml(url=dsUrl);
+		datasets[dsValue] = omnivore.geojson(url=dsUrl);
+		datasets[dsValue].addTo(myMap);
+	};
 });
 
 
 // add layer providers to map 
 
-
-// create layer group to add datasets too
-var datasets = L.layerGroup();
-
-
-// add pop-ups to GeoJson layers that display features. Does this need to be part of the dataset button call?
+// add pop-ups to GeoJson layers that display features. Does this need 
+//to be part of the dataset button call?
 // get the layer's properties
-function onEachFeature( feature, layer ) {
+
+
+//function onEachFeature( feature, layer ) {
 //	var popupContent = feature.geometry.type;
-//	if (feature.properties && feature.properties.popupContent) {
-//		popupContent += feature.properties.popupContent;
-//	}
-	layer.bindPopup('popup');
-};
+//	layer.bindPopup(popupContent);
+//};
 
+//function getLayer( value ) {
+//	var layerClicked = omnivore.geojson(url = "/load_dataset/" + value)
 
-// allow layers to be turned on and off with jQuery and own buttons
-
-// I want to add the dataset layer to the map, but maybe this is uneccesasry... how do i do this better?
-//			datasets.addLayer( data );
-//			datasets.addTo(myMap);
-
-
-// right now this adds a layer to the map, but how do I remove the layer?
-$('.dataset-button').on('click', function( value ) {
-	value = $(this).attr('value');
-	$.ajax({
-		url:"/ajax/load_dataset/" + value,
-		success: function( data ) {
-			L.geoJson($.parseJSON(data), {
-				onEachFeature: onEachFeature
-			}).addTo(myMap);
-		}
-	});
-});
-
-
-// allow layers to be turned on and off with jQuery and own buttons
-
+//	.on('ready', function() {
+//		onEachFeature()
+//	})
+//	.addTo(myMap);
+//};
 

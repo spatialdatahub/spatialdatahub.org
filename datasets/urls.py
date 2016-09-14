@@ -22,9 +22,9 @@ urlpatterns = [
         views.DatasetCreateView.as_view(),
         name='dataset_create'),
 
-    url(r'^ajax/load_dataset/(?P<pk>[0-9]+)/$',
-        views.ajax_load_dataset,
-        name='ajax_load_dataset'),
+    url(r'^load_dataset/(?P<pk>[0-9]+)/$',
+        views.load_dataset,
+        name='load_dataset'),
 
     url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/update/$',
         views.DatasetUpdateView.as_view(),

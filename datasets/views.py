@@ -18,14 +18,25 @@ way of making sure that they are secure.
 """
 
 
-def ajax_load_dataset(request, pk):
+def load_dataset(request, pk):
     """
     This will be a function that loads the datasets to the leafletjs map
     background on button click, instead on initial page load.
     """
-
     dataset = Dataset.objects.get(pk=pk)
+    if dataset.dataset_user and dataset.dataset_password:
+        r = requests.get(dataset.url,
+        auth = (dataset.dataset_user,
+        dataset.dataset_password)).content
+        data = r
+    else:
+        r = requests.get(dataset.url).content
+        data = r
+    return HttpResponse(data)
+
+    """
     if request.is_ajax():
+        dataset = Dataset.objects.get(pk=pk)
         if dataset.dataset_user and dataset.dataset_password:
             r = requests.get(dataset.url,
                 auth = (dataset.dataset_user,
@@ -36,8 +47,9 @@ def ajax_load_dataset(request, pk):
             data = r
         return HttpResponse(data)
     else:
-        raise Http404
-
+#        raise Http404
+        return HttpResponse('not ajax')
+    """
 
 class PortalView(ListView):
     """
