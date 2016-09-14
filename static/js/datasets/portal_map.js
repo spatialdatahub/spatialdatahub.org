@@ -11,6 +11,7 @@ stamenToner = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x
 	maxZoom: 20,
 	ext: 'png'
 });
+
 // set up map, view and base layer
 var myMap;
 myMap = new L.Map('mapid', {
@@ -18,6 +19,7 @@ myMap = new L.Map('mapid', {
 	zoom: 2,
 	layers: osm 
 });
+
 // create layer group and add base tile layer to layer group
 var baseLayers = {
 	"Open Street Maps": osm,
@@ -34,11 +36,9 @@ $("input#datasetCheckbox").each(function() {
 	value = "ds"+$(this).val();
 	datasets.push(value);
 });
-
 // add layers to variables stored in dataset list
-$("input#datasetCheckbox").on("click", function( event ) {
-	var value = event.target.value,
-	dsUrl = "/load_dataset/"+value,
+function datasetToggle( value ) {
+	var dsUrl = "/load_dataset/" + value,
 	dsValue = "ds" + value,
 	ds = datasets[dsValue];
 
@@ -48,14 +48,20 @@ $("input#datasetCheckbox").on("click", function( event ) {
 	} else {
 	// add if/then for kml/geojson/csv ... how do i check?
 		//datasets[dsValue] = omnivore.kml(url=dsUrl);
-		datasets[dsValue] = omnivore.geojson(url=dsUrl);
-		datasets[dsValue].addTo(myMap);
+		datasets[dsValue] = omnivore.geojson(url=dsUrl)
+			.addTo(myMap);
 	};
+};
+
+// call datasetToggle function on list item click
+$("input#datasetCheckbox").on("click", function( event ) {
+	var value = event.target.value
+	datasetToggle( value );
 });
 
 
-// add layer providers to map 
 
+// add layer providers to map 
 // add pop-ups to GeoJson layers that display features. Does this need 
 //to be part of the dataset button call?
 // get the layer's properties
