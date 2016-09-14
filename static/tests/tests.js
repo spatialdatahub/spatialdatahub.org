@@ -1,4 +1,5 @@
-QUnit.test("map default options", function( assert ) { assert.equal(myMap.getCenter().toString(),
+QUnit.test("map default options", function( assert ) { 
+	assert.equal(myMap.getCenter().toString(),
 		"LatLng(0, 8.846)",
 		"The map is centered at the ZMT's longitude, and the equator"
 	);
@@ -6,28 +7,49 @@ QUnit.test("map default options", function( assert ) { assert.equal(myMap.getCen
 		2,
 		"The default zoom is set to 2"
 	);
+	assert.equal(myMap.hasLayer(baseLayers['Open Street Maps']),
+		true,
+		"The default base layer is the open street maps tile layer"
+	);	
 });
 
-QUnit.test("baseLayer layerGroup", function( assert ) {
-	assert.equal(baseLayer.getLayers().length,
-		1,
-		"There is just one layer in 'baseLayer' layerGroup"
+
+QUnit.test("baseLayers variable", function( assert ) {
+	assert.equal(Object.keys(baseLayers).length,
+		2,
+		"There are two key:value layers in 'baseLayers' variable"
 	);
-	assert.equal(baseLayer.getLayers()[0]._url,
+	assert.equal(baseLayers['Open Street Maps']._url,
 		"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-		"The url of the layer leads to the correct openstreet map tiles"
+		"The url of the open street maps base layer is correct"
 	);
-	assert.equal(baseLayer.getLayers()[0].options.attribution, 
+	assert.equal(baseLayers['Black and White']._url,
+		'http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}',
+		"The url of the stamen black and white base layer is correct"
+	);
+	assert.equal(baseLayers['Open Street Maps'].options.attribution,
 		'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-		"The attribution for the layer is correct"
+		"The attribution for the open street maps layer is correct"
 	);
-	assert.equal(baseLayer.getLayers()[0].options.minZoom,
+	assert.equal(baseLayers['Black and White'].options.attribution,
+		'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+		"The attribution for the Stamen Toner Map layer is correct"
+	);
+	assert.equal(baseLayers['Open Street Maps'].options.minZoom,
 		0,
-		"The default minimum zoom is set to 0"
+		"The default minimum zoom on the open street maps layer is set to 0"
 	);
-	assert.equal(baseLayer.getLayers()[0].options.maxZoom,
+	assert.equal(baseLayers['Black and White'].options.minZoom,
+		0,
+		"The default minimum zoom on the stamen toner layer is set to 0"
+	);
+	assert.equal(baseLayers['Open Street Maps'].options.maxZoom,
 		19,
-		"The default maximum zoom is set to 19"
+		"The default maximum zoom on the open street maps layer is set to 19"
+	);
+	assert.equal(baseLayers['Black and White'].options.maxZoom,
+		20,
+		"The default maximum zoom on the Stamen Black and White layer is set to 20"
 	);
 });
 
@@ -53,6 +75,7 @@ QUnit.test("jQuery button can make ajax call that brings in datasets", function(
 
 QUnit.test("add dummy GeoJSON to datasets layer", function( assert ) {
 	// add GeoJSON dataset to map with jQuery ajax call
+	// there is no longer a datasets layer
 	datasets.addLayer(geoJsonFeature);
 
 	// make assertions
