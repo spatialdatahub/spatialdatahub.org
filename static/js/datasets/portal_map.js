@@ -1,3 +1,6 @@
+// One thing I should do is to create a special ZMT icon with a ZMT popup that looks cool.
+
+
 // create base tile layer variable for map
 var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -36,6 +39,8 @@ $("input#datasetCheckbox").each(function() {
 	value = "ds"+$(this).val();
 	datasets.push(value);
 });
+
+
 // add layers to variables stored in dataset list
 function datasetToggle( value ) {
 	var dsUrl = "/load_dataset/" + value,
@@ -49,35 +54,47 @@ function datasetToggle( value ) {
 	// add if/then for kml/geojson/csv ... how do i check?
 		//datasets[dsValue] = omnivore.kml(url=dsUrl);
 		datasets[dsValue] = omnivore.geojson(url=dsUrl)
-			.addTo(myMap);
+		.on('ready', function(){
+			datasets[dsValue].eachLayer(function(layer){
+				var popupContent = [];
+				for (var key in layer.feature.properties) {
+					popupContent.push(key + ": " + layer.feature.properties[key]);
+				}
+				if (layer.feature.geometry.type === "Point") {
+					popupContent.push("Latitude: " + layer.feature.geometry.coordinates[1]);
+					popupContent.push("Longitude: " + layer.feature.geometry.coordinates[0]);
+				}
+				layer.bindPopup(popupContent.join("<br/>"));
+			});
+			myMap.fitBounds(datasets[dsValue].getBounds());			
+		})
+		.addTo(myMap);
 	};
 };
+
+			
+//				for (var key in layer.feature.properties) {
+				//	console.log(key + ": " + layer.feature.properties[key]);
+//					popupContent.push(key + ": " + layer.feature.properties[key]);
+//					console.log(layer.feature.properties.Title);
+//				}
+				//layer.bindPopup(popupContent);
+//				layer.bindPopup(layer.feature.properties);
+//				layer.bindPopup('yeah');
+//				popupContent = [];	
+//				for (var key in layer.feature.properties) {
+//					popupContent.push(key + ": " + layer.features.properties[key]);
+//				}
+//				if (layer.feature.geometry.type === "Point") {
+//					popupContent.push("Latitude: " + layer.feature.geometry.coordinates[1]);
+//					popupContent.push("Longitude: " + layer.feature.geometry.coordinates[0]);
+//				}
+//				layer.bindPopup(popupContent);
+
+
 
 // call datasetToggle function on list item click
 $("input#datasetCheckbox").on("click", function( event ) {
 	var value = event.target.value
 	datasetToggle( value );
 });
-
-
-
-// add layer providers to map 
-// add pop-ups to GeoJson layers that display features. Does this need 
-//to be part of the dataset button call?
-// get the layer's properties
-
-
-//function onEachFeature( feature, layer ) {
-//	var popupContent = feature.geometry.type;
-//	layer.bindPopup(popupContent);
-//};
-
-//function getLayer( value ) {
-//	var layerClicked = omnivore.geojson(url = "/load_dataset/" + value)
-
-//	.on('ready', function() {
-//		onEachFeature()
-//	})
-//	.addTo(myMap);
-//};
-
