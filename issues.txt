@@ -49,3 +49,10 @@ Make example site with only the map page and the data that we collect from the p
 
 
 Fork this project on github and make a version with webglearth
+
+
+Add the marker cluster thing after a bit.
+
+Get a server going.
+
+Get some tests up and running.
