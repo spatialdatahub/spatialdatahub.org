@@ -106,7 +106,6 @@ To deactivate the environment type "deactivate":
 deactivate
 ```
 
-font-awesome
 
 
 Contribute
