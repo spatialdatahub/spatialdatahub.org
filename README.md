@@ -44,19 +44,69 @@ Leaflet js background
 Installation and Dependencies
 -----------------------------
 
-python3
-django
-postgresql
-requests
-django-crispy-forms
-selenium
-qunit
-leaflet
-leaflet-omnivore
-leaflet-providers
-bootstrap-4
-jquery
-npm
+This project requires python 3 and postgresql to be installed on your system already. For more information
+on installing python 3 visit https://www.python.org/downloads/. For more information on installing postgres visit 
+https://www.postgresql.org/docs/current/static/installation.html and
+http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-posgresql-for-django.
+
+
+Once these are installed on your computer open the terminal on your computer and navagate to the directory where you want
+to store the project. Clone the repository in this directory, then create a virtual envionment in the directory (outside the
+cloned repository) with this code:
+```
+pyvenv myenv
+```
+
+
+Activate the environment with this code:
+```
+source myenv/bin/activate
+```
+
+
+While the environment is active install django, django crispy forms, the postgres driver (psycopg2),
+python requests, and selenium with pip.
+```
+pip install Django==1.10
+pip install --upgrade django-crispy-forms
+pip install psycopg2
+pip install requests
+pip install selenium
+```
+
+Then you should be able to create a database for the website to run on by configuring postgres. To do this follow the directions posted
+on Marina Mele's excellent website http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-posgresql-for-django 
+However instead of using:
+```
+$ createdb taskbuster_db
+(or $ sudo -u postgres createdb taskbuster_db)
+$ psql
+(or $ sudo -u postgres psql)
+CREATE ROLE myusername WITH LOGIN PASSWORD 'mypassword';
+GRANT ALL PRIVILEGES ON DATABASE taskbuster_db TO myusername;
+ALTER USER myusername CREATEDB;
+
+```
+
+use
+
+```
+$ createdb webgis_db
+(or $ sudo -u postgres createdb taskbuster_db)
+$ psql
+(or $ sudo -u postgres psql)
+CREATE ROLE webgis_user WITH LOGIN PASSWORD 'webgis_password';
+GRANT ALL PRIVILEGES ON DATABASE webgis_db TO webgis_user;
+ALTER USER webgis_user CREATEDB;
+```
+
+
+To deactivate the environment type "deactivate":
+```
+deactivate
+```
+
+font-awesome
 
 
 Contribute
