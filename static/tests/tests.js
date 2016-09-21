@@ -66,44 +66,33 @@ QUnit.test("baseLayers variable", function( assert ) {
 
 
 QUnit.test("dataToggle function turns layers on and off", function( assert ) {
-	// for some strange reason this test seems to toggle on and off with page reloads
-	// as in on initial page load it passes, and on the next it fails, then 
-	// on the next it passes again, then back and forth and back and forth.
-	var value1 = 13;
-	var value2 = 5;	
 
-	datasetToggle( value1 );
-	assert.ok(myMap.hasLayer(datasets['ds13']),
-		"checking to see if may has layer after datasetToggle called"
-	);
-
-	datasetToggle( value2 );
-	assert.ok(myMap.hasLayer(datasets['ds5']),
-		"checking to see if may has layer after datasetToggle called"
-	);
-
-	datasetToggle( value1 );
-	assert.notOk(myMap.hasLayer(datasets['ds13']),
-		"checking to see if may has layer after datasetToggle called"
-	);
-
-	datasetToggle( value2 );
-	assert.notOk(myMap.hasLayer(datasets['ds5']),
-		"checking to see if may has layer after datasetToggle called"
-	);
-});
+	// I have to do this asynchronously
+	var value1 = 22;
+	var done = assert.async();
+	setTimeout(function() {
+		datasetToggle( value1 );
+		assert.ok(myMap.hasLayer(datasets['ds22']),
+			"checking to see if may has layer after datasetToggle called"
+		);
+		assert.equal(datasets['ds22'].eachLayer(function(layer){
+			layer.feature.geometry.coordinates}),
+			[-157.950439453125, 21.468405577312012],
+			"This should work."
+		);
+		datasetToggle( value1 );
+		assert.notOk(myMap.hasLayer(datasets['ds22']),
+			"checking to that layer is not on map after datasetToggle called a second time"
+		);
+		done();
+	});
 
 
-QUnit.test("add dummy GeoJSON to datasets layer", function( assert ) {
-	// add GeoJSON dataset to map with jQuery ajax call
-	// there is no longer a datasets layer
-	datasets.addLayer(geoJsonFeature);
-
-	// make assertions
 	assert.equal(datasets.getLayers().length,
 		1,
 		"One layer has been added to the datasets layer group"
 	);
+
 	assert.equal(datasets.getLayers()[0].properties.name,
 		"Leibniz-Zentrum für Marine Tropenökologie",
 		"Dataset name (ZMT) is correct"
@@ -120,6 +109,7 @@ QUnit.test("add dummy GeoJSON to datasets layer", function( assert ) {
 });
 
 
+
 //QUnit.test("That there are popups, and that they are awesome", function( assert ) {});
 
 
@@ -133,10 +123,8 @@ QUnit.test("add dummy GeoJSON to datasets layer", function( assert ) {
 	// add GeoJSON dataset to map with jQuery ajax call
 //	datasets.addLayer(rB);
 
-
 //});
 
 //QUnit.test("Slider bar", function( assert ) {});
 
 //QUnit.test("KML files", function( assert ) {});
-

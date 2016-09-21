@@ -42,6 +42,7 @@ $("input#datasetCheckbox").each(function() {
 
 
 // add layers to variables stored in dataset list
+// maybe I can use this function on the meta data page load. 
 function datasetToggle( value ) {
 	var dsUrl = "/load_dataset/" + value,
 	dsValue = "ds" + value,
@@ -72,25 +73,6 @@ function datasetToggle( value ) {
 	};
 };
 
-			
-//				for (var key in layer.feature.properties) {
-				//	console.log(key + ": " + layer.feature.properties[key]);
-//					popupContent.push(key + ": " + layer.feature.properties[key]);
-//					console.log(layer.feature.properties.Title);
-//				}
-				//layer.bindPopup(popupContent);
-//				layer.bindPopup(layer.feature.properties);
-//				layer.bindPopup('yeah');
-//				popupContent = [];	
-//				for (var key in layer.feature.properties) {
-//					popupContent.push(key + ": " + layer.features.properties[key]);
-//				}
-//				if (layer.feature.geometry.type === "Point") {
-//					popupContent.push("Latitude: " + layer.feature.geometry.coordinates[1]);
-//					popupContent.push("Longitude: " + layer.feature.geometry.coordinates[0]);
-//				}
-//				layer.bindPopup(popupContent);
-
 
 
 // call datasetToggle function on list item click
@@ -98,3 +80,21 @@ $("input#datasetCheckbox").on("click", function( event ) {
 	var value = event.target.value
 	datasetToggle( value );
 });
+
+
+// call datasetToggle function on page load for meta data page. 
+// maybe this should just be added as a separate script to the page itself
+//$(document).on(ready, function( pk )
+//	datasetToggle( pk );
+//});
+
+
+
+
+//function clearAllLayers() {
+//	myMap.eachLayer(function (layer) {
+//		myMap.removeLayer(layer);
+//	});
+//}
+
+

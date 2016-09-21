@@ -56,3 +56,6 @@ Add the marker cluster thing after a bit.
 Get a server going.
 
 Get some tests up and running.
+
+Authentication and tests.
+--> allow institutional accounts and stuff
