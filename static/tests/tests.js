@@ -15,7 +15,6 @@ QUnit.test("map default options", function( assert ) {
 	);	
 });
 
-
 QUnit.test("baseLayers variable", function( assert ) {
 	assert.equal(Object.keys(baseLayers).length,
 		2,
@@ -64,30 +63,89 @@ QUnit.test("baseLayers variable", function( assert ) {
 	);
 });
 
+/*
+QUnit.test("async smoke test", function( assert ) {
+	var done = assert.async();
+	setTimeout(function() {
+		assert.ok( true, "first call done");
+		done();
+	}, 500);
+});
+*/
 
+
+QUnit.test("whatever", function( assert ) {
+
+	datasetToggle( 22 );
+	assert.ok(myMap.hasLayer(datasets['ds22']),' alles gut');
+
+	assert.equal(datasets['ds22'].eachLayer(function(layer){
+		layer.feature.geometry.coordinates})[1],
+		[-157.950439453125, 21.468405577312012],
+		"This should work."
+	);
+});
+
+
+QUnit.test("multiple async calls", function( assert ) {
+	assert.expect(2);
+	var done = assert.async(2);
+	datasetToggle(11);
+
+	setTimeout(function() {
+		assert.ok( myMap.hasLayer(datasets['ds11'], 'map has layer there'));
+		done();
+	}, 1000);
+
+	setTimeout(function() {
+		assert.ok( myMap.hasLayer(datasets['ds11'], 'map has layer there'));
+		done();
+	}, 1000);
+
+});
+
+
+
+
+/*
 QUnit.test("dataToggle function turns layers on and off", function( assert ) {
+	assert.expect(2);
 
 	// I have to do this asynchronously
 	var value1 = 22;
-	var done = assert.async();
+	var done1 = assert.async();
+	var done2 = assert.async();
+
+	// call function
+	datasetToggle( value1 );
+
+	// check that myMap has layer
 	setTimeout(function() {
-		datasetToggle( value1 );
 		assert.ok(myMap.hasLayer(datasets['ds22']),
-			"checking to see if may has layer after datasetToggle called"
+			"checking to see if map has layer after datasetToggle called"
 		);
+		done1();
+	});
+
+	// check that layer can be queried for coordinates
+	// it seems like this is pulling in more than one result
+
+	setTimeout(function() {
 		assert.equal(datasets['ds22'].eachLayer(function(layer){
-			layer.feature.geometry.coordinates}),
+			layer.feature.geometry.coordinates})[0],
 			[-157.950439453125, 21.468405577312012],
 			"This should work."
 		);
-		datasetToggle( value1 );
-		assert.notOk(myMap.hasLayer(datasets['ds22']),
-			"checking to that layer is not on map after datasetToggle called a second time"
-		);
-		done();
+		done2();
+//		datasetToggle( value1 );
+//		assert.notOk(myMap.hasLayer(datasets['ds22']),
+//			"checking to that layer is not on map after datasetToggle called a second time"
+//		);
+//		done();
 	});
+});
 
-
+/*
 	assert.equal(datasets.getLayers().length,
 		1,
 		"One layer has been added to the datasets layer group"
@@ -107,11 +165,10 @@ QUnit.test("dataToggle function turns layers on and off", function( assert ) {
 		"The coordinates are for the ZMT longitude: 8.846, latitude: 53.108"
 	);
 });
-
+*/
 
 
 //QUnit.test("That there are popups, and that they are awesome", function( assert ) {});
-
 
 //QUnit.test("Use Ajax call to bring GeoJson data in and add data to datasets layerGroup", function( assert ) {});
 
@@ -128,3 +185,8 @@ QUnit.test("dataToggle function turns layers on and off", function( assert ) {
 //QUnit.test("Slider bar", function( assert ) {});
 
 //QUnit.test("KML files", function( assert ) {});
+
+
+QUnit.test("JQuery change div width on button press")
+
+
