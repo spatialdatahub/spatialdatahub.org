@@ -97,4 +97,11 @@ $("input#datasetCheckbox").on("click", function( event ) {
 //	});
 //}
 
-
+// This button works to resize things, but the map is messed up when I use it.
+// The map needs to be resized, or reinitiated, or something.
+L.easyButton('<i class="fa fa-arrows-h" aria-hidden="true"></i>',
+	function() {
+		$("#sidebar").toggle();
+		$("#main_map").toggleClass("col-sm-6 col-md-8 col-lg-9");
+	}
+).addTo(myMap);

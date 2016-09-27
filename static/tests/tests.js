@@ -168,25 +168,23 @@ QUnit.test("dataToggle function turns layers on and off", function( assert ) {
 */
 
 
-//QUnit.test("That there are popups, and that they are awesome", function( assert ) {});
-
-//QUnit.test("Use Ajax call to bring GeoJson data in and add data to datasets layerGroup", function( assert ) {});
-
-//QUnit.test("Can add and remove, or activate and deactivate, dataset on map", function( assert ) {});
-
-//QUnit.test("Can use leaflet providers to bring in map tile layers and put them on the map", function( assert ) {});
-
-//QUnit.test("Can click on data points and get popup with information about point", function( assert ) {
-	// add GeoJSON dataset to map with jQuery ajax call
-//	datasets.addLayer(rB);
-
-//});
-
 //QUnit.test("Slider bar", function( assert ) {});
 
 //QUnit.test("KML files", function( assert ) {});
 
 
-QUnit.test("JQuery change div width on button press")
+QUnit.test("JQuery change div width on button press", function( assert ) {
+	assert.expect(1);
+
+	var $mapResizeButton = $("#mapResizeButton");
+
+	$mapResizeButton.on("click", function() {
+		assert.ok($("div.sidebar").hasClass("col-xs-0"),
+		"minimizing the sidebar into nothingness"
+		);
+	});
+
+	$mapResizeButton.trigger("click");
+});
 
 
