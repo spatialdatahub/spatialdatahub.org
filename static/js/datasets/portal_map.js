@@ -59,11 +59,13 @@ function datasetToggle( value ) {
 			datasets[dsValue].eachLayer(function(layer){
 				var popupContent = [];
 				for (var key in layer.feature.properties) {
-					popupContent.push(key + ": " + layer.feature.properties[key]);
+					popupContent.push(
+					"<b>" + key + "</b>" + ": " + layer.feature.properties[key]
+					);
 				}
 				if (layer.feature.geometry.type === "Point") {
-					popupContent.push("Latitude: " + layer.feature.geometry.coordinates[1]);
-					popupContent.push("Longitude: " + layer.feature.geometry.coordinates[0]);
+					popupContent.push("<b>Latitude:</b> " + layer.feature.geometry.coordinates[1]);
+					popupContent.push("<b>Longitude:</b> " + layer.feature.geometry.coordinates[0]);
 				}
 				layer.bindPopup(popupContent.join("<br/>"));
 			});
@@ -100,8 +102,9 @@ $("input#datasetCheckbox").on("click", function( event ) {
 // This button works to resize things, but the map is messed up when I use it.
 // The map needs to be resized, or reinitiated, or something.
 L.easyButton('<i class="fa fa-arrows-h" aria-hidden="true"></i>',
-	function() {
+	function(btn, myMap) {
 		$("#sidebar").toggle();
 		$("#main_map").toggleClass("col-sm-6 col-md-8 col-lg-9");
+		myMap._resetView(myMap.getCenter(), myMap.getZoom(), true);
 	}
 ).addTo(myMap);
