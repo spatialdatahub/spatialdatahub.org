@@ -11,7 +11,7 @@ stamenToner = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x
 	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 	subdomains: 'abcd',
 	minZoom: 0,
-	maxZoom: 20,
+	maxZoom: 19,
 	ext: 'png'
 });
 
@@ -69,7 +69,11 @@ function datasetToggle( value ) {
 				}
 				layer.bindPopup(popupContent.join("<br/>"));
 			});
-			myMap.fitBounds(datasets[dsValue].getBounds());			
+// this section is a bit buggy.
+//			var bounds = datasets[dsValue].getBoundsZoom();
+//			myMap.fitBounds(bounds /*datasets[dsValue].getBounds()*/);
+//				{ padding: [100,100] });			
+			myMap.setView(datasets[dsValue].getBounds().getCenter());
 		})
 		.addTo(myMap);
 	};
@@ -84,14 +88,6 @@ $("input#datasetCheckbox").on("click", function( event ) {
 });
 
 
-// call datasetToggle function on page load for meta data page. 
-// maybe this should just be added as a separate script to the page itself
-//$(document).on(ready, function( pk )
-//	datasetToggle( pk );
-//});
-
-
-
 
 //function clearAllLayers() {
 //	myMap.eachLayer(function (layer) {
@@ -99,12 +95,22 @@ $("input#datasetCheckbox").on("click", function( event ) {
 //	});
 //}
 
-// This button works to resize things, but the map is messed up when I use it.
-// The map needs to be resized, or reinitiated, or something.
-L.easyButton('<i class="fa fa-arrows-h" aria-hidden="true"></i>',
+
+// Loading the map at full browser size AND THEN adding the column size options
+// Of course now when I load stuff to the map, some of it is off screen with the zoom.
+// So, this thing is a bit buggy and needs some work, but the basic functionality is there.
+// Also, I will need to either make this specific to different pages or change the pages css
+// settings.
+$(document).ready(function() {
+		$("#sidebar").toggle();
+		$("#main_map").toggleClass("col-sm-6 col-md-8 col-lg-9");
+});
+
+var mapResizeButton = L.easyButton('<i class="fa fa-arrows-h" aria-hidden="true"></i>',
 	function(btn, myMap) {
 		$("#sidebar").toggle();
 		$("#main_map").toggleClass("col-sm-6 col-md-8 col-lg-9");
-		myMap._resetView(myMap.getCenter(), myMap.getZoom(), true);
 	}
 ).addTo(myMap);
+
+

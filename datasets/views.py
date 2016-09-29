@@ -15,6 +15,14 @@ I still need to figure out a good way to deal with KML and KMZ files.
 
 Dealing with passwords and usernames is frustrating, I need a better
 way of making sure that they are secure.
+
+# I will do this by using base64 encode and decode with a randomizer. The
+# randomizer will be based on a key that I set in the environment. This key
+# will be set up the same way as the passwords for the Django settings file are
+# set up.
+
+
+
 """
 
 

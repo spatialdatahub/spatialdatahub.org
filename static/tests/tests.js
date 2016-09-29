@@ -63,17 +63,33 @@ QUnit.test("baseLayers variable", function( assert ) {
 	);
 });
 
+
 /*
-QUnit.test("async smoke test", function( assert ) {
-	var done = assert.async();
-	setTimeout(function() {
-		assert.ok( true, "first call done");
-		done();
-	}, 500);
-});
+Test asynchronous calls for datasets
+*/
+
+/*
+Test that popup windows are in the format that we want
+*/
+
+/*
+Test map resize button
+*/
+
+/*
+Test that map resize button reloads map to entire window on resize
+*/
+
+/*
+Test map resize button
 */
 
 
+
+
+
+
+/*
 QUnit.test("whatever", function( assert ) {
 
 	datasetToggle( 22 );
@@ -103,8 +119,7 @@ QUnit.test("multiple async calls", function( assert ) {
 	}, 1000);
 
 });
-
-
+*/
 
 
 /*
@@ -168,15 +183,9 @@ QUnit.test("dataToggle function turns layers on and off", function( assert ) {
 */
 
 
-//QUnit.test("Slider bar", function( assert ) {});
+QUnit.test("Change div width on leaflet control button press", function( assert ) {
 
-//QUnit.test("KML files", function( assert ) {});
-
-
-QUnit.test("JQuery change div width on button press", function( assert ) {
 	assert.expect(1);
-
-	var $mapResizeButton = $("#mapResizeButton");
 
 	$mapResizeButton.on("click", function() {
 		assert.ok($("div.sidebar").hasClass("col-xs-0"),
