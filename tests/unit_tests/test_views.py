@@ -216,3 +216,5 @@ class DatasetMetaDataViewTests(BaseDatasetTest):
         response = self.client.get(url)
         self.assertNotIn(self.ds3.dataset_password, response.content.decode("utf-8"))
         self.assertNotIn(self.ds3.dataset_password, response.context)
+
+

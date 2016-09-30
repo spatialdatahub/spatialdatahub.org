@@ -6,6 +6,8 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from datasets.models import Dataset
 
 import requests
+import os
+from cryptography.fernet import Fernet
 
 
 
@@ -33,9 +35,25 @@ def load_dataset(request, pk):
     """
     dataset = Dataset.objects.get(pk=pk)
     if dataset.dataset_user and dataset.dataset_password:
+
+        # bring in the environmental crypto keys
+        dsu_key = os.environ['CRYPTOKEY_DSU'].encode('UTF-8')
+        dspw_key = os.environ['CRYPTOKEY_DSPW'].encode('UTF-8')
+
+        # decode the dataset_user
+        f_dsu = Fernet(dsu_key)
+        b_user = (dataset.dataset_user).encode('UTF-8')
+        decrypted_user = f_dsu.decrypt(b_user).decode('UTF-8')
+
+        # decode the dataset_password
+        f_dspw = Fernet(dspw_key)
+        b_password = (dataset.dataset_password).encode('UTF-8')
+        decrypted_password= f_dspw.decrypt(b_password).decode('UTF-8')
+
+
         r = requests.get(dataset.url,
-        auth = (dataset.dataset_user,
-        dataset.dataset_password)).content
+        auth = (decrypted_user,
+        decrypted_password)).content
         data = r
     else:
         r = requests.get(dataset.url).content
