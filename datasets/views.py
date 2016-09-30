@@ -112,6 +112,10 @@ class DatasetDetailView(DetailView):
 
 class DatasetCreateView(CreateView):
     """
+    I need to have a method that encrypts the dataset_user and dataset_password
+    fields the same method should be useable on the update view
+
+    Instead of dealing with this logic here, I will deal with it at the model
     """
 
     model = Dataset
