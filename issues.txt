@@ -59,3 +59,14 @@ Get some tests up and running.
 
 Authentication and tests.
 --> allow institutional accounts and stuff
+
+Now that the data can be encrypted, I need to figure out how to make it not save on updates to dataset stuff.
+Every time the dataset is updated the password gets reencrypted, so the encrypted password gets incrypted, that
+cannot happen.
+
+I think that probably a bit of code that is like this would do the trick:
+
+    if form.instance.dataset_user == dataset.dataset_user:
+        return dataset.dataset_user
+    else:
+        other stuff I already wrote

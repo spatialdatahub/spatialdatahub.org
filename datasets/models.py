@@ -28,11 +28,18 @@ class Dataset(models.Model):
     def __str__(self):
         return self.title
 
+    # get initial values of dataset.dataset_password and dataset.dataset_user
+    # all this stuff might be better to handle at the view/form level
+#    def from_db(cls, db, field_names, values):
+
 
     def save(self, *args, **kwargs):
         # create slug
         self.slug = slugify(self.title)
 
+        # figure out if the dataset is being updated or saved for the first
+        # time
+#        if dataset.dataset_password
         # encrypt dataset_password
         dspw_key = os.environ['CRYPTOKEY_DSPW'].encode('UTF-8')
         dspw_f = Fernet(dspw_key)
