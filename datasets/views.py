@@ -14,17 +14,6 @@ from cryptography.fernet import Fernet
 """
 Making big change:
 I still need to figure out a good way to deal with KML and KMZ files.
-
-Dealing with passwords and usernames is frustrating, I need a better
-way of making sure that they are secure.
-
-# I will do this by using base64 encode and decode with a randomizer. The
-# randomizer will be based on a key that I set in the environment. This key
-# will be set up the same way as the passwords for the Django settings file are
-# set up.
-
-
-
 """
 
 
@@ -32,50 +21,39 @@ def load_dataset(request, pk):
     """
     This will be a function that loads the datasets to the leafletjs map
     background on button click, instead on initial page load.
+
+    Fix this so that it works as ajax or something.
     """
     dataset = Dataset.objects.get(pk=pk)
     if dataset.dataset_user and dataset.dataset_password:
+        # get cryptokey
+        cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+        cryptokey_fernet = Fernet(cryptokey)
 
-        # bring in the environmental crypto keys
-        dsu_key = os.environ['CRYPTOKEY_DSU'].encode('UTF-8')
-        dspw_key = os.environ['CRYPTOKEY_DSPW'].encode('UTF-8')
+        # password
+        # turn convert password from string to bytes
+        # decrypt the dataset_password with the key
+        password_bytes = (dataset.dataset_password).encode('UTF-8')
+        password_decrypted_bytes = cryptokey_fernet.decrypt(password_bytes)
+        password_decrypted_string = password_decrypted_bytes.decode('UTF-8')
 
-        # decode the dataset_user
-        f_dsu = Fernet(dsu_key)
-        b_user = (dataset.dataset_user).encode('UTF-8')
-        decrypted_user = f_dsu.decrypt(b_user).decode('UTF-8')
+        # user 
+        # turn convert user from string to bytes
+        # decrypt the dataset_user with the key
+        user_bytes = (dataset.dataset_user).encode('UTF-8')
+        user_decrypted_bytes = cryptokey_fernet.decrypt(user_bytes)
+        user_decrypted_string = user_decrypted_bytes.decode('UTF-8')
 
-        # decode the dataset_password
-        f_dspw = Fernet(dspw_key)
-        b_password = (dataset.dataset_password).encode('UTF-8')
-        decrypted_password= f_dspw.decrypt(b_password).decode('UTF-8')
-
-
-        r = requests.get(dataset.url,
-        auth = (decrypted_user,
-        decrypted_password)).content
+        # finally make the request with the authentication password and
+        # username
+        r = requests.get(dataset.url, auth = (
+        user_decrypted_string, password_decrypted_string)).content
         data = r
     else:
         r = requests.get(dataset.url).content
         data = r
     return HttpResponse(data)
 
-    """
-    if request.is_ajax():
-        dataset = Dataset.objects.get(pk=pk)
-        if dataset.dataset_user and dataset.dataset_password:
-            r = requests.get(dataset.url,
-                auth = (dataset.dataset_user,
-                dataset.dataset_password)).content
-            data = r
-        else:
-            r = requests.get(dataset.url).content
-            data = r
-        return HttpResponse(data)
-    else:
-#        raise Http404
-        return HttpResponse('not ajax')
-    """
 
 class PortalView(ListView):
     """
@@ -132,14 +110,29 @@ class DatasetCreateView(CreateView):
     """
     I need to have a method that encrypts the dataset_user and dataset_password
     fields the same method should be useable on the update view
-
-    Instead of dealing with this logic here, I will deal with it at the model
     """
 
     model = Dataset
     fields= ['author', 'title', 'url', 'dataset_user', 'dataset_password',
              'public_access', 'description']
     template_name = 'datasets/dataset_create.html'
+
+    def form_valid(self, form):
+        # get key (I am only using one key for both password and username)
+        cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+        cryptokey_fernet = Fernet(cryptokey)
+
+        # password
+        password_bytes = (form.instance.dataset_password).encode('UTF-8')
+        password_encrypted = cryptokey_fernet.encrypt(password_bytes)
+        form.instance.dataset_password = password_encrypted.decode('UTF-8')
+
+        # username
+        user_bytes = (form.instance.dataset_user).encode('UTF-8')
+        user_encrypted = cryptokey_fernet.encrypt(user_bytes)
+        form.instance.dataset_user = user_encrypted.decode('UTF-8')
+
+        return super(DatasetCreateView, self).form_valid(form)
 
 
 class DatasetUpdateView(UpdateView):
@@ -154,6 +147,62 @@ class DatasetUpdateView(UpdateView):
              'public_access', 'description']
     context_object_name = 'dataset'
     template_name = 'datasets/dataset_update.html'
+    '''
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.initial_dataset_password = self.object.dataset_password
+        return super(DatasetUpdateView, self).get(request,
+            self, *args, **kwargs)
+
+    def form_valid(self, form):
+        if form.instance.dataset_password == self.object.dataset_password:
+            return form.instance.dataset_password
+        else:
+            print('different')
+        super(DatasetUpdateView, self).form_valid(form)
+    '''
+
+    """
+    PSEUDOCODE:
+    if old encrypted password is equal to new encrypted password,
+       self.password = old_password
+    else:
+       self.password = new_password
+
+    if old password value is equal to new form password value:
+        return old password value
+    else:
+        get environmental password crypto key
+        use password crypto key to encrypt new password value
+        save new password value as dataset password
+    if old user value is equal to new form user value:
+        return old user value
+    else:
+        get environmental user crypto key
+        use user crypto key to encrypt new user value
+        save new user value as dataset user
+
+
+    def form_valid(self, form):
+        # get key (I am only using one key for both password and username)
+        cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+        cryptokey_fernet = Fernet(cryptokey)
+
+        # password
+        password_bytes = (form.instance.dataset_password).encode('UTF-8')
+        password_encrypted = cryptokey_fernet.encrypt(password_bytes)
+        form.instance.dataset_password = password_encrypted.decode('UTF-8')
+
+        # username
+        user_bytes = (form.instance.dataset_user).encode('UTF-8')
+        user_encrypted = cryptokey_fernet.encrypt(user_bytes)
+        form.instance.dataset_user = user_encrypted.decode('UTF-8')
+
+        return super(DatasetCreateView, self).form_valid(form)
+
+
+    """
+
 
 
 class DatasetRemoveView(DeleteView):

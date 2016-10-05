@@ -70,3 +70,9 @@ I think that probably a bit of code that is like this would do the trick:
         return dataset.dataset_user
     else:
         other stuff I already wrote
+
+I need to set the environmental keys into a permanent file. So, the .zshrc or something. This goes for any other
+secret keys that I will be using.
+
+Instead of inventing my own method to encrypt the fields I will use a pypi
+package

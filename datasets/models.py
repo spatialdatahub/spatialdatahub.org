@@ -2,8 +2,6 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.text import slugify
 
-from cryptography.fernet import Fernet
-import os
 
 class Dataset(models.Model):
     """
@@ -18,7 +16,8 @@ class Dataset(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
     url = models.URLField(max_length=500)
-    dataset_user = models.CharField(max_length=500, blank=True, unique=False)
+    dataset_user = models.CharField(max_length=500,
+        blank=True, unique=False)
     dataset_password = models.CharField(max_length=500,
         blank=True, unique=False)
     public_access = models.BooleanField(default=True)
@@ -28,29 +27,11 @@ class Dataset(models.Model):
     def __str__(self):
         return self.title
 
-    # get initial values of dataset.dataset_password and dataset.dataset_user
-    # all this stuff might be better to handle at the view/form level
-#    def from_db(cls, db, field_names, values):
 
 
     def save(self, *args, **kwargs):
         # create slug
         self.slug = slugify(self.title)
-
-        # figure out if the dataset is being updated or saved for the first
-        # time
-#        if dataset.dataset_password
-        # encrypt dataset_password
-        dspw_key = os.environ['CRYPTOKEY_DSPW'].encode('UTF-8')
-        dspw_f = Fernet(dspw_key)
-        dspw = self.dataset_password.encode('UTF-8')
-        self.dataset_password = dspw_f.encrypt(dspw).decode('UTF-8')
-
-        # encrypt dataset_user
-        dsu_key = os.environ['CRYPTOKEY_DSU'].encode('UTF-8')
-        dsu_f = Fernet(dsu_key)
-        dsu = self.dataset_user.encode('UTF-8')
-        self.dataset_user= dsu_f.encrypt(dsu).decode('UTF-8')
 
         super(Dataset, self).save(*args, **kwargs)
 
