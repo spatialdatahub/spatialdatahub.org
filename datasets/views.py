@@ -147,62 +147,34 @@ class DatasetUpdateView(UpdateView):
              'public_access', 'description']
     context_object_name = 'dataset'
     template_name = 'datasets/dataset_update.html'
-    '''
+
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.initial_dataset_password = self.object.dataset_password
-        return super(DatasetUpdateView, self).get(request,
-            self, *args, **kwargs)
+        return super(DatasetUpdateView, self).get(request, self, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.old_password = self.object.dataset_password
+        self.old_user = self.object.dataset_user
+        return super(DatasetUpdateView, self).post(request, *args, **kwargs)
 
     def form_valid(self, form):
-        if form.instance.dataset_password == self.object.dataset_password:
-            return form.instance.dataset_password
-        else:
-            print('different')
-        super(DatasetUpdateView, self).form_valid(form)
-    '''
+        if form.instance.dataset_password != self.old_password:
+            cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+            cryptokey_fernet = Fernet(cryptokey)
+            password_bytes = (form.instance.dataset_password).encode('UTF-8')
+            password_encrypted = cryptokey_fernet.encrypt(password_bytes)
+            form.instance.dataset_password = password_encrypted.decode('UTF-8')
 
-    """
-    PSEUDOCODE:
-    if old encrypted password is equal to new encrypted password,
-       self.password = old_password
-    else:
-       self.password = new_password
+        if form.instance.dataset_user != self.old_user:
+            cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+            cryptokey_fernet = Fernet(cryptokey)
+            user_bytes = (form.instance.dataset_user).encode('UTF-8')
+            user_encrypted = cryptokey_fernet.encrypt(user_bytes)
+            form.instance.dataset_user = user_encrypted.decode('UTF-8')
 
-    if old password value is equal to new form password value:
-        return old password value
-    else:
-        get environmental password crypto key
-        use password crypto key to encrypt new password value
-        save new password value as dataset password
-    if old user value is equal to new form user value:
-        return old user value
-    else:
-        get environmental user crypto key
-        use user crypto key to encrypt new user value
-        save new user value as dataset user
-
-
-    def form_valid(self, form):
-        # get key (I am only using one key for both password and username)
-        cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
-        cryptokey_fernet = Fernet(cryptokey)
-
-        # password
-        password_bytes = (form.instance.dataset_password).encode('UTF-8')
-        password_encrypted = cryptokey_fernet.encrypt(password_bytes)
-        form.instance.dataset_password = password_encrypted.decode('UTF-8')
-
-        # username
-        user_bytes = (form.instance.dataset_user).encode('UTF-8')
-        user_encrypted = cryptokey_fernet.encrypt(user_bytes)
-        form.instance.dataset_user = user_encrypted.decode('UTF-8')
-
-        return super(DatasetCreateView, self).form_valid(form)
-
-
-    """
-
+        return super(DatasetUpdateView, self).form_valid(form)
 
 
 class DatasetRemoveView(DeleteView):
