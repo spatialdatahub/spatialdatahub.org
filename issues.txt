@@ -76,3 +76,11 @@ secret keys that I will be using.
 
 Instead of inventing my own method to encrypt the fields I will use a pypi
 package
+
+
+After implementing the slider bar I need to do some major clean up and merge this with the dev branch
+
+Then I need to clean it up and test it even more and eventually merge it with the master branch.
+
+It would be nice to have everything all cleaned up before putting it onto a server.
+It would also be nice to have authentication and users before people can start using this.

@@ -118,19 +118,20 @@ class DatasetCreateView(CreateView):
     template_name = 'datasets/dataset_create.html'
 
     def form_valid(self, form):
-        # get key (I am only using one key for both password and username)
-        cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
-        cryptokey_fernet = Fernet(cryptokey)
+        if form.instance.dataset_user and form.instance.dataset_password:
+            # get key (I am only using one key for both password and username)
+            cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+            cryptokey_fernet = Fernet(cryptokey)
 
-        # password
-        password_bytes = (form.instance.dataset_password).encode('UTF-8')
-        password_encrypted = cryptokey_fernet.encrypt(password_bytes)
-        form.instance.dataset_password = password_encrypted.decode('UTF-8')
+            # password
+            password_bytes = (form.instance.dataset_password).encode('UTF-8')
+            password_encrypted = cryptokey_fernet.encrypt(password_bytes)
+            form.instance.dataset_password = password_encrypted.decode('UTF-8')
 
-        # username
-        user_bytes = (form.instance.dataset_user).encode('UTF-8')
-        user_encrypted = cryptokey_fernet.encrypt(user_bytes)
-        form.instance.dataset_user = user_encrypted.decode('UTF-8')
+            # username
+            user_bytes = (form.instance.dataset_user).encode('UTF-8')
+            user_encrypted = cryptokey_fernet.encrypt(user_bytes)
+            form.instance.dataset_user = user_encrypted.decode('UTF-8')
 
         return super(DatasetCreateView, self).form_valid(form)
 
@@ -160,19 +161,22 @@ class DatasetUpdateView(UpdateView):
         return super(DatasetUpdateView, self).post(request, *args, **kwargs)
 
     def form_valid(self, form):
-        if form.instance.dataset_password != self.old_password:
-            cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
-            cryptokey_fernet = Fernet(cryptokey)
-            password_bytes = (form.instance.dataset_password).encode('UTF-8')
-            password_encrypted = cryptokey_fernet.encrypt(password_bytes)
-            form.instance.dataset_password = password_encrypted.decode('UTF-8')
+        # double if statements here.
+        if form.instance.dataset_user and form.instance.dataset_password:
 
-        if form.instance.dataset_user != self.old_user:
-            cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
-            cryptokey_fernet = Fernet(cryptokey)
-            user_bytes = (form.instance.dataset_user).encode('UTF-8')
-            user_encrypted = cryptokey_fernet.encrypt(user_bytes)
-            form.instance.dataset_user = user_encrypted.decode('UTF-8')
+            if form.instance.dataset_password != self.old_password:
+                cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+                cryptokey_fernet = Fernet(cryptokey)
+                password_bytes = (form.instance.dataset_password).encode('UTF-8')
+                password_encrypted = cryptokey_fernet.encrypt(password_bytes)
+                form.instance.dataset_password = password_encrypted.decode('UTF-8')
+
+            if form.instance.dataset_user != self.old_user:
+                cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+                cryptokey_fernet = Fernet(cryptokey)
+                user_bytes = (form.instance.dataset_user).encode('UTF-8')
+                user_encrypted = cryptokey_fernet.encrypt(user_bytes)
+                form.instance.dataset_user = user_encrypted.decode('UTF-8')
 
         return super(DatasetUpdateView, self).form_valid(form)
 

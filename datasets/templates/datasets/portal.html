@@ -27,7 +27,7 @@
 
               <li>
                 <label>
-                  <input type="checkbox" id="datasetCheckbox" value={{ dataset.pk }}>{{ dataset.title }} {{ dataset.pk }}
+                  <input type="checkbox" id="datasetCheckbox" value={{ dataset.pk }}>{{ dataset.title }}
                 </label>
                 <a href="{% url 'datasets:dataset_detail' dataset.slug dataset.pk %}" >
                   <i class="fa fa-newspaper-o fa-pull-right fa-border" aria-hidden="true"></i>
