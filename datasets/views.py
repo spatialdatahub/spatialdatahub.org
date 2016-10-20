@@ -10,18 +10,15 @@ import os
 from cryptography.fernet import Fernet
 
 
-
 """
-Making big change:
 I still need to figure out a good way to deal with KML and KMZ files.
 """
 
 
 def load_dataset(request, pk):
     """
-    This will be a function that loads the datasets to the leafletjs map
-    background on button click, instead on initial page load.
-
+    This needs to be fixed to run asynchronously, incase of a very large
+    dataset
     Fix this so that it works as ajax or something.
     """
     dataset = Dataset.objects.get(pk=pk)
@@ -72,6 +69,7 @@ class PortalView(ListView):
     context object view. As it is this is just extra work that the view has
     to do.
     """
+
     def get_queryset(self):
         queryset = super(PortalView, self).get_queryset()
 
@@ -90,7 +88,6 @@ class PortalView(ListView):
 # authentication with requests.
 
 # I also need to make everything work with ajax calls
-
 
 
 class DatasetDetailView(DetailView):

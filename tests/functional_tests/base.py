@@ -72,7 +72,7 @@ class BaseLiveTest(StaticLiveServerTestCase):
         Maybe if I set them up as a dictionary, with chrome and firefox as the
         keys, and the browsers and data being the values.
         """
-        self.browser= webdriver.Chrome()
+        self.browser = webdriver.Chrome()
         self.dummy_dataset = Dataset.objects.create(title='dummy dataset',
                                  author='dummy_author',
                                  description='dummy dataset description',

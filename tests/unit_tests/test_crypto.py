@@ -22,6 +22,9 @@ class CryptoFieldTests(BaseDatasetTest):
         self.assertNotEqual(self.ds3.dataset_user, "zmtdummy")
 
     def test_that_dataset_password_can_be_decrypted(self):
+        """
+        I am not actually calling the load dataset function anywhere here
+        """
         dspw_key = os.environ['CRYPTOKEY_DSPW'].encode('UTF-8')
         f_dspw = Fernet(dspw_key)
         b_pw = (self.ds3.dataset_password).encode('UTF-8')

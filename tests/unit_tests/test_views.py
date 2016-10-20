@@ -15,7 +15,7 @@ class UrlsAndViewsTests(BaseDatasetTest):
 
     RequestFactory doesn't seem to need a specific url for the Class Based
     Views, it seems to be only generating a request, and no matter what that
-    request is, if it is passed to the cClass based view, the view will work
+    request is, if it is passed to the Class based view, the view will work
 
     These tests are set up to deal with the change to Class Based Views
     """
@@ -205,6 +205,10 @@ class PortalViewSearchTest(BaseDatasetTest):
 
 
 class DatasetMetaDataViewTests(BaseDatasetTest):
+    """
+    I need to set up one of these for password protected datasets and one for
+    non password protected datasets
+    """
     def test_password_protected_dataset_does_not_have_user_password_in_final_stage(self):
         """
         The view function should be able to use the special username and password,

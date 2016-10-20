@@ -2,9 +2,12 @@ On the main portal page the 'Show All' button reloads the page.
     Change this so that the page doesn't reload, but the map
     list reloads all maps.
 
+
 On the main portal page the 'Clear Map' button clears everything,
 including the background layers. 
     Change this so that only the user created map layers are cleared.
+
+------>> The Clear Map doesn't work at all <<--------
 
 On the main portal page the Search box reloads the entire page when
 a search is performed.
@@ -38,9 +41,11 @@ be clicked to access the data.
 
 *** Going to add ajax to search function on portal page
 
+
+############################## DONE ############################## 
 I need to figure out a better way to deal with the password and username variables because they are still 
 available as response context variables
-
+############################## DONE ############################## 
 
 
 Clean up the Javascript and rebuild it with tests. One piece at a time.
@@ -84,3 +89,5 @@ Then I need to clean it up and test it even more and eventually merge it with th
 
 It would be nice to have everything all cleaned up before putting it onto a server.
 It would also be nice to have authentication and users before people can start using this.
+
+I need to make the python requests asyncronous
