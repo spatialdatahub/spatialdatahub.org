@@ -113,7 +113,7 @@ class DatasetCreateView(CreateView):
     fields= ['author', 'title', 'url', 'dataset_user', 'dataset_password',
              'public_access', 'description']
     template_name = 'datasets/dataset_create.html'
-
+    success_url = '/'
     def form_valid(self, form):
         if form.instance.dataset_user and form.instance.dataset_password:
             # get key (I am only using one key for both password and username)

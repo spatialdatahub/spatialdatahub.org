@@ -15,7 +15,11 @@ stamenToner = L.tileLayer("http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x
   minZoom: 0,
   maxZoom: 19,
   ext: "png"
+}),
+Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 });
+
 
 // set up map, view and base layer
 const myMap = new L.Map("mapid", {
@@ -27,7 +31,8 @@ const myMap = new L.Map("mapid", {
 // create layer group and add base tile layers, then add it to the map
 const baseLayers = {
   "Open Street Maps": osm,
-  "Black and White": stamenToner
+  "Black and White": stamenToner,
+  "ESRI World Map": Esri_WorldImagery 
 };
 baseLayerControl = L.control.layers(baseLayers);
 baseLayerControl.addTo(myMap);
