@@ -131,4 +131,11 @@ let mapResizeButton = L.easyButton('<i class="fa fa-arrows-h" aria-hidden="true"
   }
 ).addTo(myMap);
 
+
 // Here I need to start working on the slider bar, and the functionality for it.
+
+
+
+
+
+
