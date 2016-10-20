@@ -8,23 +8,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
  
-<title>ZMT | {% block head_title %}{% endblock head_title %}</title>
+    <title>ZMT | {% block head_title %}{% endblock head_title %}</title>
 
 
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" />
-
-    <script src="https://use.fontawesome.com/7fb7a1f76f.js"></script>
-
-    <link rel="stylesheet" type="text/css" href='{% static "css/datasets/style.css" %}' />
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+    <!-- load css -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
     <link rel="stylesheet" type="text/css" href='{% static "css/easy-button.css" %}' />
-
-<!-- Leaflet and Plugin Scripts -->
-
-    <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
-
-<!-- End Leaflet and Plugin Scripts -->
+    <link rel="stylesheet" type="text/css" href='{% static "css/datasets/style.css" %}' />
+    <!-- end load css -->
 
     <style>
       #mapid {
@@ -32,8 +24,11 @@
         margin-bottom: 10px;
       }
 
+    <!-- any additional css -->
     {% block additional_css %}
     {% endblock additional_css %}
+    <!-- end any additional css -->
+
     </style>
 
   </head>
@@ -65,15 +60,21 @@
 
 {% endblock content %}
 
-
+<!-- load scripts for every page -->
+<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
+<script src="https://use.fontawesome.com/7fb7a1f76f.js"></script>
 <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
 <script type="text/javascript" src='{% static "leaflet_packages/easy-button.js" %}'></script>
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+<!-- end load scripts for every page -->
+
     
+<!-- load scripts for specific pages -->
 {% block js %}
 
 {% endblock js %}
+<!-- end load scripts for specific pages -->
 
   </body>
 </html>
