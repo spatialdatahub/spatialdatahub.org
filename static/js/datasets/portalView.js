@@ -75,15 +75,32 @@ $("input#datasetCheckbox").on("click", ( event ) => {
 // Also, I will need to either make this specific to different pages or change the pages css
 // settings.
 
-// Also, does this need to be loaded in every page?
-// I don't want to rewrite a bunch of code, but maybe I should just have a
-// bunch of functions and variables defined in one js file and a bunch of stuff
-// for specific pages in their own files.
+// changing this from jquery to plain javascript, or es6 javascript really.
+// apparently the .ready() function is being deprecated
+// basically I need to do some reading on the load function
 
 $(document).ready( () => {
   $("#sidebar").toggle();
   $("#main_map").toggleClass("col-sm-6 col-md-8 col-lg-9");
 });
+
+// this is the function, then the if/else statement that will work as the $(document).ready() stuff
+/*
+callback = function() { 
+  this is where the toggle stuff goes
+};
+
+if (
+  document.readyState === "Complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)
+  ) { 
+  callback(); 
+} else {
+  document.addEventListener("DOMContentLoaded", callback);
+}
+*/  
+
+
 
 const mapResizeButton = L.easyButton('<i class="fa fa-arrows-h" aria-hidden="true"></i>',
   (btn, myMap) => {
