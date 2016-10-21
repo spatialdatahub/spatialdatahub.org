@@ -3,6 +3,14 @@
 // writen with ES6
 // One thing I should do is to create a special ZMT icon with a ZMT popup that looks cool.
 
+// define DOM ready function
+const domReady = function(callback) {
+  document.readyState === "interactive" ||
+  document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
+};
+
+// should everything be wrapped in a dom ready function? At least I can use it instead of the jQuery function
+
 // create base tile layer variable for map
 const osm = L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -36,3 +44,5 @@ const baseLayers = {
 };
 baseLayerControl = L.control.layers(baseLayers);
 baseLayerControl.addTo(myMap);
+
+

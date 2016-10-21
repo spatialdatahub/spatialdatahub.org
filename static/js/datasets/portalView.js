@@ -8,10 +8,26 @@ const datasets = [];
 // the arrow function doesn't work on the .each call because of an issue with the 'this' keyword
 // and what it refers to.
 
+
 $("input#datasetCheckbox").each( function() {
   let value = "ds"+$(this).val();
   datasets.push(value);
 });
+
+/*
+let datasetList = document.getElementsByClassName('datasetCheckbox'),
+dslength = datasetList.length;
+console.log(dslength);
+
+for (let i = 0; i < dslength; i++) {
+  let value = "ds" + $(this).val();
+  datasets.push(value);
+}
+
+<input type="checkbox" class="datasetCheckbox" value={{ dataset.pk }}>{{ dataset.title }} 
+
+*/
+
 
 // add layers to variables stored in dataset list
 
@@ -58,7 +74,8 @@ let datasetToggle = value => {
 // call datasetToggle function on list item click
 // is there a way to do this without jquery? it probably doesn't matter too
 // much
-$("input#datasetCheckbox").on("click", ( event ) => {
+//$("input#datasetCheckbox").on("click", ( event ) => {
+$("input.datasetCheckbox").on("click", ( event ) => {
   let value = event.target.value
   datasetToggle( value );
 });
