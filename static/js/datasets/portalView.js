@@ -40,6 +40,7 @@ let datasetToggle = value => {
     if (myMap.hasLayer(ds)) {
       myMap.removeLayer(ds);	
     } else {
+    console.log('yeah');
 
     // add if/then for kml/geojson/csv ... how do i check?
     //datasets[dsValue] = omnivore.kml(url=dsUrl);
@@ -74,11 +75,16 @@ let datasetToggle = value => {
 // call datasetToggle function on list item click
 // is there a way to do this without jquery? it probably doesn't matter too
 // much
-//$("input#datasetCheckbox").on("click", ( event ) => {
-$("input.datasetCheckbox").on("click", ( event ) => {
+
+
+//$("input.datasetCheckbox").on("click", ( event ) => {
+
+$("input#datasetCheckbox").on("click", ( event ) => {
   let value = event.target.value
   datasetToggle( value );
 });
+
+
 
 //function clearAllLayers() {
 //	myMap.eachLayer(function (layer) {
