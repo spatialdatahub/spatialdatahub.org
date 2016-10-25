@@ -3,6 +3,16 @@ from selenium.webdriver.common.keys import Keys
 
 from .base import CssBaseLiveTest
 
+"""
+I am going to set this up to run through the tests with chrome, then to run
+through the tests with firefox. If it's running with chrome I have to use the
+.close() call for tear down, but if it's firefox I have to use the .quit() call
+for tear down.
+"""
+
+
+
+
 
 class BrowserSizeChangerTest(CssBaseLiveTest):
     """
