@@ -51,7 +51,8 @@ class CssBaseLiveTest(StaticLiveServerTestCase):
     @classmethod
     def tearDown(self):
         for browser in self.browsers:
-            browser.quit()
+#            browser.quit()
+            browser.close()
 
 class BaseLiveTest(StaticLiveServerTestCase):
     """
@@ -97,4 +98,5 @@ class BaseLiveTest(StaticLiveServerTestCase):
 
     @classmethod
     def tearDown(self):
-        self.browser.quit()
+#        self.browser.quit()
+        self.browser.close()
