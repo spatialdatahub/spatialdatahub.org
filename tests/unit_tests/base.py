@@ -1,6 +1,9 @@
 from django.test import TestCase, RequestFactory, Client
 from datasets.models import Dataset
 
+from cryptography.fernet import Fernet
+import os
+
 
 class BaseDatasetTest(TestCase):
     """
@@ -25,9 +28,33 @@ class BaseDatasetTest(TestCase):
                                     url="http://api.tiles.mapbox.com/v3/mapbox.o11ipb8h/markers.geojson",
                                     public_access=True)
 
+        # the password and username for the password protected dataset need to
+        # be created the same way that they are saved with the create dataset
+        # view and the update dataset view.
+
+        # get cryptography key
+        cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+        cryptokey_fernet = Fernet(cryptokey)
+
+        # create user data
+        client_dataset_password = "zmtdummy"
+        client_dataset_user = "zmtBremen1991"
+
+        # encrypt the password
+        password_bytes = client_dataset_password.encode('UTF-8')
+        password_encrypted = cryptokey_fernet.encrypt(password_bytes)
+        password_encrypted = password_encrypted.decode('UTF-8')
+
+
+        # encrypt the username
+        user_bytes = client_dataset_user.encode('UTF-8')
+        user_encrypted = cryptokey_fernet.encrypt(user_bytes)
+        user_encrypted = user_encrypted.decode('UTF-8')
+
+        # save the data
         self.ds3 = Dataset.objects.create(author="zmtdummy",
                                     title="ZMT GeoJSON Polygon",
                                     description="Polygons spelling 'ZMT' over the location of the ZMT",
                                     url="https://bitbucket.org/zmtdummy/geojsondata/raw/0f318d948d74a67bceb8da5257a97b7df80fd2dd/zmt_polygons.json",
-                                    dataset_user="zmtdummy",
-                                    dataset_password="zmtBremen1991")
+                                    dataset_user=user_encrypted,
+                                    dataset_password=password_encrypted)

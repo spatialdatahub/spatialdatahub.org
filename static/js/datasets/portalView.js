@@ -40,7 +40,6 @@ let datasetToggle = value => {
     if (myMap.hasLayer(ds)) {
       myMap.removeLayer(ds);	
     } else {
-    console.log('yeah');
 
     // add if/then for kml/geojson/csv ... how do i check?
     //datasets[dsValue] = omnivore.kml(url=dsUrl);
