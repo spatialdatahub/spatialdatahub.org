@@ -26,6 +26,7 @@ class CssBaseLiveTest(StaticLiveServerTestCase):
         self.firefox = webdriver.Firefox()
         self.chrome = webdriver.Chrome()
         self.browsers = [self.firefox, self.chrome]
+
         self.dummy_dataset = Dataset.objects.create(title='dummy dataset',
                                  author='dummy_author',
                                  description='dummy dataset description',
@@ -51,8 +52,15 @@ class CssBaseLiveTest(StaticLiveServerTestCase):
     @classmethod
     def tearDown(self):
         for browser in self.browsers:
-                browser.quit()
-#                browser.close()
+            if browser == self.firefox:
+                print('firefox')
+                browser.close()
+                #browser.quit()
+            elif browser == self.chrome:
+                print('chrome')
+                browser.close()
+                #browser.quit()
+
 
 class BaseLiveTest(StaticLiveServerTestCase):
     """

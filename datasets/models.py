@@ -27,14 +27,9 @@ class Dataset(models.Model):
     def __str__(self):
         return self.title
 
-
-
     def save(self, *args, **kwargs):
-        # create slug
         self.slug = slugify(self.title)
-
         super(Dataset, self).save(*args, **kwargs)
-
 
     def get_absolute_url(self):
         kwargs = {'slug': self.slug, 'pk': self.pk}

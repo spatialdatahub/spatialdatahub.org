@@ -1,4 +1,7 @@
+from django.test import TestCase
+
 from datasets.models import Dataset
+
 from .base import BaseDatasetTest
 
 from datasets.views import PortalView
@@ -37,7 +40,6 @@ class PortalViewTests(BaseDatasetTest):
         """
 
         # Use the set up from the tests file in the datasets app
-
         # then filter them and check
         dataset_list = Dataset.objects.filter(title__contains=('ZMT'))
         self.assertEqual(len(dataset_list), 1)
@@ -49,4 +51,13 @@ class PortalViewTests(BaseDatasetTest):
         self.assertNotIn('Mapbox GeoJson Example', response.content.decode('utf-8'))
 
 
+class PortalView_WITHOUT_DATA_Tests(TestCase):
 
+    def test_that_PortalView_without_datasets_says_none_available(self):
+        response = self.client.get('/')
+        self.assertIn('There are no datasets available',
+            response.content.decode('utf-8'))
+
+    def test_that_PortalView_brings_in_correct_number_of_dataset_objects(self):
+        response = self.client.get('/')
+        self.assertEqual(0, len(response.context['dataset_list']))
