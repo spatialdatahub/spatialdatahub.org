@@ -31,7 +31,7 @@ for (let i = 0; i < dslength; i++) {
 
 // add layers to variables stored in dataset list
 
-let datasetToggle = value => {
+const datasetToggle = value => {
   let dsUrl = "/load_dataset/" + value,
   dsValue = "ds" + value,
   ds = datasets[dsValue];
@@ -71,17 +71,34 @@ let datasetToggle = value => {
   };
 };
 
+
 // call datasetToggle function on list item click
 // is there a way to do this without jquery? it probably doesn't matter too
 // much
 
 
-//$("input.datasetCheckbox").on("click", ( event ) => {
 
 $("input#datasetCheckbox").on("click", ( event ) => {
   let value = event.target.value
   datasetToggle( value );
 });
+
+/*
+// de-jQuery this thing
+
+let datasetCheckbox = document.getElementById("datasetCheckbox");
+
+// datasetCheckbox.addEventListener("click", ( event ) => {
+datasetCheckbox.addEventListener("click", function ( event ) {
+// $("input#datasetCheckbox").on("click", ( event ) => {
+  console.log(this);
+  let value = event.target.value
+  datasetToggle( value );
+});
+*/
+
+
+
 
 
 
@@ -101,10 +118,12 @@ $("input#datasetCheckbox").on("click", ( event ) => {
 // apparently the .ready() function is being deprecated
 // basically I need to do some reading on the load function
 
+
 $(document).ready( () => {
   $("#sidebar").toggle();
   $("#main_map").toggleClass("col-sm-6 col-md-8 col-lg-9");
 });
+
 
 // this is the function, then the if/else statement that will work as the $(document).ready() stuff
 /*
@@ -123,6 +142,7 @@ if (
 */  
 
 
+// map resize button
 
 const mapResizeButton = L.easyButton('<i class="fa fa-arrows-h" aria-hidden="true"></i>',
   (btn, myMap) => {
@@ -138,5 +158,4 @@ const mapCenterButton = L.easyButton('fa-home',
     myMap.setView([0, 8.8460], 2);
   }
 ).addTo(myMap);
-
 

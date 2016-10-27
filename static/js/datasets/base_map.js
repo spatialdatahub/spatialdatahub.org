@@ -11,7 +11,8 @@ const domReady = function(callback) {
 
 // should everything be wrapped in a dom ready function? At least I can use it instead of the jQuery function
 
-// create base tile layer variable for map
+// create base tile layer variables for map
+// I am setting three as constants here
 const osm = L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   minZoom:0, 
@@ -44,5 +45,3 @@ const baseLayers = {
 };
 baseLayerControl = L.control.layers(baseLayers);
 baseLayerControl.addTo(myMap);
-
-

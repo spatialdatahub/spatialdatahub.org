@@ -7,10 +7,10 @@ const domReady = function(callback) {
 };
 */
 
+// These tests will need to be more loosely coupled in the future, but right
+// they are good to start with.
 
-
-// Base View Tests
-
+// Base Map File Tests
 QUnit.test("base_map.js osm variable tests", function( assert ) {
 
   // Open Street Maps 
@@ -88,72 +88,53 @@ QUnit.test("base_map.js Esri_WorldImagery (satellite view) variable tests", func
 });
 
 
+QUnit.test("baseLayers variable tests", function ( assert ) {
+  // this is probably too forcefully cementing the site together. It will have to change, but at least
+  // I will know when things change with this here. It's a good check point.
+  assert.equal(
+    Object.keys(baseLayers).length,
+    3,
+    "Making sure that there are the correct number of layers in the base layer variable"
+  );
+
+});
 
 
 QUnit.test("map default options", function( assert ) { 
-	assert.equal(myMap.getCenter().toString(),
-		"LatLng(0, 8.846)",
-		"The map is centered at the ZMT's longitude, and the equator"
-	);
 
-	assert.equal(myMap.getZoom(),
-		2,
-		"The default zoom is set to 2"
-	);
+  assert.equal(
+    myMap.options.center.lat,
+    0,
+    "The map's default latitude is the equator (0)"
+  );
 
-	assert.equal(myMap.hasLayer(baseLayers['Open Street Maps']),
-		true,
-		"The default base layer is the open street maps tile layer"
-	);	
+  assert.equal(
+    myMap.options.center.lng,
+    8.846,
+    "The map's default longitude is the longitude of the ZMT (8.846)"
+  );
+
+  assert.equal(
+    myMap.options.zoom,
+    2,
+    "The default zoom is set to 2"
+  );
+
+  assert.equal(
+    myMap.options.layers,
+    osm,
+    "The default layer for the map is the Open Street Maps layer"
+  );
 });
 
-QUnit.test("baseLayers variable", function( assert ) {
-	assert.equal(Object.keys(baseLayers).length,
-		2,
-		"There are two key:value layers in 'baseLayers' variable"
-	);
 
-	assert.equal(baseLayers['Open Street Maps']._url,
-		"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-		"The url of the open street maps base layer is correct"
-	);
+// Portal View Javascript Tests
 
+QUnit.test('there is a constant datasets array variable that holds dataset variables', function( assert ) {
 
-	assert.equal(baseLayers['Black and White']._url,
-		'http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}',
-		"The url of the stamen black and white base layer is correct"
-	);
-
-	assert.equal(baseLayers['Open Street Maps'].options.attribution,
-		'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-		"The attribution for the open street maps layer is correct"
-	);
-
-	assert.equal(baseLayers['Black and White'].options.attribution,
-		'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-		"The attribution for the Stamen Toner Map layer is correct"
-	);
-
-	assert.equal(baseLayers['Open Street Maps'].options.minZoom,
-		0,
-		"The default minimum zoom on the open street maps layer is set to 0"
-	);
-
-	assert.equal(baseLayers['Black and White'].options.minZoom,
-		0,
-		"The default minimum zoom on the stamen toner layer is set to 0"
-	);
-
-	assert.equal(baseLayers['Open Street Maps'].options.maxZoom,
-		19,
-		"The default maximum zoom on the open street maps layer is set to 19"
-	);
-
-	assert.equal(baseLayers['Black and White'].options.maxZoom,
-		20,
-		"The default maximum zoom on the Stamen Black and White layer is set to 20"
-	);
 });
+
+
 
 
 /*
