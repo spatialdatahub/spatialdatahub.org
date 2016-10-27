@@ -1,3 +1,95 @@
+// Dom Ready Tests
+// How do I test this code?
+/* define DOM ready function
+const domReady = function(callback) {
+  document.readyState === "interactive" ||
+  document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
+};
+*/
+
+
+
+// Base View Tests
+
+QUnit.test("base_map.js osm variable tests", function( assert ) {
+
+  // Open Street Maps 
+  assert.equal(
+    osm._url, 
+    "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "The osm base layer calls the correct url"
+  );
+
+  let attribution = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+  assert.equal(
+    osm.options.attribution, 
+    attribution,
+    "The osm base layer has the correct attribution"
+  );
+
+  assert.equal(
+    osm.options.minZoom,
+    0,
+    "The osm base layer has the correct minimum zoom" 
+  );
+
+  assert.equal(osm.options.maxZoom,
+    19,
+    "The osm base layer has the correct maximum zoom" 
+  );
+});
+
+
+QUnit.test("base_map.js stamenToner variable tests", function( assert ) {
+
+  // Stamen Black and White
+  assert.equal(
+    stamenToner._url, 
+    "http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}",
+    "The stamenToner base layer calls the correct url"
+  );
+
+  let attribution= 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+  assert.equal(
+    stamenToner.options.attribution, 
+    attribution,
+    "The stamenToner base layer has the correct attribution"
+  );
+
+  assert.equal(
+    stamenToner.options.minZoom,
+    0,
+    "The stamenToner base layer has the correct minimum zoom" 
+  );
+
+  assert.equal(stamenToner.options.maxZoom,
+    stamenToner.options.maxZoom,
+    19,
+    "The stamenToner base layer has the correct maximum zoom" 
+  );
+});
+
+
+QUnit.test("base_map.js Esri_WorldImagery (satellite view) variable tests", function( assert ) {
+
+  // Esri World Imagery
+  assert.equal(
+    Esri_WorldImagery._url,
+    "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    "The ESRI Satellite base layer calls the correct url"
+  );
+
+  let attribution = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
+  assert.equal(
+    Esri_WorldImagery.options.attribution, 
+    attribution,
+    "The osm base layer has the correct attribution"
+  );
+});
+
+
+
+
 QUnit.test("map default options", function( assert ) { 
 	assert.equal(myMap.getCenter().toString(),
 		"LatLng(0, 8.846)",

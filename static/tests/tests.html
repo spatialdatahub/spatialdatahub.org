@@ -1,27 +1,34 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset=utf-8>
-	<title>ZMT GIS Portal JavaScript Tests</title>
-	<link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.0.1.css">
-	<link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+  <meta charset=utf-8>
+  <title>ZMT GIS Portal JavaScript Tests</title>
+
+  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.0.1.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
 </head>
+
 <body>
 
-	<div id="qunit"></div>
-	<div id="qunit-fixture"></div>
-        
-        <div id="mapid"></div>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  
+  <div id="mapid"></div>
 
+  <script type="text/javascript" src="https://code.jquery.com/qunit/qunit-2.0.1.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
 
-	<script type="text/javascript" src="https://code.jquery.com/qunit/qunit-2.0.1.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
-	<script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
-<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
-        <script type="text/javascript" src="../js/datasets/portal_map.js"></script>
-        <script type="text/javascript" src="../js/datasets/map_autoload_jquery.js"></script>
-	<script type="text/javascript" src="dummydata.js"></script>
-	<script type="text/javascript" src="redblue.js"></script>
-	<script type="text/javascript" src="tests.js"></script>
+  <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+  <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+       
+
+  <script type="text/javascript" src="../js/datasets/base_map.js"></script>
+
+  <!-- Do I need both of these? -->
+  <script type="text/javascript" src="dummydata.js"></script>
+  <script type="text/javascript" src="redblue.js"></script>
+
+  <script type="text/javascript" src="tests.js"></script>
+
 </body>
 </html>

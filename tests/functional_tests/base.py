@@ -54,12 +54,12 @@ class CssBaseLiveTest(StaticLiveServerTestCase):
         for browser in self.browsers:
             if browser == self.firefox:
                 print('firefox')
-                browser.close()
-                #browser.quit()
+                #browser.close()
+                browser.quit()
             elif browser == self.chrome:
                 print('chrome')
-                browser.close()
-                #browser.quit()
+                #browser.close()
+                browser.quit()
 
 
 class BaseLiveTest(StaticLiveServerTestCase):

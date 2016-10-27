@@ -20,6 +20,9 @@ def load_dataset(request, pk):
     This needs to be fixed to run asynchronously, incase of a very large
     dataset
     Fix this so that it works as ajax or something.
+
+
+    Also there needs to be a better way to hide the cryptokey
     """
     dataset = Dataset.objects.get(pk=pk)
     if dataset.dataset_user and dataset.dataset_password:
@@ -83,9 +86,6 @@ class PortalView(ListView):
 # It would be nice to create a function that does a dataset check, that way
 # I wouldn't have to repeat the code between the create and update views. Maybe
 # the code should be part of the DatasetForm
-
-# I need to think of a good way to deal with password/username data for
-# authentication with requests.
 
 # I also need to make everything work with ajax calls
 

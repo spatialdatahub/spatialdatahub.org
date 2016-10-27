@@ -5,6 +5,12 @@ from cryptography.fernet import Fernet
 import os
 
 
+"""
+I will refactor tests to have more test cases later. Optmization of tests is
+not my priority at this time, writing more tests for more coverage is the
+priority.
+"""
+
 class BaseDatasetTest(TestCase):
     """
     dummy data for the tests

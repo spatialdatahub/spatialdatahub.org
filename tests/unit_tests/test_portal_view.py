@@ -1,12 +1,24 @@
 from django.test import TestCase
-
 from datasets.models import Dataset
 
 from .base import BaseDatasetTest
 
 from datasets.views import PortalView
 
-class PortalViewTests(BaseDatasetTest):
+
+class PortalViewTestsThatRequireData_EMPTY_DATABASE(TestCase):
+
+    def test_that_PortalView_without_datasets_says_none_available(self):
+        response = self.client.get('/')
+        self.assertIn('There are no datasets available',
+            response.content.decode('utf-8'))
+
+    def test_that_PortalView_brings_in_correct_number_of_dataset_objects(self):
+        response = self.client.get('/')
+        self.assertEqual(0, len(response.context['dataset_list']))
+
+
+class PortalViewTestsThatRequireData(BaseDatasetTest):
 
     def test_base_url_resolves_to_PortalView(self):
         request = self.factory.get('')
@@ -49,15 +61,3 @@ class PortalViewTests(BaseDatasetTest):
         self.assertEqual(response.status_code, 200)
         self.assertIn('ZMT GeoJSON Polygon', response.content.decode('utf-8'))
         self.assertNotIn('Mapbox GeoJson Example', response.content.decode('utf-8'))
-
-
-class PortalView_WITHOUT_DATA_Tests(TestCase):
-
-    def test_that_PortalView_without_datasets_says_none_available(self):
-        response = self.client.get('/')
-        self.assertIn('There are no datasets available',
-            response.content.decode('utf-8'))
-
-    def test_that_PortalView_brings_in_correct_number_of_dataset_objects(self):
-        response = self.client.get('/')
-        self.assertEqual(0, len(response.context['dataset_list']))
