@@ -130,9 +130,74 @@ QUnit.test("map default options", function( assert ) {
 
 // Portal View Javascript Tests
 
-QUnit.test('there is a constant datasets array variable that holds dataset variables', function( assert ) {
+QUnit.test('test datasets list creation function', function ( assert ) {
+  assert.equal(
+    datasets.length,
+    2,
+    'this should automatically be populated with dataset keys'
+  );
+
+  assert.equal(
+    datasets[0],
+    'ds1',
+    `the name of the first dataset key, which is \"${datasets[0]}\"`
+  );
+});
+
+QUnit.test('test datasetToggle function', function ( assert ) {
+
 
 });
+
+
+
+
+QUnit.test("Change div width on leaflet control button press", function( assert ) {
+	assert.expect(1);
+
+	$mapResizeButton.on("click", function() {
+		assert.ok($("div.sidebar").hasClass("col-xs-0"),
+		"minimizing the sidebar into nothingness"
+		);
+	});
+
+	$mapResizeButton.trigger("click");
+});
+
+
+QUnit.test("Change leaflet view with home button", function ( assert ) {
+  $("mapCenterButton").trigger("click");
+
+  assert.equal(
+    myMap.getCenter().lat,
+    0,
+    "Map is centered on home button click"
+  );
+
+  assert.equal(
+    myMap.getCenter().lng,
+    8.846,
+    `The home button makes the map's longitude is
+the longitude is the longitude of the ZMT (8.846)`
+  );
+
+});
+
+QUnit.test("Change dive class with leaflet map enlarge button push", function ( assert ) {
+  $("mapResizeButton").trigger("click");
+
+  let sidebar = document.getElementById("sidebar"),
+  main_map = document.getElementById("main_map");
+  assert.equal(
+  );
+
+});
+
+
+
+
+
+
 
 
 
@@ -254,19 +319,5 @@ QUnit.test("dataToggle function turns layers on and off", function( assert ) {
 	);
 });
 */
-
-
-QUnit.test("Change div width on leaflet control button press", function( assert ) {
-
-	assert.expect(1);
-
-	$mapResizeButton.on("click", function() {
-		assert.ok($("div.sidebar").hasClass("col-xs-0"),
-		"minimizing the sidebar into nothingness"
-		);
-	});
-
-	$mapResizeButton.trigger("click");
-});
 
 

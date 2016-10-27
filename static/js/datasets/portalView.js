@@ -25,7 +25,6 @@ for (let i = 0; i < dslength; i++) {
 }
 
 <input type="checkbox" class="datasetCheckbox" value={{ dataset.pk }}>{{ dataset.title }} 
-
 */
 
 
