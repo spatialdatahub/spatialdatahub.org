@@ -1979,3 +1979,18 @@ JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/boo
 JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js, line 6: Error: Bootstrap's JavaScript requires at least jQuery v1.9.1 but less than v3.0.0
 [Child 770] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
 [Child 770] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+1477650903817	geckodriver	INFO	Listening on 127.0.0.1:58975
+1477650904574	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.I5WaYxG3ltk9
+1477650904576	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1477650904618	geckodriver::marionette	INFO	Connecting to Marionette on localhost:58984
+1477650908127	Marionette	INFO	Listening on port 58984
+1477650911312	Marionette	INFO	startBrowser c4603704-6056-a34f-93e2-4fb24f4460c8
+1477650967364	geckodriver	INFO	Listening on 127.0.0.1:59100
+1477650968265	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.fR299atxYwEz
+1477650968267	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1477650968302	geckodriver::marionette	INFO	Connecting to Marionette on localhost:59109
+1477650971912	Marionette	INFO	Listening on port 59109
+1477650974490	Marionette	INFO	startBrowser 5c36c94e-6b0c-d44a-b9e4-fd2d5636f0c5
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js, line 6: Error: Bootstrap's JavaScript requires at least jQuery v1.9.1 but less than v3.0.0
+[Child 2658] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 2658] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
