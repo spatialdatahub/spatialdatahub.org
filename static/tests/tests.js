@@ -130,6 +130,7 @@ QUnit.test("map default options", function( assert ) {
 
 // Portal View Javascript Tests
 
+
 QUnit.test('test datasets list creation function', function ( assert ) {
   assert.equal(
     datasets.length,
@@ -144,28 +145,62 @@ QUnit.test('test datasets list creation function', function ( assert ) {
   );
 });
 
+
 QUnit.test('test datasetToggle function', function ( assert ) {
 
 
 });
 
+QUnit.test("On document ready main map and sidebar elements have correct bootstrap classes", function( assert ) {
+
+  let sidebar = document.getElementById("sidebar"),
+  main_map = document.getElementById("main_map");
+
+  assert.equal(
+    main_map.getAttribute("class"),
+    "col-sm-6 col-md-8 col-lg-9", 
+    "jQuery appends different bootstrap class to div on page load"
+  );
+
+  assert.notEqual(
+    sidebar.getAttribute("style"),
+    "display: none;",
+    "jQuery toggles the display status of the sidebar element"
+  );
+
+});
+
+QUnit.test("Change div class with leaflet map enlarge button push", function ( assert ) {
+
+  // I am having trouble getting a hold of the function
 
 
+  let sidebar = document.getElementById("sidebar"),
+  main_map = document.getElementById("main_map");
 
-QUnit.test("Change div width on leaflet control button press", function( assert ) {
-	assert.expect(1);
+  mapResizeButton.trigger("click");
 
-	$mapResizeButton.on("click", function() {
-		assert.ok($("div.sidebar").hasClass("col-xs-0"),
-		"minimizing the sidebar into nothingness"
-		);
-	});
+  assert.equal(
+    main_map.getAttribute("class"),
+    "col-sm-6 col-md-8 col-lg-9", 
+    "jQuery toggles class on button push"
+  );
 
-	$mapResizeButton.trigger("click");
+  assert.notEqual(
+    sidebar.getAttribute("style"),
+    "display: none;",
+    "jQuery toggles the display status of the sidebar element"
+  );
+
 });
 
 
+
+
 QUnit.test("Change leaflet view with home button", function ( assert ) {
+  // I have to move the map center before clicking the button or this doesn't test anything
+  myMap.setView({lat: 3, lng: 3}, 4);
+
   $("mapCenterButton").trigger("click");
 
   assert.equal(
@@ -182,17 +217,6 @@ the longitude is the longitude of the ZMT (8.846)`
   );
 
 });
-
-QUnit.test("Change dive class with leaflet map enlarge button push", function ( assert ) {
-  $("mapResizeButton").trigger("click");
-
-  let sidebar = document.getElementById("sidebar"),
-  main_map = document.getElementById("main_map");
-  assert.equal(
-  );
-
-});
-
 
 
 
