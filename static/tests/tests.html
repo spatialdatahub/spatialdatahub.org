@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
   <link rel="stylesheet" type="text/css" href="../css/easy-button.css" />
 
+  <style>
+    #mapid { height: 180px; }
+  </style>
+
 </head>
 
 <body>
@@ -21,14 +25,15 @@
     </ul>
 
 
-
     <!-- mock of the side bar and main map, for map resize button -->
     <div id="sidebar" style="display: none;"></div>
     <div id="main_map"></div>
 
+     <!-- mock of map -->
+    <div id="mapid" ></div>
+
   </div>
-  
-  <div id="mapid"></div>
+
 
   <script type="text/javascript" src="https://code.jquery.com/qunit/qunit-2.0.1.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>

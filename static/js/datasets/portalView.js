@@ -104,7 +104,7 @@ const mapResizeButton = L.easyButton({
   states: [{
     icon: '<i class="fa fa-arrows-h" aria-hidden="true"></i>',
     id: 'mapResizeButton',
-    onClick: (btn, myMap) => {
+    onClick: function resizeMap(btn, myMap) {
       $("#sidebar").toggle();
       $("#main_map").toggleClass("col-sm-6 col-md-8 col-lg-9");
     }

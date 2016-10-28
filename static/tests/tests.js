@@ -173,10 +173,11 @@ QUnit.test("On document ready main map and sidebar elements have correct bootstr
 QUnit.test("Change div class with leaflet map enlarge button push", function ( assert ) {
 
   // I am having trouble getting a hold of the function
-
+  // this may be something that I have to do with a functional test
 
   let sidebar = document.getElementById("sidebar"),
-  main_map = document.getElementById("main_map");
+  main_map = document.getElementById("main_map"),
+  mapResizeButton = document.getElementById("mapResizeButton");
 
   mapResizeButton.trigger("click");
 
