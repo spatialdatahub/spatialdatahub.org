@@ -5,8 +5,9 @@
 
 {% block content %}
 
+
   <h2 class="text-xs-center">{{ dataset.title }} meta data</h2>
-<hr class="divider">
+  <hr class="divider">
   <div class="col-12 col-xs-12 col-sm-6 col-md-4" role="main" id="meta_data">
     <p>Author: {{ dataset.author }}</p> 
     <p>Dataset Description</p>
@@ -29,7 +30,8 @@
 
 {% block js %}
 
-<script type="text/javascript" src="{% static 'js/datasets/portal_map.js' %}" ></script>
-<script type="text/javascript" src="{% static 'js/datasets/map_autoload_jquery.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/datasets/base_map.js' %}" ></script>
+<script type="text/javascript" src="{% static 'js/datasets/detailView.js' %}" ></script>
 
 {% endblock js %}

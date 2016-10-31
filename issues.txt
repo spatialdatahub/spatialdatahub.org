@@ -2,9 +2,12 @@ On the main portal page the 'Show All' button reloads the page.
     Change this so that the page doesn't reload, but the map
     list reloads all maps.
 
+
 On the main portal page the 'Clear Map' button clears everything,
 including the background layers. 
     Change this so that only the user created map layers are cleared.
+
+------>> The Clear Map doesn't work at all <<--------
 
 On the main portal page the Search box reloads the entire page when
 a search is performed.
@@ -38,11 +41,53 @@ be clicked to access the data.
 
 *** Going to add ajax to search function on portal page
 
+
+############################## DONE ############################## 
 I need to figure out a better way to deal with the password and username variables because they are still 
 available as response context variables
-
+############################## DONE ############################## 
 
 
 Clean up the Javascript and rebuild it with tests. One piece at a time.
 
 Make example site with only the map page and the data that we collect from the publications.
+
+
+Fork this project on github and make a version with webglearth
+
+
+Add the marker cluster thing after a bit.
+
+Get a server going.
+
+Get some tests up and running.
+
+Authentication and tests.
+--> allow institutional accounts and stuff
+
+Now that the data can be encrypted, I need to figure out how to make it not save on updates to dataset stuff.
+Every time the dataset is updated the password gets reencrypted, so the encrypted password gets incrypted, that
+cannot happen.
+
+I think that probably a bit of code that is like this would do the trick:
+
+    if form.instance.dataset_user == dataset.dataset_user:
+        return dataset.dataset_user
+    else:
+        other stuff I already wrote
+
+I need to set the environmental keys into a permanent file. So, the .zshrc or something. This goes for any other
+secret keys that I will be using.
+
+Instead of inventing my own method to encrypt the fields I will use a pypi
+package
+
+
+After implementing the slider bar I need to do some major clean up and merge this with the dev branch
+
+Then I need to clean it up and test it even more and eventually merge it with the master branch.
+
+It would be nice to have everything all cleaned up before putting it onto a server.
+It would also be nice to have authentication and users before people can start using this.
+
+I need to make the python requests asyncronous

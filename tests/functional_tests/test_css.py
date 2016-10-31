@@ -3,6 +3,16 @@ from selenium.webdriver.common.keys import Keys
 
 from .base import CssBaseLiveTest
 
+"""
+I am going to set this up to run through the tests with chrome, then to run
+through the tests with firefox. If it's running with chrome I have to use the
+.close() call for tear down, but if it's firefox I have to use the .quit() call
+for tear down.
+"""
+
+
+
+
 
 class BrowserSizeChangerTest(CssBaseLiveTest):
     """
@@ -209,7 +219,6 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
 
             browser.get('%s%s' % (self.live_server_url, '/new_dataset'))
             confirm_remove_form = browser.find_element_by_id('dataset_create_form')
-            main_map = browser.find_element_by_id('main_map')
 
             # extra small
             browser.set_window_size(540, 700)
@@ -218,21 +227,11 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
             520,
             delta = 5
             )
-            self.assertAlmostEqual(
-                main_map.size['width'],
-                520,
-                delta =5
-            )
 
             # large
             browser.set_window_size(1000, 700)
             self.assertAlmostEqual(
                 confirm_remove_form.size['width'],
-                980,
-                delta = 5
-            )
-            self.assertAlmostEqual(
-                main_map.size['width'],
                 980,
                 delta = 5
             )
@@ -260,6 +259,7 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
 
             browser.get('%s%s%s' % (self.live_server_url, slugpk, 'update'))
             update_dataset_form = browser.find_element_by_id('update_dataset_form')
+            main_map = browser.find_element_by_id('main_map')
             main_map = browser.find_element_by_id('main_map')
             # extra small
             browser.set_window_size(540, 700)

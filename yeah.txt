@@ -1,5 +1,4 @@
-this is what I think about everyon`e her`e
-it's pretty diffucult to 	wo	```ship zul	t`an 
-why are ther	e hug	e tab aspa~ces jhere. man difficult to touch type with the \
-whatever it's called. `i think i could get used to it but zultan couldn't.
-:
+this is a dummy file
+
+I'm going to add a node setup here again, but I'm going to add the node modules folder to the gitignore file too.
+yeah

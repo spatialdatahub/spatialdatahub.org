@@ -15,6 +15,9 @@
     <h1>{{ dataset.title }} Update Form</h1>
   </div>
 
+<!-- I might want to get away from crispy forms and just use a normal django
+form -->
+
 <!-- The Form -->
   <div class="col-12 col-xs-12" id="update_dataset_form">  
     <form action="." method="post">
@@ -39,7 +42,7 @@
 {% endblock content %}
 {% block js %}
 
-<script type="text/javascript" src="{% static 'js/datasets/portal_map.js' %}" ></script>
-<script type="text/javascript" src="{% static 'js/datasets/map_autoload_jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/datasets/base_map.js' %}" ></script>
+<script type="text/javascript" src="{% static 'js/datasets/updateView.js' %}" ></script>
 
 {% endblock js%}

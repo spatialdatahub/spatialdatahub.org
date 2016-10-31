@@ -1,0 +1,151 @@
+1477902490521	geckodriver	INFO	Listening on 127.0.0.1:52473
+1477902491387	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.DhfnCgNjZeWY
+1477902491390	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1477902491435	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52482
+1477902494617	Marionette	INFO	Listening on port 52482
+1477902498569	Marionette	INFO	startBrowser d240afe3-4a9c-fc4c-84fc-6d007c96688d
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js, line 6: Error: Bootstrap's JavaScript requires at least jQuery v1.9.1 but less than v3.0.0
+
+###!!! [Child][OnMaybeDequeueOne] Error: Channel error: cannot send/recv
+
+[Child 1355] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+Hit MOZ_CRASH(MsgDropped) at /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/BackgroundChildImpl.cpp:141
+[Child 1355] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+1477902528879	geckodriver	INFO	Listening on 127.0.0.1:52759
+1477902529731	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.nwEXld1brQ2h
+1477902529767	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1477902529866	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52768
+1477902534331	Marionette	INFO	Listening on port 52768
+1477902538540	Marionette	INFO	startBrowser 1594e71f-468b-e848-bd0f-bf957c4dff44
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js, line 6: Error: Bootstrap's JavaScript requires at least jQuery v1.9.1 but less than v3.0.0
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[Child 1377] WARNING: pipe error: Broken pipe: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 677
+[Child 1377] WARNING: pipe error: Broken pipe: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 677
+[Child 1377] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 1377] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+1477902549562	geckodriver	INFO	Listening on 127.0.0.1:53055
+1477902550474	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.BczfmFPSOS9g
+1477902550476	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1477902550478	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53064
+1477902552237	Marionette	INFO	Listening on port 53064
+1477902553819	Marionette	INFO	startBrowser c4a71897-dc67-d34e-a6cc-e3beee7137b1
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js, line 6: Error: Bootstrap's JavaScript requires at least jQuery v1.9.1 but less than v3.0.0
+[Child 1395] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 1395] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+1477902560745	geckodriver	INFO	Listening on 127.0.0.1:53227
+1477902561606	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.AMiyfHHcv6Th
+1477902561608	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1477902561611	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53236
+1477902563280	Marionette	INFO	Listening on port 53236
+1477902564876	Marionette	INFO	startBrowser e4b125c4-6acf-5d43-a66e-66d6a55b78ec
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js, line 6: Error: Bootstrap's JavaScript requires at least jQuery v1.9.1 but less than v3.0.0
+[Child 1411] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 1411] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+1477902573100	geckodriver	INFO	Listening on 127.0.0.1:53467
+1477902574012	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.xSQVIW1evjkD
+1477902574014	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1477902574017	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53476
+1477902576014	Marionette	INFO	Listening on port 53476
+1477902577593	Marionette	INFO	startBrowser 42902eee-0548-b344-ab79-b146b03accdb
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js, line 6: Error: Bootstrap's JavaScript requires at least jQuery v1.9.1 but less than v3.0.0
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+[Child 1431] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+[Child 1431] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+1477902585103	geckodriver	INFO	Listening on 127.0.0.1:53682
+1477902586022	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.AedKItGlOeBF
+1477902586024	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1477902586027	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53691
+1477902587691	Marionette	INFO	Listening on port 53691
+1477902589313	Marionette	INFO	startBrowser db62a9fd-548b-c04f-91e3-9821f66bec7c
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js, line 6: Error: Bootstrap's JavaScript requires at least jQuery v1.9.1 but less than v3.0.0
+[Child 1449] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 1449] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+1477902595984	geckodriver	INFO	Listening on 127.0.0.1:53831
+1477902596907	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.h6WZ0asmtUpL
+1477902596910	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1477902596912	geckodriver::marionette	INFO	Connecting to Marionette on localhost:53840
+1477902598667	Marionette	INFO	Listening on port 53840
+1477902600311	Marionette	INFO	startBrowser 4a517813-d6f2-944b-8f14-5c238c25a068
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js, line 6: Error: Bootstrap's JavaScript requires at least jQuery v1.9.1 but less than v3.0.0
+[Child 1466] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 1466] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+1477902633228	geckodriver	INFO	Listening on 127.0.0.1:54567
+1477902634150	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.9ufS107PWB4t
+1477902634152	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1477902634156	geckodriver::marionette	INFO	Connecting to Marionette on localhost:54576
+1477902635665	Marionette	INFO	Listening on port 54576
+1477902637246	Marionette	INFO	startBrowser 2a973f2a-0936-b348-8d89-1a73c2dbd314
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js, line 6: Error: Bootstrap's JavaScript requires at least jQuery v1.9.1 but less than v3.0.0
+[Child 1556] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 1556] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+

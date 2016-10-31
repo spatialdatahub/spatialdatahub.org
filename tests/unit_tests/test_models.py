@@ -18,7 +18,12 @@ class DatasetModelTests(BaseDatasetTest):
                                description="this is a test dataset",
                                url="https://duckduckgo.com/")
         test_dataset = Dataset.objects.get(title="test dataset")
+
+        # should these assertions be separated into stand alone tests?
         self.assertEqual(test_dataset.author, "pat")
+        self.assertEqual(test_dataset.title, "test dataset")
+        self.assertEqual(test_dataset.description, "this is a test dataset")
+        self.assertEqual(test_dataset.url, "https://duckduckgo.com/")
 
     def test_get_absolute_url_returns_correct_url(self):
         expected_url = "/{slug}-{pk}/".format(slug=self.ds1.slug,
