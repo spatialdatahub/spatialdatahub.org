@@ -6,32 +6,46 @@
 {% block content %}
 
 
-  <h2 class="text-xs-center">{{ dataset.title }} meta data</h2>
-  <hr class="divider">
-  <div class="col-12 col-xs-12 col-sm-6 col-md-4" role="main" id="meta_data">
-    <p>Author: {{ dataset.author }}</p> 
-    <p>Dataset Description</p>
-    <p>{{ dataset.description }}</p> 
-    <p>Dataset URL</p>
-    <p>{{ dataset.url }}</p> 
-    <p><a href="{% url 'datasets:dataset_update' dataset.slug dataset.pk %}">Update this dataset</a></p> 
-    <p ><a class="text-danger font-weight-bold" href="{% url 'datasets:dataset_remove' dataset.slug dataset.pk %}">Remove this dataset</a></p> 
-    <p><a href="{% url 'datasets:portal' %}">Back to map list</a></p> 
-  </div>
+<h2 class="text-xs-center">{{ dataset.title }}</h2>
+<hr class="divider">
 
-<!-- Map and Background Choices -->
-  <div class="col-12 col-xs-12 col-sm-6 col-md-8" role="main" id="main_map">
-    <div id="mapid" value="{{ dataset.pk }}">
+<div class="container-fluid">
+
+  <!-- Dataset Info -->
+  <div class="row">
+    <div class="col-12 col-xs-12" id="main_map">
+      <p><b>Author:</b> {{ dataset.author }}</p> 
+      <p><b>Dataset Description:</b> {{ dataset.description }}</p>
     </div>
   </div>
-<!-- End Map and Background Choices -->
+  <!-- End Dataset Info -->
+
+  <!-- Map and Background Choices -->
+  <div class="row" id="main_map">
+    <div class="col-12 col-xs-12" id="main_map">
+      <div id="mapid" value="{{ dataset.pk }}">
+      </div>
+    </div>
+  </div>
+  <!-- End Map and Background Choices -->
+
+  <!-- Links to modify the database or get back to the map list -->
+  <div class="row">
+    <div class="col-12 col-xs-12" id="modifier_links">
+    <b>
+      <p><a href="{% url 'datasets:dataset_update' dataset.slug dataset.pk %}">Update this dataset</a></p> 
+      <p><a class="text-danger font-weight-bold" href="{% url 'datasets:dataset_remove' dataset.slug dataset.pk %}">Remove this dataset</a></p> 
+      <p><a href="{% url 'datasets:portal' %}">Back to map list</a></p> 
+    </b>
+    </div>
+  </div>
+  <!-- End Links to modify the database or get back to the map list -->
+
+</div>
 
 {% endblock content %}
 
 {% block js %}
-
-
-<script type="text/javascript" src="{% static 'js/datasets/base_map.js' %}" ></script>
-<script type="text/javascript" src="{% static 'js/datasets/detailView.js' %}" ></script>
-
+  <script type="text/javascript" src="{% static 'js/datasets/base_map.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/datasets/detailView.js' %}"></script>
 {% endblock js %}
