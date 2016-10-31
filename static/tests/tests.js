@@ -217,6 +217,11 @@ QUnit.test("Change leaflet view with home button", function ( assert ) {
 the longitude is the longitude of the ZMT (8.846)`
   );
 
+  assert.equal(
+    myMap.getZoom(),
+    2,
+    "The home button makes the map's zoom 2" 
+  );
 });
 
 
