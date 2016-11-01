@@ -45,3 +45,15 @@ const baseLayers = {
 };
 baseLayerControl = L.control.layers(baseLayers);
 baseLayerControl.addTo(myMap);
+
+// Add a map center button with id, for testing purposes
+const mapCenterButton = L.easyButton({
+  states: [{
+    id: 'mapCenterButton',
+    icon: 'fa-home', 
+    onClick: (btn, myMap) => {
+      myMap.setView([0, 8.8460], 2);
+    }
+  }]
+}).addTo(myMap);
+
