@@ -9,6 +9,20 @@ const domReady = function(callback) {
   document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
 };
 
+
+
+// define toggle element display function
+function toggleDisplay(obj) {
+  let element = document.getElementById(obj);
+  if ( element.style.display != 'none' ) {
+    element.style.display = 'none';
+  } else {
+    element.style.display = '';
+  }
+};
+
+
+
 // should everything be wrapped in a dom ready function? At least I can use it instead of the jQuery function
 
 // create base tile layer variables for map
@@ -30,12 +44,14 @@ Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/serv
 });
 
 
+
 // set up map, view and base layer
 const myMap = new L.Map("mapid", {
   center: {lat: 0, lng: 8.8460}, 
   zoom: 2,
   layers: osm 
 });
+
 
 // create layer group and add base tile layers, then add it to the map
 const baseLayers = {
@@ -45,6 +61,7 @@ const baseLayers = {
 };
 baseLayerControl = L.control.layers(baseLayers);
 baseLayerControl.addTo(myMap);
+
 
 // Add a map center button with id, for testing purposes
 const mapCenterButton = L.easyButton({

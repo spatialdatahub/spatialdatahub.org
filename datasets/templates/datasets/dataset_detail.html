@@ -38,9 +38,9 @@
   <div class="row">
     <div class="col-12 col-xs-12" id="modifier_links">
     <b>
-      <p><a href="{% url 'datasets:dataset_update' dataset.slug dataset.pk %}">Update this dataset</a></p> 
-      <p><a class="text-danger font-weight-bold" href="{% url 'datasets:dataset_remove' dataset.slug dataset.pk %}">Remove this dataset</a></p> 
-      <p><a href="{% url 'datasets:portal' %}">Back to map list</a></p> 
+      <a href="{% url 'datasets:dataset_update' dataset.slug dataset.pk %}" class="btn btn-success">Update this dataset</a>
+      <a href="{% url 'datasets:dataset_remove' dataset.slug dataset.pk %}" class="btn btn-danger">Remove this dataset</a>
+      <a href="{% url 'datasets:portal' %}" class="btn btn-primary">Back to map list</a>
     </b>
     </div>
   </div>

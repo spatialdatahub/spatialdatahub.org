@@ -24,10 +24,10 @@ form -->
       {% csrf_token %}
       {{ form|crispy }}
       <input id="submit_dataset" class="btn btn-success" type="submit" value="Update">
-      <a href="{% url 'datasets:dataset_detail' dataset.slug dataset.pk %}" class="btn btn-primary">
+      <a href="{% url 'datasets:dataset_detail' dataset.slug dataset.pk %}" class="btn btn-info">
         Back to dataset page 
       </a>
-      <a href="/" class="btn btn-primary">Back to dataset list</a>
+      <a href="{% url 'datasets:portal' %}" class="btn btn-primary">Back to dataset list</a>
     </form>
   </div>
 <!-- End The Form -->
