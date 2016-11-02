@@ -35,11 +35,6 @@ class DatasetDetailViewTests(BaseDatasetTest):
         response = self.client.get(url)
         self.assertIn(self.ds2.title, response.content.decode("utf-8"))
 
-    def test_dataset_URL_is_in_the_page(self):
-        url = "/{slug}-{pk}/".format(slug=self.ds2.slug, pk=self.ds2.pk)
-        response = self.client.get(url)
-        self.assertIn(self.ds2.url, response.content.decode("utf-8"))
-
     def test_dataset_DESCRIPTION_is_in_the_page(self):
         url = "/{slug}-{pk}/".format(slug=self.ds2.slug, pk=self.ds2.pk)
         response = self.client.get(url)

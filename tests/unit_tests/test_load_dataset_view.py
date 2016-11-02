@@ -2,6 +2,10 @@ from .base import BaseDatasetTest
 
 from datasets.views import load_dataset
 
+from cryptography.fernet import Fernet
+import os
+
+
 class LoadDatasetViewTests(BaseDatasetTest):
 
     """
@@ -28,7 +32,24 @@ class LoadDatasetViewTests(BaseDatasetTest):
 
     def test_load_dataset_returns_content_PASSWORD_PROTECTED(self):
         test_url = '/load_dataset/{pk}/'.format(pk=self.ds3.pk)
-        print('for some reason this is not returning content during the test, but it works in production')
-        print('I think it has something to do with the time it takes for the data to be recieved')
+
+        cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+        cryptokey_fernet = Fernet(cryptokey)
+
+        password_bytes = (self.ds3.dataset_password).encode('UTF-8')
+        password_decrypted_bytes = cryptokey_fernet.decrypt(password_bytes)
+        password_decrypted_string = password_decrypted_bytes.decode('UTF-8')
+
+        user_bytes = (self.ds3.dataset_user).encode('UTF-8')
+        user_decrypted_bytes = cryptokey_fernet.decrypt(user_bytes)
+        user_decrypted_string = user_decrypted_bytes.decode('UTF-8')
+
+        print('''the methods for encrypting and decrypting work, but i cant get
+any content from the page for one reason or another''')
+        print(self.ds3.dataset_password)
+        print(self.ds3.dataset_user)
+        print(password_decrypted_string)
+        print(user_decrypted_string)
+
         response = self.client.get(test_url)
         self.assertIn(b'properties', response.content)

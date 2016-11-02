@@ -88,8 +88,8 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
 
     def test_dataset_DETAIL_page_has_correct_bootstrap_grid_setup(self):
         """
-        <div class="col-12 col-xs-12 col-sm-6 col-md-4" role="main" id="meta_data">
-        <div class="col-12 col-xs-12 col-sm-6 col-md-8" role="main" id="main_map">
+        <div class="col-12 col-xs-12" role="main" id="meta_data">
+        <div class="col-12 col-xs-12" role="main" id="main_map">
 
         extra small / small break at 544 -> test at 540 and 560
         small / medium break at 768 -> test at 780
@@ -119,12 +119,12 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
             browser.set_window_size(560, 700)
             self.assertAlmostEqual(
                 meta_data.location['x'] + meta_data.size['width'],
-                280,
+                540,
                 delta = 10
             )
             self.assertAlmostEqual(
                 main_map.size['width'],
-                280,
+                540,
                 delta = 10
             )
 
@@ -132,12 +132,12 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
             browser.set_window_size(780, 700)
             self.assertAlmostEqual(
                 meta_data.location['x'] + meta_data.size['width'],
-                260,
+                760,
                 delta = 10
             )
             self.assertAlmostEqual(
                 main_map.size['width'],
-                510,
+                760,
                 delta = 10
             )
 
@@ -145,12 +145,12 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
             browser.set_window_size(1000, 700)
             self.assertAlmostEqual(
                 meta_data.location['x'] + meta_data.size['width'],
-                330,
+                990,
                 delta = 10
             )
             self.assertAlmostEqual(
                 main_map.size['width'],
-                660,
+                990,
                 delta = 10
             )
 
