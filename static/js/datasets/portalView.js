@@ -42,13 +42,13 @@ const datasetToggle = value => {
           let popupContent = [];
           for (let key in layer.feature.properties) {
             popupContent.push(
-              "<b>" + key + "</b>" + ": " + layer.feature.properties[key]
+              `<b>${key}</b>: ${layer.feature.properties[key]}`
             );
           }
 
           if (layer.feature.geometry.type === "Point") {
-            popupContent.push("<b>Latitude:</b> " + layer.feature.geometry.coordinates[1]);
-            popupContent.push("<b>Longitude:</b> " + layer.feature.geometry.coordinates[0]);
+            popupContent.push(`<b>Latitude:</b>  ${layer.feature.geometry.coordinates[1]}`);
+            popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`);
           }
           layer.bindPopup(popupContent.join("<br/>"));
         });
