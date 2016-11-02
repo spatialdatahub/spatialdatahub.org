@@ -2,6 +2,11 @@
 {% load staticfiles %}
 
 {% block head_title %}{{ dataset.title }}{% endblock head_title %}
+{% block additional_css %}
+  #mapid {
+    height: 65%;
+  }
+{% endblock additional_css %}
 
 {% block content %}
 
