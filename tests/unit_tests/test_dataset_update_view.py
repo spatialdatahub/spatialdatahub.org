@@ -1,6 +1,7 @@
 from .base import BaseDatasetTest
 
 from datasets.views import DatasetUpdateView
+from datasets.forms import DatasetForm
 
 
 class DatasetUpdateViewTests(BaseDatasetTest):
@@ -29,3 +30,9 @@ class DatasetUpdateViewTests(BaseDatasetTest):
         response = self.client.get(test_url)
         self.assertEqual(self.ds1, response.context['dataset'])
         self.assertNotEqual(self.ds2, response.context['dataset'])
+
+    def test_that_DatasetUpdateView_uses_DatasetForm(self):
+        test_url = '/{slug}-{pk}/update/'.format(slug=self.ds1.slug, pk=self.ds1.pk)
+        response = self.client.get(test_url)
+        self.assertIsInstance(response.context['form'], DatasetForm)
+

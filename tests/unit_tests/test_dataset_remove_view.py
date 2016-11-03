@@ -16,7 +16,7 @@ class DatasetRemoveViewTests(BaseDatasetTest):
         test_url = '/{slug}-{pk}/remove/'.format(slug=self.ds1.slug, pk=self.ds1.pk)
         response = self.client.get(test_url)
         self.assertTemplateUsed(response,
-            template_name="datasets/dataset_confirm_remove.html")
+            template_name="datasets/dataset_remove.html")
         self.assertTemplateUsed(response,
             template_name="base.html")
 
