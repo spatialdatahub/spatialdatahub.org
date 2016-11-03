@@ -3,6 +3,7 @@
 
 {% block head_title %}GIS Portal{% endblock head_title %}
 
+
 {% block additional_css %}
       #mapid {
         height: 85%;
@@ -11,6 +12,8 @@
 {% endblock additional_css %}
 
 {% block content %}
+{% include 'base_map_css.html' %}
+
 
 <div class="container-fluid">
   <div class="row">
@@ -57,7 +60,10 @@
     </div>
 <!-- End Map and Background Choices -->
 
+
+{% include 'base_map_js.html' %}
 {% endblock content %}
+
 
 {% block js %}
 

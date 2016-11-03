@@ -9,7 +9,7 @@
 {% endblock additional_css %}
 
 {% block content %}
-
+{% include "base_map_css.html" %}
 
 <h2 class="text-xs-center">{{ dataset.title }}</h2>
 <hr class="divider">
@@ -48,6 +48,8 @@
 
 </div>
 
+
+{% include "base_map_js.html" %}
 {% endblock content %}
 
 {% block js %}
