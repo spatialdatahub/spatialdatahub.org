@@ -5,12 +5,12 @@
 
 {% block content %}
 
+<br/>
+<h2 class="text-xs-center">Remove {{ dataset.title }}</h2>
+<hr class="divider">
+
 
 <div class="col-12 col-xs-12 text-xs-center" id="confirm_remove_form">
-  <!--
-    If user authenticated
-  -->
-    <H3>Are you sure you want to remove "{{ dataset.title }}"?</H3>
     <form action="" method="post">{% csrf_token %}
       <input id="confirm_remove_button" class="btn btn-danger btn-lg" type="submit"
              value="Yes, please remove {{ dataset.title }}"/>
