@@ -51,12 +51,12 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
             browser.set_window_size(560, 700)
             self.assertAlmostEqual(
                 sidebar.location['x'] + sidebar.size['width'],
-                280,
+                540,
                 delta = 10
             )
             self.assertAlmostEqual(
                 main_map.size['width'],
-                280,
+                540,
                 delta = 10
             )
 

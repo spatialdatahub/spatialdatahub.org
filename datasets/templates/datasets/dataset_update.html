@@ -1,19 +1,14 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% load crispy_forms_tags %}
 
 {% block head_title %}Update {{ dataset.title }}{% endblock head_title %}
 
 {% block content %}
 
-<!--
-    Do I even need a map on this page at all? Should I just have a full
-    width form to create a dataset? That will be a problem for later,
-    I have a test for it now.
--->
-  <div class="col-12 col-xs-12">  
-    <h1>{{ dataset.title }} Update Form</h1>
-  </div>
+<br/>
+<h2 class="text-xs-center">{{ dataset.title }} Update Form</h2>
+<hr class="divider">
+
 
 <!-- I might want to get away from crispy forms and just use a normal django
 form -->
@@ -22,7 +17,7 @@ form -->
   <div class="col-12 col-xs-12" id="update_dataset_form">  
     <form action="." method="post">
       {% csrf_token %}
-      {{ form|crispy }}
+      {{ form.as_p }}
       <input id="submit_dataset" class="btn btn-success" type="submit" value="Update">
       <a href="{% url 'datasets:dataset_detail' dataset.slug dataset.pk %}" class="btn btn-info">
         Back to dataset page 
@@ -46,7 +41,5 @@ form -->
 {% endblock content %}
 {% block js %}
 
-<script type="text/javascript" src="{% static 'js/datasets/base_map.js' %}" ></script>
-<script type="text/javascript" src="{% static 'js/datasets/updateView.js' %}" ></script>
 
 {% endblock js%}

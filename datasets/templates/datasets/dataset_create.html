@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% load crispy_forms_tags %}
 
-{% block head_title %}New Dataset{% endblock head_title %}
+{% block head_title %}Add Dataset{% endblock head_title %}
 
 {% block content %}
+
+<br/>
+<h1 class="text-xs-center">Add Dataset</h1>
+<hr class="divider">
 
   <div class="col-12 col-xs-12" id="dataset_create_form">
     <form action="." method="post">
       {% csrf_token %}
-      {{ form|crispy }}
+      {{ form.as_p }}
       <input id="submit_dataset" class="btn btn-success" type="submit" value="Submit">
     </form>
   </div>
-
-
-<script type="text/javascript" src="{% static 'js/datasets/createView.js' %}"></script> 
 
 {% endblock content %}

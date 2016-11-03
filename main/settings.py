@@ -44,8 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # THIRD PARTY
-#    'coverage',
-    'crispy_forms',
 
     # LOCAL
     'datasets',

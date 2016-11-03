@@ -1,9 +1,10 @@
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse, Http404
 from django.views.generic import DetailView, TemplateView, ListView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.edit import DeleteView, UpdateView, FormView
 
 from datasets.models import Dataset
+from datasets.forms import DatasetForm
 
 import requests
 import os
@@ -103,17 +104,17 @@ class DatasetDetailView(DetailView):
     template_name = 'datasets/dataset_detail.html'
 
 
-class DatasetCreateView(CreateView):
+class DatasetCreateView(FormView):
     """
     I need to have a method that encrypts the dataset_user and dataset_password
     fields the same method should be useable on the update view
     """
 
-    model = Dataset
-    fields= ['author', 'title', 'url', 'dataset_user', 'dataset_password',
-             'public_access', 'description']
+    form_class = DatasetForm
     template_name = 'datasets/dataset_create.html'
     success_url = '/'
+
+    # can I move this to the form itself?
     def form_valid(self, form):
         if form.instance.dataset_user and form.instance.dataset_password:
             # get key (I am only using one key for both password and username)
@@ -130,6 +131,8 @@ class DatasetCreateView(CreateView):
             user_encrypted = cryptokey_fernet.encrypt(user_bytes)
             form.instance.dataset_user = user_encrypted.decode('UTF-8')
 
+        form.save()
+
         return super(DatasetCreateView, self).form_valid(form)
 
 
@@ -141,8 +144,7 @@ class DatasetUpdateView(UpdateView):
     """
 
     model = Dataset
-    fields= ['author', 'title', 'url', 'dataset_user', 'dataset_password',
-             'public_access', 'description']
+    form_class = DatasetForm
     context_object_name = 'dataset'
     template_name = 'datasets/dataset_update.html'
 
