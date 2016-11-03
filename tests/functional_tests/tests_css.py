@@ -3,6 +3,16 @@ from selenium.webdriver.common.keys import Keys
 
 from .base import CssBaseLiveTest
 
+"""
+I am going to set this up to run through the tests with chrome, then to run
+through the tests with firefox. If it's running with chrome I have to use the
+.close() call for tear down, but if it's firefox I have to use the .quit() call
+for tear down.
+"""
+
+
+
+
 
 class BrowserSizeChangerTest(CssBaseLiveTest):
     """
@@ -78,8 +88,8 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
 
     def test_dataset_DETAIL_page_has_correct_bootstrap_grid_setup(self):
         """
-        <div class="col-12 col-xs-12 col-sm-6 col-md-4" role="main" id="meta_data">
-        <div class="col-12 col-xs-12 col-sm-6 col-md-8" role="main" id="main_map">
+        <div class="col-12 col-xs-12" role="main" id="meta_data">
+        <div class="col-12 col-xs-12" role="main" id="main_map">
 
         extra small / small break at 544 -> test at 540 and 560
         small / medium break at 768 -> test at 780
@@ -109,12 +119,12 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
             browser.set_window_size(560, 700)
             self.assertAlmostEqual(
                 meta_data.location['x'] + meta_data.size['width'],
-                280,
+                540,
                 delta = 10
             )
             self.assertAlmostEqual(
                 main_map.size['width'],
-                280,
+                540,
                 delta = 10
             )
 
@@ -122,12 +132,12 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
             browser.set_window_size(780, 700)
             self.assertAlmostEqual(
                 meta_data.location['x'] + meta_data.size['width'],
-                260,
+                760,
                 delta = 10
             )
             self.assertAlmostEqual(
                 main_map.size['width'],
-                510,
+                760,
                 delta = 10
             )
 
@@ -135,12 +145,12 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
             browser.set_window_size(1000, 700)
             self.assertAlmostEqual(
                 meta_data.location['x'] + meta_data.size['width'],
-                330,
+                990,
                 delta = 10
             )
             self.assertAlmostEqual(
                 main_map.size['width'],
-                660,
+                990,
                 delta = 10
             )
 
@@ -209,7 +219,6 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
 
             browser.get('%s%s' % (self.live_server_url, '/new_dataset'))
             confirm_remove_form = browser.find_element_by_id('dataset_create_form')
-            main_map = browser.find_element_by_id('main_map')
 
             # extra small
             browser.set_window_size(540, 700)
@@ -218,21 +227,11 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
             520,
             delta = 5
             )
-            self.assertAlmostEqual(
-                main_map.size['width'],
-                520,
-                delta =5
-            )
 
             # large
             browser.set_window_size(1000, 700)
             self.assertAlmostEqual(
                 confirm_remove_form.size['width'],
-                980,
-                delta = 5
-            )
-            self.assertAlmostEqual(
-                main_map.size['width'],
                 980,
                 delta = 5
             )
@@ -260,6 +259,7 @@ class BrowserSizeChangerTest(CssBaseLiveTest):
 
             browser.get('%s%s%s' % (self.live_server_url, slugpk, 'update'))
             update_dataset_form = browser.find_element_by_id('update_dataset_form')
+            main_map = browser.find_element_by_id('main_map')
             main_map = browser.find_element_by_id('main_map')
             # extra small
             browser.set_window_size(540, 700)

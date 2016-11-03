@@ -8,32 +8,24 @@
     <meta name="description" content="">
     <meta name="author" content="">
  
-<title>ZMT | {% block head_title %}{% endblock head_title %}</title>
+    <title>ZMT | {% block head_title %}{% endblock head_title %}</title>
 
 
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href='{% static "font-awesome-4.6.3/css/font-awesome.min.css" %}' />
+    <!-- load css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+    <link rel="stylesheet" type="text/css" href='{% static "css/easy-button.css" %}' />
     <link rel="stylesheet" type="text/css" href='{% static "css/datasets/style.css" %}' />
+    <!-- end load css -->
 
-    <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
 
-<!-- Leaflet and Plugin Scripts -->
-
-    <script src="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
-    <script src="{% static 'leaflet_packages/leaflet-providers/leaflet-providers.js' %}"></script>
-
-<!-- End Leaflet and Plugin Scripts -->
-
+    <!-- any additional css -->
     <style>
-      #mapid {
-        height: 85%;
-        margin-bottom: 10px;
-      }
-
     {% block additional_css %}
     {% endblock additional_css %}
     </style>
+    <!-- end any additional css -->
 
   </head>
 
@@ -64,12 +56,22 @@
 
 {% endblock content %}
 
+<!-- load scripts for every page -->
+<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.js"></script>
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+<script src="https://use.fontawesome.com/7fb7a1f76f.js"></script>
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+<script type="text/javascript" src='{% static "leaflet_packages/easy-button.js" %}'></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+
+<!-- end load scripts for every page -->
+
     
+<!-- load scripts for specific pages -->
 {% block js %}
 
 {% endblock js %}
+<!-- end load scripts for specific pages -->
 
   </body>
-</html>    
+</html>

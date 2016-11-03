@@ -26,6 +26,7 @@ class CssBaseLiveTest(StaticLiveServerTestCase):
         self.firefox = webdriver.Firefox()
         self.chrome = webdriver.Chrome()
         self.browsers = [self.firefox, self.chrome]
+
         self.dummy_dataset = Dataset.objects.create(title='dummy dataset',
                                  author='dummy_author',
                                  description='dummy dataset description',
@@ -51,7 +52,15 @@ class CssBaseLiveTest(StaticLiveServerTestCase):
     @classmethod
     def tearDown(self):
         for browser in self.browsers:
-            browser.quit()
+            if browser == self.firefox:
+                print('firefox')
+                #browser.close()
+                browser.quit()
+            elif browser == self.chrome:
+                print('chrome')
+                #browser.close()
+                browser.quit()
+
 
 class BaseLiveTest(StaticLiveServerTestCase):
     """
@@ -72,7 +81,7 @@ class BaseLiveTest(StaticLiveServerTestCase):
         Maybe if I set them up as a dictionary, with chrome and firefox as the
         keys, and the browsers and data being the values.
         """
-        self.browser= webdriver.Chrome()
+        self.browser = webdriver.Chrome()
         self.dummy_dataset = Dataset.objects.create(title='dummy dataset',
                                  author='dummy_author',
                                  description='dummy dataset description',
@@ -97,4 +106,5 @@ class BaseLiveTest(StaticLiveServerTestCase):
 
     @classmethod
     def tearDown(self):
-        self.browser.quit()
+#        self.browser.quit()
+        self.browser.close()

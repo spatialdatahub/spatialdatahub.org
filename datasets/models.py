@@ -16,10 +16,13 @@ class Dataset(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
     url = models.URLField(max_length=500)
-    dataset_user = models.CharField(max_length=100, blank=True)
-    dataset_password = models.CharField(max_length=100, blank=True)
+    dataset_user = models.CharField(max_length=500,
+        blank=True, unique=False)
+    dataset_password = models.CharField(max_length=500,
+        blank=True, unique=False)
     public_access = models.BooleanField(default=True)
     slug = models.SlugField(max_length=50, unique=False)
+
 
     def __str__(self):
         return self.title
