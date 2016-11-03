@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% load crispy_forms_tags %}
 
 {% block head_title %}Update {{ dataset.title }}{% endblock head_title %}
 
@@ -18,7 +17,7 @@ form -->
   <div class="col-12 col-xs-12" id="update_dataset_form">  
     <form action="." method="post">
       {% csrf_token %}
-      {{ form|crispy }}
+      {{ form.as_p }}
       <input id="submit_dataset" class="btn btn-success" type="submit" value="Update">
       <a href="{% url 'datasets:dataset_detail' dataset.slug dataset.pk %}" class="btn btn-info">
         Back to dataset page 

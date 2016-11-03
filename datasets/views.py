@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse, Http404
 from django.views.generic import DetailView, TemplateView, ListView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView, FormView
+from django.views.generic.edit import DeleteView, UpdateView, FormView
 
 from datasets.models import Dataset
 from datasets.forms import DatasetForm
@@ -144,8 +144,7 @@ class DatasetUpdateView(UpdateView):
     """
 
     model = Dataset
-    fields= ['author', 'title', 'url', 'dataset_user', 'dataset_password',
-             'public_access', 'description']
+    form_class = DatasetForm
     context_object_name = 'dataset'
     template_name = 'datasets/dataset_update.html'
 
