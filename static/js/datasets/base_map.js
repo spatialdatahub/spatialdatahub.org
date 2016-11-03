@@ -3,25 +3,6 @@
 // writen with ES6
 // One thing I should do is to create a special ZMT icon with a ZMT popup that looks cool.
 
-// define DOM ready function
-const domReady = function(callback) {
-  document.readyState === "interactive" ||
-  document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
-};
-
-
-
-// define toggle element display function
-function toggleDisplay(obj) {
-  let element = document.getElementById(obj);
-  if ( element.style.display != 'none' ) {
-    element.style.display = 'none';
-  } else {
-    element.style.display = '';
-  }
-};
-
-
 
 // should everything be wrapped in a dom ready function? At least I can use it instead of the jQuery function
 

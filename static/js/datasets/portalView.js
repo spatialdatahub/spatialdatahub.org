@@ -14,7 +14,6 @@ domReady( () => {
 // make empty array to push datasets to
 const datasets = []; 
 
-
 // Get list of dataset checkbox items and the length of the list
 let datasetCheckboxes = document.getElementsByName("datasetCheckbox"),
 l = datasetCheckboxes.length;
@@ -25,7 +24,7 @@ for (let i = 0; i < l; i++) {
   datasets.push(`ds${value}`); 
 }
 
-console.log(datasets);
+
 
 // add layers to variables stored in dataset list
 const datasetToggle = value => {
@@ -73,23 +72,6 @@ $("input#datasetCheckbox").on("click", ( event ) => {
   let value = event.target.value;
   datasetToggle( value );
 });
-
-// remember that I've changed id to name so loading the datasets
-/*
-let datasetCheckboxes = document.getElementsByName("datasetCheckbox");
-console.log(typeof datasetCheckboxes);
-
-for (let element in datasetCheckboxes) {
-  console.log(element);
-  element.addEventListener('click', ( event ) => {
-    let value = event.target.value;
-    datasetToggle( value );
-  }, false);
-}
-*/
-
-
-// de-jQuery this thing
 
 
 //function clearAllLayers() {
