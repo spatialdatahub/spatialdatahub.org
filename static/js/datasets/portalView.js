@@ -85,8 +85,8 @@ $("input#datasetCheckbox").on("click", ( event ) => {
 // map resize button with id, for testing purposes
 const mapResizeButton = L.easyButton({
   states: [{
-    icon: '<i class="fa fa-arrows-h" aria-hidden="true"></i>',
-    id: 'mapResizeButton',
+    icon: "<i class='fa fa-arrows-h' aria-hidden='true'></i>",
+    id: "mapResizeButton",
     onClick: function resizeMap(btn, myMap) {
       toggleDisplay("sidebar");
       $("#main_map").toggleClass("col-sm-6 col-md-8 col-lg-9");

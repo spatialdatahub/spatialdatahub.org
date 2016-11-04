@@ -28,22 +28,22 @@ def load_dataset(request, pk):
     dataset = Dataset.objects.get(pk=pk)
     if dataset.dataset_user and dataset.dataset_password:
         # get cryptokey
-        cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+        cryptokey = os.environ["CRYPTOKEY"].encode("UTF-8")
         cryptokey_fernet = Fernet(cryptokey)
 
         # password
         # turn convert password from string to bytes
         # decrypt the dataset_password with the key
-        password_bytes = (dataset.dataset_password).encode('UTF-8')
+        password_bytes = (dataset.dataset_password).encode("UTF-8")
         password_decrypted_bytes = cryptokey_fernet.decrypt(password_bytes)
-        password_decrypted_string = password_decrypted_bytes.decode('UTF-8')
+        password_decrypted_string = password_decrypted_bytes.decode("UTF-8")
 
         # user 
         # turn convert user from string to bytes
         # decrypt the dataset_user with the key
-        user_bytes = (dataset.dataset_user).encode('UTF-8')
+        user_bytes = (dataset.dataset_user).encode("UTF-8")
         user_decrypted_bytes = cryptokey_fernet.decrypt(user_bytes)
-        user_decrypted_string = user_decrypted_bytes.decode('UTF-8')
+        user_decrypted_string = user_decrypted_bytes.decode("UTF-8")
 
         # finally make the request with the authentication password and
         # username
@@ -65,8 +65,8 @@ class PortalView(ListView):
     """
 
     model = Dataset
-    context_object_name = 'dataset_list'
-    template_name = 'datasets/portal.html'
+    context_object_name = "dataset_list"
+    template_name = "datasets/portal.html"
 
     """
     I need to figure out how to fix this so that it works with ajax and the
@@ -77,9 +77,9 @@ class PortalView(ListView):
     def get_queryset(self):
         queryset = super(PortalView, self).get_queryset()
 
-        if 'q' in self.request.GET:
-            q = self.request.GET['q']
-            queryset = Dataset.objects.filter(title__icontains=q).order_by('title')
+        if "q" in self.request.GET:
+            q = self.request.GET["q"]
+            queryset = Dataset.objects.filter(title__icontains=q).order_by("title")
         return queryset
 
 
@@ -100,8 +100,8 @@ class DatasetDetailView(DetailView):
     """
 
     model = Dataset
-    context_object_name = 'dataset'
-    template_name = 'datasets/dataset_detail.html'
+    context_object_name = "dataset"
+    template_name = "datasets/dataset_detail.html"
 
 
 class DatasetCreateView(FormView):
@@ -111,25 +111,25 @@ class DatasetCreateView(FormView):
     """
 
     form_class = DatasetForm
-    template_name = 'datasets/dataset_create.html'
-    success_url = '/'
+    template_name = "datasets/dataset_create.html"
+    success_url = "/"
 
     # can I move this to the form itself?
     def form_valid(self, form):
         if form.instance.dataset_user and form.instance.dataset_password:
             # get key (I am only using one key for both password and username)
-            cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+            cryptokey = os.environ["CRYPTOKEY"].encode("UTF-8")
             cryptokey_fernet = Fernet(cryptokey)
 
             # password
-            password_bytes = (form.instance.dataset_password).encode('UTF-8')
+            password_bytes = (form.instance.dataset_password).encode("UTF-8")
             password_encrypted = cryptokey_fernet.encrypt(password_bytes)
-            form.instance.dataset_password = password_encrypted.decode('UTF-8')
+            form.instance.dataset_password = password_encrypted.decode("UTF-8")
 
             # username
-            user_bytes = (form.instance.dataset_user).encode('UTF-8')
+            user_bytes = (form.instance.dataset_user).encode("UTF-8")
             user_encrypted = cryptokey_fernet.encrypt(user_bytes)
-            form.instance.dataset_user = user_encrypted.decode('UTF-8')
+            form.instance.dataset_user = user_encrypted.decode("UTF-8")
 
         form.save()
 
@@ -145,8 +145,8 @@ class DatasetUpdateView(UpdateView):
 
     model = Dataset
     form_class = DatasetForm
-    context_object_name = 'dataset'
-    template_name = 'datasets/dataset_update.html'
+    context_object_name = "dataset"
+    template_name = "datasets/dataset_update.html"
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -164,26 +164,26 @@ class DatasetUpdateView(UpdateView):
         if form.instance.dataset_user and form.instance.dataset_password:
 
             if form.instance.dataset_password != self.old_password:
-                cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+                cryptokey = os.environ["CRYPTOKEY"].encode("UTF-8")
                 cryptokey_fernet = Fernet(cryptokey)
-                password_bytes = (form.instance.dataset_password).encode('UTF-8')
+                password_bytes = (form.instance.dataset_password).encode("UTF-8")
                 password_encrypted = cryptokey_fernet.encrypt(password_bytes)
-                form.instance.dataset_password = password_encrypted.decode('UTF-8')
+                form.instance.dataset_password = password_encrypted.decode("UTF-8")
 
             if form.instance.dataset_user != self.old_user:
-                cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
+                cryptokey = os.environ["CRYPTOKEY"].encode("UTF-8")
                 cryptokey_fernet = Fernet(cryptokey)
-                user_bytes = (form.instance.dataset_user).encode('UTF-8')
+                user_bytes = (form.instance.dataset_user).encode("UTF-8")
                 user_encrypted = cryptokey_fernet.encrypt(user_bytes)
-                form.instance.dataset_user = user_encrypted.decode('UTF-8')
+                form.instance.dataset_user = user_encrypted.decode("UTF-8")
 
         return super(DatasetUpdateView, self).form_valid(form)
 
 
 class DatasetRemoveView(DeleteView):
     model = Dataset
-    success_url = reverse_lazy('datasets:portal')
-    template_name = 'datasets/dataset_remove.html'
+    success_url = reverse_lazy("datasets:portal")
+    template_name = "datasets/dataset_remove.html"
 
 
 class AboutView(TemplateView):
