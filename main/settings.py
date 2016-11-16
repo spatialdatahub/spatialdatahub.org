@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 INSTALLED_APPS = [
     # DJANGO
@@ -47,7 +46,10 @@ INSTALLED_APPS = [
 
     # LOCAL
     "datasets",
+    "accounts",
 ]
+
+AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE_CLASSES = [
     "django.middleware.security.SecurityMiddleware",
