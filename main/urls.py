@@ -8,5 +8,9 @@ urlpatterns = [
     url(r'^',
         include('datasets.urls',
         namespace='datasets')),
+
+    url(r'^accounts/',
+        include('accounts.urls',
+        namespace='accounts')),
 ]
 

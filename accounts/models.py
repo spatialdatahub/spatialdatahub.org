@@ -1,6 +1,6 @@
 from django.db import models
-
-from django.db import models
+from django.db.models.signals import post_save
+from django.conf import settings
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
@@ -9,7 +9,6 @@ from django.contrib.auth.models import (
 After being frustrated with third party apps for login/registration/etc. I am
 going to just create a user model that is specific to this app.
 """
-
 
 
 
@@ -72,7 +71,7 @@ class User(AbstractBaseUser):
         # The user is identified by their email address
         return self.username
 
-    def __str__(self):              # __unicode__ on Python 2
+    def __str__(self):
         return self.username
 
     def has_perm(self, perm, obj=None):
@@ -85,8 +84,20 @@ class User(AbstractBaseUser):
         # Simplest possible answer: Yes, always
         return True
 
-#    @property
-#    def is_staff(self):
-#        "Is the user a member of staff?"
-#        # Simplest possible answer: All admins are staff
-#        return self.is_admin
+
+
+class Account(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    affiliation = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.user.username)
+
+def post_save_user_model_receiver(sender, instance, created, *args, **kwargs):
+    if created:
+        try:
+            Account.objects.create(user=instance)
+        except:
+            pass
+
+post_save.connect(post_save_user_model_receiver, sender=settings.AUTH_USER_MODEL)

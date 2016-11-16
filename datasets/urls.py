@@ -6,35 +6,35 @@ app_name = "datasets"
 
 urlpatterns = [
 
-    url(r"^$",
+    url(r'^$',
         views.PortalView.as_view(),
         name="portal"),
 
-    url(r"^about/$",
+    url(r'^about/$',
         views.AboutView.as_view(),
         name="about"),
 
-    url(r"^contact/$",
+    url(r'^contact/$',
         views.ContactView.as_view(),
         name="contact"),
 
-    url(r"^new_dataset/$",
+    url(r'^new_dataset/$',
         views.DatasetCreateView.as_view(),
         name="dataset_create"),
 
-    url(r"^load_dataset/(?P<pk>[0-9]+)/$",
+    url(r'^load_dataset/(?P<pk>[0-9]+)/$',
         views.load_dataset,
         name="load_dataset"),
 
-    url(r"^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/update/$",
+    url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/update/$',
         views.DatasetUpdateView.as_view(),
         name="dataset_update"),
 
-    url(r"^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/remove/$",
+    url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/remove/$',
         views.DatasetRemoveView.as_view(),
         name="dataset_remove"),
 
-    url(r"^(?P<slug>[-\w]*)-(?P<pk>\d+)/$",
+    url(r'^(?P<slug>[-\w]*)-(?P<pk>\d+)/$',
         views.DatasetDetailView.as_view(),
         name="dataset_detail"),
 
