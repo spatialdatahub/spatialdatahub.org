@@ -1,4 +1,4 @@
-from django.test import TestCase, RequestFactory, Client
+from django.test import TestCase, RequestFactory
 from datasets.models import Dataset
 
 from cryptography.fernet import Fernet
@@ -20,7 +20,6 @@ class BaseDatasetTest(TestCase):
     def setUp(self):
 
         self.factory = RequestFactory()
-        self.client = Client()
 
         self.ds1 = Dataset.objects.create(author="Google",
                                     title="Google GeoJSON Example",

@@ -39,9 +39,20 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'datasets:contact' %}">Contact</a>
         </li>
+
+        {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link text-success font-weight-bold" href="{% url 'datasets:dataset_create' %}">New Dataset</a>
+          <a class="nav-link text-success font-weight-bold" href="{% url 'datasets:new_dataset' %}">New Dataset</a>
         </li>
+        <li class="nav-item float-xs-right">
+          <a class="nav-link font-weight-bold text-warning" href="{% url 'accounts:logout' %}">Logout</a>
+        </li>
+        {% else %}
+        <li class="nav-item float-xs-right">
+            <a class="nav-link font-weight-bold text-warning" href="{% url 'accounts:login' %}">Login</a>
+        </li>
+        {% endif %}
+
       </ul>
     </nav>
     <!-- end navbar -->

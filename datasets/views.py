@@ -111,7 +111,7 @@ class DatasetCreateView(FormView):
     """
 
     form_class = DatasetForm
-    template_name = "datasets/dataset_create.html"
+    template_name = "datasets/new_dataset.html"
     success_url = "/"
 
     # can I move this to the form itself?

@@ -20,7 +20,7 @@ urlpatterns = [
 
     url(r'^new_dataset/$',
         views.DatasetCreateView.as_view(),
-        name="dataset_create"),
+        name="new_dataset"),
 
     url(r'^load_dataset/(?P<pk>[0-9]+)/$',
         views.load_dataset,
