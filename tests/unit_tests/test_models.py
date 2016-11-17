@@ -13,7 +13,8 @@ class DatasetModelTests(BaseDatasetTest):
         self.assertEqual(dataset_list.count(), 3)
 
     def test_that_dataset_object_can_be_saved_to_database_and_found(self):
-        Dataset.objects.create(author="pat",
+        Dataset.objects.create(account=self.test_user.account,
+                               author="pat",
                                title="test dataset",
                                description="this is a test dataset",
                                url="https://duckduckgo.com/")

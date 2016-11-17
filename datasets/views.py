@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, Http404
 from django.views.generic import DetailView, TemplateView, ListView
 from django.views.generic.edit import DeleteView, UpdateView, FormView
@@ -104,7 +105,7 @@ class DatasetDetailView(DetailView):
     template_name = "datasets/dataset_detail.html"
 
 
-class DatasetCreateView(FormView):
+class DatasetCreateView(LoginRequiredMixin, FormView):
     """
     I need to have a method that encrypts the dataset_user and dataset_password
     fields the same method should be useable on the update view
@@ -114,8 +115,18 @@ class DatasetCreateView(FormView):
     template_name = "datasets/new_dataset.html"
     success_url = "/"
 
+#    print(self.request)
+
+    # how do i save the model with a specific account?
+
     # can I move this to the form itself?
     def form_valid(self, form):
+        # I can get the user this way, but how do i pass the account to the
+        # form and model before saving it? Do i set it as a hidden field?
+        form.instance.created_by = self.request.user
+
+        form.instance.account = self.request.user.account
+
         if form.instance.dataset_user and form.instance.dataset_password:
             # get key (I am only using one key for both password and username)
             cryptokey = os.environ["CRYPTOKEY"].encode("UTF-8")
@@ -136,7 +147,7 @@ class DatasetCreateView(FormView):
         return super(DatasetCreateView, self).form_valid(form)
 
 
-class DatasetUpdateView(UpdateView):
+class DatasetUpdateView(LoginRequiredMixin, UpdateView):
     """
     This is the view that will allow a user to modify a dataset's meta data and
     url. The map will be autopopulated with the dataset on page load.
@@ -160,6 +171,9 @@ class DatasetUpdateView(UpdateView):
         return super(DatasetUpdateView, self).post(request, *args, **kwargs)
 
     def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        form.instance.account = self.request.user.account
+
         # double if statements here.
         if form.instance.dataset_user and form.instance.dataset_password:
 
@@ -180,7 +194,7 @@ class DatasetUpdateView(UpdateView):
         return super(DatasetUpdateView, self).form_valid(form)
 
 
-class DatasetRemoveView(DeleteView):
+class DatasetRemoveView(LoginRequiredMixin, DeleteView):
     model = Dataset
     success_url = reverse_lazy("datasets:portal")
     template_name = "datasets/dataset_remove.html"

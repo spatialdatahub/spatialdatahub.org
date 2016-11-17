@@ -1,9 +1,11 @@
-from django.test import TestCase, RequestFactory
+from django.contrib.auth import get_user_model
+from django.test import TestCase, RequestFactory, Client
 from datasets.models import Dataset
 
 from cryptography.fernet import Fernet
 import os
 
+User = get_user_model()
 
 """
 I will refactor tests to have more test cases later. Optmization of tests is
@@ -20,14 +22,21 @@ class BaseDatasetTest(TestCase):
     def setUp(self):
 
         self.factory = RequestFactory()
+        self.client = Client()
 
-        self.ds1 = Dataset.objects.create(author="Google",
+        self.test_user = User.objects.create_user(username='test_user',
+                                                  email='testuserpassword',
+                                                  password='testuserpassword')
+
+        self.ds1 = Dataset.objects.create(account=self.test_user.account,
+                                    author="Google",
                                     title="Google GeoJSON Example",
                                     description="Polygons spelling 'GOOGLE' over Australia",
                                     url="https://storage.googleapis.com/maps-devrel/google.json",
                                     public_access=True)
 
-        self.ds2 = Dataset.objects.create(author="mapbox",
+        self.ds2 = Dataset.objects.create(account=self.test_user.account,
+                                    author="mapbox",
                                     title="Mapbox GeoJson Example",
                                     description="Data points representing starbucks locations in New York City",
                                     url="http://api.tiles.mapbox.com/v3/mapbox.o11ipb8h/markers.geojson",
@@ -57,7 +66,8 @@ class BaseDatasetTest(TestCase):
         user_encrypted = user_encrypted.decode('UTF-8')
 
         # save the data
-        self.ds3 = Dataset.objects.create(author="zmtdummy",
+        self.ds3 = Dataset.objects.create(account=self.test_user.account,
+                                    author="zmtdummy",
                                     title="ZMT GeoJSON Polygon",
                                     description="Polygons spelling 'ZMT' over the location of the ZMT",
                                     url="https://bitbucket.org/zmtdummy/geojsondata/raw/0f318d948d74a67bceb8da5257a97b7df80fd2dd/zmt_polygons.json",

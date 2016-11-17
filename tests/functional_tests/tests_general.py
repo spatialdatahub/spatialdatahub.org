@@ -1,6 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+from django.shortcuts import reverse
+
 from .base import BaseLiveTest
 
 class NewVisitorTest(BaseLiveTest):
@@ -36,17 +38,56 @@ class DatasetFormPageTests(BaseLiveTest):
     protected.
     """
 
+    def test_DatasetCreateView_redirects_to_login_view(self):
+        url = '{0}{new_dataset}'.format(self.live_server_url, new_dataset='/new_dataset/')
+        print(url)
+        self.browser.get(url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        expected = 'Home\nAbout\nContact\nLogin\nUsername / Email:\nPassword:'
+        self.assertIn(expected, page_text)
+
+    def test_DatasetUpdateView_redirects_to_login_view(self):
+        url = '{0}/{slug}-{pk}{update}'.format(self.live_server_url,
+            slug=self.dummy_dataset.slug,
+            pk=self.dummy_dataset.pk,
+            update='/update/')
+        self.browser.get(url)
+        print(url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        expected = 'Home\nAbout\nContact\nLogin\nUsername / Email:\nPassword:'
+        self.assertIn(expected, page_text)
+
+    def test_DatasetRemoveView_redirects_to_login_view(self):
+        url = '{0}/{slug}-{pk}{remove}'.format(self.live_server_url,
+            slug=self.dummy_dataset.slug,
+            pk=self.dummy_dataset.pk,
+            remove='/remove/')
+        self.browser.get(url)
+        print(url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        expected = 'Home\nAbout\nContact\nLogin\nUsername / Email:\nPassword:'
+        self.assertIn(expected, page_text)
+
+
     # 1
     def test_can_use_dataset_create_form_to_make_new_dataset(self):
 
+        # Get URL for form
+        url = '{0}{new_dataset}'.format(self.live_server_url, new_dataset='/new_dataset/')
+        self.browser.get(url)
 
-        # Get Homepage URL and check if the data are already there
-        self.browser.get(self.live_server_url)
-        page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertNotIn('Dum Dum Dataset', page_text)
+        # Get Login form inputs, and login
+        query_input =  self.browser.find_element_by_id('id_query')
+        password_input =  self.browser.find_element_by_id('id_password')
+        submit_button = self.browser.find_element_by_id('submit')
+
+        query_input.send_keys('test_user')
+        password_input.send_keys('testuserpassword')
+        submit_button.click()
 
         # Get URL for form
-        self.browser.get('%s%s' % (self.live_server_url,'/new_dataset/'))
+        url = '{0}{new_dataset}'.format(self.live_server_url, new_dataset='/new_dataset/')
+        self.browser.get(url)
 
         # Get form inputs
         author_input =  self.browser.find_element_by_id('id_author')
@@ -73,10 +114,23 @@ class DatasetFormPageTests(BaseLiveTest):
     # 2
     def test_can_update_existing_dataset(self):
 
-        # Get Homepage URL and check if the data are already there
-        self.browser.get(self.live_server_url)
-        page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertNotIn('Super Dum Dum Dataset', page_text)
+        # Get URL for form
+        url = '{0}{update}'.format(self.live_server_url, , ,update='/update/')
+        self.browser.get(url)
+
+        # Get Login form inputs, and login
+        query_input =  self.browser.find_element_by_id('id_query')
+        password_input =  self.browser.find_element_by_id('id_password')
+        submit_button = self.browser.find_element_by_id('submit')
+
+        query_input.send_keys('test_user')
+        password_input.send_keys('testuserpassword')
+        submit_button.click()
+
+        # Get URL for form
+        url = '{0}{new_dataset}'.format(self.live_server_url, new_dataset='/new_dataset/')
+        self.browser.get(url)
+
 
         # Get dummy_dataset slug and pk
         slugpk = ('/%s-%s/' % (self.dummy_dataset.slug, self.dummy_dataset.pk))

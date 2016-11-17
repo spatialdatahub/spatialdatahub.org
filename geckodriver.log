@@ -1332,3 +1332,101 @@ JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/boo
 
 ###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
 
+1479390128758	geckodriver	INFO	Listening on 127.0.0.1:55065
+1479390129460	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.xEdojW6MJpcM
+1479390129462	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479390129498	geckodriver::marionette	INFO	Connecting to Marionette on localhost:55074
+1479390133582	Marionette	INFO	Listening on port 55074
+1479390140115	Marionette	INFO	startBrowser 564f5fd7-0d34-ff4f-a309-c456e300fc6b
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js, line 7: Error: Bootstrap tooltips require Tether (http://tether.io/)
+[Child 4154] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 4154] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+1479390175814	geckodriver	INFO	Listening on 127.0.0.1:55423
+1479390176665	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.ZkBks8rmqpCn
+1479390176667	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479390176678	geckodriver::marionette	INFO	Connecting to Marionette on localhost:55432
+1479390179820	Marionette	INFO	Listening on port 55432
+1479390182901	Marionette	INFO	startBrowser 162166d3-cc7f-3d4c-a557-e291c2e35cb4
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js, line 7: Error: Bootstrap tooltips require Tether (http://tether.io/)
+[Child 4176] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 4176] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+1479390191565	geckodriver	INFO	Listening on 127.0.0.1:55587
+1479390192436	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.3dPx40oX5ivi
+1479390192521	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479390192588	geckodriver::marionette	INFO	Connecting to Marionette on localhost:55596
+1479390195600	Marionette	INFO	Listening on port 55596
+1479390198255	Marionette	INFO	startBrowser a6221dbf-9bd1-1544-9ac4-fcd82aa5329d
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js, line 7: Error: Bootstrap tooltips require Tether (http://tether.io/)
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[Child 4192] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 4192] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+1479390203035	geckodriver	INFO	Listening on 127.0.0.1:55728
+1479390203950	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.XFjKghn5U5wU
+1479390203952	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479390203955	geckodriver::marionette	INFO	Connecting to Marionette on localhost:55737
+1479390207996	Marionette	INFO	Listening on port 55737
+1479390209647	Marionette	INFO	startBrowser 54c93f85-4a41-c04e-9ac9-334a145b5ebc
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js, line 7: Error: Bootstrap tooltips require Tether (http://tether.io/)
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+[Child 4208] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 4208] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x400003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+1479390219092	geckodriver	INFO	Listening on 127.0.0.1:56018
+1479390219992	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.y2eYSa46rEFh
+1479390219994	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479390219996	geckodriver::marionette	INFO	Connecting to Marionette on localhost:56027
+1479390221850	Marionette	INFO	Listening on port 56027
+1479390223537	Marionette	INFO	startBrowser e3a46bfd-6234-ef44-a1c1-f55f7cdf0bc8
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js, line 7: Error: Bootstrap tooltips require Tether (http://tether.io/)
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[Child 4229] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 4229] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+1479390227856	geckodriver	INFO	Listening on 127.0.0.1:56130
+1479390228845	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.JPshs7QvZR4i
+1479390228847	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479390228850	geckodriver::marionette	INFO	Connecting to Marionette on localhost:56139
+1479390230507	Marionette	INFO	Listening on port 56139
+1479390232007	Marionette	INFO	startBrowser 0f0ad5fa-a8b2-2b4b-bc5c-5f517fc4cab7
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js, line 7: Error: Bootstrap tooltips require Tether (http://tether.io/)
+[Child 4244] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 4244] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+1479390236643	geckodriver	INFO	Listening on 127.0.0.1:56232
+1479390237532	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.X9CNQx0eaUGA
+1479390237534	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479390237537	geckodriver::marionette	INFO	Connecting to Marionette on localhost:56241
+1479390238699	Marionette	INFO	Listening on port 56241
+1479390240188	Marionette	INFO	startBrowser 0f1299b3-872a-ce4e-847e-ca5b92bfaa22
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js, line 6: Error: Bootstrap's JavaScript requires jQuery
+[Child 4260] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 4260] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+1479390260644	geckodriver	INFO	Listening on 127.0.0.1:56665
+1479390261572	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.bEj9QoFKDM2w
+1479390261574	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479390261577	geckodriver::marionette	INFO	Connecting to Marionette on localhost:56674
+1479390263069	Marionette	INFO	Listening on port 56674
+1479390264565	Marionette	INFO	startBrowser 8b81fd21-87ce-d549-a60d-c6664cfe7ba0
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js, line 7: Error: Bootstrap tooltips require Tether (http://tether.io/)
+[Child 4328] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 4328] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052

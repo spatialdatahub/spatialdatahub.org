@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.text import slugify
 
+from accounts.models import Account
 
 class Dataset(models.Model):
     """
@@ -11,7 +12,7 @@ class Dataset(models.Model):
     metadata for a GIS dataset, a reference to the other data set's
     uri, and whether the dataset has a password or not.
     """
-
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
     author = models.CharField(max_length=200)
     title = models.CharField(max_length=50)
     description = models.TextField()

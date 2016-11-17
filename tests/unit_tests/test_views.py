@@ -63,12 +63,19 @@ class ContactViewTests(BaseDatasetTest):
 
 class DatasetCreateViewTests(BaseDatasetTest):
 
+    def test_DatasetCreateView_redirects_to_login_without_authentication(self):
+        response = self.client.get(reverse('datasets:new_dataset'))
+        expected_redirect ='/accounts/login/?next=/new_dataset/'
+        self.assertRedirects(response, expected_redirect)
+
     def test_DatasetCreateView_url_resolves_to_DatasetCreateView(self):
         request = self.factory.get('')
+        request.user = self.test_user
         response = DatasetCreateView.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
     def test_DatasetCreateView_uses_correct_template(self):
+        self.client.login(username='test_user', password='testuserpassword')
         response = self.client.get(reverse('datasets:new_dataset'))
         self.assertTemplateUsed(response,
             template_name="datasets/new_dataset.html")
@@ -76,10 +83,12 @@ class DatasetCreateViewTests(BaseDatasetTest):
             template_name="base.html")
 
     def test_dataset_DatasetCreateView_url_title_is_correct(self):
+        self.client.login(username='test_user', password='testuserpassword')
         response = self.client.get(reverse('datasets:new_dataset'))
         self.assertIn('<title>ZMT | Add Dataset</title>', response.content.decode('utf-8'))
 
     def test_DatasetCreateView_uses_DatasetForm(self):
+        self.client.login(username='test_user', password='testuserpassword')
         response = self.client.get(reverse('datasets:new_dataset'))
         self.assertIsInstance(response.context['form'], DatasetForm)
 
@@ -138,14 +147,22 @@ class DatasetDetailViewTests(BaseDatasetTest):
 
 class DatasetRemoveViewTests(BaseDatasetTest):
 
+    def test_DatasetRemoveView_redirects_to_login_without_authentication(self):
+        response = self.client.get(reverse('datasets:dataset_remove',
+            kwargs={'slug': self.ds1.slug, 'pk': self.ds1.pk}))
+        expected_redirect ='/accounts/login/?next=/{}-{}/remove/'.format(self.ds1.slug, self.ds1.pk)
+        self.assertRedirects(response, expected_redirect)
+
     def test_DatasetRemoveView_url_resolves_to_DatasetRemoveView(self):
         request = self.factory.get('')
+        request.user = self.test_user
         response = DatasetRemoveView.as_view()(request,
                                                slug=self.ds1.slug,
                                                pk=self.ds1.pk)
         self.assertEqual(response.status_code, 200)
 
     def test_DatasetRemoveView_uses_correct_template(self):
+        self.client.login(username='test_user', password='testuserpassword')
         response = self.client.get(reverse('datasets:dataset_remove',
             kwargs={'slug': self.ds1.slug, 'pk': self.ds1.pk}))
         self.assertTemplateUsed(response,
@@ -154,32 +171,44 @@ class DatasetRemoveViewTests(BaseDatasetTest):
             template_name="base.html")
 
     def test_DatasetRemoveView_url_title_is_correct(self):
+        self.client.login(username='test_user', password='testuserpassword')
         response = self.client.get(reverse('datasets:dataset_remove',
             kwargs={'slug': self.ds1.slug, 'pk': self.ds1.pk}))
         self.assertIn('<title>ZMT | Remove Dataset</title>', response.content.decode('utf-8'))
 
     def test_that_DatasetRemoveView_brings_in_correct_dataset_object(self):
+        self.client.login(username='test_user', password='testuserpassword')
         response = self.client.get(reverse('datasets:dataset_remove',
             kwargs={'slug': self.ds1.slug, 'pk': self.ds1.pk}))
         self.assertEqual(self.ds1, response.context['dataset'])
         self.assertNotEqual(self.ds2, response.context['dataset'])
 
 
+
 class DatasetUpdateViewTests(BaseDatasetTest):
+
+    def test_DatasetUpdateView_redirects_to_login_without_authentication(self):
+        response = self.client.get(reverse('datasets:dataset_update',
+            kwargs={'slug': self.ds1.slug, 'pk': self.ds1.pk}))
+        expected_redirect ='/accounts/login/?next=/{}-{}/update/'.format(self.ds1.slug, self.ds1.pk)
+        self.assertRedirects(response, expected_redirect)
 
     def test_DatasetUpdateView_url_resolves_to_DatasetUpdateView(self):
         request = self.factory.get('')
+        request.user = self.test_user
         response = DatasetUpdateView.as_view()(request,
                                                slug=self.ds1.slug,
                                                pk=self.ds1.pk)
         self.assertEqual(response.status_code, 200)
 
     def test_DatasetUpdateView_url_title_is_correct(self):
+        self.client.login(username='test_user', password='testuserpassword')
         response = self.client.get(reverse('datasets:dataset_update',
             kwargs={'slug': self.ds1.slug, 'pk': self.ds1.pk}))
         self.assertIn('<title>ZMT | Update %s</title>' % self.ds1.title, response.content.decode('utf-8'))
 
     def test_DatasetUpdateView_uses_correct_template(self):
+        self.client.login(username='test_user', password='testuserpassword')
         response = self.client.get(reverse('datasets:dataset_update',
             kwargs={'slug': self.ds1.slug, 'pk': self.ds1.pk}))
         self.assertTemplateUsed(response, template_name="datasets/dataset_update.html")
@@ -187,12 +216,14 @@ class DatasetUpdateViewTests(BaseDatasetTest):
             template_name="base.html")
 
     def test_that_DatasetUpdateView_brings_in_correct_dataset_object(self):
+        self.client.login(username='test_user', password='testuserpassword')
         response = self.client.get(reverse('datasets:dataset_update',
             kwargs={'slug': self.ds1.slug, 'pk': self.ds1.pk}))
         self.assertEqual(self.ds1, response.context['dataset'])
         self.assertNotEqual(self.ds2, response.context['dataset'])
 
     def test_that_DatasetUpdateView_uses_DatasetForm(self):
+        self.client.login(username='test_user', password='testuserpassword')
         response = self.client.get(reverse('datasets:dataset_update',
             kwargs={'slug': self.ds1.slug, 'pk': self.ds1.pk}))
         self.assertIsInstance(response.context['form'], DatasetForm)
