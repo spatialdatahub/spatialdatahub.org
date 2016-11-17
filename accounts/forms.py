@@ -1,8 +1,7 @@
 from django import forms
-from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.db.models import Q
-
 
 User = get_user_model()
 
@@ -22,7 +21,7 @@ class UserLoginForm(forms.Form):
 
         # if query is not found raise error
         if not user_qs_final.exists() and user_qs_final.count() != 1:
-            raise forms.ValidationError("Invalid crendentials")
+            raise forms.ValidationError("Invalid credentials")
         user_obj = user_qs_final.first()
 
         # if password is not correct raise error
@@ -32,25 +31,6 @@ class UserLoginForm(forms.Form):
         # save the user object as user_obj
         self.cleaned_data["user_obj"] = user_obj
         return super(UserLoginForm, self).clean(*args, **kwargs)
-
-
-#    def clean(self, *args, **kwargs):
-#        username = self.cleaned_data.get("username")
-#        password = self.cleaned_data.get("password")
-#        user_obj = User.objects.filter(username=username).first()
-#        if not user_obj:
-#            raise forms.ValidationError("Invalid credentials")
-#        else:
-#            if not user_obj.check_password(password):
-#                raise forms.ValidationError("Invalid credentials")
-#        return super(UserLoginForm, self).clean(*args, **kwargs)
-
-#    def clean(self, *args, **kwargs):
-#       username = self.cleaned_data.get("username")
-#       password = self.cleaned_data.get("password")
-#       the_user = authenticate(username=username, password=password)
-#       if not the_user:
-#           raise forms.ValidationError("Invalid credentials")
 
 
 
@@ -94,7 +74,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'is_active', 'is_admin')
+        fields = ('username', 'email', 'password', 'is_active', 'is_admin')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
