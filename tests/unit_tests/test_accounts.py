@@ -1,4 +1,5 @@
 from django.http import HttpRequest
+from django.shortcuts import reverse
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
@@ -7,6 +8,7 @@ from accounts.models import Account
 from accounts.forms import UserCreationForm
 from accounts.forms import UserLoginForm
 from accounts.views import register
+from accounts.views import login_view
 
 User = get_user_model()
 
@@ -84,9 +86,13 @@ class UserCreationFormTests(TestCase):
 
 class RegisterViewTests(TestCase):
 
-    def test_register_url_resolves_to_register_view(self):
+    def test_register_view_FUNCTION_resolves_to_register_view(self):
         request = HttpRequest()
         response = register(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_register_view_URL_resolves_to_login_view(self):
+        response = self.client.get(reverse("accounts:register"))
         self.assertEqual(response.status_code, 200)
 
     def test_register_view_can_save_a_POST_request(self):
@@ -109,25 +115,12 @@ class RegisterViewTests(TestCase):
         self.assertEqual(user.username, 'test_user')
         self.assertEqual(user.email, 'test_user@example.com')
 
-#    Having problems with the django test client
-#    def test_register_view_uses_correct_template(self):
-#        response = self.client.get('/accounts/register')
-#        print(response)
-#        self.assertTemplateUsed(response,
-#            template_name="accounts/register.html")
-#        self.assertTemplateUsed(response,
-#            template_name="base.html")
-#
-#    def test_register_url_resolves_to_register_view(self):
-#        request = HttpRequest()
-#        response = register(request)
-#        response = client.get("accounts/register")
-#        print(response)
-#        self.assertTemplateUsed(response,
-#            template_name="accounts/register.html")
-#        self.assertTemplateUsed(response,
-#            template_name="base.html")
-
+    def test_register_view_uses_correct_templates(self):
+        response = self.client.get(reverse("accounts:register"))
+        self.assertTemplateUsed(response,
+            template_name="accounts/register.html")
+        self.assertTemplateUsed(response,
+            template_name="base.html")
 
 
 class LoginFormTests(TestCase):
@@ -195,3 +188,29 @@ class LoginFormTests(TestCase):
         data = {"query": "test_user", "password": "incorrect_password"}
         form = UserLoginForm(data=data)
         self.assertEquals(form.errors, {"__all__": ["Invalid credentials"]})
+
+
+
+class LoginViewTests(TestCase):
+
+    def test_login_view_FUNCTION_resolves_to_login_view(self):
+        request = HttpRequest()
+        response = login_view(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_login_view_URL_resolves_to_login_view(self):
+        response = self.client.get(reverse("accounts:login"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_login_view_uses_correct_templates(self):
+        response = self.client.get(reverse("accounts:login"))
+        self.assertTemplateUsed(response,
+            template_name="accounts/login.html")
+        self.assertTemplateUsed(response,
+            template_name="base.html")
+
+#    def test_login_view_logs_user_in(self):
+#        pass
+#
+#    def test_login_view_redirects_to_portal(self):
+#        pass
