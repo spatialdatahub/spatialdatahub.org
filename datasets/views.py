@@ -123,9 +123,8 @@ class DatasetCreateView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         # I can get the user this way, but how do i pass the account to the
         # form and model before saving it? Do i set it as a hidden field?
-        form.instance.created_by = self.request.user
 
-        form.instance.account = self.request.user.account
+#        form.instance.account = self.request.account
 
         if form.instance.dataset_user and form.instance.dataset_password:
             # get key (I am only using one key for both password and username)
@@ -171,8 +170,7 @@ class DatasetUpdateView(LoginRequiredMixin, UpdateView):
         return super(DatasetUpdateView, self).post(request, *args, **kwargs)
 
     def form_valid(self, form):
-        form.instance.created_by = self.request.user
-        form.instance.account = self.request.user.account
+#        form.instance.account = self.request.user.account
 
         # double if statements here.
         if form.instance.dataset_user and form.instance.dataset_password:

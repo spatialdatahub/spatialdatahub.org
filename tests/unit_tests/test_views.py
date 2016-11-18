@@ -1,4 +1,12 @@
+"""
+I am going to test the datasets and accounts views in this file until I can
+figure out a better way to separte them. I don't want to keep them in the same
+app because I think that the accounts section is going to need some special
+code to deal with a custom user model set up from Thomas.
+"""
+
 from django.test import TestCase
+from django.test import TestCase, RequestFactory
 from django.shortcuts import reverse
 
 from .base import BaseDatasetTest
@@ -16,14 +24,15 @@ from datasets.views import DatasetUpdateView
 from datasets.views import load_dataset
 from datasets.views import PortalView
 
+from accounts.views import AccountView
+
 from cryptography.fernet import Fernet
 import os
 
 
-
 class AboutViewTests(BaseDatasetTest):
 
-    def test_about_url_resolves_to_AboutView(self):
+    def test_AboutView_works_as_view(self):
         request = self.factory.get('')
         response = AboutView.as_view()(request)
         self.assertEqual(response.status_code, 200)

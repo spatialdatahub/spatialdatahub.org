@@ -1,4 +1,7 @@
 from django.db import models
+from django.utils.text import slugify
+
+
 class Account(models.Model):
     user = models.CharField(max_length=50)#, unique=True)
     affiliation = models.CharField(max_length=200, null=True, blank=True)
@@ -9,4 +12,4 @@ class Account(models.Model):
 
     def save(self, *args, **kwargs):
         self.account_slug = slugify(self.user)
-        super(Account, self).save(*args, **kwarg)
+        super(Account, self).save(*args, **kwargs)

@@ -26,15 +26,15 @@ urlpatterns = [
         views.load_dataset,
         name="load_dataset"),
 
-    url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/update/$',
+    url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>[0-9]+)/update/$',
         views.DatasetUpdateView.as_view(),
         name="dataset_update"),
 
-    url(r'^(?P<slug>[-\w]*)-(?P<pk>[0-9]+)/remove/$',
+    url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>[0-9]+)/remove/$',
         views.DatasetRemoveView.as_view(),
         name="dataset_remove"),
 
-    url(r'^(?P<slug>[-\w]*)-(?P<pk>\d+)/$',
+    url(r'^(?P<account_slug>[-\w]*)/(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/$',
         views.DatasetDetailView.as_view(),
         name="dataset_detail"),
 

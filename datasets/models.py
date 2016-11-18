@@ -33,5 +33,7 @@ class Dataset(models.Model):
         super(Dataset, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        kwargs = {"dataset_slug": self.dataset_slug, "pk": self.pk}
+        kwargs = {"account_slug": self.account.account_slug,
+                  "dataset_slug": self.dataset_slug,
+                  "pk": self.pk}
         return reverse("datasets:dataset_detail", kwargs=kwargs)

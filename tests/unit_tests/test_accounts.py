@@ -1,17 +1,34 @@
 from django.http import HttpRequest
 from django.shortcuts import reverse
-from django.test import TestCase
-from django.contrib.auth import get_user_model
+from django.test import TestCase, RequestFactory
 
-from accounts import models
 from accounts.models import Account
-from accounts.forms import UserCreationForm
-from accounts.forms import UserLoginForm
-from accounts.views import register
-from accounts.views import login_view
+from accounts.views import AccountView
 
-User = get_user_model()
 
+
+class AccountViewTests(TestCase):
+
+    def test_AccountView_works_as_view(self):
+        request = RequestFactory().get('')
+        response = AccountView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_AccountView_uses_correct_template(self):
+        #response = self.client.get(reverse('accounts:account_view'))
+        response = self.client.get('/accounts/account_view/')
+        self.assertTemplateUsed(response,
+            template_name="accounts/account_view.html")
+        self.assertTemplateUsed(response,
+            template_name="base.html")
+
+
+
+
+
+
+
+'''
 class UserCreationTests(TestCase):
 
     def test_that_User_can_be_created(self):
@@ -96,11 +113,7 @@ class RegisterViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_register_view_can_save_a_POST_request(self):
-        """
-        This test is a little ugly, but it checks whether the data are saved to
-        the database by the view or not, so maybe some refactoring later, maybe
-        not. It works.
-        """
+
         self.assertEqual(len(User.objects.all()), 0)
         data={"username": "test_user",
               "email": "test_user@example.com",
@@ -214,3 +227,4 @@ class LoginViewTests(TestCase):
 #
 #    def test_login_view_redirects_to_portal(self):
 #        pass
+'''

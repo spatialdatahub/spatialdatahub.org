@@ -1,11 +1,11 @@
-from django.contrib.auth import get_user_model
 from django.test import TestCase, RequestFactory, Client
+
+from accounts.models import Account
 from datasets.models import Dataset
 
 from cryptography.fernet import Fernet
 import os
 
-User = get_user_model()
 
 """
 I will refactor tests to have more test cases later. Optmization of tests is
@@ -24,18 +24,17 @@ class BaseDatasetTest(TestCase):
         self.factory = RequestFactory()
         self.client = Client()
 
-        self.test_user = User.objects.create_user(username='test_user',
-                                                  email='testuserpassword',
-                                                  password='testuserpassword')
+        self.a1 = Account.objects.create(user='test_user',
+                                         affiliation='zmt')
 
-        self.ds1 = Dataset.objects.create(account=self.test_user.account,
+        self.ds1 = Dataset.objects.create(account=self.a1,
                                     author="Google",
                                     title="Google GeoJSON Example",
                                     description="Polygons spelling 'GOOGLE' over Australia",
                                     url="https://storage.googleapis.com/maps-devrel/google.json",
                                     public_access=True)
 
-        self.ds2 = Dataset.objects.create(account=self.test_user.account,
+        self.ds2 = Dataset.objects.create(account=self.a1,
                                     author="mapbox",
                                     title="Mapbox GeoJson Example",
                                     description="Data points representing starbucks locations in New York City",
@@ -66,7 +65,7 @@ class BaseDatasetTest(TestCase):
         user_encrypted = user_encrypted.decode('UTF-8')
 
         # save the data
-        self.ds3 = Dataset.objects.create(account=self.test_user.account,
+        self.ds3 = Dataset.objects.create(account=self.a1,
                                     author="zmtdummy",
                                     title="ZMT GeoJSON Polygon",
                                     description="Polygons spelling 'ZMT' over the location of the ZMT",
