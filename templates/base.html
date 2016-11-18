@@ -42,29 +42,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'datasets:contact' %}">Contact</a>
         </li>
-
-        {% if user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link text-success font-weight-bold" href="{% url 'datasets:new_dataset' %}">New Dataset</a>
-        </li>
-<!--
-        <li id="auth_dropdown" class="nav-item dropdown float-xs-right">
-          <a class="nav-link dropdown-toggle font-weight-bold text-warning" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="supportedContentDropdown">
-            <a id="logout" class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a>
-            <a class="dropdown-item" href="#">Account Page</a>
-          </div>
-        </li>
--->
-         <li class="nav-item float-xs-right">
-            <a id="logout" class="nav-link font-weight-bold text-warning" href="{% url 'accounts:logout' %}">Logout</a>
-        </li>
-       {% else %}
         <li class="nav-item float-xs-right">
-            <a id="login" class="nav-link font-weight-bold text-warning" href="{% url 'accounts:login' %}">Login</a>
+            <a id="account" class="nav-link font-weight-bold text-warning" href="{% url 'accounts:account_view' %}">Account</a>
         </li>
-        {% endif %}
-
       </ul>
     </nav>
     <!-- end navbar -->
