@@ -22,16 +22,16 @@ class Dataset(models.Model):
     dataset_password = models.CharField(max_length=500,
         blank=True, unique=False)
     public_access = models.BooleanField(default=True)
-    slug = models.SlugField(max_length=50, unique=False)
+    dataset_slug = models.SlugField(max_length=50, unique=False)
 
 
     def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.dataset_slug = slugify(self.title)
         super(Dataset, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        kwargs = {"slug": self.slug, "pk": self.pk}
+        kwargs = {"dataset_slug": self.dataset_slug, "pk": self.pk}
         return reverse("datasets:dataset_detail", kwargs=kwargs)
