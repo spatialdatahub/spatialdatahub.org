@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponse, Http404
 from django.views.generic import ListView
-from django.views.generic.edit import DeleteView, UpdateView, FormView
+from django.views.generic.edit import UpdateView, FormView
 
 from datasets.models import Dataset
 from datasets.forms import DatasetForm
@@ -25,7 +25,6 @@ def load_dataset(request, pk):
     This needs to be fixed to run asynchronously, incase of a very large
     dataset
     Fix this so that it works as ajax or something.
-
 
     Also there needs to be a better way to hide the cryptokey
     """
@@ -97,7 +96,11 @@ def account_detail(request, account_slug=None):
     context = {"account": account, "dataset_list": dataset_list}
     return render(request, "accounts/account_detail.html", context=context)
 
-
+def account_list(request):
+    account_list = Account.objects.all()
+    context = {"account_list": account_list}
+    template_name = "accounts/account_list.html"
+    return render(request, template_name, context)
 
 def dataset_detail_view(request, account_slug=None, dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)
@@ -106,6 +109,41 @@ def dataset_detail_view(request, account_slug=None, dataset_slug=None, pk=None):
     return render(request, "datasets/dataset_detail.html", context)
 
 
+
+def dataset_create_view(request, account_slug=None):
+    account = get_object_or_404(Account, account_slug=account_slug)
+
+    if request.method == "POST":
+        form = DatasetForm(request.POST)
+        if form.is_valid():
+            dataset = form.save(commit=False)
+            dataset.account = account
+
+            if form.instance.dataset_user and form.instance.dataset_password:
+                # get key (I am only using one key for both password and username)
+                cryptokey = os.environ["CRYPTOKEY"].encode("UTF-8")
+                cryptokey_fernet = Fernet(cryptokey)
+
+                # password
+                password_bytes = (form.instance.dataset_password).encode("UTF-8")
+                password_encrypted = cryptokey_fernet.encrypt(password_bytes)
+                form.instance.dataset_password = password_encrypted.decode("UTF-8")
+
+                # username
+                user_bytes = (form.instance.dataset_user).encode("UTF-8")
+                user_encrypted = cryptokey_fernet.encrypt(user_bytes)
+                form.instance.dataset_user = user_encrypted.decode("UTF-8")
+            form.save()
+            return redirect(reverse("datasets:account_detail",
+                kwargs={"account_slug": account.account_slug}))
+    else:
+        form = DatasetForm()
+
+    template_name = "datasets/new_dataset.html"
+    return render(request,
+                  template_name,
+                  {"form": form,
+                  "account": account})
 
 class DatasetCreateView(FormView):
     """
@@ -193,18 +231,14 @@ class DatasetUpdateView(UpdateView):
         return super(DatasetUpdateView, self).form_valid(form)
 
 
-#class DatasetRemoveView(DeleteView):
-#    model = Dataset
-#    template_name = "datasets/dataset_remove.html"
 
 
-# this works
 def dataset_remove_view(request, account_slug=None, dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
     context = {"account": account, "dataset": dataset}
     template_name = "datasets/dataset_remove.html"
-    if request.method=='POST':
+    if request.method =='POST':
         dataset.delete()
         return redirect('/')
     return render(request, template_name, context)

@@ -11,8 +11,13 @@ urlpatterns = [
         views.PortalView.as_view(),
         name="portal"),
 
-    url(r'^new_dataset/$',
-        views.DatasetCreateView.as_view(),
+    url(r'^accounts/$',
+        views.account_list,
+        name="account_list"),
+
+    url(r'^(?P<account_slug>[-\w]*)/new_dataset/$',
+#        views.DatasetCreateView.as_view(),
+        views.dataset_create_view,
         name="new_dataset"),
 
     url(r'^load_dataset/(?P<pk>[0-9]+)/$',
