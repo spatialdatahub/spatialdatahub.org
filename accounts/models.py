@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.text import slugify
 
@@ -13,3 +14,7 @@ class Account(models.Model):
     def save(self, *args, **kwargs):
         self.account_slug = slugify(self.user)
         super(Account, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        kwargs = {"account_slug": self.account_slug}
+        return reverse("datasets:account_view", kwargs=kwargs)

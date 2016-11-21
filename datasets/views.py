@@ -1,11 +1,14 @@
+from django.shortcuts import render, get_object_or_404
+
 from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, Http404
 from django.views.generic import DetailView, TemplateView, ListView
 from django.views.generic.edit import DeleteView, UpdateView, FormView
 
 from datasets.models import Dataset
 from datasets.forms import DatasetForm
+
+from accounts.models import Account
 
 import requests
 import os
@@ -91,21 +94,30 @@ class PortalView(ListView):
 
 # I also need to make everything work with ajax calls
 
+# I am going to write the dataset detail view as a function based view then
+# move it to a class based view
 
-class DatasetDetailView(DetailView):
-    """
-    This is the view that will show all of a dataset's meta data. The map will
-    be autopopulated with the dataset on page load. The page load will use the
-    same ajax call as that the portal page uses. This ajax call will be reused
-    on the dataset update page as well.
-    """
-
-    model = Dataset
-    context_object_name = "dataset"
-    template_name = "datasets/dataset_detail.html"
+def dataset_detail_view(request, account_slug=None, dataset_slug=None, pk=None):
+    account = get_object_or_404(Account, account_slug=account_slug)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    context = {'account': account, 'dataset': dataset}
+    return render(request, "datasets/dataset_detail.html", context)
 
 
-class DatasetCreateView(LoginRequiredMixin, FormView):
+#class DatasetDetailView(DetailView):
+#    """
+#    This is the view that will show all of a dataset's meta data. The map will
+#    be autopopulated with the dataset on page load. The page load will use the
+#    same ajax call as that the portal page uses. This ajax call will be reused
+#    on the dataset update page as well.
+#    """
+#
+#    model = Dataset
+#    context_object_name = "dataset"
+#    template_name = "datasets/dataset_detail.html"
+
+
+class DatasetCreateView(FormView):
     """
     I need to have a method that encrypts the dataset_user and dataset_password
     fields the same method should be useable on the update view
@@ -146,7 +158,7 @@ class DatasetCreateView(LoginRequiredMixin, FormView):
         return super(DatasetCreateView, self).form_valid(form)
 
 
-class DatasetUpdateView(LoginRequiredMixin, UpdateView):
+class DatasetUpdateView(UpdateView):
     """
     This is the view that will allow a user to modify a dataset's meta data and
     url. The map will be autopopulated with the dataset on page load.
@@ -192,7 +204,7 @@ class DatasetUpdateView(LoginRequiredMixin, UpdateView):
         return super(DatasetUpdateView, self).form_valid(form)
 
 
-class DatasetRemoveView(LoginRequiredMixin, DeleteView):
+class DatasetRemoveView(DeleteView):
     model = Dataset
     success_url = reverse_lazy("datasets:portal")
     template_name = "datasets/dataset_remove.html"

@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
 from datasets import views
+from accounts import views as account_views
 
 app_name = "datasets"
 
@@ -26,6 +27,10 @@ urlpatterns = [
         views.load_dataset,
         name="load_dataset"),
 
+    url(r'^(?P<account_slug>[-\w]*)/$',
+        account_views.account_view,
+        name="account_view"),
+
     url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>[0-9]+)/update/$',
         views.DatasetUpdateView.as_view(),
         name="dataset_update"),
@@ -35,7 +40,7 @@ urlpatterns = [
         name="dataset_remove"),
 
     url(r'^(?P<account_slug>[-\w]*)/(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/$',
-        views.DatasetDetailView.as_view(),
+        views.dataset_detail_view,
         name="dataset_detail"),
 
 ]

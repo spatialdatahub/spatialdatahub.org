@@ -71,11 +71,15 @@ class ContactViewTests(BaseDatasetTest):
 
 
 class DatasetCreateViewTests(BaseDatasetTest):
+    """
+    I am going to comment out some tests that will be implemented when the
+    connection to an external authentication system is established
+    """
 
-    def test_DatasetCreateView_redirects_to_login_without_authentication(self):
-        response = self.client.get(reverse('datasets:new_dataset'))
-        expected_redirect ='/accounts/login/?next=/new_dataset/'
-        self.assertRedirects(response, expected_redirect)
+#    def test_DatasetCreateView_redirects_to_login_without_authentication(self):
+#        response = self.client.get(reverse('datasets:new_dataset'))
+#        expected_redirect ='/accounts/login/?next=/new_dataset/'
+#        self.assertRedirects(response, expected_redirect)
 
     def test_DatasetCreateView_url_resolves_to_DatasetCreateView(self):
         request = self.factory.get('')
@@ -84,7 +88,6 @@ class DatasetCreateViewTests(BaseDatasetTest):
         self.assertEqual(response.status_code, 200)
 
     def test_DatasetCreateView_uses_correct_template(self):
-        self.client.login(username='test_user', password='testuserpassword')
         response = self.client.get(reverse('datasets:new_dataset'))
         self.assertTemplateUsed(response,
             template_name="datasets/new_dataset.html")
@@ -92,12 +95,10 @@ class DatasetCreateViewTests(BaseDatasetTest):
             template_name="base.html")
 
     def test_dataset_DatasetCreateView_url_title_is_correct(self):
-        self.client.login(username='test_user', password='testuserpassword')
         response = self.client.get(reverse('datasets:new_dataset'))
         self.assertIn('<title>ZMT | Add Dataset</title>', response.content.decode('utf-8'))
 
     def test_DatasetCreateView_uses_DatasetForm(self):
-        self.client.login(username='test_user', password='testuserpassword')
         response = self.client.get(reverse('datasets:new_dataset'))
         self.assertIsInstance(response.context['form'], DatasetForm)
 
