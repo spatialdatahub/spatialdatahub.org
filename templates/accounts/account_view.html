@@ -1,4 +1,14 @@
 {% extends 'base.html' %}
+
 {% block content %}
-Account View
+
+<h2>Account View</h2>
+{% if dataset_list %}
+  {% for dataset in dataset_list %}
+    {{ dataset.title }}
+  {% endfor %}
+{% else %}
+  This account does not have any datasets yet
+{% endif %}
+
 {% endblock content %}

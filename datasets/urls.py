@@ -2,7 +2,6 @@ from django.conf.urls import url
 from django.views.generic import TemplateView
 
 from datasets import views
-from accounts import views as account_views
 
 app_name = "datasets"
 
@@ -31,7 +30,7 @@ urlpatterns = [
 
     # this view should be the portal view
     url(r'^(?P<account_slug>[-\w]*)/$',
-        account_views.account_view,
+        views.account_view,
         name="account_view"),
 
     url(r'^(?P<account_slug>[-\w]*)/(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/$',

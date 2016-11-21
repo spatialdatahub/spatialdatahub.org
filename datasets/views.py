@@ -90,15 +90,13 @@ class PortalView(ListView):
         return queryset
 
 
-#########################################################################
-# It would be nice to create a function that does a dataset check, that way
-# I wouldn't have to repeat the code between the create and update views. Maybe
-# the code should be part of the DatasetForm
 
-# I also need to make everything work with ajax calls
+def account_view(request, account_slug=None):
+    account = get_object_or_404(Account, account_slug=account_slug)
+    dataset_list = Dataset.objects.filter(account=account)
+    context = {"account": account, "dataset_list": dataset_list}
+    return render(request, "accounts/account_view.html", context=context)
 
-# I am going to write the dataset detail view as a function based view then
-# move it to a class based view
 
 
 def dataset_detail_view(request, account_slug=None, dataset_slug=None, pk=None):
