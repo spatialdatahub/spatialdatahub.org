@@ -11,6 +11,10 @@ urlpatterns = [
         views.PortalView.as_view(),
         name="portal"),
 
+    url(r'^new_account/$',
+        views.new_account,
+        name="new_account"),
+
     url(r'^accounts/$',
         views.account_list,
         name="account_list"),
