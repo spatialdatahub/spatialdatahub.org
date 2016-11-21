@@ -19,7 +19,7 @@ form -->
       {% csrf_token %}
       {{ form.as_p }}
       <input id="submit_dataset" class="btn btn-success" type="submit" value="Update">
-      <a href="{% url 'datasets:dataset_detail' dataset.slug dataset.pk %}" class="btn btn-info">
+      <a href="{{  dataset.get_absolute_url }}" class="btn btn-info">
         Back to dataset page 
       </a>
       <a href="{% url 'datasets:portal' %}" class="btn btn-primary">Back to dataset list</a>
@@ -33,6 +33,7 @@ form -->
   </div>
 </div>
 <!-- End Map and Background Choices -->
+
 <div>
   <p>{{ data }}</p>
 </div>

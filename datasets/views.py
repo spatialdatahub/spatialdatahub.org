@@ -1,8 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponse, Http404
-from django.views.generic import DetailView, TemplateView, ListView
+from django.views.generic import ListView
 from django.views.generic.edit import DeleteView, UpdateView, FormView
 
 from datasets.models import Dataset
@@ -60,6 +60,10 @@ def load_dataset(request, pk):
     return HttpResponse(data)
 
 
+# this is going to be a function based view again. Unless I can figure out how
+# to bring slugs from both models in to the class based view (why is that so
+# difficult?)
+
 class PortalView(ListView):
     """
     This is the main view on the site. It should be a simple list view without
@@ -80,7 +84,6 @@ class PortalView(ListView):
 
     def get_queryset(self):
         queryset = super(PortalView, self).get_queryset()
-
         if "q" in self.request.GET:
             q = self.request.GET["q"]
             queryset = Dataset.objects.filter(title__icontains=q).order_by("title")
@@ -97,24 +100,13 @@ class PortalView(ListView):
 # I am going to write the dataset detail view as a function based view then
 # move it to a class based view
 
+
 def dataset_detail_view(request, account_slug=None, dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
     context = {'account': account, 'dataset': dataset}
     return render(request, "datasets/dataset_detail.html", context)
 
-
-#class DatasetDetailView(DetailView):
-#    """
-#    This is the view that will show all of a dataset's meta data. The map will
-#    be autopopulated with the dataset on page load. The page load will use the
-#    same ajax call as that the portal page uses. This ajax call will be reused
-#    on the dataset update page as well.
-#    """
-#
-#    model = Dataset
-#    context_object_name = "dataset"
-#    template_name = "datasets/dataset_detail.html"
 
 
 class DatasetCreateView(FormView):
@@ -126,8 +118,6 @@ class DatasetCreateView(FormView):
     form_class = DatasetForm
     template_name = "datasets/new_dataset.html"
     success_url = "/"
-
-#    print(self.request)
 
     # how do i save the model with a specific account?
 
@@ -158,6 +148,7 @@ class DatasetCreateView(FormView):
         return super(DatasetCreateView, self).form_valid(form)
 
 
+# I need to make this into a function based view I think
 class DatasetUpdateView(UpdateView):
     """
     This is the view that will allow a user to modify a dataset's meta data and
@@ -204,15 +195,18 @@ class DatasetUpdateView(UpdateView):
         return super(DatasetUpdateView, self).form_valid(form)
 
 
-class DatasetRemoveView(DeleteView):
-    model = Dataset
-    success_url = reverse_lazy("datasets:portal")
+#class DatasetRemoveView(DeleteView):
+#    model = Dataset
+#    template_name = "datasets/dataset_remove.html"
+
+
+# this works
+def dataset_remove_view(request, account_slug=None, dataset_slug=None, pk=None):
+    account = get_object_or_404(Account, account_slug=account_slug)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    context = {"account": account, "dataset": dataset}
     template_name = "datasets/dataset_remove.html"
-
-
-class AboutView(TemplateView):
-    template_name="datasets/about.html"
-
-
-class ContactView(TemplateView):
-    template_name="datasets/contact.html"
+    if request.method=='POST':
+        dataset.delete()
+        return redirect('/')
+    return render(request, template_name, context)

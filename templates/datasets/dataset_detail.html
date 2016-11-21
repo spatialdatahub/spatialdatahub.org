@@ -20,6 +20,8 @@
   <!-- Dataset Info -->
   <div class="row">
     <div class="col-12 col-xs-12" id="meta_data">
+      <p><b>Account:</b> {{ account }}</p>
+      <p><b>Account slug:</b> {{ account.account_slug }}</p>
       <p><b>Author:</b> {{ dataset.author }}</p> 
       <p><b>Dataset Description:</b> {{ dataset.description }}</p>
     </div>
@@ -40,8 +42,12 @@
     <div class="col-12 col-xs-12" id="modifier_links">
     <b>
     {% if user.is_authenticated %}
-      <a href="{% url 'datasets:dataset_update' dataset.slug dataset.pk %}" class="btn btn-success">Update this dataset</a>
-      <a href="{% url 'datasets:dataset_remove' dataset.slug dataset.pk %}" class="btn btn-danger">Remove this dataset</a>
+      <a
+        href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}"
+        class="btn btn-success">Update this dataset</a>
+      <a
+        href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}"
+        class="btn btn-danger">Remove this dataset</a>
       <a href="{% url 'datasets:portal' %}" class="btn btn-primary">Back to map list</a>
     {% else %}
       <a href="{% url 'datasets:portal' %}" class="btn btn-primary">Back to map list</a>

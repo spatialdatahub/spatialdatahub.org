@@ -15,7 +15,7 @@
       <input id="confirm_remove_button" class="btn btn-danger btn-lg" type="submit"
              value="Yes, please remove {{ dataset.title }}"/>
     </form>
-    <a href="{% url 'datasets:dataset_detail' dataset.slug dataset.pk %}"
+    <a href="{% url 'datasets:dataset_detail' account.account_slug dataset.dataset_slug dataset.pk %}"
 class="btn btn-success btn-lg">
       No, take me back to the dataset page
     </a>
