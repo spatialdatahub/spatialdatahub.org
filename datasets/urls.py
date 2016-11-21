@@ -1,5 +1,4 @@
 from django.conf.urls import url
-from django.views.generic import TemplateView
 
 from datasets import views
 
@@ -12,14 +11,6 @@ urlpatterns = [
         views.PortalView.as_view(),
         name="portal"),
 
-    url(r'^about/$',
-        TemplateView.as_view(template_name="datasets/about.html"),
-        name="about"),
-
-    url(r'^contact/$',
-        TemplateView.as_view(template_name="datasets/contact.html"),
-        name="contact"),
-
     url(r'^new_dataset/$',
         views.DatasetCreateView.as_view(),
         name="new_dataset"),
@@ -30,8 +21,8 @@ urlpatterns = [
 
     # this view should be the portal view
     url(r'^(?P<account_slug>[-\w]*)/$',
-        views.account_view,
-        name="account_view"),
+        views.account_detail,
+        name="account_detail"),
 
     url(r'^(?P<account_slug>[-\w]*)/(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/$',
         views.dataset_detail_view,

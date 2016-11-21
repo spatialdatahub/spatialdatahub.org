@@ -91,11 +91,11 @@ class PortalView(ListView):
 
 
 
-def account_view(request, account_slug=None):
+def account_detail(request, account_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset_list = Dataset.objects.filter(account=account)
     context = {"account": account, "dataset_list": dataset_list}
-    return render(request, "accounts/account_view.html", context=context)
+    return render(request, "accounts/account_detail.html", context=context)
 
 
 
