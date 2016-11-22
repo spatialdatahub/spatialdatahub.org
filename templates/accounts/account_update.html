@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head_title %}Update {{ account.user }}{% endblock head_title %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+<!-- account / dataset links -->
+  <div class="row">
+    <h5 class="col-xs-12">
+      <a href="{{ account.get_absolute_url }}" >{{ account.user }}</a> /
+      <a href="{% url 'datasets:account_update' account.account_slug %}" >
+        update {{ account.user}}</a>
+    </h5>
+  </div>
+  <hr class="divider">
+<!-- end account / dataset links -->
+
+
+<!-- I might want to get away from crispy forms and just use a normal django
+form -->
+
+<!-- The Form -->
+  <div class="col-12 col-xs-12" id="update_dataset_form">  
+    <form action="." method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input id="submit_dataset" class="btn btn-success" type="submit" value="Update">
+      <a href="{{  account.get_absolute_url }}" class="btn btn-info">
+        Back to dataset page 
+      </a>
+      <a href="{% url 'datasets:portal' %}" class="btn btn-primary">Back to dataset list</a>
+    </form>
+  </div>
+<!-- End The Form -->
+
+</div>
+{% endblock content %}
+{% block js %}
+
+
+{% endblock js%}

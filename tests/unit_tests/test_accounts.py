@@ -3,7 +3,7 @@ from django.shortcuts import reverse
 from django.test import TestCase, RequestFactory
 
 from accounts.models import Account
-from accounts.views import AccountView
+from accounts.views import account_detail
 
 
 

@@ -1,4 +1,6 @@
-from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render, redirect
+from django.core.urlresolvers import reverse
 
 from accounts.models import Account
 from accounts.forms import AccountForm
@@ -32,14 +34,26 @@ def account_list(request):
 
 
 def account_update(request, account_slug=None):
-    pass
+    account = get_object_or_404(Account, account_slug=account_slug)
+    template_name = "accounts/account_update.html"
+    if request.method == "POST":
+        form = AccountForm(request.POST, instance=account)
+        if form.is_valid():
+            form.save()
+            return redirect("datasets:account_detail",
+                account_slug=account.account_slug)
+        else:
+            return HttpResponse("Error!")
+    else:
+        form = AccountForm(instance=account)
+    return render(request, template_name, {"account": account, "form": form})
 
 
 def account_remove(request, account_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     context = {"account": account}
     template_name = "accounts/account_remove.html"
-    if request.method =='POST':
+    if request.method == 'POST':
         account.delete()
         return redirect('/')
     return render(request, template_name, context)

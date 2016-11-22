@@ -37,6 +37,10 @@ urlpatterns = [
         account_views.account_remove,
         name="account_remove"),
 
+    url(r'^(?P<account_slug>[-\w]*)/update/$',
+        account_views.account_update,
+        name="account_update"),
+
     url(r'^(?P<account_slug>[-\w]*)/(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/$',
         views.dataset_detail_view,
         name="dataset_detail"),
