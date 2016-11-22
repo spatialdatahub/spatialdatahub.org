@@ -20,18 +20,22 @@ urlpatterns = [
         account_views.account_list,
         name="account_list"),
 
-    url(r'^(?P<account_slug>[-\w]*)/new_dataset/$',
-        views.dataset_create_view,
-        name="new_dataset"),
-
     url(r'^load_dataset/(?P<pk>[0-9]+)/$',
         views.load_dataset,
         name="load_dataset"),
+
+    url(r'^(?P<account_slug>[-\w]*)/new_dataset/$',
+        views.dataset_create_view,
+        name="new_dataset"),
 
     # this view should be the portal view
     url(r'^(?P<account_slug>[-\w]*)/$',
         account_views.account_detail,
         name="account_detail"),
+
+    url(r'^(?P<account_slug>[-\w]*)/remove/$',
+        account_views.account_remove,
+        name="account_remove"),
 
     url(r'^(?P<account_slug>[-\w]*)/(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/$',
         views.dataset_detail_view,
@@ -42,7 +46,7 @@ urlpatterns = [
         name="dataset_update"),
 
     url(r'^(?P<account_slug>[-\w]*)/(?P<dataset_slug>[-\w]*)/(?P<pk>[0-9]+)/remove/$',
-        views.dataset_remove_view,
+        views.dataset_remove,
         name="dataset_remove"),
 
 ]

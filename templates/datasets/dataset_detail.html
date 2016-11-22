@@ -3,19 +3,28 @@
 
 {% block head_title %}{{ dataset.title }}{% endblock head_title %}
 {% block additional_css %}
-  #mapid {
-    height: 65%;
-  }
+  <style>
+    #mapid {
+      height: 65%;
+    }
+  </style>
 {% endblock additional_css %}
 
 {% block content %}
 {% include "base_map_css.html" %}
 
-<br/>
-<h1 class="text-xs-center">{{ dataset.title }}</h1>
-<hr class="divider">
-
 <div class="container-fluid">
+
+<!-- account / dataset links -->
+  <div class="row">
+    <h5 class="col-xs-12">
+      <a href="{{ account.get_absolute_url }}" >{{ account.user }}</a> /
+      <a href="{{ dataset.get_absolute_url }}" >{{ dataset.title }}</a>
+    </h5>
+  </div>
+  <hr class="divider">
+<!-- end account / dataset links -->
+
 
   <!-- Dataset Info -->
   <div class="row">
@@ -28,15 +37,6 @@
   </div>
   <!-- End Dataset Info -->
 
-  <!-- Map and Background Choices -->
-  <div class="row" id="main_map">
-    <div class="col-12 col-xs-12" id="main_map">
-      <div id="mapid" value="{{ dataset.pk }}">
-      </div>
-    </div>
-  </div>
-  <!-- End Map and Background Choices -->
-
   <!-- Links to modify the database or get back to the map list -->
   <div class="row">
     <div class="col-12 col-xs-12" id="modifier_links">
@@ -48,17 +48,23 @@
       <a
         href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}"
         class="btn btn-danger">Remove this dataset</a>
-      <a href="{% url 'datasets:portal' %}" class="btn btn-primary">Back to map list</a>
+      <a href="{{ account.get_absolute_url }}" class="btn btn-primary">Back to {{ account.user }} map list</a>
     {% else %}
-      <a href="{% url 'datasets:portal' %}" class="btn btn-primary">Back to map list</a>
+      <a href="{{ account.get_absolute_url }}" class="btn btn-primary">Back to {{ account.user }} map list</a>
     {% endif %}
-    </b>
     </div>
   </div>
   <!-- End Links to modify the database or get back to the map list -->
 
+  <!-- Map and Background Choices -->
+  <div class="row" id="main_map">
+    <div class="col-12 col-xs-12" id="main_map">
+      <div id="mapid" value="{{ dataset.pk }}">
+      </div>
+    </div>
+  </div>
+  <!-- End Map and Background Choices -->
 </div>
-
 
 {% include "base_map_js.html" %}
 {% endblock content %}

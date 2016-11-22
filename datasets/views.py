@@ -63,6 +63,7 @@ def load_dataset(request, pk):
 # this is going to be a function based view again. Unless I can figure out how
 # to bring slugs from both models in to the class based view (why is that so
 # difficult?)
+# this should be the account view
 
 class PortalView(ListView):
     """
@@ -222,7 +223,7 @@ class DatasetUpdateView(UpdateView):
 
 
 
-def dataset_remove_view(request, account_slug=None, dataset_slug=None, pk=None):
+def dataset_remove(request, account_slug=None, dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
     context = {"account": account, "dataset": dataset}
