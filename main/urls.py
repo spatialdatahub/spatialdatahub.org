@@ -16,6 +16,13 @@ urlpatterns = [
         TemplateView.as_view(template_name="contact.html"),
         name="contact"),
 
+    # the portal view should be here
+
+    url(r'^',
+        include('accounts.urls',
+        namespace='accounts')),
+
+    # hopefully this will work.
     url(r'^',
         include('datasets.urls',
         namespace='datasets')),

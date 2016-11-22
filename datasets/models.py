@@ -1,5 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 
 from accounts.models import Account
@@ -22,8 +23,9 @@ class Dataset(models.Model):
     dataset_password = models.CharField(max_length=500,
         blank=True, unique=False)
     public_access = models.BooleanField(default=True)
-    dataset_slug = models.SlugField(max_length=50, unique=False, null=True,
-        blank=True)
+    dataset_slug = models.SlugField(max_length=50, unique=False)
+    date_added = models.DateTimeField(auto_now=False, auto_now_add=True,
+        blank=True, null=True)
 
     class Meta:
         unique_together = ("account", "title")
