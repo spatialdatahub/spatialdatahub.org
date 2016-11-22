@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponse, Http404
-from django.views.generic import ListView
 from django.views.generic.edit import UpdateView, FormView
 
 from datasets.models import Dataset
@@ -60,39 +59,10 @@ def load_dataset(request, pk):
     return HttpResponse(data)
 
 
-# this is going to be a function based view again. Unless I can figure out how
-# to bring slugs from both models in to the class based view (why is that so
-# difficult?)
-# this should be the account view
-
-class PortalView(ListView):
-    """
-    This is the main view on the site. It should be a simple list view without
-    any special methods. Only the model, context object name and template
-    should be defined. I will remove the get_queryset method and replace it
-    with an ajax call function.
-    """
-
-    model = Dataset
-    context_object_name = "dataset_list"
-    template_name = "datasets/portal.html"
-
-    """
-    I need to figure out how to fix this so that it works with ajax and the
-    context object view. As it is this is just extra work that the view has
-    to do.
-    """
-
-    def get_queryset(self):
-        queryset = super(PortalView, self).get_queryset()
-        if "q" in self.request.GET:
-            q = self.request.GET["q"]
-            queryset = Dataset.objects.filter(title__icontains=q).order_by("title")
-        return queryset
 
 
 
-def dataset_detail_view(request, account_slug=None, dataset_slug=None, pk=None):
+def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
     context = {'account': account, 'dataset': dataset}

@@ -40,7 +40,7 @@ def account_update(request, account_slug=None):
         form = AccountForm(request.POST, instance=account)
         if form.is_valid():
             form.save()
-            return redirect("datasets:account_detail",
+            return redirect("accounts:account_detail",
                 account_slug=account.account_slug)
         else:
             return HttpResponse("Error!")

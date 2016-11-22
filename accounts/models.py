@@ -18,4 +18,4 @@ class Account(models.Model):
 
     def get_absolute_url(self):
         kwargs = {"account_slug": self.account_slug}
-        return reverse("datasets:account_detail", kwargs=kwargs)
+        return reverse("accounts:account_detail", kwargs=kwargs)

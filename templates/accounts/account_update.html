@@ -11,7 +11,7 @@
   <div class="row">
     <h5 class="col-xs-12">
       <a href="{{ account.get_absolute_url }}" >{{ account.user }}</a> /
-      <a href="{% url 'datasets:account_update' account.account_slug %}" >
+      <a href="{% url 'accounts:account_update' account.account_slug %}" >
         update {{ account.user}}</a>
     </h5>
   </div>
@@ -31,7 +31,7 @@ form -->
       <a href="{{  account.get_absolute_url }}" class="btn btn-info">
         Back to dataset page 
       </a>
-      <a href="{% url 'datasets:portal' %}" class="btn btn-primary">Back to dataset list</a>
+      <a href="{% url 'portal' %}" class="btn btn-primary">Back to dataset list</a>
     </form>
   </div>
 <!-- End The Form -->

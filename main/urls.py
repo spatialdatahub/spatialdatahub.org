@@ -2,9 +2,10 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 
+from main.views import PortalView
+
+
 urlpatterns = [
-# admin
-# datasets and accounts together
 
     url(r'^admin/', admin.site.urls),
 
@@ -16,14 +17,15 @@ urlpatterns = [
         TemplateView.as_view(template_name="contact.html"),
         name="contact"),
 
-    # the portal view should be here
+    url(r'^$',
+        PortalView.as_view(),
+        name="portal"),
 
     url(r'^',
         include('accounts.urls',
         namespace='accounts')),
 
-    # hopefully this will work.
-    url(r'^',
+    url(r'^(?P<account_slug>[-\w]*)/',
         include('datasets.urls',
         namespace='datasets')),
 
