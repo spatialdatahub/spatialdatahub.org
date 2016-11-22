@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
 from datasets import views
+from accounts import views as account_views
 
 app_name = "datasets"
 
@@ -12,15 +13,14 @@ urlpatterns = [
         name="portal"),
 
     url(r'^new_account/$',
-        views.new_account,
+        account_views.new_account,
         name="new_account"),
 
     url(r'^accounts/$',
-        views.account_list,
+        account_views.account_list,
         name="account_list"),
 
     url(r'^(?P<account_slug>[-\w]*)/new_dataset/$',
-#        views.DatasetCreateView.as_view(),
         views.dataset_create_view,
         name="new_dataset"),
 
@@ -30,7 +30,7 @@ urlpatterns = [
 
     # this view should be the portal view
     url(r'^(?P<account_slug>[-\w]*)/$',
-        views.account_detail,
+        account_views.account_detail,
         name="account_detail"),
 
     url(r'^(?P<account_slug>[-\w]*)/(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/$',

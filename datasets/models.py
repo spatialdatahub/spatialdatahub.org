@@ -25,6 +25,8 @@ class Dataset(models.Model):
     dataset_slug = models.SlugField(max_length=50, unique=False, null=True,
         blank=True)
 
+    class Meta:
+        unique_together = ("account", "title")
 
     def __str__(self):
         return self.title

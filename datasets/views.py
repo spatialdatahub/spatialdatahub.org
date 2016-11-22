@@ -90,31 +90,6 @@ class PortalView(ListView):
         return queryset
 
 
-def account_list(request):
-    account_list = Account.objects.all()
-    context = {"account_list": account_list}
-    template_name = "accounts/account_list.html"
-    return render(request, template_name, context)
-
-
-def account_detail(request, account_slug=None):
-    account = get_object_or_404(Account, account_slug=account_slug)
-    dataset_list = Dataset.objects.filter(account=account)
-    context = {"account": account, "dataset_list": dataset_list}
-    return render(request, "accounts/account_detail.html", context=context)
-
-
-def new_account(request):
-    if request.method == "POST":
-        form = AccountForm(request.POST or None)
-        if form.is_valid():
-            form.save()
-            return redirect("/")
-        else:
-            return HttpResponse("Error!")
-    else:
-        form=AccountForm()
-    return render(request, "accounts/new_account.html", {"form": form})
 
 def dataset_detail_view(request, account_slug=None, dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)

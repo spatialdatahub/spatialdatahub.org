@@ -6,7 +6,7 @@ from django.utils.text import slugify
 class Account(models.Model):
     user = models.CharField(max_length=50, unique=True)
     affiliation = models.CharField(max_length=200, null=True, blank=True)
-    account_slug = models.SlugField(max_length=50, null=True, blank=True, unique=True)
+    account_slug = models.SlugField(max_length=50, unique=True)
 
     def __str__(self):
         return str(self.user)
