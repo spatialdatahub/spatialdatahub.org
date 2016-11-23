@@ -64,43 +64,6 @@ def dataset_create_view(request, account_slug=None):
                   {"form": form,
                   "account": account})
 
-class DatasetCreateView(FormView):
-    """
-    I need to have a method that encrypts the dataset_user and dataset_password
-    fields the same method should be useable on the update view
-    """
-
-    form_class = DatasetForm
-    template_name = "datasets/new_dataset.html"
-    success_url = "/"
-
-    # how do i save the model with a specific account?
-
-    # can I move this to the form itself?
-    def form_valid(self, form):
-        # I can get the user this way, but how do i pass the account to the
-        # form and model before saving it? Do i set it as a hidden field?
-
-#        form.instance.account = self.request.account
-
-        if form.instance.dataset_user and form.instance.dataset_password:
-            # get key (I am only using one key for both password and username)
-            cryptokey = os.environ["CRYPTOKEY"].encode("UTF-8")
-            cryptokey_fernet = Fernet(cryptokey)
-
-            # password
-            password_bytes = (form.instance.dataset_password).encode("UTF-8")
-            password_encrypted = cryptokey_fernet.encrypt(password_bytes)
-            form.instance.dataset_password = password_encrypted.decode("UTF-8")
-
-            # username
-            user_bytes = (form.instance.dataset_user).encode("UTF-8")
-            user_encrypted = cryptokey_fernet.encrypt(user_bytes)
-            form.instance.dataset_user = user_encrypted.decode("UTF-8")
-
-        form.save()
-
-        return super(DatasetCreateView, self).form_valid(form)
 
 
 # I need to make this into a function based view I think

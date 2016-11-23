@@ -18,6 +18,7 @@
 <!-- account / dataset links -->
   <div class="row">
     <h5 class="col-xs-12">
+      <a href="{% url 'portal' %}" >*</a> /
       <a href="{{ account.get_absolute_url }}" >{{ account.user }}</a> /
       <a href="{{ dataset.get_absolute_url }}" >{{ dataset.title }}</a>
     </h5>

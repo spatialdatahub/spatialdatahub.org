@@ -5,13 +5,24 @@
 
 {% block content %}
 
-<br/>
-<h1 class="text-xs-center">{{ dataset.title }} Update Form</h1>
-<hr class="divider">
+<div class="container-fluid">
+
+<!-- account / dataset links -->
+  <div class="row">
+    <h5 class="col-xs-12">
+      <a href="{% url 'portal' %}" >*</a> /
+      <a href="{{ account.get_absolute_url }}" >{{ account.user }}</a> /
+      <a href="{{ dataset.get_absolute_url }}" >{{ dataset.title }}</a> /
+      <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}" >
+        update
+      </a>
+    </h5>
+  </div>
+  <hr class="divider">
+<!-- end account / dataset links -->
 
 
-<!-- I might want to get away from crispy forms and just use a normal django
-form -->
+
 
 <!-- The Form -->
   <div class="col-12 col-xs-12" id="update_dataset_form">  
@@ -22,25 +33,13 @@ form -->
       <a href="{{  dataset.get_absolute_url }}" class="btn btn-info">
         Back to dataset page 
       </a>
-      <a href="{% url 'datasets:portal' %}" class="btn btn-primary">Back to dataset list</a>
+      <a href="{{ account.get_absolute_url }}" class="btn btn-primary">
+        Back to dataset list
+      </a>
     </form>
   </div>
 <!-- End The Form -->
 
-<!-- Map and Background Choices -->
-<div class="col-12 col-xs-12" role="main" id="main_map">
-  <div id="mapid" value="{{ dataset.pk }}">
-  </div>
 </div>
-<!-- End Map and Background Choices -->
-
-<div>
-  <p>{{ data }}</p>
-</div>
-
 
 {% endblock content %}
-{% block js %}
-
-
-{% endblock js%}
