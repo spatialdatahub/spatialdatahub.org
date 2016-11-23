@@ -18,6 +18,10 @@ urlpatterns = [
         views.account_detail,
         name="account_detail"),
 
+    url(r'^(?P<account_slug>[-\w]*)/portal/$',
+        views.account_portal,
+        name="account_portal"),
+
     url(r'^(?P<account_slug>[-\w]*)/remove/$',
         views.account_remove,
         name="account_remove"),

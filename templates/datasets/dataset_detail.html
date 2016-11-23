@@ -32,7 +32,10 @@
       <p><b>Account:</b> <a href="{{ account.get_absolute_url }}">{{ account }}</a></p>
       <p><b>Affiliation:</b> {{ account.affiliation }}</p>
       <p><b>Author:</b> {{ dataset.author }}</p> 
+      <p><b>Dataset Title:</b> {{ dataset.title }}</p>
+      <p><b>Dataset Visible to Public:</b> {{ dataset.public_access }}</p>
       <p><b>Dataset Description:</b> {{ dataset.description }}</p>
+      <p><b>Date Created:</b> {{ dataset.date_added }}</p>
     </div>
   </div>
   <hr class="divider">

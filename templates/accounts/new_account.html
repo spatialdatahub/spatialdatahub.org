@@ -16,15 +16,19 @@
   <hr class="divider">
 <!-- end account / dataset links -->
 
-
+<!-- new account form -->
   <div class="col-12 col-xs-12" id="new_account_form">
     <form action="." method="post">
       {% csrf_token %}
       {{ form.as_p }}
       <input id="submit_dataset" class="btn btn-success" type="submit" value="Submit">
+      <a href="{% url 'portal' %}" class="btn btn-primary">
+        Back to home page
+      </a>
     </form>
   </div>
+<!-- end new account form -->
+
 </div>
+
 {% endblock content %}
-
-

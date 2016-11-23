@@ -65,3 +65,12 @@ def account_detail(request, account_slug=None):
     context = {"account": account, "dataset_list": dataset_list}
     template_name = "accounts/account_detail.html"
     return render(request, template_name, context)
+
+
+def account_portal(request, account_slug=None):
+    account = get_object_or_404(Account, account_slug=account_slug)
+    dataset_list = Dataset.objects.filter(account=account)
+    context = {"account": account, "dataset_list": dataset_list}
+    template_name = "accounts/account_portal.html"
+    return render(request, template_name, context)
+

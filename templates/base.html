@@ -45,9 +45,43 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'contact' %}">Contact</a>
         </li>
-        <li class="nav-item float-xs-right">
-            <a id="account" class="nav-link font-weight-bold text-warning" href="#">Account</a>
+        <!-- Accounts dropdown -->
+        {% if account %}
+        <li class="nav-item dropdown float-xs-right">
+          <a class="nav-link dropdown-toggle font-weight-bold text-warning " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Account 
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{% url 'portal' %}">Home</a>
+            <a class="dropdown-item" href="{{ account.get_absolute_url }}">Account</a>
+            <a class="dropdown-item" href="{% url 'accounts:account_portal' account.account_slug  %}">Portal</a>
+            <a class="dropdown-item" href="{% url 'accounts:account_update' account.account_slug  %}">Update</a>
+            <a class="dropdown-item" href="{% url 'datasets:new_dataset' account.account_slug %}">Add New Dataset</a>
+          </div>
         </li>
+
+        {% else %}
+
+        <!-- THIS SECTION WILL BE CHANGED -->
+
+        <li class="nav-item dropdown float-xs-right">
+          <a class="nav-link dropdown-toggle font-weight-bold text-warning " href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Account 
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{% url 'accounts:new_account' %}">New Account</a>
+            {% if account_list %}
+              {% for account in account_list %}
+                <a class="dropdown-item" href="{{ account.get_absolute_url }}" >{{ account.user }}</a>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </li>
+
+        <!-- THIS SECTION WILL BE CHANGED -->
+
+        {% endif %}
+        <!-- End Accounts dropdown -->
       </ul>
     </nav>
     <!-- end navbar -->

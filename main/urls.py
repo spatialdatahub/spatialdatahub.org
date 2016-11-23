@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 
-from main.views import PortalView, load_dataset
+from main.views import portal, load_dataset
 
 
 urlpatterns = [
@@ -18,7 +18,7 @@ urlpatterns = [
         name="contact"),
 
     url(r'^$',
-        PortalView.as_view(),
+        portal,
         name="portal"),
 
     url(r'^load_dataset/(?P<pk>[0-9]+)/$',
