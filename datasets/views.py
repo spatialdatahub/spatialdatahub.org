@@ -53,7 +53,7 @@ def dataset_create_view(request, account_slug=None):
                 user_encrypted = cryptokey_fernet.encrypt(user_bytes)
                 form.instance.dataset_user = user_encrypted.decode("UTF-8")
             form.save()
-            return redirect(reverse("datasets:account_detail",
+            return redirect(reverse("accounts:account_detail",
                 kwargs={"account_slug": account.account_slug}))
     else:
         form = DatasetForm()

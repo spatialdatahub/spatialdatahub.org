@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.urlresolvers import reverse
 
@@ -13,8 +13,8 @@ def new_account(request):
     if request.method == "POST":
         form = AccountForm(request.POST or None)
         if form.is_valid():
-            form.save()
-            return redirect("/")
+            instance = form.save()
+            return redirect("accounts:account_detail", account_slug=instance.account_slug)
         else:
             return HttpResponse("Error!")
     else:
