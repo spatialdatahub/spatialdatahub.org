@@ -1,6 +1,5 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
-from django.core.urlresolvers import reverse
 
 from accounts.models import Account
 from accounts.forms import AccountForm
@@ -14,7 +13,8 @@ def new_account(request):
         form = AccountForm(request.POST or None)
         if form.is_valid():
             instance = form.save()
-            return redirect("accounts:account_detail", account_slug=instance.account_slug)
+            return redirect("accounts:account_detail",
+                account_slug=instance.account_slug)
         else:
             return HttpResponse("Error!")
     else:
@@ -65,4 +65,3 @@ def account_detail(request, account_slug=None):
     context = {"account": account, "dataset_list": dataset_list}
     template_name = "accounts/account_detail.html"
     return render(request, template_name, context)
-
