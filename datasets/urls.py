@@ -7,9 +7,9 @@ app_name = "datasets"
 urlpatterns = [
 
     # this could be a problem
-    url(r'^load_dataset/(?P<pk>[0-9]+)/$',
-        views.load_dataset,
-        name="load_dataset"),
+#    url(r'^load_dataset/(?P<pk>[0-9]+)/$',
+#        views.load_dataset,
+#        name="load_dataset"),
 
     url(r'^new_dataset/$',
         views.dataset_create_view,

@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 
-from main.views import PortalView
+from main.views import PortalView, load_dataset
 
 
 urlpatterns = [
@@ -20,6 +20,10 @@ urlpatterns = [
     url(r'^$',
         PortalView.as_view(),
         name="portal"),
+
+    url(r'^load_dataset/(?P<pk>[0-9]+)/$',
+        load_dataset,
+        name="load_dataset"),
 
     url(r'^',
         include('accounts.urls',
