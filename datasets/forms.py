@@ -22,6 +22,3 @@ class DatasetForm(forms.ModelForm):
             "dataset_password": forms.PasswordInput(attrs=basic_input_class),
             "description": forms.Textarea(attrs=basic_input_class)
         }
-
-
-

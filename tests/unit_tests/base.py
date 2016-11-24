@@ -49,7 +49,8 @@ class BaseDatasetTest(TestCase):
         cryptokey = os.environ['CRYPTOKEY'].encode('UTF-8')
         cryptokey_fernet = Fernet(cryptokey)
 
-        # create user data
+        # create user data -- is this messed up? i think these should be
+        # switched
         client_dataset_password = "zmtdummy"
         client_dataset_user = "zmtBremen1991"
 

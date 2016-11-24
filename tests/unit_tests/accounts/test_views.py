@@ -9,11 +9,11 @@ from accounts.views import new_account, account_update, account_remove
 
 class NewAccountViewTests(TestCase):
 
-    def test_new_account_url_resolves_to_new_account_view(self):
+    def test_new_account_url_resolves(self):
         response = self.client.get("/new_account/")
         self.assertEqual(response.status_code, 200)
 
-    def test_new_account_function_resolves_to_new_account_view(self):
+    def test_new_account_function_resolves(self):
         request = HttpRequest()
         response = new_account(request)
         self.assertEqual(response.status_code, 200)
@@ -29,7 +29,7 @@ class NewAccountViewTests(TestCase):
         response = self.client.get(reverse("accounts:new_account"))
         self.assertIn("<title>ZMT | New Account</title>", response.content.decode("utf-8"))
 
-    def test_new_account_view_uses_DatasetForm(self):
+    def test_new_account_view_uses_AccountForm(self):
         response = self.client.get(reverse("accounts:new_account"))
         self.assertIsInstance(response.context["form"], AccountForm)
 
@@ -47,10 +47,10 @@ class AccountUpdateViewTests(TestCase):
             affiliation="Zentrum für Marine Tropenökologie")
 
     def test_account_update_url_resolves_to_account_update_view(self):
-        response = self.client.get("/"+self.a1.account_slug+"/update/")
+        response = self.client.get("/test_user/update/")
         self.assertEqual(response.status_code, 200)
 
-    def test_account_update_function_resolves_to_account_update_view(self):
+    def test_account_update_function_resolves(self):
         request = HttpRequest()
         response = account_update(request, account_slug=self.a1.account_slug)
         self.assertEqual(response.status_code, 200)
@@ -63,7 +63,7 @@ class AccountUpdateViewTests(TestCase):
         self.assertTemplateUsed(response,
             template_name="base.html")
 
-    def test_dataset_account_update_view_url_title_is_correct(self):
+    def test_account_update_view_title_is_correct(self):
         response = self.client.get(reverse("accounts:account_update",
             kwargs={"account_slug": self.a1.account_slug}))
         self.assertIn("<title>ZMT | Update {}</title>".format(self.a1.user),
