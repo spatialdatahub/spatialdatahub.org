@@ -83,28 +83,6 @@ class DatasetDetailViewTests(BaseDatasetTest):
 
 class DatasetRemoveViewTests(BaseDatasetTest):
 
-    def test_DatasetRemoveView_redirects_to_login_without_authentication(self):
-        response = self.client.get(reverse('datasets:dataset_remove',
-            kwargs={'slug': self.ds1.slug, 'pk': self.ds1.pk}))
-        expected_redirect ='/accounts/login/?next=/{}-{}/remove/'.format(self.ds1.slug, self.ds1.pk)
-        self.assertRedirects(response, expected_redirect)
-
-    def test_DatasetRemoveView_url_resolves_to_DatasetRemoveView(self):
-        request = self.factory.get('')
-        request.user = self.test_user
-        response = DatasetRemoveView.as_view()(request,
-                                               slug=self.ds1.slug,
-                                               pk=self.ds1.pk)
-        self.assertEqual(response.status_code, 200)
-
-    def test_DatasetRemoveView_uses_correct_template(self):
-        self.client.login(username='test_user', password='testuserpassword')
-        response = self.client.get(reverse('datasets:dataset_remove',
-            kwargs={'slug': self.ds1.slug, 'pk': self.ds1.pk}))
-        self.assertTemplateUsed(response,
-            template_name="datasets/dataset_remove.html")
-        self.assertTemplateUsed(response,
-            template_name="base.html")
 
     def test_DatasetRemoveView_url_title_is_correct(self):
         self.client.login(username='test_user', password='testuserpassword')
