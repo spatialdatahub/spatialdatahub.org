@@ -1430,3 +1430,55 @@ JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/boo
 JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js, line 7: Error: Bootstrap tooltips require Tether (http://tether.io/)
 [Child 4328] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
 [Child 4328] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+1479915884073	geckodriver	INFO	Listening on 127.0.0.1:55447
+1479915884850	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.96SoQN9WLAIb
+1479915884851	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479915885309	geckodriver::marionette	INFO	Connecting to Marionette on localhost:55456
+1479915889467	Marionette	INFO	Listening on port 55456
+1479915896855	Marionette	INFO	startBrowser 72e638f4-eaaf-5c46-b9b8-0608cda9a7c3
+1479915929493	geckodriver	INFO	Listening on 127.0.0.1:56124
+1479915930381	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.T37r1ykVpqVe
+1479915930383	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479915930420	geckodriver::marionette	INFO	Connecting to Marionette on localhost:56133
+1479915932664	Marionette	INFO	Listening on port 56133
+1479915934694	Marionette	INFO	startBrowser 5c6fd4a2-d14a-b74a-8c34-35d3f8c92350
+1479915938360	geckodriver	INFO	Listening on 127.0.0.1:56230
+1479915939256	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.hNehJWYhi1xj
+1479915939258	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479915939261	geckodriver::marionette	INFO	Connecting to Marionette on localhost:56239
+1479915943071	Marionette	INFO	Listening on port 56239
+1479915945696	Marionette	INFO	startBrowser e22e5802-64c3-ae45-b905-75937049ca2d
+1479915948906	geckodriver	INFO	Listening on 127.0.0.1:56365
+1479915949807	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.ytkI6aFNUpY2
+1479915949809	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479915949811	geckodriver::marionette	INFO	Connecting to Marionette on localhost:56374
+1479915951619	Marionette	INFO	Listening on port 56374
+1479915953765	Marionette	INFO	startBrowser 59eae1a8-e822-b840-93d9-4a6baa3624c2
+1479915956538	geckodriver	INFO	Listening on 127.0.0.1:56455
+1479915957467	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.lpvuOG62qDUK
+1479915957469	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479915957472	geckodriver::marionette	INFO	Connecting to Marionette on localhost:56464
+1479915959351	Marionette	INFO	Listening on port 56464
+1479915961615	Marionette	INFO	startBrowser 1e286610-ac9b-9e4d-839f-4822ed4a58ea
+1479915965049	geckodriver	INFO	Listening on 127.0.0.1:56559
+1479915965969	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.Q1jO1iGCVxRH
+1479915965971	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479915965973	geckodriver::marionette	INFO	Connecting to Marionette on localhost:56568
+1479915967948	Marionette	INFO	Listening on port 56568
+1479915971155	Marionette	INFO	startBrowser 6078fed7-63b7-0947-8000-62b0698c3e72
+1479915976599	geckodriver	INFO	Listening on 127.0.0.1:56668
+1479915977542	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.V6oPjIzO656M
+1479915977544	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479915977547	geckodriver::marionette	INFO	Connecting to Marionette on localhost:56678
+1479915979675	Marionette	INFO	Listening on port 56678
+1479915981747	Marionette	INFO	startBrowser 84037afa-b8e0-c44d-a4bf-ffadef2b5c9b
+1479916004762	geckodriver	INFO	Listening on 127.0.0.1:57012
+1479916005700	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.iZJ9G4lL4tFg
+1479916005702	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1479916005705	geckodriver::marionette	INFO	Connecting to Marionette on localhost:57021
+1479916008101	Marionette	INFO	Listening on port 57021
+1479916010394	Marionette	INFO	startBrowser 8217229e-3631-464d-96b5-65a7903a6004
+JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js, line 7: Error: Bootstrap tooltips require Tether (http://tether.io/)
+[Child 4119] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+[Child 4119] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
+JavaScript error: resource://app/components/nsBrowserContentHandler.js, line 188: : Component returned failure code: 0x8046001e [nsIWindowWatcher.openWindow]
