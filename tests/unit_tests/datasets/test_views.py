@@ -65,8 +65,8 @@ class NewDatasetViewTests(TestCase):
 class DatasetRemoveViewTests(TestCase):
 
     def setUp(self):
-        self.a1 = Account.objects.create(user='test_user',
-            affiliation='Zentrum für Marine Tropenökologie')
+        self.a1 = Account.objects.create(user="test_user",
+            affiliation="Zentrum für Marine Tropenökologie")
 
         self.ds1 = Dataset.objects.create(account=self.a1,
                                     author="Google",
@@ -117,8 +117,8 @@ class DatasetRemoveViewTests(TestCase):
         response = self.client.get(reverse("datasets:dataset_remove",
             kwargs={"account_slug": self.a1.account_slug,
             "dataset_slug": self.ds1.dataset_slug, "pk": self.ds1.pk}))
-        self.assertEqual(self.ds1, response.context['dataset'])
-        self.assertEqual(self.a1, response.context['account'])
+        self.assertEqual(self.ds1, response.context["dataset"])
+        self.assertEqual(self.a1, response.context["account"])
 
     def test_that_dataset_remove_view_removes_datasets(self):
         response = self.client.post(reverse("datasets:dataset_remove",
@@ -131,15 +131,22 @@ class DatasetRemoveViewTests(TestCase):
 class DatasetDetailViewTests(TestCase):
 
     def setUp(self):
-        self.a1 = Account.objects.create(user='test_user',
-            affiliation='Zentrum für Marine Tropenökologie')
+        self.a1 = Account.objects.create(user="test_user",
+            affiliation="Zentrum für Marine Tropenökologie")
 
         self.ds1 = Dataset.objects.create(account=self.a1,
-                                    author="Google",
-                                    title="Google GeoJSON Example",
-                                    description="Polygons spelling 'GOOGLE' over Australia",
-                                    url="https://storage.googleapis.com/maps-devrel/google.json",
-                                    public_access=True)
+            author="Google",
+            title="Google GeoJSON Example",
+            description="Polygons spelling 'GOOGLE' over Australia",
+            url="https://storage.googleapis.com/maps-devrel/google.json",
+            public_access=True)
+
+        self.ds2 = Dataset.objects.create(account=self.a1,
+            author="zmtdummy",
+            title="Password Protected Dataset",
+            description="Just a page that requires login and password info",
+            url="https://bitbucket.org/zmtdummy/geojsondata",
+            public_access=False)
 
     def test_dataset_detail_view_url_resolves(self):
         response = self.client.get(
@@ -172,6 +179,22 @@ class DatasetDetailViewTests(TestCase):
         response = self.client.get(reverse("datasets:dataset_detail",
             kwargs={"account_slug": self.a1.account_slug,
             "dataset_slug": self.ds1.dataset_slug, "pk": self.ds1.pk}))
-        self.assertEqual(self.ds1, response.context['dataset'])
-        self.assertEqual(self.a1, response.context['account'])
+        self.assertEqual(self.ds1, response.context["dataset"])
+        self.assertEqual(self.a1, response.context["account"])
+
+    # I do not particularly like these two tests, but i want to make sure that the
+    # authentication details do not show up in the detail view
+    def test_dataset_detail_view_does_not_show_the_dataset_password(self):
+        response = self.client.get(reverse("datasets:dataset_detail",
+            kwargs={"account_slug": self.a1.account_slug,
+            "dataset_slug": self.ds2.dataset_slug, "pk": self.ds2.pk}))
+        self.assertNotIn(self.ds2.dataset_password, response.context)
+        self.assertNotIn("dataset_password", response.content.decode("utf-8"))
+
+    def test_dataset_detail_view_does_not_show_the_dataset_username(self):
+        response = self.client.get(reverse("datasets:dataset_detail",
+            kwargs={"account_slug": self.a1.account_slug,
+            "dataset_slug": self.ds2.dataset_slug, "pk": self.ds2.pk}))
+        self.assertNotIn(self.ds2.dataset_user, response.context)
+        self.assertNotIn("dataset_user", response.content.decode("utf-8"))
 

@@ -52,31 +52,14 @@ def load_dataset(request, pk):
 
 
 
-
-#class PortalView(ListView):
-#    """
-#    This is the main view on the site. It should be a simple list view without
-#    any special methods. Only the model, context object name and template
-#    should be defined. I will remove the get_queryset method and replace it
-#    with an ajax call function.
-#    """
-#
-#    model = Dataset
-#    context_object_name = "dataset_list"
-#    template_name = "portal.html"
-
-#    def get_queryset(self):
-#        queryset = super(PortalView, self).get_queryset()
-#        if "q" in self.request.GET:
-#            q = self.request.GET["q"]
-#            queryset = Dataset.objects.filter(title__icontains=q).order_by("title")
-#        return queryset
-
 def portal(request, account_slug=None):
     account_list = Account.objects.all()
     dataset_list = Dataset.objects.all()
-    context = {"account_list": account_list, "dataset_list": dataset_list}
     template_name = "portal.html"
-    return render(request, template_name, context)
 
+    if "q" in request.GET:
+        q = request.GET["q"]
+        dataset_list = Dataset.objects.filter(title__icontains=q).order_by("title")
 
+    return render(request, template_name,
+        {"account_list": account_list, "dataset_list": dataset_list})
