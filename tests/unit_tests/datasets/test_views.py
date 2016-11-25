@@ -52,6 +52,15 @@ class NewDatasetViewTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"], "/test_user/")
 
+    def test_new_dataset_view_saves_new_dataset(self):
+        response = self.client.post(reverse("datasets:new_dataset",
+            kwargs={"account_slug": self.a1.account_slug}),
+            data={"author": "pat", "title": "test dataset",
+                "description": "This is a test dataset",
+                "url": "https://duckduckgo.com/"}, follow=True)
+        test_dataset = Dataset.objects.all()[0]
+        self.assertEqual(test_dataset.title, "test dataset")
+
 
 class DatasetRemoveViewTests(TestCase):
 
@@ -67,7 +76,9 @@ class DatasetRemoveViewTests(TestCase):
                                     public_access=True)
 
     def test_dataset_remove_view_url_resolves(self):
-        response = self.client.get("/test_user/google-geojson-example/1/remove/")
+        response = self.client.get(
+            "/test_user/google-geojson-example/{pk}/remove/".format(
+                pk=self.ds1.pk))
         self.assertEqual(response.status_code, 200)
 
     def test_dataset_remove_view_uses_correct_templates(self):
@@ -79,19 +90,37 @@ class DatasetRemoveViewTests(TestCase):
         self.assertTemplateUsed(response,
             template_name="base.html")
 
-#    def test_dataset_remove_view_title_is_correct(self):
-#        response = self.client.get(reverse("datasets:dataset_remove",
-#            kwargs={"account_slug": self.a1.account_slug,
-#            "dataset_slug": self.ds1.dataset_slug, "pk": self.ds1.pk}))
-#        self.assertIn("<title>ZMT | Remove Dataset</title>",
-#            response.content.decode("utf-8"))
+    def test_dataset_remove_view_title_is_correct(self):
+        response = self.client.get(reverse("datasets:dataset_remove",
+            kwargs={"account_slug": self.a1.account_slug,
+            "dataset_slug": self.ds1.dataset_slug, "pk": self.ds1.pk}))
+        self.assertIn("<title>ZMT | Remove Dataset</title>",
+            response.content.decode("utf-8"))
 
-#    def test_dataset_remove_view_redirects_to_account_detail_view_on_save(self):
-#        response = self.client.post(reverse("datasets:dataset_remove",
-#            kwargs={"account_slug": self.a1.account_slug}),
-#            data={"author": "pat", "title": "test dataset",
-#                "description": "This is a test dataset",
-#                "url": "https://duckduckgo.com/"})
-#        self.assertEqual(response.status_code, 302)
-#        self.assertEqual(response["location"], "/test_user/")
+    def test_dataset_remove_view_redirects_to_account_detail_view_on_save(self):
+        response = self.client.post(reverse("datasets:dataset_remove",
+            kwargs={"account_slug": self.a1.account_slug,
+            "dataset_slug": self.ds1.dataset_slug, "pk": self.ds1.pk}),
+            data={"author": "pat", "title": "test dataset",
+                "description": "This is a test dataset",
+                "url": "https://duckduckgo.com/"})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["location"], "/test_user/")
+
+    def test_that_dataset_remove_view_brings_in_correct_dataset_object(self):
+        response = self.client.get(reverse("datasets:dataset_remove",
+            kwargs={"account_slug": self.a1.account_slug,
+            "dataset_slug": self.ds1.dataset_slug, "pk": self.ds1.pk}))
+        self.assertEqual(self.ds1, response.context['dataset'])
+        self.assertEqual(self.a1, response.context['account'])
+
+    def test_that_dataset_remove_view_removes_datasets(self):
+        response = self.client.post(reverse("datasets:dataset_remove",
+            kwargs={"account_slug": self.a1.account_slug,
+            "dataset_slug": self.ds1.dataset_slug, "pk": self.ds1.pk}),
+            follow=True)
+        self.assertFalse(Dataset.objects.all())
+
+
+
 

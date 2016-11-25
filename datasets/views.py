@@ -141,5 +141,6 @@ def dataset_remove(request, account_slug=None, dataset_slug=None, pk=None):
     template_name = "datasets/dataset_remove.html"
     if request.method =="POST":
         dataset.delete()
-        return redirect("portal")
+        return redirect("accounts:account_detail",
+                account_slug=account.account_slug)
     return render(request, template_name, context)

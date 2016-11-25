@@ -15,9 +15,6 @@ from datasets.models import Dataset
 
 from datasets.forms import DatasetForm
 
-from datasets.views import AboutView
-from datasets.views import ContactView
-from datasets.views import DatasetCreateView
 from datasets.views import DatasetDetailView
 from datasets.views import DatasetRemoveView
 from datasets.views import DatasetUpdateView
