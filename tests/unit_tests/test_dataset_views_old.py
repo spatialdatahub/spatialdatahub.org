@@ -78,22 +78,6 @@ class DatasetDetailViewTests(BaseDatasetTest):
 
 
 
-class DatasetRemoveViewTests(BaseDatasetTest):
-
-
-    def test_DatasetRemoveView_url_title_is_correct(self):
-        self.client.login(username='test_user', password='testuserpassword')
-        response = self.client.get(reverse('datasets:dataset_remove',
-            kwargs={'slug': self.ds1.slug, 'pk': self.ds1.pk}))
-        self.assertIn('<title>ZMT | Remove Dataset</title>', response.content.decode('utf-8'))
-
-    def test_that_DatasetRemoveView_brings_in_correct_dataset_object(self):
-        self.client.login(username='test_user', password='testuserpassword')
-        response = self.client.get(reverse('datasets:dataset_remove',
-            kwargs={'slug': self.ds1.slug, 'pk': self.ds1.pk}))
-        self.assertEqual(self.ds1, response.context['dataset'])
-        self.assertNotEqual(self.ds2, response.context['dataset'])
-
 
 
 class DatasetUpdateViewTests(BaseDatasetTest):

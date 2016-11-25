@@ -6,7 +6,7 @@ from accounts.models import Account
 
 from datasets.forms import DatasetForm
 from datasets.models import Dataset
-from datasets.views import new_dataset
+from datasets.views import new_dataset, dataset_remove, dataset_detail
 
 
 class NewDatasetViewTests(TestCase):
@@ -81,6 +81,12 @@ class DatasetRemoveViewTests(TestCase):
                 pk=self.ds1.pk))
         self.assertEqual(response.status_code, 200)
 
+    def test_dataset_remove_function_resolves(self):
+        request = HttpRequest()
+        response = dataset_remove(request, account_slug=self.a1.account_slug,
+            dataset_slug=self.ds1.dataset_slug, pk=self.ds1.pk)
+        self.assertEqual(response.status_code, 200)
+
     def test_dataset_remove_view_uses_correct_templates(self):
         response = self.client.get(reverse("datasets:dataset_remove",
             kwargs={"account_slug": self.a1.account_slug,
@@ -122,5 +128,50 @@ class DatasetRemoveViewTests(TestCase):
         self.assertFalse(Dataset.objects.all())
 
 
+class DatasetDetailViewTests(TestCase):
 
+    def setUp(self):
+        self.a1 = Account.objects.create(user='test_user',
+            affiliation='Zentrum für Marine Tropenökologie')
+
+        self.ds1 = Dataset.objects.create(account=self.a1,
+                                    author="Google",
+                                    title="Google GeoJSON Example",
+                                    description="Polygons spelling 'GOOGLE' over Australia",
+                                    url="https://storage.googleapis.com/maps-devrel/google.json",
+                                    public_access=True)
+
+    def test_dataset_detail_view_url_resolves(self):
+        response = self.client.get(
+            "/test_user/google-geojson-example/{pk}/".format(
+                pk=self.ds1.pk))
+        self.assertEqual(response.status_code, 200)
+
+    def test_dataset_detail_function_resolves(self):
+        request = HttpRequest()
+        response = dataset_detail(request, account_slug=self.a1.account_slug,
+            dataset_slug=self.ds1.dataset_slug, pk=self.ds1.pk)
+        self.assertEqual(response.status_code, 200)
+
+    def test_dataset_detail_view_uses_correct_templates(self):
+        response = self.client.get(reverse("datasets:dataset_detail",
+            kwargs={"account_slug": self.a1.account_slug,
+            "dataset_slug": self.ds1.dataset_slug, "pk": self.ds1.pk}))
+        self.assertTemplateUsed(response,
+            template_name="datasets/dataset_detail.html")
+        self.assertTemplateUsed(response,
+            template_name="base.html")
+
+    def test_dataset_detail_view_title_is_correct(self):
+        response = self.client.get(reverse("datasets:dataset_detail",
+            kwargs={"account_slug": self.a1.account_slug,
+            "dataset_slug": self.ds1.dataset_slug, "pk": self.ds1.pk}))
+        self.assertIn("<title>ZMT | Google GeoJSON Example</title>" , response.content.decode("utf-8"))
+
+    def test_that_dataset_detail_view_brings_in_correct_dataset_object(self):
+        response = self.client.get(reverse("datasets:dataset_detail",
+            kwargs={"account_slug": self.a1.account_slug,
+            "dataset_slug": self.ds1.dataset_slug, "pk": self.ds1.pk}))
+        self.assertEqual(self.ds1, response.context['dataset'])
+        self.assertEqual(self.a1, response.context['account'])
 
