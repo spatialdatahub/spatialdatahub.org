@@ -6,7 +6,7 @@ from accounts.models import Account
 
 from datasets.models import Dataset
 
-from main.views import portal
+from main.views import portal, load_dataset
 
 class AboutViewTests(TestCase):
     """
@@ -54,6 +54,18 @@ class ContactViewTests(TestCase):
         self.assertIn("<title>ZMT | Contact</title>", response.content.decode("utf-8"))
 
 
+class PortalViewTests_EMPTY_DATABASE(TestCase):
+
+    def test_that_PortalView_without_datasets_says_none_available(self):
+        response = self.client.get(reverse('portal'))
+        self.assertIn('There are no datasets available',
+            response.content.decode('utf-8'))
+
+    def test_that_PortalView_brings_in_correct_number_of_dataset_objects(self):
+        response = self.client.get(reverse('portal'))
+        self.assertEqual(0, len(response.context['dataset_list']))
+
+
 class PortalViewTests(TestCase):
 
     def setUp(self):
@@ -71,7 +83,9 @@ class PortalViewTests(TestCase):
             author="zmtdummy",
             title="Password Protected Dataset",
             description="Just a page that requires login and password info",
-            url="https://bitbucket.org/zmtdummy/geojsondata",
+            url="https://bitbucket.org/zmtdummy/geojsondata/raw/ad675d6fd6e2256b365e79e785603c2ab454006b/password_protected_dataset.json",
+            dataset_user="zmtdummy",
+            dataset_password="zmtBremen1991",
             public_access=False)
 
     def test_portal_url_resolves(self):
@@ -111,3 +125,42 @@ class PortalViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertNotIn('Password Protected Dataset', response.content.decode('utf-8'))
         self.assertIn('Google GeoJSON Example', response.content.decode('utf-8'))
+
+
+class LoadDatasetTests(TestCase):
+
+    def setUp(self):
+        self.a1 = Account.objects.create(user="test_user",
+            affiliation="Zentrum für Marine Tropenökologie")
+
+        self.ds1 = Dataset.objects.create(account=self.a1,
+            author="Google",
+            title="Google GeoJSON Example",
+            description="Polygons spelling 'GOOGLE' over Australia",
+            url="https://storage.googleapis.com/maps-devrel/google.json",
+            public_access=True)
+
+        self.ds2 = Dataset.objects.create(account=self.a1,
+            author="zmtdummy",
+            title="Password Protected Dataset",
+            description="Just a page that requires login and password info",
+            url="https://bitbucket.org/zmtdummy/geojsondata/raw/ad675d6fd6e2256b365e79e785603c2ab454006b/password_protected_dataset.json",
+            dataset_user="zmtdummy",
+            dataset_password="zmtBremen1991",
+            public_access=False)
+
+    def test_load_dataset_returns_status_code_200(self):
+        response = self.client.get(reverse("load_dataset",
+            kwargs={"pk": self.ds1.pk}))
+        self.assertEqual(200, response.status_code)
+
+#    def test_load_dataset_returns_status_code_200_PASSWORD_PROTECTED(self):
+#        response = self.client.get(reverse("load_dataset",
+#            kwargs={"pk": self.ds2.pk}))
+#        self.assertEqual(200, response.status_code)
+
+    def test_load_dataset_returns_content(self):
+        response = self.client.get(reverse('load_dataset',
+            kwargs={'pk': self.ds1.pk}))
+        self.assertIn(b'properties', response.content)
+
