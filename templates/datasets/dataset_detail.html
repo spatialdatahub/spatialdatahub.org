@@ -46,7 +46,6 @@
   <div class="row">
     <div class="col-12 col-xs-12" id="modifier_links">
     <b>
-    {% if user.is_authenticated %}
       <a
         href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}"
         class="btn btn-success">Update this dataset</a>
@@ -54,9 +53,6 @@
         href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}"
         class="btn btn-danger">Remove this dataset</a>
       <a href="{{ account.get_absolute_url }}" class="btn btn-primary">Back to {{ account.user }} map list</a>
-    {% else %}
-      <a href="{{ account.get_absolute_url }}" class="btn btn-primary">Back to {{ account.user }} map list</a>
-    {% endif %}
     </div>
   </div>
   <hr class="divider">
