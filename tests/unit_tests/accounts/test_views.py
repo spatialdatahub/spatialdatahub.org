@@ -4,7 +4,10 @@ from django.core.urlresolvers import reverse
 
 from accounts.forms import AccountForm
 from accounts.models import Account
-from accounts.views import new_account, account_update, account_remove
+from accounts.views import new_account
+from accounts.views import account_list
+from accounts.views import account_update
+from accounts.views import account_remove
 
 
 class NewAccountViewTests(TestCase):
@@ -38,6 +41,37 @@ class NewAccountViewTests(TestCase):
             data={"user":"test_user", "affiliation": "zmt"})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"], "/test_user/")
+
+
+class AccountListViewTests(TestCase):
+
+    def setUp(self):
+        self.a1 = Account.objects.create(user="test_user",
+            affiliation="Zentrum für Marine Tropenökologie")
+
+    def test_account_list_url_resolves_to_account_list_view(self):
+        response = self.client.get("/accounts/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_account_list_function_resolves(self):
+        request = HttpRequest()
+        response = account_list(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_account_list_view_uses_correct_templates(self):
+        response = self.client.get(reverse("accounts:account_list"))
+        self.assertTemplateUsed(response,
+            template_name="accounts/account_list.html")
+        self.assertTemplateUsed(response,
+            template_name="base.html")
+
+    def test_account_list_view_title_is_correct(self):
+        response = self.client.get(reverse("accounts:account_list"))
+        self.assertIn("<title>ZMT | Accounts</title>", response.content.decode("utf-8"))
+
+    def test_account_list_shows_accounts_on_page(self):
+        response = self.client.get(reverse("accounts:account_list"))
+        self.assertIn("test_user", response.content.decode("utf-8"))
 
 
 class AccountUpdateViewTests(TestCase):

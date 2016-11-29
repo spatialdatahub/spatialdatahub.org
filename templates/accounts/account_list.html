@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+
+{% block head_title %}Accounts{% endblock head_title %}
+
 {% block content %}
 
 <div class="container-fluid">
@@ -15,6 +18,13 @@
 
 <!-- account list -->
   <div class="row">
+    <div class="col-xs-12">
+    <a href="{% url 'accounts:new_account' %}" class="btn btn-success">
+      Add New Account
+    </a>
+  <hr class="divider">
+  </div>
+
     <h5 class="col-xs-12">
     {% if account_list %}
       {% for account in account_list %}
