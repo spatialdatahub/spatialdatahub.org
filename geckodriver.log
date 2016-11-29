@@ -1482,3 +1482,45 @@ JavaScript error: https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/boo
 [Child 4119] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
 [Child 4119] ###!!! ABORT: Aborting on channel error.: file /builds/slave/m-rel-m64-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2052
 JavaScript error: resource://app/components/nsBrowserContentHandler.js, line 188: : Component returned failure code: 0x8046001e [nsIWindowWatcher.openWindow]
+1480419940458	geckodriver	INFO	Listening on 127.0.0.1:51300
+1480419941168	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.Eveg22jKX6Iv
+1480419941170	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1480419941286	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51309
+1480419945049	Marionette	INFO	Listening on port 51309
+1480419950251	Marionette	INFO	startBrowser 26cccf09-0cf7-004d-a50a-4af0da3913be
+1480419964479	geckodriver	INFO	Listening on 127.0.0.1:51455
+1480419965362	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.YvFy5RMXpYop
+1480419965364	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1480419965366	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51464
+1480419967746	Marionette	INFO	Listening on port 51464
+1480419969628	Marionette	INFO	startBrowser f9a7dd99-bbeb-7a43-9c2b-7bc08bce92c8
+1480419972566	geckodriver	INFO	Listening on 127.0.0.1:51554
+1480419973479	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.BiYB4to1OfqQ
+1480419973480	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1480419973483	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51563
+1480419975538	Marionette	INFO	Listening on port 51563
+1480419977863	Marionette	INFO	startBrowser ae4123c7-59d9-024c-bf28-acb63fdd8133
+1480419982099	geckodriver	INFO	Listening on 127.0.0.1:51673
+1480419982970	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.XSaPajhSWs5n
+1480419982972	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1480419982976	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51682
+1480419984818	Marionette	INFO	Listening on port 51682
+1480419987286	Marionette	INFO	startBrowser b8ae847f-8843-7c44-aae6-8db139ac6317
+1480419991436	geckodriver	INFO	Listening on 127.0.0.1:51794
+1480419992379	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.PJogiuUJWWvq
+1480419992381	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1480419992385	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51803
+1480419994409	Marionette	INFO	Listening on port 51803
+1480419996872	Marionette	INFO	startBrowser 9ca00d9d-85b9-6342-a10e-0eaa764154a2
+1480420001731	geckodriver	INFO	Listening on 127.0.0.1:51943
+1480420002668	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.lNHkRUDVteun
+1480420002669	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1480420002672	geckodriver::marionette	INFO	Connecting to Marionette on localhost:51953
+1480420004637	Marionette	INFO	Listening on port 51953
+1480420007393	Marionette	INFO	startBrowser ae5eb083-2fc1-1249-89c4-9fe7e2794fb9
+1480420011790	geckodriver	INFO	Listening on 127.0.0.1:52070
+1480420012707	mozprofile::profile	INFO	Using profile path /var/folders/dq/9gsbhxdn0jb5f8_h2sq1p1480000gq/T/rust_mozprofile.fD7MKLtAqZkS
+1480420012708	geckodriver::marionette	INFO	Starting browser /Applications/Firefox.app/Contents/MacOS/firefox-bin
+1480420012751	geckodriver::marionette	INFO	Connecting to Marionette on localhost:52081
+1480420019115	Marionette	INFO	Listening on port 52081
+1480420025102	Marionette	INFO	startBrowser d43d4fc3-b238-c749-b4ec-6a78c5555003

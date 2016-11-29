@@ -10,7 +10,8 @@
 <!-- account / dataset links -->
   <div class="row">
     <h5 class="col-xs-12">
-      <a href="{{ account.get_absolute_url }}" >new account</a> /
+      <a href="{% url 'portal' %}" >*</a> /
+      <a href="{{ account.get_absolute_url }}" >{{ account.user }}</a> /
       <a href="{% url 'datasets:new_dataset' account.account_slug %}" >new dataset</a>
     </h5>
   </div>

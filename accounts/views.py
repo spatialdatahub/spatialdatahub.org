@@ -62,15 +62,26 @@ def account_remove(request, account_slug=None):
 def account_detail(request, account_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset_list = Dataset.objects.filter(account=account)
-    context = {"account": account, "dataset_list": dataset_list}
     template_name = "accounts/account_detail.html"
-    return render(request, template_name, context)
+
+    if "q" in request.GET:
+        q = request.GET["q"]
+        dataset_list = dataset_list.filter(title__icontains=q).order_by("title")
+
+    return render(request, template_name,
+        context={"account": account, "dataset_list": dataset_list})
 
 
 def account_portal(request, account_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset_list = Dataset.objects.filter(account=account)
-    context = {"account": account, "dataset_list": dataset_list}
     template_name = "accounts/account_portal.html"
-    return render(request, template_name, context)
+
+    if "q" in request.GET:
+        q = request.GET["q"]
+        dataset_list = dataset_list.filter(title__icontains=q).order_by("title")
+
+    return render(request, template_name,
+        context={"account": account, "dataset_list": dataset_list})
+
 
