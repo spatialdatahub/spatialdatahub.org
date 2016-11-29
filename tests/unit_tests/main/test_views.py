@@ -96,7 +96,6 @@ class PortalViewTests(TestCase):
             public_access=True)
 
 
-
     def test_portal_url_resolves(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
@@ -128,12 +127,6 @@ class PortalViewTests(TestCase):
        self.assertEqual(response.status_code, 200)
        self.assertIn('Bienvenidos', response.content.decode('utf-8'))
        self.assertNotIn('Google GeoJSON Example', response.content.decode('utf-8'))
-
-    def test_portal_search_function_2(self):
-        response = self.client.get('/?q=Google')
-        self.assertEqual(response.status_code, 200)
-        self.assertNotIn('Bienvenidos', response.content.decode('utf-8'))
-        self.assertIn('Google GeoJSON Example', response.content.decode('utf-8'))
 
 
 class LoadDatasetTests(TestCase):

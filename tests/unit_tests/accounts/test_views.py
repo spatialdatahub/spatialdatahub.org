@@ -6,8 +6,12 @@ from accounts.forms import AccountForm
 from accounts.models import Account
 from accounts.views import new_account
 from accounts.views import account_list
+from accounts.views import account_detail
+from accounts.views import account_portal
 from accounts.views import account_update
 from accounts.views import account_remove
+
+from datasets.models import Dataset
 
 
 class NewAccountViewTests(TestCase):
@@ -74,6 +78,144 @@ class AccountListViewTests(TestCase):
         self.assertIn("test_user", response.content.decode("utf-8"))
 
 
+class AccountDetailViewTests_NO_DATASETS(TestCase):
+
+    def setUp(self):
+        self.a1 = Account.objects.create(user="test_user",
+            affiliation="Zentrum für Marine Tropenökologie")
+
+    def test_that_account_detail_view_without_datasets_says_none_available(self):
+        response = self.client.get(reverse("accounts:account_detail",
+            kwargs={"account_slug": self.a1.account_slug}))
+        self.assertIn('There are no datasets available',
+            response.content.decode('utf-8'))
+
+    def test_that_account_detail_view_brings_in_correct_number_of_dataset_objects(self):
+        response = self.client.get(reverse("accounts:account_detail",
+            kwargs={"account_slug": self.a1.account_slug}))
+        self.assertEqual(0, len(response.context['dataset_list']))
+
+
+class AccountDetailViewTests(TestCase):
+
+    def setUp(self):
+        self.a1 = Account.objects.create(user="test_user",
+            affiliation="Zentrum für Marine Tropenökologie")
+
+        self.ds1 = Dataset.objects.create(account=self.a1,
+            author="Google",
+            title="Google GeoJSON Example",
+            description="Polygons spelling 'GOOGLE' over Australia",
+            url="https://storage.googleapis.com/maps-devrel/google.json",
+            public_access=True)
+
+        self.ds3 = Dataset.objects.create(account=self.a1,
+            author="Pat",
+            title="Bienvenidos",
+            description="Polygons spelling 'Bienvenidos' over the United States",
+            url="https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/bienvenidos.json",
+            public_access=True)
+
+
+    def test_account_detail_url_resolves_to_account_detail_view(self):
+        response = self.client.get("/test_user/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_account_detail_view_function_resolves(self):
+        request = HttpRequest()
+        response = account_detail(request, account_slug=self.a1.account_slug)
+        self.assertEqual(response.status_code, 200)
+
+    def test_account_detail_view_uses_correct_templates(self):
+        response = self.client.get(reverse("accounts:account_detail",
+            kwargs={"account_slug": self.a1.account_slug}))
+        self.assertTemplateUsed(response,
+            template_name="accounts/account_detail.html")
+        self.assertTemplateUsed(response,
+            template_name="base.html")
+
+    def test_account_detail_view_title_is_correct(self):
+        response = self.client.get(reverse("accounts:account_detail",
+            kwargs={"account_slug": self.a1.account_slug}))
+        self.assertIn("<title>ZMT | {0}</title>".format(self.a1.user),
+            response.content.decode("utf-8"))
+
+    def test_account_detail_search_function_1(self):
+        response = self.client.get("/test_user/?q=Bien")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Bienvenidos', response.content.decode('utf-8'))
+        self.assertNotIn('Google GeoJSON Example', response.content.decode('utf-8'))
+
+
+class AccountPortalViewTests_NO_DATASETS(TestCase):
+
+    def setUp(self):
+        self.a1 = Account.objects.create(user="test_user",
+            affiliation="Zentrum für Marine Tropenökologie")
+
+    def test_that_account_portal_view_without_datasets_says_none_available(self):
+        response = self.client.get(reverse("accounts:account_portal",
+            kwargs={"account_slug": self.a1.account_slug}))
+        self.assertIn('There are no datasets available',
+            response.content.decode('utf-8'))
+
+    def test_that_account_portal_view_brings_in_correct_number_of_dataset_objects(self):
+        response = self.client.get(reverse("accounts:account_portal",
+            kwargs={"account_slug": self.a1.account_slug}))
+        self.assertEqual(0, len(response.context['dataset_list']))
+
+
+class AccountPortalViewTests(TestCase):
+
+    def setUp(self):
+        self.a1 = Account.objects.create(user="test_user",
+            affiliation="Zentrum für Marine Tropenökologie")
+
+        self.ds1 = Dataset.objects.create(account=self.a1,
+            author="Google",
+            title="Google GeoJSON Example",
+            description="Polygons spelling 'GOOGLE' over Australia",
+            url="https://storage.googleapis.com/maps-devrel/google.json",
+            public_access=True)
+
+        self.ds3 = Dataset.objects.create(account=self.a1,
+            author="Pat",
+            title="Bienvenidos",
+            description="Polygons spelling 'Bienvenidos' over the United States",
+            url="https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/bienvenidos.json",
+            public_access=True)
+
+
+    def test_account_portal_url_resolves_to_account_portal_view(self):
+        response = self.client.get("/test_user/portal/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_account_portal_view_function_resolves(self):
+        request = HttpRequest()
+        response = account_portal(request, account_slug=self.a1.account_slug)
+        self.assertEqual(response.status_code, 200)
+
+    def test_account_portal_view_uses_correct_templates(self):
+        response = self.client.get(reverse("accounts:account_portal",
+            kwargs={"account_slug": self.a1.account_slug}))
+        self.assertTemplateUsed(response,
+            template_name="accounts/account_portal.html")
+        self.assertTemplateUsed(response,
+            template_name="base.html")
+
+    def test_account_portal_view_title_is_correct(self):
+        response = self.client.get(reverse("accounts:account_portal",
+            kwargs={"account_slug": self.a1.account_slug}))
+        self.assertIn("<title>ZMT | {0} Portal</title>".format(self.a1.user),
+            response.content.decode("utf-8"))
+
+    def test_account_portal_search_function_1(self):
+        response = self.client.get("/test_user/?q=Bien")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Bienvenidos', response.content.decode('utf-8'))
+        self.assertNotIn('Google GeoJSON Example', response.content.decode('utf-8'))
+
+
 class AccountUpdateViewTests(TestCase):
 
     def setUp(self):
@@ -84,7 +226,7 @@ class AccountUpdateViewTests(TestCase):
         response = self.client.get("/test_user/update/")
         self.assertEqual(response.status_code, 200)
 
-    def test_account_update_function_resolves(self):
+    def test_account_update_view_function_resolves(self):
         request = HttpRequest()
         response = account_update(request, account_slug=self.a1.account_slug)
         self.assertEqual(response.status_code, 200)
@@ -115,15 +257,13 @@ class AccountUpdateViewTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"], "/changed_test_user/")
 
-# should this be tested here?
-#    def test_account_update_view_updates_account_data(self):
-#        request = HttpRequest()
-#        request.method = "POST"
-#        request.POST["user"] = "changed_test_user"
-#        request.POST["affiliation"] = "some unique words"
-#        response = account_update(request, account_slug=self.a1.account_slug)
-#        self.assertEqual(response.url, "/changed_test_user/")
-#        self.fail("can't seem to get posted data from account object")
+    def test_account_update_view_updates_account_data(self):
+        response = self.client.post(reverse("accounts:account_update",
+            kwargs={"account_slug": self.a1.account_slug}),
+            data={"user":"changed test user", "affiliation": "ZMT"},
+            follow=True)
+        test_account = Account.objects.all()[0]
+        self.assertEqual(test_account.user, "changed test user")
 
 
 class AccountRemoveViewTests(TestCase):
@@ -160,13 +300,7 @@ class AccountRemoveViewTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"], "/")
 
-# should this be tested here?
-#    def test_account_remove_view_removes_account_data(self):
-#        request = HttpRequest()
-#        request.method = "POST"
-#        response = account_remove(request, account_slug=self.a1.account_slug)
-#        self.assertEqual(response.url, "/")
-#        print(self.a1)
-#        self.fail("can't seem to get posted data from account object")
-
-
+    def test_account_remove_view_removes_account_data(self):
+        response = self.client.post(reverse("accounts:account_remove",
+            kwargs={"account_slug": self.a1.account_slug}))
+        self.assertFalse(Account.objects.all())
