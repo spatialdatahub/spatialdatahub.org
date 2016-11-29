@@ -27,7 +27,9 @@ def new_dataset(request, account_slug=None):
     if request.method == "POST":
         form = DatasetForm(request.POST)
         if form.is_valid():
-            form.save()
+            dataset = form.save(commit=False)
+            dataset.account = account
+            dataset.save()
             return redirect("accounts:account_detail",
                 account_slug=account.account_slug)
     else:
@@ -37,7 +39,6 @@ def new_dataset(request, account_slug=None):
                   template_name,
                   {"form": form,
                   "account": account})
-
 
 
 def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
