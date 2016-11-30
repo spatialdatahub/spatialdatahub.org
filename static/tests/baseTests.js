@@ -186,23 +186,4 @@ the longitude is the longitude of the ZMT (8.846)`
   );
 });
 
-QUnit.test("Learning how to test", function ( assert ) {
-  a = 25;
-  function adder(b, c) {
-    assert.equal(a + b, c, `${a} + ${b} = ${c}`); 
-  }
-  adder(25, 50);
-  adder(75, 100);
-});
 
-  function changeLng() {
-    myMap.setView({lat: 6, lng: 6}, 6); 
-  }
-
-
-    myMap.setView({lat: 6, lng: 6}, 6).on('ready', console.log(myMap.getCenter())); 
-
-QUnit.test("Change view test", function ( assert ) {
-  changeLng();
-  assert.equal(myMap.getCenter().lng, 6, 'with change');
-});
