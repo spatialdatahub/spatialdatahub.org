@@ -17,6 +17,10 @@ urlpatterns = [
         TemplateView.as_view(template_name="contact.html"),
         name="contact"),
 
+    url(r'^jstests/$',
+        TemplateView.as_view(template_name="jstests.html"),
+        name="jstests"),
+
     url(r'^$',
         portal,
         name="portal"),
