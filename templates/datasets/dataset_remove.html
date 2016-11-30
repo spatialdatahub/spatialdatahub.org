@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head_title %}Remove Dataset{% endblock head_title %}
+
+{% block additional_css %}
+<link rel="stylesheet" type="text/css" href="/static/css/datasets/style.css" />
+{% endblock additional_css %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+<!-- account / dataset links -->
+  <div class="row">
+    <h5 class="col-xs-12">
+      <a href="{% url 'portal' %}" >*</a> /
+      <a href="{{ account.get_absolute_url }}" >{{ account.user }}</a> /
+      <a href="{{ dataset.get_absolute_url }}" >{{ dataset.title }}</a> /
+      <a href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}" >
+        remove
+      </a>
+    </h5>
+  </div>
+  <hr class="divider">
+<!-- end account / dataset links -->
+
+
+  <div class="col-12 col-xs-12 text-xs-center" id="confirm_remove_form">
+    <form action="" method="post">{% csrf_token %}
+      <input id="confirm_remove_button" class="btn btn-danger btn-lg" type="submit"
+             value="Yes, please remove {{ dataset.title }}"/>
+    </form>
+    <a href="{{ dataset.get_absolute_url }}" class="btn btn-success btn-lg" >     
+      No, take me back to the {{ dataset.title }} page
+    </a>
+  </div>
+</div>
+{% endblock content %}

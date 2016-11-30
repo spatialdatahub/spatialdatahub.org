@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block head_title %}{{ account.user }}{% endblock head_title %}
+
+{% block additional_css %}
+
+{% endblock additional_css %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+
+<!-- account / dataset links -->
+  <div class="row">
+    <h5 class="col-xs-12">
+      <a href="{% url 'portal' %}" >*</a> /
+      <a href="{{ account.get_absolute_url }}" >{{ account.user }}</a>
+    </h5>
+  </div>
+  <hr class="divider">
+<!-- end account / dataset links -->
+
+  <!-- Account Info -->
+  <div class="row">
+    <div class="col-12 col-xs-12" id="meta_data">
+      <p><b>Account:</b> <a href="{{ account.get_absolute_url }}">{{ account }}</a></p>
+      <p><b>Affiliation:</b> {{ account.affiliation }}</p>
+      <p><b>Date Created:</b> {{ account.date_added }}</p>
+    </div>
+  </div>
+  <hr class="divider">
+  <!-- End Account Info -->
+
+<!-- Links to modify the database or get back to the map list -->
+<div class="row">
+  <div class="col-12 col-xs-12" id="modifier_links">
+    <a href="{% url 'datasets:new_dataset' account.account_slug %}" class="btn btn-success">
+      Add new dataset 
+    </a>
+    <a href="{% url 'accounts:account_update' account.account_slug %}" class="btn btn-warning">
+      Update this account
+    </a>
+    <a href="{% url 'accounts:account_remove' account.account_slug %}" class="btn btn-danger">
+      Remove this account
+    </a>
+    <a href="{% url 'accounts:account_list' %}" class="btn btn-info">
+      Accounts
+    </a>
+    <a href="{% url 'accounts:account_portal' account.account_slug %}" class="btn btn-primary">
+      To account portal
+    </a>
+  </div>
+</div>
+<hr class="divider">
+<!-- End Links to modify the database or get back to the map list -->
+
+  <div class="row">
+<!-- Accounts Choices -->
+    <div class="col-12 col-xs-12" >
+
+        {% if dataset_list %}
+
+      <form action="" method="get">
+        <input type="text" class="form-control text-center" name="q" placeholder="Search Datasets by Title">
+        <a role="button" class="btn btn-secondary btn-block" href="{% url 'accounts:account_detail' account_slug=account.account_slug %}" >
+          Show All
+        </a>
+      </form>
+
+<!-- List of maps with if statements parsing through them-->
+      <div>
+          {% for dataset in dataset_list %}
+            <p><a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a></p>
+          {% endfor %}
+        {% else %}
+          <h4>There are no datasets available</h4>
+          <a href="{% url 'datasets:new_dataset' account.account_slug %}" class="btn btn-success">
+            Add New Dataset
+          </a>
+        {% endif %}
+      </div>
+<!-- End List of maps -->
+
+<!-- End Datasets Choices -->
+    </div>
+  </div>
+
+
+
+{% endblock content %}

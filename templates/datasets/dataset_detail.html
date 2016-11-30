@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head_title %}{{ dataset.title }}{% endblock head_title %}
+{% block additional_css %}
+  <style>
+    #mapid {
+      height: 65%;
+    }
+  </style>
+{% endblock additional_css %}
+
+{% block content %}
+{% include "base_map_css.html" %}
+
+<div class="container-fluid">
+
+<!-- account / dataset links -->
+  <div class="row">
+    <h5 class="col-xs-12">
+      <a href="{% url 'portal' %}" >*</a> /
+      <a href="{{ account.get_absolute_url }}" >{{ account.user }}</a> /
+      <a href="{{ dataset.get_absolute_url }}" >{{ dataset.title }}</a>
+    </h5>
+  </div>
+  <hr class="divider">
+<!-- end account / dataset links -->
+
+
+  <!-- Dataset Info -->
+  <div class="row">
+    <div class="col-12 col-xs-12" id="meta_data">
+      <p><b>Account:</b> <a href="{{ account.get_absolute_url }}">{{ account }}</a></p>
+      <p><b>Affiliation:</b> {{ account.affiliation }}</p>
+    <hr class="divider">
+      <p><b>Dataset Title:</b> {{ dataset.title }}</p>
+      <p><b>Author:</b> {{ dataset.author }}</p> 
+      <p><b>Dataset Visible to Public:</b> {{ dataset.public_access }}</p>
+      <p><b>Dataset Description:</b> {{ dataset.description }}</p>
+      <p><b>Date Created:</b> {{ dataset.date_added }}</p>
+    </div>
+  </div>
+  <hr class="divider">
+  <!-- End Dataset Info -->
+
+  <!-- Links to modify the database or get back to the map list -->
+  <div class="row">
+    <div class="col-12 col-xs-12" id="modifier_links">
+      <a href="{% url 'datasets:new_dataset' account.account_slug %}" class="btn btn-success">
+        Add new dataset 
+      </a>
+      <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}"
+        class="btn btn-warning">Update this dataset</a>
+      <a href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}"
+        class="btn btn-danger">Remove this dataset</a>
+      <a href="{{ account.get_absolute_url }}" class="btn btn-info">
+        Back to {{ account.user }} map list
+      </a>
+      <a href="{% url 'accounts:account_portal' account.account_slug %}" class="btn btn-primary">
+        Back to {{ account.user }} portal
+      </a>
+    </div>
+  </div>
+  <hr class="divider">
+  <!-- End Links to modify the database or get back to the map list -->
+
+  <!-- Map and Background Choices -->
+  <div class="row" id="main_map">
+    <div class="col-12 col-xs-12" id="main_map">
+      <div id="mapid" value="{{ dataset.pk }}">
+      </div>
+    </div>
+  </div>
+  <!-- End Map and Background Choices -->
+</div>
+
+{% include "base_map_js.html" %}
+{% endblock content %}
+
+{% block js %}
+  <script type="text/javascript" src="{% static 'js/datasets/base.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/datasets/base_map.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/datasets/detailView.js' %}"></script>
+{% endblock js %}

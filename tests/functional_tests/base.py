@@ -1,7 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from datasets.models import Dataset
 
 from selenium import webdriver
+
+User = get_user_model()
 
 class CssBaseLiveTest(StaticLiveServerTestCase):
     """
@@ -27,13 +30,18 @@ class CssBaseLiveTest(StaticLiveServerTestCase):
         self.chrome = webdriver.Chrome()
         self.browsers = [self.firefox, self.chrome]
 
-        self.dummy_dataset = Dataset.objects.create(title='dummy dataset',
+        self.test_user = User.objects.create_user(username='test_user',
+                                                  email='testuserpassword',
+                                                  password='testuserpassword')
+
+        self.dummy_dataset = Dataset.objects.create(account=self.test_user.account,
                                  author='dummy_author',
+                                 title='dummy dataset',
                                  description='dummy dataset description',
                                  url='https://raw.githubusercontent.com/' +
                                  'zmtdummy/GeoJsonData/master/bienvenidos.json')
 
-        self.dummy_kml_dataset = Dataset.objects.create(
+        self.dummy_kml_dataset = Dataset.objects.create(account=self.test_user.account,
                                  author="KML_Test",
                                  title="KML Test Dataset",
                                  description="This is a KML test dataset",
@@ -82,13 +90,19 @@ class BaseLiveTest(StaticLiveServerTestCase):
         keys, and the browsers and data being the values.
         """
         self.browser = webdriver.Chrome()
-        self.dummy_dataset = Dataset.objects.create(title='dummy dataset',
+
+        self.test_user = User.objects.create_user(username='test_user',
+                                                  email='testuserpassword',
+                                                  password='testuserpassword')
+
+        self.dummy_dataset = Dataset.objects.create(account=self.test_user.account,
                                  author='dummy_author',
+                                 title='dummy dataset',
                                  description='dummy dataset description',
                                  url='https://raw.githubusercontent.com/' +
                                  'zmtdummy/GeoJsonData/master/bienvenidos.json')
 
-        self.dummy_kml_dataset = Dataset.objects.create(
+        self.dummy_kml_dataset = Dataset.objects.create(account=self.test_user.account,
                                  author="KML_Test",
                                  title="KML Test Dataset",
                                  description="This is a KML test dataset",

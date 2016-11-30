@@ -20,7 +20,7 @@ stamenToner = L.tileLayer("http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x
   maxZoom: 19,
   ext: "png"
 }),
-Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+Esri_WorldImagery = L.tileLayer("http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
   attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 });
 
@@ -47,8 +47,8 @@ baseLayerControl.addTo(myMap);
 // Add a map center button with id, for testing purposes
 const mapCenterButton = L.easyButton({
   states: [{
-    id: 'mapCenterButton',
-    icon: 'fa-home', 
+    id: "mapCenterButton",
+    icon: "fa-home", 
     onClick: (btn, myMap) => {
       myMap.setView([0, 8.8460], 2);
     }

@@ -11,9 +11,9 @@ const domReady = function(callback) {
 // define toggle element display function
 function toggleDisplay(obj) {
   let element = document.getElementById(obj);
-  if ( element.style.display != 'none' ) {
-    element.style.display = 'none';
+  if ( element.style.display != "none" ) {
+    element.style.display = "none";
   } else {
-    element.style.display = '';
+    element.style.display = "";
   }
 };
