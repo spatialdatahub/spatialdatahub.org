@@ -46,11 +46,12 @@
   <!-- Links to modify the database or get back to the map list -->
   <div class="row">
     <div class="col-12 col-xs-12" id="modifier_links">
-      <a
-        href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}"
-        class="btn btn-success">Update this dataset</a>
-      <a
-        href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}"
+      <a href="{% url 'datasets:new_dataset' account.account_slug %}" class="btn btn-success">
+        Add new dataset 
+      </a>
+      <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}"
+        class="btn btn-warning">Update this dataset</a>
+      <a href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}"
         class="btn btn-danger">Remove this dataset</a>
       <a href="{{ account.get_absolute_url }}" class="btn btn-info">
         Back to {{ account.user }} map list

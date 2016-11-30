@@ -35,8 +35,11 @@
 <!-- Links to modify the database or get back to the map list -->
 <div class="row">
   <div class="col-12 col-xs-12" id="modifier_links">
-    <a href="{% url 'accounts:account_update' account.account_slug %}" class="btn btn-success">
-        Update this account
+    <a href="{% url 'datasets:new_dataset' account.account_slug %}" class="btn btn-success">
+      Add new dataset 
+    </a>
+    <a href="{% url 'accounts:account_update' account.account_slug %}" class="btn btn-warning">
+      Update this account
     </a>
     <a href="{% url 'accounts:account_remove' account.account_slug %}" class="btn btn-danger">
       Remove this account
