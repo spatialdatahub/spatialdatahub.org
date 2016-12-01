@@ -21,12 +21,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "44mqx*h@f0r6wuyj&zag&mn973p!f+-)=-b+s$g*r6-wezj8ej"
+# SECRET_KEY = "44mqx*h@f0r6wuyj&zag&mn973p!f+-)=-b+s$g*r6-wezj8ej"
+
+with open('/etc/secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://map.leibniz-zmt.de/']
 
 
 # Application definition
@@ -61,6 +64,9 @@ MIDDLEWARE_CLASSES = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
 ROOT_URLCONF = "main.urls"
 
 TEMPLATES = [
@@ -85,12 +91,20 @@ WSGI_APPLICATION = "main.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+# pretty hacky, but I can change this
+with open('/etc/db_name.txt') as f:
+    db_name = f.read().strip()
+with open('/etc/db_user.txt') as f:
+    db_user = f.read().strip()
+with open('/etc/db_password.txt') as f:
+    db_password = f.read().strip()
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "webgis_db",
-        "USER": "webgis_user",
-        "PASSWORD": "webgis_password",
+        "NAME": db_name,
+        "USER": db_user,
+        "PASSWORD": db_password,
         "HOST": "localhost",
         "PORT": "5432",
     }
