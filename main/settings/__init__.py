@@ -1,7 +1,7 @@
 # currently working in 
 # ~/Dev/pcu_adm/webgis/main/settings/
 
-from .base import *
+#from .base import *
 
 try:
    from .local import *
