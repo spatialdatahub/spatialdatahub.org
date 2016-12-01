@@ -1,6 +1,0 @@
-This project is built around the ability to project maps of different types
-from password protected and non password protected urls. It will use GDAL
-ogr2ogr library to convert the map datasets to GeoJSON format. The map
-background will be provided by the javascript library Leaflet.js. Users of the
-site will be able to view and download data that are projected to the site,
-unless specified. 

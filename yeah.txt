@@ -1,4 +1,0 @@
-this is a dummy file
-
-I'm going to add a node setup here again, but I'm going to add the node modules folder to the gitignore file too.
-yeah
