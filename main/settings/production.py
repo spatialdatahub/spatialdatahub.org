@@ -92,12 +92,7 @@ WSGI_APPLICATION = "main.wsgi.application"
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 # pretty hacky, but I can change this
-with open('/etc/db_name.txt') as f:
-    db_name = f.read().strip()
-with open('/etc/db_user.txt') as f:
-    db_user = f.read().strip()
-with open('/etc/db_password.txt') as f:
-    db_password = f.read().strip()
+from .info import db_name, db_user, db_password
 
 DATABASES = {
     "default": {
