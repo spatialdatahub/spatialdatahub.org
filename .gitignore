@@ -7,3 +7,4 @@ migrations/*.py
 !migrations/__init__.py
 *.swp
 .DS_Store
+main/settings/info.py
