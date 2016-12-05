@@ -5,9 +5,10 @@
 // This is now de-jQueried
 // I should name this function so that I can call it on the button press down below, 
 // then this whole file will be almost de-jQueried
-domReady( () => {
+
+function mapToggler {
   toggleDisplay("sidebar");
-  main_map = document.getElementsById("main_map");
+  main_map = document.getElementById("main_map");
   if (main_map.classList) {
     main_map.classList.toggle("col-sm6 col-md-8 col-lg-9");
   } else {
@@ -19,6 +20,10 @@ domReady( () => {
       classes.push(className);
     main_map.className = classes.join(' ');
   }
+}
+
+domReady( () => {
+  mapToggler();
 });
 
 
@@ -76,13 +81,10 @@ const datasetToggle = value => {
 // call datasetToggle function on list item click
 // is there a way to do this without jquery?
 
-$("input#datasetCheckbox").on("click", ( event ) => {
+datasetCheckboxes.on("click", ( event ) => {
   let value = event.target.value;
   datasetToggle( value );
 });
-
-
-
 
 
 
@@ -100,8 +102,7 @@ const mapResizeButton = L.easyButton({
     icon: "<i class='fa fa-arrows-h' aria-hidden='true'></i>",
     id: "mapResizeButton",
     onClick: function resizeMap(btn, myMap) {
-      toggleDisplay("sidebar");
-      $("#main_map").toggleClass("col-sm-6 col-md-8 col-lg-9");
+      mapToggler();
     }
   }]
 }).addTo(myMap);
