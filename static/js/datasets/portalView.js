@@ -1,15 +1,26 @@
 // this is the portal view specific javascript
 
-//how do i de jquery this stuff?
 
-// how do i write the toggle function myself? Maybe a problem for another time
-// does it matter whether this shows up first in the document?
-//main_map.classList.toggle("col-sm-6 col-md-8 col-lg-9");
-
+// Toggling the display and toggling the classes here.
+// This is now de-jQueried
+// I should name this function so that I can call it on the button press down below, 
+// then this whole file will be almost de-jQueried
 domReady( () => {
   toggleDisplay("sidebar");
-  $("#main_map").toggleClass("col-sm-6 col-md-8 col-lg-9");
+  main_map = document.getElementsById("main_map");
+  if (main_map.classList) {
+    main_map.classList.toggle("col-sm6 col-md-8 col-lg-9");
+  } else {
+    let classes = main_map.className.split(' '),
+        existingIndex = classes.indexOf(className);
+    if (existingIndex >= 0)
+      classes.splice(existingIndex, 1);
+    else
+      classes.push(className);
+    main_map.className = classes.join(' ');
+  }
 });
+
 
 // make empty array to push datasets to
 const datasets = []; 
@@ -23,8 +34,6 @@ for (let i = 0; i < l; i++) {
   value = datasetCheckboxes[i].getAttribute("value");
   datasets.push(`ds${value}`); 
 }
-
-
 
 // add layers to variables stored in dataset list
 const datasetToggle = value => {
@@ -65,13 +74,16 @@ const datasetToggle = value => {
 
 
 // call datasetToggle function on list item click
-// is there a way to do this without jquery? it probably doesn't matter too
-// much
+// is there a way to do this without jquery?
 
 $("input#datasetCheckbox").on("click", ( event ) => {
   let value = event.target.value;
   datasetToggle( value );
 });
+
+
+
+
 
 
 //function clearAllLayers() {

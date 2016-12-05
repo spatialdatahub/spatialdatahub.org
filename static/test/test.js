@@ -11,7 +11,13 @@ describe('The base.js tests', function() {
   });
 });
 
+
 // Base Map Tests
+// I need to mock some html elements, but i am apparently not doing it right.
+//var mapid = document.createElement('div');
+//mapid.setAttribute("id", "mapid");
+
+
 describe('The base_map.js tests', function() {
 
   // Open Street Maps Background 
@@ -112,6 +118,21 @@ describe('The base_map.js tests', function() {
 // portalView Javascript Tests
 describe('The portalView.js tests', function() {
   describe('The datasets list creation function', function() {
+
+    // Mock the datasetCheckbox inputs
+//    var datasetCheckbox_1 = document.createElement(
+ //       `input`),
+  //      datasetCheckbox_2 = document.createElement(
+   //       `input`
+    //    );
+
+//    datasetCheckbox_1.setAttribute('name', 'datasetCheckbox');
+//    datasetCheckbox_1.setAttribute('value', 1);
+
+//    datasetCheckbox_2.setAttribute('name', 'datasetCheckbox');
+//    datasetCheckbox_2.setAttribute('value', 2);
+  
+
     it('should automatically be populated with dataset keys', function() {
       assert.equal(datasets.length, 2);
     });
@@ -121,10 +142,16 @@ describe('The portalView.js tests', function() {
     });
   });
 
+  
+
   describe(`On document ready main map and sidebar elements should 
             have the correct bootstrap classes`, function(){
+
+
     let sidebar = document.getElementById("sidebar"),
     main_map = document.getElementById("main_map");
+
+
     it('jQuery should append different bootstrap class to div on page load', function() {
       assert.equal(main_map.getAttribute('class'), 'col-sm-6 col-md-8 col-lg-9');
     });
