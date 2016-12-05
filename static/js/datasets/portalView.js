@@ -6,11 +6,15 @@
 // I should name this function so that I can call it on the button press down below, 
 // then this whole file will be almost de-jQueried
 
-function mapToggler {
+
+function mapToggler() {
   toggleDisplay("sidebar");
   main_map = document.getElementById("main_map");
   if (main_map.classList) {
-    main_map.classList.toggle("col-sm6 col-md-8 col-lg-9");
+    //console.log(main_map.classList);
+    let classes = ["col-md-8"];
+    main_map.classList.toggle(classes);
+    //console.log(main_map.classList);
   } else {
     let classes = main_map.className.split(' '),
         existingIndex = classes.indexOf(className);
@@ -21,6 +25,7 @@ function mapToggler {
     main_map.className = classes.join(' ');
   }
 }
+
 
 domReady( () => {
   mapToggler();
@@ -36,7 +41,7 @@ l = datasetCheckboxes.length;
 
 // push their values to the datasets array
 for (let i = 0; i < l; i++) {
-  value = datasetCheckboxes[i].getAttribute("value");
+  let value = datasetCheckboxes[i].getAttribute("value");
   datasets.push(`ds${value}`); 
 }
 
@@ -78,13 +83,13 @@ const datasetToggle = value => {
 };
 
 
-// call datasetToggle function on list item click
-// is there a way to do this without jquery?
+for (let i = 0; i < datasetCheckboxes.length; i++) {
+  datasetCheckboxes[i].addEventListener("click", ( event ) => {
+    let value = event.target.value;
+    datasetToggle( value ); 
+  });
+}
 
-datasetCheckboxes.on("click", ( event ) => {
-  let value = event.target.value;
-  datasetToggle( value );
-});
 
 
 

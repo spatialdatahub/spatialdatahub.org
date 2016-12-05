@@ -1,7 +1,9 @@
 // This is the javascript file for the map detail view
 // It is proving difficult to test because of mocking a dataset
 
+
 // when the dom is ready do all this stuff
+// this should be put into a function.
 domReady( () => { 
   let value = document.getElementById("mapid").getAttribute("value"),
   dataset = omnivore.geojson(url=`/load_dataset/${value}`)

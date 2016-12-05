@@ -11,7 +11,6 @@ describe('The base.js tests', function() {
   });
 });
 
-<<<<<<< HEAD
 
 // Base Map Tests
 // I need to mock some html elements, but i am apparently not doing it right.
@@ -19,9 +18,7 @@ describe('The base.js tests', function() {
 //mapid.setAttribute("id", "mapid");
 
 
-=======
 // Base Map Tests
->>>>>>> b234878fa24c84a0e87abc0c0955d32875e76bae
 describe('The base_map.js tests', function() {
 
   // Open Street Maps Background 
@@ -122,7 +119,6 @@ describe('The base_map.js tests', function() {
 // portalView Javascript Tests
 describe('The portalView.js tests', function() {
   describe('The datasets list creation function', function() {
-<<<<<<< HEAD
 
     // Mock the datasetCheckbox inputs
 //    var datasetCheckbox_1 = document.createElement(
@@ -138,8 +134,6 @@ describe('The portalView.js tests', function() {
 //    datasetCheckbox_2.setAttribute('value', 2);
   
 
-=======
->>>>>>> b234878fa24c84a0e87abc0c0955d32875e76bae
     it('should automatically be populated with dataset keys', function() {
       assert.equal(datasets.length, 2);
     });
@@ -149,7 +143,6 @@ describe('The portalView.js tests', function() {
     });
   });
 
-<<<<<<< HEAD
   
 
   describe(`On document ready main map and sidebar elements should 
@@ -160,12 +153,10 @@ describe('The portalView.js tests', function() {
     main_map = document.getElementById("main_map");
 
 
-=======
   describe(`On document ready main map and sidebar elements should 
             have the correct bootstrap classes`, function(){
     let sidebar = document.getElementById("sidebar"),
     main_map = document.getElementById("main_map");
->>>>>>> b234878fa24c84a0e87abc0c0955d32875e76bae
     it('jQuery should append different bootstrap class to div on page load', function() {
       assert.equal(main_map.getAttribute('class'), 'col-sm-6 col-md-8 col-lg-9');
     });
