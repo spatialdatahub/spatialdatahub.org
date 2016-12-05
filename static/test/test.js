@@ -116,6 +116,7 @@ describe('The base_map.js tests', function() {
 });
 
 
+/*
 // portalView Javascript Tests
 describe('The portalView.js tests', function() {
   describe('The datasets list creation function', function() {
@@ -143,11 +144,9 @@ describe('The portalView.js tests', function() {
     });
   });
 
-  
 
   describe(`On document ready main map and sidebar elements should 
             have the correct bootstrap classes`, function(){
-
 
     let sidebar = document.getElementById("sidebar"),
     main_map = document.getElementById("main_map");
@@ -166,3 +165,4 @@ describe('The portalView.js tests', function() {
     });
   });
 });
+*/
