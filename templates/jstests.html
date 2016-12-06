@@ -36,8 +36,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
 
-  <!-- I am still working to rid the site of jQuery -->
-
   <script>mocha.setup('bdd')</script>
 
   <!-- bring in the javascript files to be tested -->
@@ -46,9 +44,11 @@
   <script type="text/javascript" src="{% static 'js/datasets/portalView.js' %}"></script> 
   <!-- end bring in the javascript files to be tested -->
 
+  <!-- bring in the javascript test files -->
   <script type="text/javascript" src="{% static 'test/test.base.js' %}"></script>
   <script type="text/javascript" src="{% static 'test/test.base_map.js' %}"></script>
-  <script type="text/javascript" src="{% static 'test/test.js' %}"></script>
+  <script type="text/javascript" src="{% static 'test/test.portalView.js' %}"></script>
+  <!-- end bring in the javascript test files -->
 
   <script>
     mocha.run();

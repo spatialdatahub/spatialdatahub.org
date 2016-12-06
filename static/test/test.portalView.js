@@ -1,13 +1,38 @@
 var assert = chai.assert;
 
+// portalView Javascript Tests
+describe('The portalView.js tests', function() {
+
+  describe('The mapToggler() function', function() {
+    it('should have the "sidebar" display equal to an empty string');
+    it('should have the "main_map" bootstrap class be equal to "col-12 col-sm-12 col-md-8"');
+  });
+
+  describe('The datasets list creation function', function() {
+    it('should be automatically populated with dataset keys');
+    it("should have the first dataset key's name be");
+  });
+
+  describe('The datasetToggle function', function() {
+    it("should set the dsUrl variable to the specific dataset's variable");
+    it("should use 'omnivore' to bring the geojson datasets in");
+    it("should use 'omnivore' to bring the kml datasets in");
+    it("should use 'omnivore' to bring the csv datasets in");
+    it("should use save each layer's properties to a popupContent variable");
+    it("should use save each layer's coordinates to a popupContent variable");
+    it("should fit the map's bounds to the the dataset's bounds");
+    it("should add and remove each dataset from the map");
+  });
+
+  describe('The mapResizeButton', function() {
+    it("should call the mapToggler() function");
+    it("should probably be a different function");
+  });
+});
 
 
 
 /*
-// portalView Javascript Tests
-describe('The portalView.js tests', function() {
-  describe('The datasets list creation function', function() {
-
     // Mock the datasetCheckbox inputs
 //    var datasetCheckbox_1 = document.createElement(
  //       `input`),

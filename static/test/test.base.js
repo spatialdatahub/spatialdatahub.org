@@ -21,7 +21,7 @@ describe('The base.js tests', function() {
     );
 
     it(`should set 'display' for the item_to_hide to 'none' 
-        since toggleDisplay is called twice here`,
+        since this is the second time toggleDisplay is being called`,
         function() {
           toggleDisplay('item_to_hide');
           assert.equal(item_to_hide.style.display, "none");
