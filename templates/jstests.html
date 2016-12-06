@@ -16,11 +16,15 @@
 
 
   <!-- How do i mock these? -->
-  <div id="mapid"></div>
-  <div id="sidebar"></div>
-  <div id="main_map"></div>
-  <input type="checkbox" name="datasetCheckbox" id="datasetCheckbox" value=1>this
-  <input type="checkbox" name="datasetCheckbox" id="datasetCheckbox" value=2>that
+  <div>
+    <h5>test items</h5>
+    <div id="mapid"></div>
+    <div id="sidebar"></div>
+    <div id="main_map"></div>
+    <input type="checkbox" name="datasetCheckbox" id="datasetCheckbox" value=1>this
+    <input type="checkbox" name="datasetCheckbox" id="datasetCheckbox" value=2>that
+    <h5 id="item_to_hide" style="display:none;">Hide</h5>
+  </div>
   <!-- How do i mock these? -->
 
   <div id="mocha"></div>
@@ -42,6 +46,8 @@
   <script type="text/javascript" src="{% static 'js/datasets/portalView.js' %}"></script> 
   <!-- end bring in the javascript files to be tested -->
 
+  <script type="text/javascript" src="{% static 'test/test.base.js' %}"></script>
+  <script type="text/javascript" src="{% static 'test/test.base_map.js' %}"></script>
   <script type="text/javascript" src="{% static 'test/test.js' %}"></script>
 
   <script>
