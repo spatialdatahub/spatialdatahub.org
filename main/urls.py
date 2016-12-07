@@ -2,8 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 
-from main.views import portal, load_dataset
-
+from main.views import jstests, load_dataset, portal
 
 urlpatterns = [
 
@@ -18,7 +17,8 @@ urlpatterns = [
         name="contact"),
 
     url(r'^jstests/$',
-        TemplateView.as_view(template_name="jstests.html"),
+        #TemplateView.as_view(template_name="jstests.html"),
+        jstests,
         name="jstests"),
 
     url(r'^$',

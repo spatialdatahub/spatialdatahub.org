@@ -26,7 +26,7 @@ def load_dataset(request, pk):
 
 
 
-def portal(request, account_slug=None):
+def portal(request):
     account_list = Account.objects.all()
     dataset_list = Dataset.objects.all()
     template_name = "portal.html"
@@ -37,3 +37,8 @@ def portal(request, account_slug=None):
 
     return render(request, template_name,
         {"account_list": account_list, "dataset_list": dataset_list})
+
+def jstests(request):
+    dataset_list = Dataset.objects.all()
+    template_name = "jstests.html"
+    return render(request, template_name, {"dataset_list": dataset_list})

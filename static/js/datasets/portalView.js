@@ -11,10 +11,8 @@ function mapToggler() {
   toggleDisplay("sidebar");
   main_map = document.getElementById("main_map");
   if (main_map.classList) {
-    //console.log(main_map.classList);
     let classes = ["col-md-8"];
     main_map.classList.toggle(classes);
-    //console.log(main_map.classList);
   } else {
     let classes = main_map.className.split(' '),
         existingIndex = classes.indexOf(className);

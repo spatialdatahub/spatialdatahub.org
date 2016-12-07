@@ -97,12 +97,12 @@ class BrowserSizeChangerTests(StaticLiveServerTestCase):
         self.browser.set_window_size(1000, 700)
         self.assertAlmostEqual(
             sidebar.location['x'] + sidebar.size['width'],
-            250,
+            325,
             delta = 10
         )
         self.assertAlmostEqual(
             main_map.size['width'],
-            745,
+            650,
             delta = 10
         )
 

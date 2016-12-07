@@ -21,8 +21,10 @@
     <div id="mapid"></div>
     <div id="sidebar"></div>
     <div id="main_map"></div>
-    <input type="checkbox" name="datasetCheckbox" id="datasetCheckbox" value=1>this
-    <input type="checkbox" name="datasetCheckbox" id="datasetCheckbox" value=2>that
+    {% for dataset in dataset_list %}
+    <input type="checkbox" name="datasetCheckbox" id="datasetCheckbox" value={{ dataset.pk }}>
+      <label>{{ dataset.pk }}</label>
+    {% endfor %}
     <h5 id="item_to_hide" style="display:none;">Hide</h5>
   </div>
   <!-- How do i mock these? -->

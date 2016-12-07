@@ -4,20 +4,37 @@ var assert = chai.assert;
 describe('The portalView.js tests', function() {
 
   describe('The mapToggler() function', function() {
+
     it('should have the "sidebar" display equal to an empty string');
+
     it('should have the "main_map" bootstrap class be equal to "col-12 col-sm-12 col-md-8"');
+
   });
 
   describe('The datasets list creation function', function() {
-    it('should be automatically populated with dataset keys');
-    it("should have the first dataset key's name be");
+
+    it('should be already populated with dataset keys', function() {
+      assert.equal(datasets.length, 3);
+    });
+
+    it(`should have the first dataset key's name be in the format of
+       "ds${datasetCheckboxes[0].value}"`, function() {
+      assert.equal(datasets[0], `ds${datasetCheckboxes[0].value}`);
+    });
+
   });
 
   describe('The datasetToggle function', function() {
-    it("should set the dsUrl variable to the specific dataset's variable");
-    it("should use 'omnivore' to bring the geojson datasets in");
-    it("should use 'omnivore' to bring the kml datasets in");
-    it("should use 'omnivore' to bring the csv datasets in");
+    // this test will probably only work if i access the app's true database.
+    // I will do this until I find a better way.
+
+    // toggle dataset with pk value 1 on and off with every test.
+    beforeEach(function() { datasetToggle(datasetCheckboxes[0].value); }); 
+    afterEach(function() { datasetToggle(datasetCheckboxes[0].value); }); 
+
+    it("should be able to bring geojson datasets in");
+    it("should be able to bring kml datasets in");
+    it("should be able to bring the csv datasets in");
     it("should use save each layer's properties to a popupContent variable");
     it("should use save each layer's coordinates to a popupContent variable");
     it("should fit the map's bounds to the the dataset's bounds");
