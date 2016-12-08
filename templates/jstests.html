@@ -19,8 +19,8 @@
   <div>
     <h5>test items</h5>
     <div id="mapid"></div>
-    <div id="sidebar"></div>
-    <div id="main_map"></div>
+    <div id="sidebar">sidebar</div>
+    <div id="main_map">main_map</div>
     {% for dataset in dataset_list %}
     <input type="checkbox" name="datasetCheckbox" id="datasetCheckbox" value={{ dataset.pk }}>
       <label>{{ dataset.pk }}</label>

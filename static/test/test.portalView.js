@@ -3,11 +3,51 @@ var assert = chai.assert;
 // portalView Javascript Tests
 describe('The portalView.js tests', function() {
 
-  describe('The mapToggler() function', function() {
+  describe('The mapToggler() function',
+    function() {
+      describe(`For the sidebar element; 
+                for this test suite "mapToggler()" is called before and after both tests,
+                and it is called once more at the end.`, function() {
 
-    it('should have the "sidebar" display equal to an empty string');
+        beforeEach(function() { mapToggler(); });
+        afterEach(function() { mapToggler(); });
+        after(function() { mapToggler(); });
 
-    it('should have the "main_map" bootstrap class be equal to "col-12 col-sm-12 col-md-8"');
+        let sidebar = document.getElementById("sidebar");
+
+        it('should have the "sidebar" display equal to an empty string', function() {
+          assert.equal(sidebar.style.display, "");
+        });
+
+        it('should set the "sidebar" display equal to "none" when called', function() {
+          mapToggler();
+          assert.equal(sidebar.style.display, "none");
+        });
+      });
+
+      describe(`For the main_map element;
+                for this test suite "mapToggler()" is called before and after both tests,
+                and it is called once more at the end.`, function() {
+
+        beforeEach(function() { mapToggler(); });
+        afterEach(function() { mapToggler(); });
+        after(function() { mapToggler(); });
+
+        let main_map = document.getElementById("main_map");
+        console.log(main_map.classList);
+
+        it('should have the "main_map" bootstrap class be equal to "col-md-8"',
+        function() {
+          assert.equal(main_map.classList, (""));
+        });
+
+        it('should have the "main_map" bootstrap class be equal to "col-md-8"',
+        function() {
+          mapToggler();
+          assert.equal(main_map.classList, ("col-md-8"));
+        });
+
+      });
 
   });
 
