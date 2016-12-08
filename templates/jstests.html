@@ -10,6 +10,12 @@
   {% include "base_map_css.html" %}
   <!-- end bring in leaflet css -->
 
+  <style>
+    #map_id {
+      height: 15%;
+      margin-bottom: 10px;
+    }
+  </style>
 
 </head>
 <body>
@@ -18,7 +24,8 @@
   <!-- How do i mock these? -->
   <div>
     <h5>test items</h5>
-    <div id="mapid"></div>
+    <div id="mapid">
+    </div>
     <div id="sidebar">sidebar</div>
     <div id="main_map">main_map</div>
     {% for dataset in dataset_list %}
@@ -37,6 +44,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+  <script src="http://sinonjs.org/releases/sinon-1.17.6.js"></script>
 
   <script>mocha.setup('bdd')</script>
 
