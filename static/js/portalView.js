@@ -24,7 +24,6 @@ function mapToggler() {
   }
 }
 
-
 domReady( () => {
   mapToggler();
 });
@@ -59,6 +58,7 @@ const datasetToggle = value => {
     datasets[dsValue] = omnivore.geojson(url=dsUrl)
     .on("ready", () => {
       datasets[dsValue].eachLayer( (layer) => {
+        console.log(layer);
         let popupContent = [];
         for (let key in layer.feature.properties) {
           popupContent.push(
