@@ -1,6 +1,7 @@
 // this is the portal view specific javascript
 
 // maybe I should take this function out. It's somewhat extraneous.
+/*
 function mapToggler() {
   toggleDisplay("sidebar");
   main_map = document.getElementById("main_map");
@@ -21,6 +22,7 @@ function mapToggler() {
 domReady( () => {
   mapToggler();
 });
+*/
 
 
 // make empty array to push datasets to
@@ -66,7 +68,6 @@ const datasetToggle = (value, ext) => {
   let dsUrl = `/load_dataset/${value}`,
     dsValue = `ds${value}`,
     ds = datasets[dsValue];
-    console.log(ds);
 
   function onReadyPopups() {
     datasets[dsValue].eachLayer( (layer) => {
@@ -115,7 +116,6 @@ for (let i = 0; i < datasetCheckboxes.length; i++) {
     let value = event.target.value,
     ext = event.target.getAttribute('ext');
     datasetToggle( value, ext ); 
-    console.log(ext);
   });
 }
 
@@ -129,6 +129,7 @@ for (let i = 0; i < datasetCheckboxes.length; i++) {
 //}
 
 
+/*
 // there's potential to replace this with a fullscreen map button
 // map resize button with id, for testing purposes
 const mapResizeButton = L.easyButton({
@@ -140,3 +141,4 @@ const mapResizeButton = L.easyButton({
     }
   }]
 }).addTo(myMap);
+*/
