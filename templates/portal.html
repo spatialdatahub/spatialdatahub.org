@@ -48,7 +48,9 @@
 
               <li>
                 <label>
-                  <input type="checkbox" name="datasetCheckbox" id="datasetCheckbox" value={{ dataset.pk }}>{{ dataset.title }} 
+                  <input type="checkbox" name="datasetCheckbox" id="datasetCheckbox" 
+                    value={{ dataset.pk }} ext={{ dataset.ext }}>
+                    {{ dataset.title }} 
                 </label>
                 <a href="{{ dataset.get_absolute_url }}" >
                   <i class="fa fa-newspaper-o fa-pull-right fa-border" aria-hidden="true"></i>
