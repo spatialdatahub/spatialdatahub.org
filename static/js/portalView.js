@@ -1,11 +1,5 @@
 // this is the portal view specific javascript
 
-
-// Toggling the display and toggling the classes here.
-// This is now de-jQueried
-// I should name this function so that I can call it on the button press down below, 
-// then this whole file will be almost de-jQueried
-
 // maybe I should take this function out. It's somewhat extraneous.
 function mapToggler() {
   toggleDisplay("sidebar");
@@ -45,133 +39,73 @@ for (let i = 0; i < l; i++) {
   datasets.push({"value": `ds${value}`, "ext": ext}); 
 }
 
-console.log(datasets);
+/*
+function onReadyPopups() {
+  datasets[dsValue].eachLayer( (layer) => {
+    let popupContent = [];
+    for (let key in layer.feature.properties) {
+      popupContent.push(
+        `<b>${key}</b>: ${layer.feature.properties[key]}`
+      );
+    }
+    if (layer.feature.geometry.type === "Point") {
+      popupContent.push(`<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`);
+      popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`);
+    }
+    layer.bindPopup(popupContent.join("<br/>"));
+  });
+  let bounds = datasets[dsValue].getBounds();
+  myMap.fitBounds(bounds);
+}
+*/
+
 
 // I feel like this should be refactored in a way that lets me re-use the code better
 // add layers to variables stored in dataset list
 const datasetToggle = (value, ext) => {
   let dsUrl = `/load_dataset/${value}`,
-  dsValue = `ds${value}`,
-  ds = datasets[dsValue];
-  console.log(ds);
+    dsValue = `ds${value}`,
+    ds = datasets[dsValue];
+    console.log(ds);
+
+  function onReadyPopups() {
+    datasets[dsValue].eachLayer( (layer) => {
+      let popupContent = [];
+      for (let key in layer.feature.properties) {
+        popupContent.push(
+          `<b>${key}</b>: ${layer.feature.properties[key]}`
+        );
+      }
+      if (layer.feature.geometry.type === "Point") {
+        popupContent.push(`<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`);
+        popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`);
+      }
+      layer.bindPopup(popupContent.join("<br/>"));
+    });
+    let bounds = datasets[dsValue].getBounds();
+    myMap.fitBounds(bounds);
+  }
 
   // if map already has dataset, remove it, otherwise, add it
   if (myMap.hasLayer(ds)) {
     myMap.removeLayer(ds);	
   } else {
   
-/*
-function onReadyPopups () {
-    .on("ready", () => {
-      datasets[dsValue].eachLayer( (layer) => {
-        let popupContent = [];
-        for (let key in layer.feature.properties) {
-          popupContent.push(
-            `<b>${key}</b>: ${layer.feature.properties[key]}`
-          );
-        }
-        if (layer.feature.geometry.type === "Point") {
-          popupContent.push(`<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`);
-          popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`);
-        }
-        layer.bindPopup(popupContent.join("<br/>"));
-      });
-      let bounds = datasets[dsValue].getBounds();
-      myMap.fitBounds(bounds);
-    })
-
-};
-*/
-
     // use dataset.ext to get dataset type    
     if (ext === "kml") {
       datasets[dsValue] = omnivore.kml(url=dsUrl)
-    .on("ready", () => {
-      datasets[dsValue].eachLayer( (layer) => {
-        let popupContent = [];
-        for (let key in layer.feature.properties) {
-          popupContent.push(
-            `<b>${key}</b>: ${layer.feature.properties[key]}`
-          );
-        }
-        if (layer.feature.geometry.type === "Point") {
-          popupContent.push(`<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`);
-          popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`);
-        }
-        layer.bindPopup(popupContent.join("<br/>"));
-      });
-      let bounds = datasets[dsValue].getBounds();
-      myMap.fitBounds(bounds);
-    })
-    .addTo(myMap);
-
+      .on("ready", onReadyPopups)
+      .addTo(myMap);
     } else if (ext === "csv") {
       datasets[dsValue] = omnivore.kml(url=dsUrl)
-    .on("ready", () => {
-      datasets[dsValue].eachLayer( (layer) => {
-        let popupContent = [];
-        for (let key in layer.feature.properties) {
-          popupContent.push(
-            `<b>${key}</b>: ${layer.feature.properties[key]}`
-          );
-        }
-        if (layer.feature.geometry.type === "Point") {
-          popupContent.push(`<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`);
-          popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`);
-        }
-        layer.bindPopup(popupContent.join("<br/>"));
-      });
-      let bounds = datasets[dsValue].getBounds();
-      myMap.fitBounds(bounds);
-    })
-    .addTo(myMap);
-
+      .on("ready", onReadyPopups)
+      .addTo(myMap);
     } else {
       datasets[dsValue] = omnivore.geojson(url=dsUrl)
-    .on("ready", () => {
-      datasets[dsValue].eachLayer( (layer) => {
-        let popupContent = [];
-        for (let key in layer.feature.properties) {
-          popupContent.push(
-            `<b>${key}</b>: ${layer.feature.properties[key]}`
-          );
-        }
-        if (layer.feature.geometry.type === "Point") {
-          popupContent.push(`<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`);
-          popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`);
-        }
-        layer.bindPopup(popupContent.join("<br/>"));
-      });
-      let bounds = datasets[dsValue].getBounds();
-      myMap.fitBounds(bounds);
-    })
-    .addTo(myMap);
-
+      .on("ready", onReadyPopups)
+      .addTo(myMap);
     }
 
-
-
-/*
-    .on("ready", () => {
-      datasets[dsValue].eachLayer( (layer) => {
-        let popupContent = [];
-        for (let key in layer.feature.properties) {
-          popupContent.push(
-            `<b>${key}</b>: ${layer.feature.properties[key]}`
-          );
-        }
-        if (layer.feature.geometry.type === "Point") {
-          popupContent.push(`<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`);
-          popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`);
-        }
-        layer.bindPopup(popupContent.join("<br/>"));
-      });
-      let bounds = datasets[dsValue].getBounds();
-      myMap.fitBounds(bounds);
-    })
-*/
-
-//    .addTo(myMap);
   };
 };
 
