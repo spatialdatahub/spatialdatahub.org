@@ -12,7 +12,12 @@ class Dataset(models.Model):
     deal with data access. This model will not hold more than the
     metadata for a GIS dataset, a reference to the other data set's
     uri, and whether the dataset has a password or not.
+
+    I am going to create a method to save the dataset's extension as
+    a model field.
     """
+    EXTCHOICES = {"csv": "csv", "kml": "kml", "geojson": "geojson"}
+
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     author = models.CharField(max_length=200)
     title = models.CharField(max_length=50)
@@ -26,6 +31,7 @@ class Dataset(models.Model):
     dataset_slug = models.SlugField(max_length=50, unique=False)
     date_added = models.DateTimeField(auto_now=False, auto_now_add=True,
         blank=True, null=True)
+    ext = models.CharField(max_length=12, default="geojson", blank=True, null=True)
 
     class Meta:
         unique_together = ("account", "title")
@@ -34,6 +40,13 @@ class Dataset(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        if self.url.lower().endswith(".csv"):
+            self.ext = "csv"
+        elif self.url.lower().endswith(".kml"):
+            self.ext = "kml"
+        else:
+            self.ext = "geojson"
+
         self.dataset_slug = slugify(self.title)
         super(Dataset, self).save(*args, **kwargs)
 

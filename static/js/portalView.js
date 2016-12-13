@@ -6,7 +6,7 @@
 // I should name this function so that I can call it on the button press down below, 
 // then this whole file will be almost de-jQueried
 
-
+// maybe I should take this function out. It's somewhat extraneous.
 function mapToggler() {
   toggleDisplay("sidebar");
   main_map = document.getElementById("main_map");
@@ -37,11 +37,14 @@ let datasetCheckboxes = document.getElementsByName("datasetCheckbox"),
 l = datasetCheckboxes.length;
 
 // push their values to the datasets array
+// maybe it would be better to save this as an array of dictionaries, that way
+// file extension could also be saved
 for (let i = 0; i < l; i++) {
   let value = datasetCheckboxes[i].getAttribute("value");
   datasets.push(`ds${value}`); 
 }
 
+// I feel like this should be refactored in a way that lets me re-use the code better
 // add layers to variables stored in dataset list
 const datasetToggle = value => {
   let dsUrl = `/load_dataset/${value}`,
@@ -52,11 +55,11 @@ const datasetToggle = value => {
   if (myMap.hasLayer(ds)) {
     myMap.removeLayer(ds);	
   } else {
-
-  // add if/then for kml/geojson/csv ... how do i check?
-  //datasets[dsValue] = omnivore.kml(url=dsUrl);
+  
+    // use dataset.ext to get dataset type    
     datasets[dsValue] = omnivore.geojson(url=dsUrl)
     .on("ready", () => {
+      console.log(dsUrl);
       datasets[dsValue].eachLayer( (layer) => {
         console.log(layer);
         let popupContent = [];

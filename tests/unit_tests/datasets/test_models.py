@@ -24,6 +24,7 @@ class DatasetModelTests(TestCase):
                                     public_access=True)
 
 
+
     def test_that_dataset_object_can_be_saved_to_database_and_found(self):
         test_dataset = Dataset.objects.get(dataset_slug="google-geojson-example")
         self.assertEqual(test_dataset.author, "Google")
@@ -46,6 +47,31 @@ class DatasetModelTests(TestCase):
                                    description="Polygons spelling 'GOOGLE' over Australia",
                                    url="https://storage.googleapis.com/maps-devrel/google.json",
                                    public_access=True)
+
+
+    def test_that_database_object_saves_with_slug(self):
+        self.assertEqual(self.ds1.dataset_slug, "google-geojson-example")
+
+
+    def test_that_database_object_updates_slug_on_save(self):
+        self.ds1.title = "Slug Update Test"
+        self.ds1.save()
+        self.assertEqual(self.ds1.dataset_slug, "slug-update-test")
+
+
+    def test_that_ext_field_is_saved_correctly(self):
+        self.assertEqual(self.ds1.ext, 'geojson')
+
+
+    def test_that_database_object_updates_ext_on_save_kml(self):
+        self.ds1.url = "https://storage.googleapis.com/maps-devrel/google.kml"
+        self.ds1.save()
+        self.assertEqual(self.ds1.ext, 'kml')
+
+    def test_that_database_object_updates_ext_on_save_csv(self):
+        self.ds1.url = "https://storage.googleapis.com/maps-devrel/google.csv"
+        self.ds1.save()
+        self.assertEqual(self.ds1.ext, 'csv')
 
 
     def test_get_absolute_url_returns_correct_url(self):

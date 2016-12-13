@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 
-from main.views import jstests, load_dataset, portal
+from main import views
 
 urlpatterns = [
 
@@ -18,15 +18,15 @@ urlpatterns = [
 
     url(r'^jstests/$',
         #TemplateView.as_view(template_name="jstests.html"),
-        jstests,
+        views.jstests,
         name="jstests"),
 
     url(r'^$',
-        portal,
+        views.portal,
         name="portal"),
 
     url(r'^load_dataset/(?P<pk>[0-9]+)/$',
-        load_dataset,
+        views.load_dataset,
         name="load_dataset"),
 
     url(r'^',

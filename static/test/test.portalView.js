@@ -81,6 +81,11 @@ describe('The portalView.js tests', function() {
     it("should fit the map's bounds to the the dataset's bounds");
     it("should add and remove each dataset from the map");
   });
+
+  describe('Datatypes that can be added to the map', function() {
+
+  });
+
 });
 
 //  describe('The mapResizeButton', function() {
