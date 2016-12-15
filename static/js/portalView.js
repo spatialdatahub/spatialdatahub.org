@@ -95,7 +95,6 @@ const datasetToggle = (value, ext) => {
   } else {
   
     // would a switch statement be better
-    /*
     switch (ext) {
       case "kml":
         datasets[dsValue] = omnivore.kml(url=dsUrl)
@@ -108,14 +107,14 @@ const datasetToggle = (value, ext) => {
         .addTo(myMap);
         break;
       default:
-        datasets[dsValue] = omnivore.csv(url=dsUrl)
+        datasets[dsValue] = omnivore.geojson(url=dsUrl)
         .on("ready", onReadyPopups)
         .addTo(myMap);
         break;
     }
-    */
 
     // use dataset.ext to get dataset type    
+    /*
     if (ext === "kml") {
       datasets[dsValue] = omnivore.kml(url=dsUrl)
       .on("ready", onReadyPopups)
@@ -129,7 +128,7 @@ const datasetToggle = (value, ext) => {
       .on("ready", onReadyPopups)
       .addTo(myMap);
     }
-
+    */
   };
 };
 

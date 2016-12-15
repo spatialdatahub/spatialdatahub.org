@@ -6,6 +6,12 @@ var assert = chai.assert;
 //mapid.setAttribute("id", "mapid");
 
 
+// while i do not want to have special code in my test suite, I want to simulate a click event
+
+
+
+
+
 // Base Map Tests
 describe('The base_map.js tests', function() {
 
@@ -20,8 +26,8 @@ describe('The base_map.js tests', function() {
       assert.equal(osm.options.attribution, expected_attribution);
     });
 
-    it('should have a minimum zoom of 0', function() {
-      assert.equal(osm.options.minZoom, 0);
+    it('should have a minimum zoom of 2', function() {
+      assert.equal(osm.options.minZoom, 2);
     });
 
     it('should have a maximum zoom of 19', function() {
@@ -43,8 +49,8 @@ describe('The base_map.js tests', function() {
       assert.equal(stamenToner.options.attribution, expected_attribution);
     });
 
-    it('should have a minimum zoom of 0', function() {
-      assert.equal(stamenToner.options.minZoom, 0);
+    it('should have a minimum zoom of 2', function() {
+      assert.equal(stamenToner.options.minZoom, 2);
     });
 
     it('should have a maximum zoom of 19', function() {
@@ -99,6 +105,25 @@ describe('The base_map.js tests', function() {
     it('should set the default layer for the map to the Open Street Maps layer', function() {
       assert.equal(myMap.options.layers, osm);
     });
+  });
+
+// Map Scroll Toggle
+  describe('Map scrollWheelToggle', function() {
+
+//document.addEventListener( "plop", function() {
+//   console.log( "Fired a synthetic click event" );
+//}, false );
+
+//fire( document, "plop" );
+
+
+
+    it('should be set to "scrollWheelZoom = false" on page load', function() {
+      assert.equal(myMap.options.scrollWheelZoom, false);
+    });
+
+    it('should toggle the map scrollability on and off on a "click" event');
+
   });
 
 });

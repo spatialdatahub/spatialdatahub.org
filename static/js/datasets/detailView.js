@@ -3,21 +3,13 @@
 
 
 
-// when the dom is ready do all this stuff
+// when the dom is ready do all this stuff -- maybe...
 // this should be put into a function.
+
   let value = document.getElementById("mapid").getAttribute("value"),
   ext = document.getElementById("mapid").getAttribute("ext");
-  console.log(ext);
 
   var dataset;
-
-  if (ext === "kml") {
-    dataset = omnivore.kml(url=`/load_dataset/${value}`);
-  } else if (ext === "csv") {
-    dataset = omnivore.csv(url=`/load_dataset/${value}`);
-  } else {
-    dataset = omnivore.geojson(url=`/load_dataset/${value}`);
-  }
 
   function onReadyPopups() {
     dataset.eachLayer( (layer) => {
@@ -33,11 +25,31 @@
       }
       layer.bindPopup(popupContent.join("<br/>"));
     });
+    let bounds = dataset.getBounds();
+    myMap.fitBounds(bounds);
+  }
+
+// is there any reason to use this instead of an if else chain?
+  let dsUrl = `/load_dataset/${value}`
+  switch (ext) {
+    case "kml":
+      console.log('kml')
+      dataset = omnivore.kml(url=dsUrl)
+      .on("ready", onReadyPopups)
+      .addTo(myMap);
+      break;
+    case "csv":
+      console.log('csv')
+      dataset = omnivore.csv(url=dsUrl)
+      .on("ready", onReadyPopups)
+      .addTo(myMap);
+      break;
+    default:
+      console.log('geojson')
+      dataset = omnivore.geojson(url=dsUrl)
+      .on("ready", onReadyPopups)
+      .addTo(myMap);
+      break;
   }
 
 
-domReady( () => { 
-  dataset.on("ready", onReadyPopups()).addTo(myMap);
-  var bounds = dataset.getBounds();
-  myMap.fitBounds(bounds);
-});
