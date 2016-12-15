@@ -10,13 +10,13 @@
 // I am setting three as constants here
 const osm = L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  minZoom:0, 
+  minZoom:2, 
   maxZoom: 19 
 }),
 stamenToner = L.tileLayer("http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}", {
   attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   subdomains: "abcd",
-  minZoom: 0,
+  minZoom: 2,
   maxZoom: 19,
   ext: "png"
 }),
@@ -30,7 +30,8 @@ Esri_WorldImagery = L.tileLayer("http://server.arcgisonline.com/ArcGIS/rest/serv
 const myMap = new L.Map("mapid", {
   center: {lat: 0, lng: 8.8460}, 
   zoom: 2,
-  layers: osm 
+  layers: osm, 
+  scrollWheelZoom: false
 });
 
 
@@ -54,4 +55,18 @@ const mapCenterButton = L.easyButton({
     }
   }]
 }).addTo(myMap);
+
+
+// toggle map scrollability
+myMap.on('click', function() {
+  if (myMap.scrollWheelZoom.enabled()) {
+    myMap.scrollWheelZoom.disable();
+    console.log('no scroll!');
+  } else {
+    myMap.scrollWheelZoom.enable();
+    console.log('scroll away!');
+  }
+});
+
+
 

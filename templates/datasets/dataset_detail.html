@@ -65,13 +65,14 @@
   <!-- End Links to modify the database or get back to the map list -->
 
   <!-- Map and Background Choices -->
-  <div class="row" id="main_map">
+  <div class="row">
     <div class="col-12 col-xs-12" id="main_map">
-      <div id="mapid" value="{{ dataset.pk }}">
+      <div id="mapid" ext="{{ dataset.ext }}" value="{{ dataset.pk }}">
       </div>
     </div>
   </div>
   <!-- End Map and Background Choices -->
+
 </div>
 
 {% include "base_map_js.html" %}

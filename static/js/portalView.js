@@ -25,6 +25,7 @@ domReady( () => {
 */
 
 
+
 // make empty array to push datasets to
 const datasets = []; 
 
@@ -69,6 +70,7 @@ const datasetToggle = (value, ext) => {
     dsValue = `ds${value}`,
     ds = datasets[dsValue];
 
+// the function
   function onReadyPopups() {
     datasets[dsValue].eachLayer( (layer) => {
       let popupContent = [];
@@ -92,6 +94,27 @@ const datasetToggle = (value, ext) => {
     myMap.removeLayer(ds);	
   } else {
   
+    // would a switch statement be better
+    /*
+    switch (ext) {
+      case "kml":
+        datasets[dsValue] = omnivore.kml(url=dsUrl)
+        .on("ready", onReadyPopups)
+        .addTo(myMap);
+        break;
+      case "csv":
+        datasets[dsValue] = omnivore.csv(url=dsUrl)
+        .on("ready", onReadyPopups)
+        .addTo(myMap);
+        break;
+      default:
+        datasets[dsValue] = omnivore.csv(url=dsUrl)
+        .on("ready", onReadyPopups)
+        .addTo(myMap);
+        break;
+    }
+    */
+
     // use dataset.ext to get dataset type    
     if (ext === "kml") {
       datasets[dsValue] = omnivore.kml(url=dsUrl)
