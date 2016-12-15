@@ -35,7 +35,6 @@ describe('The portalView.js tests', function() {
         after(function() { mapToggler(); });
 
         let main_map = document.getElementById("main_map");
-        console.log(main_map.classList);
 
         it('should have the "main_map" bootstrap class be equal to "col-md-8"',
         function() {

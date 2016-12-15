@@ -42,26 +42,6 @@ for (let i = 0; i < l; i++) {
   datasets.push({"value": `ds${value}`, "ext": ext}); 
 }
 
-/*
-function onReadyPopups() {
-  datasets[dsValue].eachLayer( (layer) => {
-    let popupContent = [];
-    for (let key in layer.feature.properties) {
-      popupContent.push(
-        `<b>${key}</b>: ${layer.feature.properties[key]}`
-      );
-    }
-    if (layer.feature.geometry.type === "Point") {
-      popupContent.push(`<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`);
-      popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`);
-    }
-    layer.bindPopup(popupContent.join("<br/>"));
-  });
-  let bounds = datasets[dsValue].getBounds();
-  myMap.fitBounds(bounds);
-}
-*/
-
 
 // I feel like this should be refactored in a way that lets me re-use the code better
 // add layers to variables stored in dataset list

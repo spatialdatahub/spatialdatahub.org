@@ -110,19 +110,24 @@ describe('The base_map.js tests', function() {
 // Map Scroll Toggle
   describe('Map scrollWheelToggle', function() {
 
-//document.addEventListener( "plop", function() {
-//   console.log( "Fired a synthetic click event" );
-//}, false );
+    describe('Map scrollWheelToggle default', function() {
 
-//fire( document, "plop" );
+      it('should be set to "scrollWheelZoom = false" on page load', function() {
+        assert.equal(myMap.options.scrollWheelZoom, false);
+      });
 
-
-
-    it('should be set to "scrollWheelZoom = false" on page load', function() {
-      assert.equal(myMap.options.scrollWheelZoom, false);
     });
 
-    it('should toggle the map scrollability on and off on a "click" event');
+    describe('Map scrollWheelToggle call', function() {
+
+//      before(function() { scrollWheelToggle(); });
+//      after(function() { scrollWheelToggle(); });
+
+      it('should toggle the map scrollability on and off when the function is called', function() {
+        assert.equal(myMap.options.scrollWheelZoom, true);
+      });
+
+    });
 
   });
 

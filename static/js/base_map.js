@@ -58,7 +58,8 @@ const mapCenterButton = L.easyButton({
 
 
 // toggle map scrollability
-myMap.on('click', function() {
+// save anonymous arrow function to variable
+var scrollWheelToggle = () => {
   if (myMap.scrollWheelZoom.enabled()) {
     myMap.scrollWheelZoom.disable();
     console.log('no scroll!');
@@ -66,7 +67,5 @@ myMap.on('click', function() {
     myMap.scrollWheelZoom.enable();
     console.log('scroll away!');
   }
-});
-
-
-
+}
+myMap.on('click', scrollWheelToggle);

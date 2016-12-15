@@ -9,6 +9,8 @@ const domReady = function(callback) {
 
 
 // define toggle element display function
+// this may not be needed anymore
+/*
 function toggleDisplay(obj) {
   let element = document.getElementById(obj);
   if ( element.style.display != "none" ) {
@@ -17,3 +19,4 @@ function toggleDisplay(obj) {
     element.style.display = "";
   }
 };
+*/
