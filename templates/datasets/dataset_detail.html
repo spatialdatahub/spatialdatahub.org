@@ -4,9 +4,15 @@
 {% block head_title %}{{ dataset.title }}{% endblock head_title %}
 {% block additional_css %}
   <style>
+
     #mapid {
       height: 65%;
     }
+
+    #main_map {
+      padding-bottom: 20px;
+    }
+
   </style>
 {% endblock additional_css %}
 
@@ -38,6 +44,21 @@
       <p><b>Dataset Visible to Public:</b> {{ dataset.public_access }}</p>
       <p><b>Dataset Description:</b> {{ dataset.description }}</p>
       <p><b>Date Created:</b> {{ dataset.date_added }}</p>
+
+      <!-- Special Javascript Created Elements -->
+      <p><b>Number of dataset features:</b><span id="feature_count"></span></p>
+
+      <p>NOT DONE YET <b>Select property to filter by:</b>
+        <span>
+          <select id="feature_selector">
+          </select>
+        </span>
+      </p>
+
+      <p>NOT DONE YET: filter by latitude</p>
+      <p>NOT DONE YET: filter by longitude</p>
+
+      <!-- End Special Javascript Created Elements -->
     </div>
   </div>
   <hr class="divider">
