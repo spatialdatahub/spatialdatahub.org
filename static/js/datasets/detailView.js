@@ -7,21 +7,20 @@
       dataset,
       featureCount = 0,
       featureCountElement = document.getElementById('feature_count'),
+      datasetProperties= [],
       featureSelector = document.getElementById('feature_selector');
 
 // define my popups function
   function onReadyPopups() {
-    dataset.eachLayer( (layer) => {
+    dataset.eachLayer( layer => {
       featureCount++;
-      let popupContent = []; 
+      let popupContent = [];
       for (let key in layer.feature.properties) {
         popupContent.push(
           `<b>${key}</b>: ${layer.feature.properties[key]}`
         );
-        // add elements to property filter selector
-        featureSelector.options[featureSelector.options.length] = new Option(key);
-        // this doesn't work because it adds all elements for every single layer
-        // I only want it to run through a single layer and add it
+      // get keys and put them into keys variable 
+      datasetProperties.push(`${key}`);
       }
 
       if (layer.feature.geometry.type === "Point") {
@@ -31,10 +30,25 @@
       layer.bindPopup(popupContent.join("<br/>"));
     });
 
+
+      // make features from datasetProperties 
+      let uniqueDatasetProperties = [...new Set(datasetProperties)];
+      for (i in uniqueDatasetProperties) {
+        featureSelector.options[featureSelector.options.length] = new Option(uniqueDatasetProperties[i]);
+      }
+
+
     let bounds = dataset.getBounds();
     myMap.fitBounds(bounds);
     // count features and add them to 'feature count html element'
     featureCountElement.innerHTML = featureCountElement.innerHTML + ` ${featureCount}`;
+
+    // add elements to property filter selector
+//    featureSelector.options[featureSelector.options.length] = new Option(key);
+    // this doesn't work because it adds all elements for every single layer
+     // I only want it to run through a single layer and add it
+
+
   }
 
 // I might be able to add the .on and .addTo parts of this extensions to a function
@@ -60,10 +74,7 @@ let typeSwitcher = () => {
       break;
   }
 };
-
 typeSwitcher();
 
-// It would be nice to get all the different features into a 'select' element or something,
-// and then use that to create a filter function
-// maybe it would be easiest to start with latitude and longitude
 
+// Start messing with the filter function
