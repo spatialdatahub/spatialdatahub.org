@@ -19,8 +19,8 @@
         popupContent.push(
           `<b>${key}</b>: ${layer.feature.properties[key]}`
         );
-      // get keys and put them into keys variable 
-      datasetProperties.push(`${key}`);
+        // get keys and put them into keys variable 
+        datasetProperties.push(`${key}`);
       }
 
       if (layer.feature.geometry.type === "Point") {
