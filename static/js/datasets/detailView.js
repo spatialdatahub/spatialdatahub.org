@@ -1,5 +1,6 @@
 // This is the javascript file for the map detail view
 
+// How many of these can I define with the 'const' designation
 // Define my variables
   let value = document.getElementById("mapid").getAttribute("value"),
       ext = document.getElementById("mapid").getAttribute("ext"),
@@ -11,10 +12,10 @@
       featureSelector = document.getElementById('feature_selector');
 
 // define my popups function
-  function onReadyPopups() {
+  const onReadyPopups = () => {
     dataset.eachLayer( layer => {
       featureCount++;
-      let popupContent = [];
+      const popupContent = [];
       for (let key in layer.feature.properties) {
         popupContent.push(
           `<b>${key}</b>: ${layer.feature.properties[key]}`
@@ -32,13 +33,13 @@
 
 
       // make features from datasetProperties 
-      let uniqueDatasetProperties = [...new Set(datasetProperties)];
+      const uniqueDatasetProperties = [...new Set(datasetProperties)];
       for (i in uniqueDatasetProperties) {
         featureSelector.options[featureSelector.options.length] = new Option(uniqueDatasetProperties[i]);
       }
 
 
-    let bounds = dataset.getBounds();
+    const bounds = dataset.getBounds();
     myMap.fitBounds(bounds);
     // count features and add them to 'feature count html element'
     featureCountElement.innerHTML = featureCountElement.innerHTML + ` ${featureCount}`;
@@ -52,7 +53,8 @@
   }
 
 // I might be able to add the .on and .addTo parts of this extensions to a function
-let typeSwitcher = () => {
+// This stuff is going to be changed
+const typeSwitcher = () => {
   switch (ext) {
     case "kml":
       console.log('kml')

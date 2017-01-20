@@ -25,7 +25,6 @@ Esri_WorldImagery = L.tileLayer("http://server.arcgisonline.com/ArcGIS/rest/serv
 });
 
 
-
 // set up map, view and base layer
 const myMap = new L.Map("mapid", {
   center: {lat: 0, lng: 8.8460}, 
@@ -59,7 +58,7 @@ const mapCenterButton = L.easyButton({
 
 // toggle map scrollability
 // save anonymous arrow function to variable
-var scrollWheelToggle = () => {
+const scrollWheelToggle = () => {
   if (myMap.scrollWheelZoom.enabled()) {
     myMap.scrollWheelZoom.disable();
     console.log('no scroll!');
