@@ -24,47 +24,46 @@ let filteredLayer = L.geoJson().addTo(myMap);
 
 
 // define my popups function
-  const onReadyPopups = () => {
-    dataset.eachLayer( layer => {
-      featureCount++;
-      const popupContent = [];
-      for (let key in layer.feature.properties) {
-        popupContent.push(
-          `<b>${key}</b>: ${layer.feature.properties[key]}`
-        );
-        // get keys and put them into keys variable 
-        datasetProperties.push(`${key}`);
-      }
+const onReadyPopups = () => {
+  filteredLayer.eachLayer( layer => {
+    featureCount++;
+    const popupContent = [];
+    for (let key in layer.feature.properties) {
+      popupContent.push(
+        `<b>${key}</b>: ${layer.feature.properties[key]}`
+      );
+      // get keys and put them into keys variable 
+      datasetProperties.push(`${key}`);
+    }
 
-      if (layer.feature.geometry.type === "Point") {
-        popupContent.push(`<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`);
-        popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`);
-      }
-      layer.bindPopup(popupContent.join("<br/>"));
-    });
-
-
-			// maybe I want to comment this stuff out for a moment...
-
-      // make features from datasetProperties 
-			// this is going to need to apply to the 'filteredLayer' variable, not the dataset variable
-      const uniqueDatasetProperties = [...new Set(datasetProperties)];
-      for (i in uniqueDatasetProperties) {
-        featureSelector.options[featureSelector.options.length] = new Option(uniqueDatasetProperties[i]);
-      }
+    if (layer.feature.geometry.type === "Point") {
+      popupContent.push(`<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`);
+      popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`);
+    }
+    layer.bindPopup(popupContent.join("<br/>"));
+  });
 
 
-    const bounds = dataset.getBounds();
-    myMap.fitBounds(bounds);
-    // count features and add them to 'feature count html element'
-    featureCountElement.innerHTML = featureCountElement.innerHTML + ` ${featureCount}`;
+	// maybe I want to comment this stuff out for a moment...
 
-    // add elements to property filter selector
-//    featureSelector.options[featureSelector.options.length] = new Option(key);
-    // this doesn't work because it adds all elements for every single layer
-     // I only want it to run through a single layer and add it
+    // make features from datasetProperties 
+	// this is going to need to apply to the 'filteredLayer' variable, not the dataset variable
+    const uniqueDatasetProperties = [...new Set(datasetProperties)];
+    for (i in uniqueDatasetProperties) {
+      featureSelector.options[featureSelector.options.length] = new Option(uniqueDatasetProperties[i]);
+    }
 
-  }
+  const bounds = filteredLayer.getBounds();
+  myMap.fitBounds(bounds);
+  // count features and add them to 'feature count html element'
+  featureCountElement.innerHTML = featureCountElement.innerHTML + ` ${featureCount}`;
+
+  // add elements to property filter selector
+  // featureSelector.options[featureSelector.options.length] = new Option(key);
+  // this doesn't work because it adds all elements for every single layer
+  // I only want it to run through a single layer and add it
+
+}
 
 
 // I might be able to add the .on and .addTo parts of this extensions to a function
@@ -130,6 +129,9 @@ const addDatasetToMapJSON = () => {
 		.then((response) => {
 			dataset = JSON.parse(response);
 			filteredLayer.addData(dataset);
+		})
+		.then((response) => {
+			onReadyPopups(response);
 		}, (error) => {
 			console.log('promise error handler', error);
 		});
@@ -147,10 +149,10 @@ const filterValues = () => {
 	// get min and max values from lat and lng inputs
 	// can I lift this out of the function, and just get the values
 	// for each?
-	let minLng = document.getElementById('lng_min_input').value,
-			maxLng = document.getElementById('lng_max_input').value,
-			minLat = document.getElementById('lat_min_input').value,
-			maxLat = document.getElementById('lat_max_input').value;
+	let minLng = lngMinInput.value,
+			maxLng = lngMaxInput.value,
+			minLat = latMinInput.value,
+			maxLat = latMaxInput.value;
 
   // if else statements. There should be a better way to do this.
   if (minLng == "") {
@@ -214,9 +216,15 @@ const resetValues = () => {
 
 
 // add event listener to submitValuesButton
-submitValuesButton.addEventListener("click", () => filterValues());
+submitValuesButton.addEventListener("click", () => {
+	filterValues();
+	onReadyPopups();
+});
 
 // add event listener to resetValuesButton
-resetValuesButton.addEventListener("click", () => resetValues());
+resetValuesButton.addEventListener("click", () => {
+	resetValues();
+	onReadyPopups();
+});
 
 
