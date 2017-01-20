@@ -97,10 +97,18 @@
   <hr class="divider">
   <!-- End Links to modify the database or get back to the map list -->
 
+	<!--
+		Can I pass in variables alone? Why can't I pass them in as empty divs?
+		I am going to do that until I think of a better way.
+	-->
+  <div id="dataset_pk" value="{{ dataset.pk }}"></div>
+  <div id="dataset_ext" value="{{ dataset.ext }}"></div>
+
+
   <!-- Map and Background Choices -->
   <div class="row">
     <div class="col-12 col-xs-12" id="main_map">
-      <div id="mapid" ext="{{ dataset.ext }}" value="{{ dataset.pk }}">
+      <div id="mapid">
       </div>
     </div>
   </div>

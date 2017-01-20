@@ -3,8 +3,14 @@
 // How many of these can I define with the 'const' designation
 // Define my variables
 
-const value = document.getElementById("mapid").getAttribute("value"),
-	ext = document.getElementById("mapid").getAttribute("ext"),
+const value = document.getElementById("dataset_pk").getAttribute("value"),
+	ext = document.getElementById("dataset_ext").getAttribute("value"),
+	submitValuesButton = document.getElementById('submit_values_button'),
+	resetValuesButton = document.getElementById('reset_values_button'),
+  lngMinInput = document.getElementById("lng_min_input"),
+  lngMaxInput = document.getElementById("lng_max_input"),
+  latMinInput = document.getElementById("lat_min_input"),
+  latMaxInput = document.getElementById("lat_max_input");	
 	featureCountElement = document.getElementById('feature_count'),
 	datasetUrl = `/load_dataset/${value}`;
 
@@ -15,6 +21,7 @@ let dataset,
 
 // define geojson layer that the dataset may be added to
 let filteredLayer = L.geoJson().addTo(myMap);
+
 
 // define my popups function
   const onReadyPopups = () => {
@@ -40,6 +47,7 @@ let filteredLayer = L.geoJson().addTo(myMap);
 			// maybe I want to comment this stuff out for a moment...
 
       // make features from datasetProperties 
+			// this is going to need to apply to the 'filteredLayer' variable, not the dataset variable
       const uniqueDatasetProperties = [...new Set(datasetProperties)];
       for (i in uniqueDatasetProperties) {
         featureSelector.options[featureSelector.options.length] = new Option(uniqueDatasetProperties[i]);
@@ -58,8 +66,10 @@ let filteredLayer = L.geoJson().addTo(myMap);
 
   }
 
+
 // I might be able to add the .on and .addTo parts of this extensions to a function
 // This stuff is going to be changed
+/*
 const typeSwitcher = () => {
   switch (ext) {
     case "kml":
@@ -83,7 +93,7 @@ const typeSwitcher = () => {
   }
 };
 typeSwitcher();
-
+*/
 
 // Start messing with the filter function
 // I am going to have to re-create my elements, then I am going to have to use something
@@ -115,7 +125,7 @@ const getDataset = (url) => {
 // make the function that deals with the promises loads the data, then saves it
 // to a variable
 
-const useDatasetJSON = () => {
+const addDatasetToMapJSON = () => {
 	getDataset(datasetUrl)
 		.then((response) => {
 			dataset = JSON.parse(response);
@@ -125,5 +135,88 @@ const useDatasetJSON = () => {
 		});
 };
 
+// call the function that adds data to the map
+// should the switch function for JSON / XML / CSV be here?
+addDatasetToMapJSON();
+
 // Now I've got to figure out what the url and necessary DOM elements are all called.
+const filterValues = () => {
+	// remove filteredLayer
+	myMap.removeLayer(filteredLayer);
+
+	// get min and max values from lat and lng inputs
+	// can I lift this out of the function, and just get the values
+	// for each?
+	let minLng = document.getElementById('lng_min_input').value,
+			maxLng = document.getElementById('lng_max_input').value,
+			minLat = document.getElementById('lat_min_input').value,
+			maxLat = document.getElementById('lat_max_input').value;
+
+  // if else statements. There should be a better way to do this.
+  if (minLng == "") {
+    minLng = -180
+  } else if (minLng <= -180) {
+    minLng = -180
+  } else if (minLng >= 180) {
+    minLng = 180
+  }
+  
+  if (maxLng == "") {
+    maxLng = 180
+  } else if (maxLng <= -180) {
+    maxLng = -180
+  } else if (maxLng >= 180) {
+    maxLng = 180
+  }
+  
+  if (minLat == "") {
+    minLat = -90
+  } else if (minLat <= -90) {
+    minLat = -90
+  } else if (minLat >= 90) {
+    minLat = 90
+  }
+ 
+  if (maxLat == "") {
+    maxLat = 90
+  } else if (maxLat <= -90) {
+    maxLat = -90
+  } else if (maxLat >= 90) {
+    maxLat = 90
+  }
+
+  // remake filtered layer with new min and max values
+  filteredLayer = L.geoJson(dataset, {
+    filter: (feature, layer) => {
+      let coords = feature.geometry.coordinates;
+      let filteredData = coords[0] > minLng && 
+                         coords[0] < maxLng && 
+                         coords[1] > minLat && 
+                         coords[1] < maxLat;
+      return filteredData;
+    }
+  }).addTo(myMap);
+};
+
+const resetValues = () => {
+	// remove filteredLayer
+	myMap.removeLayer(filteredLayer);
+
+	// set filteredLayer to unfiltered dataset
+	filteredLayer = L.geoJson(dataset).addTo(myMap);
+
+	// clear lat and long min and max input values
+  lngMinInput.value = "",
+  lngMaxInput.value = "",
+  latMinInput.value = "", 
+  latMaxInput.value = "";
+};
+
+
+// add event listener to submitValuesButton
+submitValuesButton.addEventListener("click", () => filterValues());
+
+// add event listener to resetValuesButton
+resetValuesButton.addEventListener("click", () => resetValues());
+
 
