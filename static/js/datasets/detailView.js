@@ -44,13 +44,20 @@ const onReadyPopups = () => {
   filteredLayer.eachLayer( layer => {
     featureCount++;
     const popupContent = [];
-    for (const key in layer.feature.properties) {
-      popupContent.push(
-        `<b>${key}</b>: ${layer.feature.properties[key]}`
-      );
-      // get keys and put them into keys variable
-      datasetProperties.push(`${key}`);
+
+    // make sure there are properties
+    if (
+      layer.feature.properties.length !== undefined ||
+      layer.feature.properties.length != 0) {
+      for (const key in layer.feature.properties) {
+        popupContent.push(
+          `<b>${key}</b>: ${layer.feature.properties[key]}`
+        );
+        // get keys and put them into keys variable
+        datasetProperties.push(`${key}`);
+      }
     }
+
     if (layer.feature.geometry.type === "Point") {
       popupContent.push(`<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`);
       popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`);
@@ -62,24 +69,55 @@ const onReadyPopups = () => {
   const bounds = filteredLayer.getBounds();
   myMap.fitBounds(bounds);
 
-    // these for loops run every time the function is called. It's going to
-    // make things slow probably, but it works right now. I can refactor later.
-    // It's more important to keep functionality going right now.
+  if (datasetProperties.length > 0) {
+    // get unique dataset properties
     const uniqueDatasetProperties = [...new Set(datasetProperties)];
 
-    // delete options in the featureSelector element
-    for (i in featureSelector) {
-      featureSelector.options[i] = null;
-      // console.log(uniqueDatasetProperties[i]);
-    }
+    const ifFeatureProperties = () => {
+      // remove if they are there elements, then create elements
+      if (document.getElementById("selector_container")) {
+        document.getElementById("selector_container").remove();
+      }
+
+      // create elements
+      const ifFeaturesElement = document.getElementById("if_features"),
+        p = document.createElement("p"),
+        span = document.createElement("span"),
+        b = document.createElement("b"), 
+        text = document.createTextNode("Select property to filter by: "),
+        selector = document.createElement("select");
+
+      // set id of p and select element
+      p.setAttribute("id", "selector_container");
+      selector.setAttribute("id", "feature_selector");
+
+      // put them together
+      b.appendChild(text);
+      span.appendChild(b);
+      span.appendChild(selector);
+      p.appendChild(span);
+      ifFeaturesElement.appendChild(p);
+
+      // add options to select element
+
+      // delete options in the featureSelector element
+      for (i in selector) {
+        selector.options[i] = null;
+      }
 
     // create and add options to the feature selector element
     for (i in uniqueDatasetProperties) {
       const opt = document.createElement('option');
       opt.value = uniqueDatasetProperties[i];
       opt.innerHTML = uniqueDatasetProperties[i];
-      featureSelector.appendChild(opt);
+      selector.appendChild(opt);
     }
+
+
+    }
+    ifFeatureProperties(); // this should be 'if feature properties'
+    
+  }
   
   // count features and add them to 'feature count html element'
   featureCountElement.innerHTML = ` ${featureCount}`;
@@ -109,14 +147,12 @@ const getDataset = (url) => {
       if (xhr.readyState == 4 && xhr.status == 200) {
       // Maybe I should just define the if/else statement right here
         if (ext === 'csv') {
-          console.log(xhr.responseText);
           let csvJson; 
           csv2geojson.csv2geojson(
             xhr.responseText, function(err, data) {
               if (err) {
                 return err;
               } else {
-                // console.log(data);
                 return csvJson = data; 
               }
           });
@@ -266,44 +302,3 @@ resetValuesButton.addEventListener("click", () => {
   onReadyPopups();
 });
 
-
-
-
-
-
-
-// I might be able to add the .on and .addTo parts of this extensions to a function
-// This stuff is going to be changed
-/*
-const typeSwitcher = () => {
-  switch (ext) {
-    case "kml":
-      console.log('kml')
-      dataset = omnivore.kml(url=datasetUrl)
-      .on("ready", onReadyPopups)
-      .addTo(myMap);
-      break;
-    case "csv":
-      console.log('csv')
-      dataset = omnivore.csv(url=datasetUrl)
-      .on("ready", onReadyPopups)
-      .addTo(myMap);
-      break;
-    default:
-      console.log('geojson')
-      dataset = omnivore.geojson(url=datasetUrl)
-      .on("ready", onReadyPopups)
-      .addTo(myMap);
-      break;
-  }
-};
-typeSwitcher();
-*/
-
-// Start messing with the filter function
-// I am going to have to re-create my elements, then I am going to have to use something
-// other than omnivore to bring in the data, I think.
-// Here is a method to get the data using a Promise and an XMLHttpResponse. The response text
-// should be parsable by JSON.parse, or some XML Parse method. Hopefully the decision to
-// use some parsing mechanism can be made outside of this function, or maybe the response
-// text can be sent to omnivore after all.
