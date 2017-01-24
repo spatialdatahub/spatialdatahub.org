@@ -119,10 +119,18 @@
 {% include "base_map_js.html" %}
 {% endblock content %}
 
+  <!-- why am i doing this in a block? -->
 {% block js %}
-<!-- include the togeojson.js here and use it with kml files -->
+
+<!-- if file is kml include the togeojson.js here and use it with kml files -->
+{% if dataset.ext == 'kml' %}
   <script type="text/javascript" src="{% static 'leaflet_packages/togeojson.js' %}"></script>
-<!-- hopefully it doesn't fight with the omnivore library -->
+{% endif %}
+
+<!-- if file is csv include csv2geojson.js here -->
+{% if dataset.ext == 'csv' %}
+  <script type="text/javascript" src="https://npmcdn.com/csv2geojson@5.0.2/csv2geojson.js"></script>
+{% endif %}
 
   <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/base_map.js' %}"></script>

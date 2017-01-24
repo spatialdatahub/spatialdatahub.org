@@ -109,7 +109,18 @@ const getDataset = (url) => {
       if (xhr.readyState == 4 && xhr.status == 200) {
       // Maybe I should just define the if/else statement right here
         if (ext === 'csv') {
-          resolve(xhr.responseText); // CSV
+          console.log(xhr.responseText);
+          let csvJson; 
+          csv2geojson.csv2geojson(
+            xhr.responseText, function(err, data) {
+              if (err) {
+                return err;
+              } else {
+                // console.log(data);
+                return csvJson = data; 
+              }
+          });
+          resolve(csvJson); // CSV
         } else if (ext === 'kml') {
           const kmlJson = toGeoJSON.kml(xhr.response);
           resolve(kmlJson); // XML this may not work for a bit
@@ -152,7 +163,6 @@ const addDatasetToMapJSON = () => {
       dataset = response; // this should work after kml has been
                                       //converted to geojson
       filteredLayer.addData(dataset);
-//    }, (error) => { console.log('promise error handler', error);})};
 
     })
     .then((response) => {
