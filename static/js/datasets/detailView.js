@@ -1,6 +1,19 @@
 // This is the javascript file for the map detail view
 
-// How many of these can I define with the 'const' designation
+//***************************************************//
+// Set up if / else  or switchstatement for
+// json / kml / csv choice.
+//
+// Then add in input box or something with the feature_selector
+// that will modify the points that show up on the map,
+// 
+// One thing I may be able to do is use the Turf.js
+// library for all the filtering functions. That would reduce
+// the amount of code I write quite a bit... I will start
+// by writing everything myself and see where I go from there
+//***************************************************//
+
+
 // Define my variables
 
 const value = document.getElementById("dataset_pk").getAttribute("value"),
@@ -72,14 +85,37 @@ const onReadyPopups = () => {
   featureCountElement.innerHTML = ` ${featureCount}`;
 };
 
+// would it be better to write an if/else statement within this function
+// that checks the ext variable, or to write three functions and an if / else
+// statement that selects which function to use?
+// what would be easier to test? What would be easier to write? What would be
+// easier to debug?
+
+// I'm going with three functions and an if / else statement
+// that actually modifies which functions are even defined.
+
 
 const getDataset = (url) => {
   const promise = new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url);
+
+    if (ext === 'kml') {
+      xhr.responseType = 'document'; 
+      xhr.overrideMimeType('text/xml');
+    }
+
     xhr.onload = () => {
       if (xhr.readyState == 4 && xhr.status == 200) {
-        resolve(xhr.responseText);
+      // Maybe I should just define the if/else statement right here
+        if (ext === 'csv') {
+          resolve(xhr.responseText); // CSV
+        } else if (ext === 'kml') {
+          const kmlJson = toGeoJSON.kml(xhr.response);
+          resolve(kmlJson); // XML this may not work for a bit
+        } else {
+          resolve(JSON.parse(xhr.responseText)); // JSON
+        }
       } else {
         reject(Error(xhr.statusText));
       }
@@ -91,14 +127,33 @@ const getDataset = (url) => {
 };
 
 
+
+if (ext === 'csv') {
+  console.log('csv');
+} else if (ext === 'kml') {
+  console.log('kml');
+} else {
+  console.log('json');
+}
+
+
+
 // We are going to start with JSON, then expand from there
 // make the function that deals with the promises loads the data, then saves it
 // to a variable
+
+// I don't want to add another if / else statement, but I think i may have to 
+// so that I can deal with the kml and csv stuff, except that I don't want 
+// a layer, I want a json object
+
 const addDatasetToMapJSON = () => {
   getDataset(datasetUrl)
     .then((response) => {
-      dataset = JSON.parse(response);
+      dataset = response; // this should work after kml has been
+                                      //converted to geojson
       filteredLayer.addData(dataset);
+//    }, (error) => { console.log('promise error handler', error);})};
+
     })
     .then((response) => {
       onReadyPopups(response);

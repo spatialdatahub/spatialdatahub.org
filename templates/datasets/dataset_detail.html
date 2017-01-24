@@ -120,6 +120,10 @@
 {% endblock content %}
 
 {% block js %}
+<!-- include the togeojson.js here and use it with kml files -->
+  <script type="text/javascript" src="{% static 'leaflet_packages/togeojson.js' %}"></script>
+<!-- hopefully it doesn't fight with the omnivore library -->
+
   <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/base_map.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/datasets/detailView.js' %}"></script>
