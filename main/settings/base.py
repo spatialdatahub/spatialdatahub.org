@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
@@ -88,7 +89,7 @@ WSGI_APPLICATION = "main.wsgi.application"
 ################################################
 # set this thing up for travis and for gitlab-ci
 ################################################
-if 'TRAVIS' in os.environ:
+if 'travis' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE':   'django.db.backends.postgresql_psycopg2',
@@ -103,13 +104,14 @@ else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": "travis_ci_test",
-            "USER": "postgres",
-            "PASSWORD": "",
+            "NAME": "webgis_db",
+            "USER": "webgis_user",
+            "PASSWORD": "webgis_password",
             "HOST": "localhost",
             "PORT": "5432",
         }
     }
+
 
 
 # Password validation
