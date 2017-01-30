@@ -1,5 +1,3 @@
-var assert = chai.assert;
-
 // Base Map Tests
 // I need to mock some html elements, but i am apparently not doing it right.
 //var mapid = document.createElement('div');
@@ -7,9 +5,6 @@ var assert = chai.assert;
 
 
 // while i do not want to have special code in my test suite, I want to simulate a click event
-
-
-
 
 
 // Base Map Tests
@@ -21,7 +16,7 @@ describe('The base_map.js tests', function() {
       assert.equal(osm._url, "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png");
     });
 
-    let expected_attribution = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+    var expected_attribution = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
     it('should have the correct attribution', function() {
       assert.equal(osm.options.attribution, expected_attribution);
     });
@@ -44,7 +39,7 @@ describe('The base_map.js tests', function() {
       );
     });
 
-    let expected_attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+    var expected_attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
     it('should have the correct attribution', function() {
       assert.equal(stamenToner.options.attribution, expected_attribution);
     });
@@ -67,7 +62,7 @@ describe('The base_map.js tests', function() {
       );
     });
 
-  let expected_attribution = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
+  var expected_attribution = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
     it('should have the correct attribution', function() {
       assert.equal(Esri_WorldImagery.options.attribution, expected_attribution);
     });

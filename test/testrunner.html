@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title> Tests </title>
+        <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+        <link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css" />
+
+
+    </head>
+    <body>
+        <div id="mapid"></div>
+
+        <div id="mocha"></div>
+
+        <!-- bring in js files from node_modules -->
+        <script src="../node_modules/leaflet/dist/leaflet.js"></script>
+        <script src="../node_modules/mocha/mocha.js"></script>
+        <script src="../node_modules/chai/chai.js"></script>
+
+        <script>
+            mocha.ui('bdd'); 
+            mocha.reporter('html');
+            var assert = chai.assert;
+        </script>
+
+        <!-- bring in files to test -->
+        <script src="../static/js/base.js"></script>
+        <script src="../static/js/base_map.js"></script>
+
+        <!-- bring in test files -->
+        <script src="./test.js"></script>
+        <script src="./test.base_map.js"></script>
+
+        <script>
+            if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
+            else { mocha.run(); }
+        </script>
+    </body>
+</html>

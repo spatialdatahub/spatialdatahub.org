@@ -8,7 +8,7 @@
 
 // create base tile layer variables for map
 // I am setting three as constants here
-const osm = L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+var osm = L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   minZoom:2, 
   maxZoom: 19 
@@ -26,7 +26,7 @@ Esri_WorldImagery = L.tileLayer("http://server.arcgisonline.com/ArcGIS/rest/serv
 
 
 // set up map, view and base layer
-const myMap = new L.Map("mapid", {
+var myMap = new L.Map("mapid", {
   center: {lat: 0, lng: 8.8460}, 
   zoom: 2,
   layers: osm, 
@@ -35,7 +35,7 @@ const myMap = new L.Map("mapid", {
 
 
 // create layer group and add base tile layers, then add it to the map
-const baseLayers = {
+var baseLayers = {
   "Open Street Maps": osm,
   "Black and White": stamenToner,
   "ESRI World Map": Esri_WorldImagery 
@@ -45,20 +45,22 @@ baseLayerControl.addTo(myMap);
 
 
 // Add a map center button with id, for testing purposes
-const mapCenterButton = L.easyButton({
+/*
+var mapCenterButton = L.easyButton({
   states: [{
     id: "mapCenterButton",
     icon: "fa-home", 
-    onClick: (btn, myMap) => {
+    onClick: function(btn, myMap) {
       myMap.setView([0, 8.8460], 2);
     }
   }]
 }).addTo(myMap);
+*/
 
 
 // toggle map scrollability
 // save anonymous arrow function to variable
-const scrollWheelToggle = () => {
+var scrollWheelToggle = function() {
   if (myMap.scrollWheelZoom.enabled()) {
     myMap.scrollWheelZoom.disable();
     console.log('no scroll!');

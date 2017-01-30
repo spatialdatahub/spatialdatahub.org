@@ -1,5 +1,4 @@
-var assert = chai.assert;
-
+var assert = require('assert');
 
 // portalView Javascript Tests
 describe('The portalView.js tests', function() {

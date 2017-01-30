@@ -1,19 +1,5 @@
 // This is the javascript file for the map detail view
 
-//***************************************************//
-// Set up if / else  or switchstatement for
-// json / kml / csv choice.
-//
-// Then add in input box or something with the feature_selector
-// that will modify the points that show up on the map,
-// 
-// One thing I may be able to do is use the Turf.js
-// library for all the filtering functions. That would reduce
-// the amount of code I write quite a bit... I will start
-// by writing everything myself and see where I go from there
-//***************************************************//
-
-
 // Define my variables
 
 const value = document.getElementById("dataset_pk").getAttribute("value"),
@@ -85,16 +71,20 @@ const onReadyPopups = () => {
         span = document.createElement("span"),
         b = document.createElement("b"), 
         text = document.createTextNode("Select property to filter by: "),
-        selector = document.createElement("select");
+        selector = document.createElement("select"),
+        input = document.createElement("input");
 
       // set id of p and select element
       p.setAttribute("id", "selector_container");
       selector.setAttribute("id", "feature_selector");
+      input.setAttribute("id", "feature_selector_input");
+      input.setAttribute("type", "text");
 
       // put them together
       b.appendChild(text);
       span.appendChild(b);
       span.appendChild(selector);
+      span.appendChild(input);
       p.appendChild(span);
       ifFeaturesElement.appendChild(p);
 
@@ -105,14 +95,13 @@ const onReadyPopups = () => {
         selector.options[i] = null;
       }
 
-    // create and add options to the feature selector element
-    for (i in uniqueDatasetProperties) {
-      const opt = document.createElement('option');
-      opt.value = uniqueDatasetProperties[i];
-      opt.innerHTML = uniqueDatasetProperties[i];
-      selector.appendChild(opt);
-    }
-
+      // create and add options to the feature selector element
+      for (i in uniqueDatasetProperties) {
+        const opt = document.createElement('option');
+        opt.value = uniqueDatasetProperties[i];
+        opt.innerHTML = uniqueDatasetProperties[i];
+        selector.appendChild(opt);
+      }
 
     }
     ifFeatureProperties(); // this should be 'if feature properties'
@@ -185,10 +174,6 @@ if (ext === 'csv') {
 
 
 
-// We are going to start with JSON, then expand from there
-// make the function that deals with the promises loads the data, then saves it
-// to a variable
-
 // I don't want to add another if / else statement, but I think i may have to 
 // so that I can deal with the kml and csv stuff, except that I don't want 
 // a layer, I want a json object
@@ -210,7 +195,7 @@ const addDatasetToMapJSON = () => {
 
 
 // Now I've got to figure out what the url and necessary DOM elements are all called.
-const filterValues = () => {
+const filterLatLngValues = () => {
   // remove filteredLayer
   myMap.removeLayer(filteredLayer);
 
@@ -291,7 +276,7 @@ addDatasetToMapJSON();
 
 // add event listener to submitValuesButton
 submitValuesButton.addEventListener("click", () => {
-  filterValues();
+  filterLatLngValues();
   onReadyPopups();
 });
 

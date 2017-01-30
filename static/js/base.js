@@ -2,7 +2,7 @@
 // and a toggle display command.
 
 // define DOM ready function
-const domReady = function(callback) {
+var domReady = function(callback) {
   document.readyState === "interactive" ||
   document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
 };
@@ -21,6 +21,11 @@ function toggleDisplay(obj) {
 };
 */
 
+
+if (typeof window === 'undefined') {
+  exports.domReady = domReady;
+} else {
+
 Element.prototype.remove = function() {
     this.parentElement.removeChild(this);
 }
@@ -32,3 +37,4 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
     }
 }
 
+}

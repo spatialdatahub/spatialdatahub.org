@@ -1,0 +1,29 @@
+{
+  "name": "webgis",
+  "version": "1.0.0",
+  "description": "A website that displays remote map datasets using leafletjs",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.leibniz-zmt.de:pcu/ZMT_GIS_Portal.git"
+  },
+  "keywords": [
+    "leaflet"
+  ],
+  "author": "Patrick Curry",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "mocha-phantomjs": "^4.1.0"
+  },
+  "dependencies": {
+    "leaflet": "^1.0.3"
+  }
+}

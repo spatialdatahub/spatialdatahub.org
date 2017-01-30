@@ -1,6 +1,3 @@
-var assert = chai.assert;
-
-// Base JavaScript File Tests
 describe('The base.js tests', function() {
 
   describe('The DOM ready function', function() {
@@ -30,4 +27,3 @@ describe('The base.js tests', function() {
   });
 
 });
-

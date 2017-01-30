@@ -14,4 +14,4 @@ before_script:
 script:
   - "python manage.py makemigrations"
   - "python manage.py migrate"
-  - "python manage.py test tests.unit_tests"
+  - "python manage.py test test.unit_tests"
