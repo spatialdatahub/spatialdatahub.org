@@ -10,7 +10,8 @@ class AccountModelTests(TestCase):
     different things in the web app.
     """
     def setUp(self):
-        self.a1 = Account.objects.create(user="test_user",
+        self.a1 = Account.objects.create(
+            user="test_user",
             affiliation="Zentrum für Marine Tropenökologie")
 
     def test_that_account_object_can_be_saved_to_database_and_found(self):
@@ -21,7 +22,8 @@ class AccountModelTests(TestCase):
         """
         test_account = Account.objects.get(account_slug="test_user")
         self.assertEqual(test_account.user, "test_user")
-        self.assertEqual(test_account.affiliation, "Zentrum für Marine Tropenökologie")
+        self.assertEqual(test_account.affiliation,
+                         "Zentrum für Marine Tropenökologie")
         self.assertEqual(test_account.account_slug, "test_user")
 
     def test_that_accounts_with_same_user_name_cannot_be_saved(self):

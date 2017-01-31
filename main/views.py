@@ -1,16 +1,14 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import ListView
 
 from datasets.models import Dataset
 from accounts.models import Account
 
 import requests
-#import os
-#from cryptography.fernet import Fernet
+# import os
+# from cryptography.fernet import Fernet
 
-#import json
-
+# import json
 
 
 def load_dataset(request, pk):
@@ -37,14 +35,14 @@ def portal(request):
 
     if "q" in request.GET:
         q = request.GET["q"]
-        dataset_list = Dataset.objects.filter(title__icontains=q).order_by("title")
+        dataset_list = Dataset.objects.filter(
+            title__icontains=q).order_by("title")
 
     return render(request, template_name,
-        {"account_list": account_list, "dataset_list": dataset_list})
+                  {"account_list": account_list, "dataset_list": dataset_list})
 
 
 def jstests(request):
     dataset_list = Dataset.objects.all()
     template_name = "jstests.html"
     return render(request, template_name, {"dataset_list": dataset_list})
-

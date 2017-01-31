@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 from main import views
 
+
 urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
@@ -17,7 +18,7 @@ urlpatterns = [
         name="contact"),
 
     url(r'^jstests/$',
-        #TemplateView.as_view(template_name="jstests.html"),
+        # TemplateView.as_view(template_name="jstests.html"),
         views.jstests,
         name="jstests"),
 
@@ -31,10 +32,10 @@ urlpatterns = [
 
     url(r'^',
         include('accounts.urls',
-        namespace='accounts')),
+                namespace='accounts')),
 
     url(r'^(?P<account_slug>[-\w]*)/',
         include('datasets.urls',
-        namespace='datasets')),
+                namespace='datasets')),
 
 ]

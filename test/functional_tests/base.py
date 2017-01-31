@@ -6,6 +6,7 @@ from selenium import webdriver
 
 User = get_user_model()
 
+
 class CssBaseLiveTest(StaticLiveServerTestCase):
     """
     In the setUp we will also create a dummy dataset to be manipulated.
@@ -30,43 +31,46 @@ class CssBaseLiveTest(StaticLiveServerTestCase):
         self.chrome = webdriver.Chrome()
         self.browsers = [self.firefox, self.chrome]
 
-        self.test_user = User.objects.create_user(username='test_user',
-                                                  email='testuserpassword',
-                                                  password='testuserpassword')
+        self.test_user = User.objects.create_user(
+            username='test_user',
+            email='testuserpassword',
+            password='testuserpassword')
 
-        self.dummy_dataset = Dataset.objects.create(account=self.test_user.account,
-                                 author='dummy_author',
-                                 title='dummy dataset',
-                                 description='dummy dataset description',
-                                 url='https://raw.githubusercontent.com/' +
-                                 'zmtdummy/GeoJsonData/master/bienvenidos.json')
+        self.dummy_dataset = Dataset.objects.create(
+            account=self.test_user.account,
+            author='dummy_author',
+            title='dummy dataset',
+            description='dummy dataset description',
+            url='https://raw.githubusercontent.com/' +
+            'zmtdummy/GeoJsonData/master/bienvenidos.json')
 
-        self.dummy_kml_dataset = Dataset.objects.create(account=self.test_user.account,
-                                 author="KML_Test",
-                                 title="KML Test Dataset",
-                                 description="This is a KML test dataset",
-                                 url="https://raw.githubusercontent.com/zmtdummy/"
-                                     + "GeoJsonData/master/westcampus.kml")
+        self.dummy_kml_dataset = Dataset.objects.create(
+            account=self.test_user.account,
+            author="KML_Test",
+            title="KML Test Dataset",
+            description="This is a KML test dataset",
+            url="https://raw.githubusercontent.com/zmtdummy/"
+            + "GeoJsonData/master/westcampus.kml")
         """
-        self.dummy_dataset_password = Dataset.objects.create(title='dummy dataset with password',
-                                 author='dummy_author',
-                                 description='dummy dataset description, this' +
-                                     'one is password protected',
-                                 url='https://raw.githubusercontent.com/' +
-                                 'zmtdummy/GeoJsonData/master/bienvenidos.json')
+        self.dummy_dataset_password = Dataset.objects.create(
+            title='dummy dataset with password',
+            author='dummy_author',
+            description='dummy dataset description, this' +
+                'one is password protected',
+            url='https://raw.githubusercontent.com/' +
+                'zmtdummy/GeoJsonData/master/bienvenidos.json')
         """
-
 
     @classmethod
     def tearDown(self):
         for browser in self.browsers:
             if browser == self.firefox:
                 print('firefox')
-                #browser.close()
+                # browser.close()
                 browser.quit()
             elif browser == self.chrome:
                 print('chrome')
-                #browser.close()
+                # browser.close()
                 browser.quit()
 
 
@@ -91,34 +95,37 @@ class BaseLiveTest(StaticLiveServerTestCase):
         """
         self.browser = webdriver.Chrome()
 
-        self.test_user = User.objects.create_user(username='test_user',
-                                                  email='testuserpassword',
-                                                  password='testuserpassword')
+        self.test_user = User.objects.create_user(
+            username='test_user',
+            email='testuserpassword',
+            password='testuserpassword')
 
-        self.dummy_dataset = Dataset.objects.create(account=self.test_user.account,
-                                 author='dummy_author',
-                                 title='dummy dataset',
-                                 description='dummy dataset description',
-                                 url='https://raw.githubusercontent.com/' +
-                                 'zmtdummy/GeoJsonData/master/bienvenidos.json')
+        self.dummy_dataset = Dataset.objects.create(
+            account=self.test_user.account,
+            author='dummy_author',
+            title='dummy dataset',
+            description='dummy dataset description',
+            url='https://raw.githubusercontent.com/' +
+            'zmtdummy/GeoJsonData/master/bienvenidos.json')
 
-        self.dummy_kml_dataset = Dataset.objects.create(account=self.test_user.account,
-                                 author="KML_Test",
-                                 title="KML Test Dataset",
-                                 description="This is a KML test dataset",
-                                 url="https://raw.githubusercontent.com/zmtdummy/"
-                                     + "GeoJsonData/master/westcampus.kml")
+        self.dummy_kml_dataset = Dataset.objects.create(
+            account=self.test_user.account,
+            author="KML_Test",
+            title="KML Test Dataset",
+            description="This is a KML test dataset",
+            url="https://raw.githubusercontent.com/zmtdummy/" +
+                "GeoJsonData/master/westcampus.kml")
         """
-        self.dummy_dataset_password = Dataset.objects.create(title='dummy dataset with password',
-                                 author='dummy_author',
-                                 description='dummy dataset description, this' +
-                                     'one is password protected',
-                                 url='https://raw.githubusercontent.com/' +
-                                 'zmtdummy/GeoJsonData/master/bienvenidos.json')
+        self.dummy_dataset_password = Dataset.objects.create(
+            title='dummy dataset with password',
+            author='dummy_author',
+            description='dummy dataset description, this' +
+                'one is password protected',
+            url='https://raw.githubusercontent.com/' +
+                'zmtdummy/GeoJsonData/master/bienvenidos.json')
         """
-
 
     @classmethod
     def tearDown(self):
-#        self.browser.quit()
+        # self.browser.quit()
         self.browser.close()

@@ -2,23 +2,21 @@
 
 // Define my variables
 
-const value = document.getElementById("dataset_pk").getAttribute("value"),
-  ext = document.getElementById("dataset_ext").getAttribute("value"),
-  submitValuesButton = document.getElementById('submit_values_button'),
-  resetValuesButton = document.getElementById('reset_values_button'),
-  lngMinInput = document.getElementById("lng_min_input"),
-  lngMaxInput = document.getElementById("lng_max_input"),
-  latMinInput = document.getElementById("lat_min_input"),
-  latMaxInput = document.getElementById("lat_max_input");
-  featureCountElement = document.getElementById('feature_count'),
-  datasetUrl = `/load_dataset/${value}`;
+const value = document.getElementById('dataset_pk').getAttribute('value')
+const ext = document.getElementById('dataset_ext').getAttribute('value')
+const submitValuesButton = document.getElementById('submit_values_button')
+const resetValuesButton = document.getElementById('reset_values_button')
+const lngMinInput = document.getElementById('lng_min_input')
+const lngMaxInput = document.getElementById('lng_max_input')
+const latMinInput = document.getElementById('lat_min_input')
+const latMaxInput = document.getElementById('lat_max_input')
+const featureCountElement = document.getElementById('feature_count')
+const datasetUrl = `/load_dataset/${value}`
 
-
-let dataset,
-  featureCount = 0,
-  datasetProperties = [],
-  featureSelector = document.getElementById('feature_selector');
-
+let dataset
+let featureCount = 0
+let datasetProperties = []
+// let featureSelector = document.getElementById('feature_selector')
 
 // define geojson layer that the dataset may be added to
 let filteredLayer = L.geoJson().addTo(myMap);
@@ -69,7 +67,7 @@ const onReadyPopups = () => {
       const ifFeaturesElement = document.getElementById("if_features"),
         p = document.createElement("p"),
         span = document.createElement("span"),
-        b = document.createElement("b"), 
+        b = document.createElement("b"),
         text = document.createTextNode("Select property to filter by: "),
         selector = document.createElement("select"),
         input = document.createElement("input");
@@ -105,9 +103,9 @@ const onReadyPopups = () => {
 
     }
     ifFeatureProperties(); // this should be 'if feature properties'
-    
+
   }
-  
+
   // count features and add them to 'feature count html element'
   featureCountElement.innerHTML = ` ${featureCount}`;
 };
@@ -128,7 +126,7 @@ const getDataset = (url) => {
     xhr.open('GET', url);
 
     if (ext === 'kml') {
-      xhr.responseType = 'document'; 
+      xhr.responseType = 'document';
       xhr.overrideMimeType('text/xml');
     }
 
@@ -136,13 +134,13 @@ const getDataset = (url) => {
       if (xhr.readyState == 4 && xhr.status == 200) {
       // Maybe I should just define the if/else statement right here
         if (ext === 'csv') {
-          let csvJson; 
+          let csvJson;
           csv2geojson.csv2geojson(
             xhr.responseText, function(err, data) {
               if (err) {
                 return err;
               } else {
-                return csvJson = data; 
+                return csvJson = data;
               }
           });
           resolve(csvJson); // CSV
@@ -174,8 +172,8 @@ if (ext === 'csv') {
 
 
 
-// I don't want to add another if / else statement, but I think i may have to 
-// so that I can deal with the kml and csv stuff, except that I don't want 
+// I don't want to add another if / else statement, but I think i may have to
+// so that I can deal with the kml and csv stuff, except that I don't want
 // a layer, I want a json object
 
 const addDatasetToMapJSON = () => {
@@ -286,4 +284,3 @@ resetValuesButton.addEventListener("click", () => {
   resetValues();
   onReadyPopups();
 });
-

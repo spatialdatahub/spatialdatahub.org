@@ -1,10 +1,5 @@
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
-
-from django.shortcuts import reverse
-
 from .base import BaseLiveTest
+
 
 class NewVisitorTest(BaseLiveTest):
 
@@ -16,16 +11,20 @@ class NewVisitorTest(BaseLiveTest):
 
 class DatasetFormPageTests(BaseLiveTest):
     """
-    This set of test will test whether (1) a dataset can be entered and saved from
-    the create form page, (2) an existing dataset can be updated, and (3) an existing
+    This set of test will test whether (1) a dataset
+    can be entered and saved from
+    the create form page, (2) an existing dataset can be updated,
+    and (3) an existing
     dataset can be deleted.
 
-    Test that (4) datasets that are password protected can be changed to not password
+    Test that (4) datasets that are password protected can
+    be changed to not password
     protected.
     """
 
     def test_DatasetCreateView_redirects_to_login_view(self):
-        url = '{0}{new_dataset}'.format(self.live_server_url, new_dataset='/new_dataset/')
+        url = '{0}{new_dataset}'.format(self.live_server_url,
+                                        new_dataset='/new_dataset/')
         print(url)
         self.browser.get(url)
         page_text = self.browser.find_element_by_tag_name('body').text
@@ -33,7 +32,8 @@ class DatasetFormPageTests(BaseLiveTest):
         self.assertIn(expected, page_text)
 
     def test_DatasetUpdateView_redirects_to_login_view(self):
-        url = '{0}/{slug}-{pk}{update}'.format(self.live_server_url,
+        url = '{0}/{slug}-{pk}{update}'.format(
+            self.live_server_url,
             slug=self.dummy_dataset.slug,
             pk=self.dummy_dataset.pk,
             update='/update/')
@@ -44,7 +44,8 @@ class DatasetFormPageTests(BaseLiveTest):
         self.assertIn(expected, page_text)
 
     def test_DatasetRemoveView_redirects_to_login_view(self):
-        url = '{0}/{slug}-{pk}{remove}'.format(self.live_server_url,
+        url = '{0}/{slug}-{pk}{remove}'.format(
+            self.live_server_url,
             slug=self.dummy_dataset.slug,
             pk=self.dummy_dataset.pk,
             remove='/remove/')
@@ -54,17 +55,18 @@ class DatasetFormPageTests(BaseLiveTest):
         expected = 'Home\nAbout\nContact\nLogin\nUsername / Email:\nPassword:'
         self.assertIn(expected, page_text)
 
-
     # 1
     def test_can_use_dataset_create_form_to_make_new_dataset(self):
 
         # Get URL for form
-        url = '{0}{new_dataset}'.format(self.live_server_url, new_dataset='/new_dataset/')
+        url = '{0}{new_dataset}'.format(
+            self.live_server_url,
+            new_dataset='/new_dataset/')
         self.browser.get(url)
 
         # Get Login form inputs, and login
-        query_input =  self.browser.find_element_by_id('id_query')
-        password_input =  self.browser.find_element_by_id('id_password')
+        query_input = self.browser.find_element_by_id('id_query')
+        password_input = self.browser.find_element_by_id('id_password')
         submit_button = self.browser.find_element_by_id('submit')
 
         query_input.send_keys('test_user')
@@ -72,11 +74,13 @@ class DatasetFormPageTests(BaseLiveTest):
         submit_button.click()
 
         # Get URL for form
-        url = '{0}{new_dataset}'.format(self.live_server_url, new_dataset='/new_dataset/')
+        url = '{0}{new_dataset}'.format(
+            self.live_server_url,
+            new_dataset='/new_dataset/')
         self.browser.get(url)
 
         # Get form inputs
-        author_input =  self.browser.find_element_by_id('id_author')
+        author_input = self.browser.find_element_by_id('id_author')
         title_input = self.browser.find_element_by_id('id_title')
         description_input = self.browser.find_element_by_id('id_description')
         url_input = self.browser.find_element_by_id('id_url')
@@ -85,8 +89,10 @@ class DatasetFormPageTests(BaseLiveTest):
         # Send inputs information
         author_input.send_keys('Pat')
         title_input.send_keys('Dum Dum Dataset')
-        description_input.send_keys('This is a dummy dataset on the zmtdummy github account')
-        url_input.send_keys('https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/dumdum.json')
+        description_input.send_keys('This is a dummy dataset ' +
+                                    'on the zmtdummy github account')
+        url_input.send_keys('https://raw.githubusercontent.com/zmtdummy/' +
+                            'GeoJsonData/master/dumdum.json')
 
         # Submit data
         submit_button.click()
@@ -96,20 +102,21 @@ class DatasetFormPageTests(BaseLiveTest):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Dum Dum Dataset', page_text)
 
-        ## Logout ## for now
+        # Logout for now
         # drop down is too much of a pain, i just need to develop more. this
-        # means that I will just make the button say 'logout' 
-#        logout_button = self.browser.find_element_by_id("logout")
-#        logout_button.click()
-#        nav_text = self.browser.find_element_by_tag_name('nav').text
-#        self.assertIn('Login', nav_text)
+        # means that I will just make the button say 'logout'
+        # logout_button = self.browser.find_element_by_id("logout")
+        # logout_button.click()
+        # nav_text = self.browser.find_element_by_tag_name('nav').text
+        # self.assertIn('Login', nav_text)
 
     # 2
     def test_can_update_existing_dataset(self):
 
         # Get URL for form
 
-        url = '{0}/{slug}-{pk}{update}'.format(self.live_server_url,
+        url = '{0}/{slug}-{pk}{update}'.format(
+            self.live_server_url,
             slug=self.dummy_dataset.slug,
             pk=self.dummy_dataset.pk,
             update='/update/')
@@ -120,31 +127,33 @@ class DatasetFormPageTests(BaseLiveTest):
         print(title)
         """
         # Get Login form inputs, and login
-#        query_input =  self.browser.find_element_by_id('id_query')
-#        password_input =  self.browser.find_element_by_id('id_password')
-#        submit_button = self.browser.find_element_by_id('submit')
+        query_input =  self.browser.find_element_by_id('id_query')
+        password_input =  self.browser.find_element_by_id('id_password')
+        submit_button = self.browser.find_element_by_id('submit')
 
-#        query_input.send_keys('test_user')
-#        password_input.send_keys('testuserpassword')
-#        submit_button.click()
+        query_input.send_keys('test_user')
+        password_input.send_keys('testuserpassword')
+        submit_button.click()
 
         # Get URL for form
-#        url = '{0}{new_dataset}'.format(self.live_server_url, new_dataset='/new_dataset/')
-#        self.browser.get(url)
+        url = '{0}{new_dataset}'.format(self.live_server_url,
+                                          new_dataset='/new_dataset/')
+        self.browser.get(url)
 
 
         # Get dummy_dataset slug and pk
-#        slugpk = ('/%s-%s/' % (self.dummy_dataset.slug, self.dummy_dataset.pk))
+        slugpk = ('/%s-%s/' % (self.dummy_dataset.slug, self.dummy_dataset.pk))
 
         # Get URL for form update
-#        self.browser.get('%s%s%s' % (self.live_server_url, slugpk, 'update'))
+        self.browser.get('%s%s%s' % (self.live_server_url, slugpk, 'update'))
 
         # Get form inputs
         author_input =  self.browser.find_element_by_id('id_author')
         title_input = self.browser.find_element_by_id('id_title')
         description_input = self.browser.find_element_by_id('id_description')
         url_input = self.browser.find_element_by_id('id_url')
-        public_access_input = self.browser.find_element_by_id('id_public_access')
+        public_access_input = self.browser.find_element_by_id(
+            'id_public_access')
         submit_button = self.browser.find_element_by_id('submit_dataset')
 
         # Send inputs information
@@ -155,10 +164,12 @@ class DatasetFormPageTests(BaseLiveTest):
         title_input.send_keys('Super Dum Dum Dataset')
 
         description_input.clear()
-        description_input.send_keys('This is an UPDATED dummy dataset on the zmtdummy github account')
+        description_input.send_keys('This is an UPDATED dummy dataset ' +
+            'on the zmtdummy github account')
 
         url_input.clear()
-        url_input.send_keys('https://raw.githubusercontent.com/zmtdummy/GeoJsonData/master/dumdum.json')
+        url_input.send_keys('https://raw.githubusercontent.com/zmtdummy/' +
+            'GeoJsonData/master/dumdum.json')
 
         # Submit data
         submit_button.click()
@@ -169,8 +180,10 @@ class DatasetFormPageTests(BaseLiveTest):
         self.assertIn('UPDATED', page_text)
 
 
-        # The slug should be different so we need to make the slug we search for different
-        # It seems like the updated dataset is showing up on the web page, but that it is not
+        # The slug should be different so we need to make the
+        # slug we search for different
+        # It seems like the updated dataset is showing up on the web page,
+        # but that it is not
         # actually being saved to the dummy_dataset instance.
 
         updatedslugpk = ('/super-dum-dum-dataset-%s/' % self.dummy_dataset.pk)
@@ -179,7 +192,7 @@ class DatasetFormPageTests(BaseLiveTest):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Super Dum Dum Dataset', page_text)
 
-        ## Logout ## for now
+        # Logout for now
         # drop down is too much of a pain, i just need to develop more. this
         # means that I will just make the button say 'logout'
         logout_button = self.browser.find_element_by_id("logout")
@@ -197,7 +210,8 @@ class DatasetFormPageTests(BaseLiveTest):
         self.browser.get('%s%s%s' % (self.live_server_url, slugpk, 'remove'))
 
         # Get remove button and click it
-        remove_button = self.browser.find_element_by_id('confirm_remove_button')
+        remove_button = self.browser.find_element_by_id(
+            'confirm_remove_button')
         remove_button.click()
 
         # Check the main page for the dummy dataset, it should be gone
@@ -207,7 +221,7 @@ class DatasetFormPageTests(BaseLiveTest):
 """
 
     # 4
-    def test_can_change_dataset_from_NOT_password_protected_to_password_protected(self):
+    def test_change_dataset_NOT_password_protected_to_password_protected(self):
         pass
         """
         This needs to be refactored
@@ -223,10 +237,12 @@ class DatasetFormPageTests(BaseLiveTest):
         author_input =  self.browser.find_element_by_id('id_author')
         title_input = self.browser.find_element_by_id('id_title')
         description_input = self.browser.find_element_by_id('id_description')
-        public_access_input = self.browser.find_element_by_id('id_public_access')
+        public_access_input = self.browser.find_element_by_id(
+            'id_public_access')
         url_input = self.browser.find_element_by_id('id_url')
         dataset_user_input = self.browser.find_element_by_id('id_dataset_user')
-        dataset_password_input = self.browser.find_element_by_id('id_dataset_password')
+        dataset_password_input = self.browser.find_element_by_id(
+            'id_dataset_password')
         submit_button = self.browser.find_element_by_id('submit_dataset')
 
         # Send inputs information
@@ -241,7 +257,8 @@ class DatasetFormPageTests(BaseLiveTest):
         title_input.send_keys('dummy dataset')
 
         description_input.clear()
-        description_input.send_keys('This is an UPDATED dummy dataset on the zmtdummy github account')
+        description_input.send_keys('This is an UPDATED dummy dataset on ' +
+            'the zmtdummy github account')
 
         ########
         ########
@@ -254,7 +271,8 @@ class DatasetFormPageTests(BaseLiveTest):
 
         url_input.clear()
         url_input.send_keys("https://bitbucket.org/zmtdummy/geojsondata/raw/" +
-                            "0f318d948d74a67bceb8da5257a97b7df80fd2dd/zmt_polygons.json")
+                            "0f318d948d74a67bceb8da5257a97b7df80fd2dd/" +
+                            "zmt_polygons.json")
 
         # Submit data
         submit_button.click()
@@ -262,7 +280,9 @@ class DatasetFormPageTests(BaseLiveTest):
         # Go back to update page
         self.browser.get('%s%s%s' % (self.live_server_url, slugpk, 'update'))
         page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('https://bitbucket.org/zmtdummy/geojsondata/raw/0f318d948d74a67bceb8da5257a97b7df80fd2dd/zmt_polygons.json', page_text)
+        self.assertIn('https://bitbucket.org/zmtdummy/geojsondata/raw/' +
+        '0f318d948d74a67bceb8da5257a97b7df80fd2dd/zmt_polygons.json',
+        page_text)
 
 
 

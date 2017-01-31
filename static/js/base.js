@@ -2,11 +2,10 @@
 // and a toggle display command.
 
 // define DOM ready function
-var domReady = function(callback) {
-  document.readyState === "interactive" ||
-  document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
-};
-
+var domReady = (callback) => {
+  document.readyState === 'interactive' ||
+  document.readyState === 'complete' ? callback() : document.addEventListener('DOMContentLoaded', callback)
+}
 
 // define toggle element display function
 // this may not be needed anymore
@@ -21,20 +20,19 @@ function toggleDisplay(obj) {
 };
 */
 
-
+/*
 if (typeof window === 'undefined') {
-  exports.domReady = domReady;
+  exports.domReady = domReady
 } else {
-
-Element.prototype.remove = function() {
-    this.parentElement.removeChild(this);
-}
-NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
-    for(var i = this.length - 1; i >= 0; i--) {
-        if(this[i] && this[i].parentElement) {
-            this[i].parentElement.removeChild(this[i]);
-        }
+  Element.prototype.remove = () => {
+    this.parentElement.removeChild(this)
+  }
+  NodeList.prototype.remove = HTMLCollection.prototype.remove = () => {
+    for (var i = this.length - 1; i >= 0; i--) {
+      if (this[i] && this[i].parentElement) {
+        this[i].parentElement.removeChild(this[i])
+      }
     }
+  }
 }
-
-}
+*/

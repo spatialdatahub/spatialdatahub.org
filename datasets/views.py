@@ -5,8 +5,8 @@ from datasets.forms import DatasetForm
 
 from accounts.models import Account
 
-#import os
-#from cryptography.fernet import Fernet
+# import os
+# from cryptography.fernet import Fernet
 
 
 """
@@ -31,14 +31,14 @@ def new_dataset(request, account_slug=None):
             dataset.account = account
             dataset.save()
             return redirect("accounts:account_detail",
-                account_slug=account.account_slug)
+                            account_slug=account.account_slug)
     else:
         form = DatasetForm()
     template_name = "datasets/new_dataset.html"
     return render(request,
                   template_name,
                   {"form": form,
-                  "account": account})
+                   "account": account})
 
 
 def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
@@ -51,9 +51,9 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
             updated_dataset.account = account
             updated_dataset.save()
             return redirect("datasets:dataset_detail",
-                account_slug=account.account_slug,
-                dataset_slug=dataset.dataset_slug,
-                pk=dataset.pk)
+                            account_slug=account.account_slug,
+                            dataset_slug=dataset.dataset_slug,
+                            pk=dataset.pk)
     else:
         form = DatasetForm(instance=dataset)
     template_name = "datasets/dataset_update.html"
@@ -61,14 +61,13 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
                   {"form": form, "account": account, "dataset": dataset})
 
 
-
 def dataset_remove(request, account_slug=None, dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
     context = {"account": account, "dataset": dataset}
     template_name = "datasets/dataset_remove.html"
-    if request.method =="POST":
+    if request.method == "POST":
         dataset.delete()
         return redirect("accounts:account_detail",
-                account_slug=account.account_slug)
+                        account_slug=account.account_slug)
     return render(request, template_name, context)

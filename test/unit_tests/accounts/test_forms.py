@@ -10,7 +10,7 @@ class AccountFormTest(TestCase):
         self.assertIn('class="form-control"', form.as_p())
 
     def test_AccountForm_validation_for_blank_items(self):
-        form = AccountForm(data={"user":"", "affiliation":""})
+        form = AccountForm(data={"user": "", "affiliation": ""})
         self.assertFalse(form.is_valid())
         self.assertEqual(
             form.errors["user"],
