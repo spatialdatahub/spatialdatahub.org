@@ -243,7 +243,7 @@ class AccountPortalViewTests(TestCase):
     def test_account_portal_view_title_is_correct(self):
         response = self.client.get(
             reverse(
-                "accounts: account_portal",
+                "accounts:account_portal",
                 kwargs={"account_slug": self.a1.account_slug}))
         self.assertIn("<title>ZMT | {0} Portal</title>".format(self.a1.user),
                       response.content.decode("utf-8"))
@@ -286,7 +286,7 @@ class AccountUpdateViewTests(TestCase):
     def test_account_update_view_title_is_correct(self):
         response = self.client.get(
             reverse(
-                "accounts: account_update",
+                "accounts:account_update",
                 kwargs={"account_slug": self.a1.account_slug}))
         self.assertIn("<title>ZMT | Update {}</title>".format(self.a1.user),
                       response.content.decode("utf-8"))
