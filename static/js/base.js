@@ -2,10 +2,12 @@
 // and a toggle display command.
 
 // define DOM ready function
-var domReady = (callback) => {
+/*
+const domReady = (callback) => {
   document.readyState === 'interactive' ||
   document.readyState === 'complete' ? callback() : document.addEventListener('DOMContentLoaded', callback)
 }
+*/
 
 // define toggle element display function
 // this may not be needed anymore

@@ -3,5 +3,11 @@
     "plugins": [
         "standard",
         "promise"
-    ]
+    ],
+    "globals": {
+        "L": true,
+        "csv2geojson": true,
+        "toGeoJSON": true,
+        "XMLHttpRequest": true
+    }
 }
