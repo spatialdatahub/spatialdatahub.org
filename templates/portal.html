@@ -50,9 +50,9 @@
 
               <li>
                 <label>
-                  <input type="checkbox" name="datasetCheckbox" id="datasetCheckbox" 
+                  <input type="checkbox" name="datasetCheckbox" id="datasetCheckbox"
                     value={{ dataset.pk }} ext={{ dataset.ext }}>
-                    {{ dataset.title }} 
+                    {{ dataset.title }}
                 </label>
                 <a href="{{ dataset.get_absolute_url }}" >
                   <i class="fa fa-newspaper-o fa-pull-right fa-border" aria-hidden="true"></i>
@@ -82,8 +82,6 @@
 
 {% block js %}
 
-<script type="text/javascript" src="{% static 'js/base.js' %}"></script> 
-<script type="text/javascript" src="{% static 'js/base_map.js' %}"></script> 
 <script type="text/javascript" src="{% static 'js/portalView.js' %}"></script> 
 
 {% endblock js %}

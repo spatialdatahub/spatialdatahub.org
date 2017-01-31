@@ -8,6 +8,7 @@
         "L": true,
         "csv2geojson": true,
         "toGeoJSON": true,
-        "XMLHttpRequest": true
+        "XMLHttpRequest": true,
+        "omnivore": true
     }
 }

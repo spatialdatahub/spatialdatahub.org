@@ -40,7 +40,7 @@
       <p><b>Affiliation:</b> {{ account.affiliation }}</p>
     <hr class="divider">
       <p><b>Dataset Title:</b> {{ dataset.title }}</p>
-      <p><b>Author:</b> {{ dataset.author }}</p> 
+      <p><b>Author:</b> {{ dataset.author }}</p>
       <p><b>Dataset Visible to Public:</b> {{ dataset.public_access }}</p>
       <p><b>Dataset Description:</b> {{ dataset.description }}</p>
       <p><b>Date Created:</b> {{ dataset.date_added }}</p>
@@ -76,7 +76,7 @@
   <div class="row">
     <div class="col-12 col-xs-12" id="modifier_links">
       <a href="{% url 'datasets:new_dataset' account.account_slug %}" class="btn btn-success">
-        Add new dataset 
+        Add new dataset
       </a>
       <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}"
         class="btn btn-warning">Update this dataset</a>
@@ -128,7 +128,5 @@
   <script type="text/javascript" src="https://npmcdn.com/csv2geojson@5.0.2/csv2geojson.js"></script>
 {% endif %}
 
-  <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/base_map.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/datasets/detailView.js' %}"></script>
 {% endblock js %}
