@@ -330,33 +330,33 @@ const filterValues = () => {
   // remake filtered layer with new min and max values
   filteredLayer = L.geoJson(dataset, {
     filter: (feature, layer) => {
-      /*
-      const coords = feature.geometry.coordinates
-      let filteredData = coords[0] > minLng &&
-                         coords[0] < maxLng &&
-                         coords[1] > minLat &&
-                         coords[1] < maxLat
-                         props === propertyValue
-      let filteredData = feature.properties.selectedProperty === propertyValue
-      return filteredData
-                         */
-      // return feature.properties[`${selectedProperty}`] === propertyValue
-      // console.log(typeof(propertyValue))
-      console.log(typeof(feature.properties[`${selectedProperty}`]))
-      return feature.properties[`${selectedProperty}`].includes(propertyValue)
+      if (propertyValue === '') {
+        const coords = feature.geometry.coordinates
+        let filteredData = coords[0] > minLng &&
+                          coords[0] < maxLng &&
+                          coords[1] > minLat &&
+                          coords[1] < maxLat
+        return filteredData
+      } else {
+        const coords = feature.geometry.coordinates
+        let prop = feature.properties[`${selectedProperty}`]
+        let propBool
 
-      // the 'includes()' function works on a string, but it doesn't work on
-      // numbers I think
-      // So the feature.properties[`${selectedProperty}`] either has to be a
-      // string, or there has to be something that checks if it is a number, or
-      // an object or null or whatever
-      // I found that the problem is that the propertyValue is coming in as a
-      // string instead of a number... the string won't work to solve this
-      // problem I need a number
-      // maybe if i use an includes function
+        if (typeof(prop) === 'string') {
+          propBool = prop.toLowerCase().includes(propertyValue.toLowerCase())
+        } else if (typeof(prop) === 'number') {
+          propBool = prop === Number(propertyValue)
+        } else {
+          console.log('only strings or numbers')
+        }
 
-
-
+        let filteredData = coords[0] > minLng &&
+                          coords[0] < maxLng &&
+                          coords[1] > minLat &&
+                          coords[1] < maxLat &&
+                          propBool
+        return filteredData
+      }
     }
   }).addTo(myMap)
 }
