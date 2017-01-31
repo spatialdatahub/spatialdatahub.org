@@ -1,16 +1,20 @@
 // This file has all the basic map stuff, if there are specific functions
 // for specific pages they will be in their own javascript files
 // writen with ES6
-// One thing I should do is to create a special ZMT icon with a ZMT popup that looks cool.
-// should everything be wrapped in a dom ready function? At least I can use it instead of the jQuery function
+// One thing I should do is to create a special ZMT icon with a ZMT
+// popup that looks cool.
+// should everything be wrapped in a dom ready function? At least I can use
+// it instead of the jQuery function
 // create base tile layer variables for map
 // I am setting three as constants here
+
 const osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">' +
   'OpenStreetMap</a>',
   minZoom: 2,
   maxZoom: 19
 })
+
 const stamenToner = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/' +
 'toner/{z}/{x}/{y}.{ext}', {
   attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>,' +
@@ -22,6 +26,7 @@ const stamenToner = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/' +
   maxZoom: 19,
   ext: 'png'
 })
+
 const esriWorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/' +
 'rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
   attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA,' +
@@ -43,6 +48,7 @@ const baseLayers = {
   'Black and White': stamenToner,
   'ESRI World Map': esriWorldImagery
 }
+
 const baseLayerControl = L.control.layers(baseLayers)
 baseLayerControl.addTo(myMap)
 
@@ -57,6 +63,7 @@ const scrollWheelToggle = () => {
     console.log('scroll away!')
   }
 }
+
 myMap.on('click', scrollWheelToggle)
 
 // This is the javascript file for the map detail view
@@ -80,7 +87,7 @@ const datasetUrl = `/load_dataset/${value}`
 let dataset
 let featureCount = 0
 let datasetProperties = []
-// let featureSelector = document.getElementById('feature_selector')
+// let featureSelector = document.getElementById('property_selector')
 
 // define geojson layer that the dataset may be added to
 let filteredLayer = L.geoJson().addTo(myMap)
@@ -113,8 +120,8 @@ const onReadyPopups = () => {
   })
 
   // fit map to bounds
-  const bounds = filteredLayer.getBounds()
-  myMap.fitBounds(bounds)
+  // const bounds = filteredLayer.getBounds()
+  // myMap.fitBounds(bounds)
 
   if (datasetProperties.length > 0) {
     // get unique dataset properties
@@ -137,8 +144,8 @@ const onReadyPopups = () => {
 
       // set id of p and select element
       p.setAttribute('id', 'selector_container')
-      selector.setAttribute('id', 'feature_selector')
-      input.setAttribute('id', 'feature_selector_input')
+      selector.setAttribute('id', 'property_selector')
+      input.setAttribute('id', 'property_selector_input')
       input.setAttribute('type', 'text')
 
       // put them together
@@ -207,7 +214,7 @@ const getDataset = (url) => {
           resolve(csvJson) // CSV
         } else if (ext === 'kml') {
           const kmlJson = toGeoJSON.kml(xhr.response)
-          resolve(kmlJson) // XML this may not work for a bit
+          resolve(kmlJson) // KML
         } else {
           resolve(JSON.parse(xhr.responseText)) // JSON
         }
@@ -247,10 +254,37 @@ const addDatasetToMapJSON = () => {
     })
 }
 
-// Now I've got to figure out what the url and necessary DOM elements are all called.
-const filterLatLngValues = () => {
+// I will define the filter by feature property function here.
+/*
+const filterPropertyValues = () => {
+  myMap.removeLayer(filteredLayer)
+  const selectedProperty = document.getElementById('property_selector').value
+  const propertyValue = document.getElementById('property_selector_input').value
+  console.log(selectedProperty)
+  console.log(propertyValue)
+
+  filteredLayer = L.geoJson(dataset, {
+    filter: (feature, layer) => {
+      let filteredData = feature.properties.selectedProperty === propertyValue
+      return filteredData
+    }
+  }).addTo(myMap)
+}
+*/
+
+// Now I've got to figure out what the url and necessary DOM elements are
+// all called.
+// I think that the filterValues and filterPropertyValues functions
+// may have to be combined.
+const filterValues = () => {
   // remove filteredLayer
   myMap.removeLayer(filteredLayer)
+
+  // get the property and the input values
+  const selectedProperty = document.getElementById('property_selector').value
+  const propertyValue = document.getElementById('property_selector_input').value
+
+
 
   // get min and max values from lat and lng inputs
   // can I lift this out of the function, and just get the values
@@ -296,12 +330,33 @@ const filterLatLngValues = () => {
   // remake filtered layer with new min and max values
   filteredLayer = L.geoJson(dataset, {
     filter: (feature, layer) => {
-      let coords = feature.geometry.coordinates
+      /*
+      const coords = feature.geometry.coordinates
       let filteredData = coords[0] > minLng &&
                          coords[0] < maxLng &&
                          coords[1] > minLat &&
                          coords[1] < maxLat
+                         props === propertyValue
+      let filteredData = feature.properties.selectedProperty === propertyValue
       return filteredData
+                         */
+      // return feature.properties[`${selectedProperty}`] === propertyValue
+      // console.log(typeof(propertyValue))
+      console.log(typeof(feature.properties[`${selectedProperty}`]))
+      return feature.properties[`${selectedProperty}`].includes(propertyValue)
+
+      // the 'includes()' function works on a string, but it doesn't work on
+      // numbers I think
+      // So the feature.properties[`${selectedProperty}`] either has to be a
+      // string, or there has to be something that checks if it is a number, or
+      // an object or null or whatever
+      // I found that the problem is that the propertyValue is coming in as a
+      // string instead of a number... the string won't work to solve this
+      // problem I need a number
+      // maybe if i use an includes function
+
+
+
     }
   }).addTo(myMap)
 }
@@ -326,7 +381,7 @@ addDatasetToMapJSON()
 
 // add event listener to submitValuesButton
 submitValuesButton.addEventListener('click', () => {
-  filterLatLngValues()
+  filterValues()
   onReadyPopups()
 })
 
