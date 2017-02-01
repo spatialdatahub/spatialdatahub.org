@@ -87,6 +87,18 @@ that is programmed to make a request to the actual dataset url with any
 auth and password information the actual url needs.
 */
 
+// setting up the markercluster stuff
+
+// define markercluster group that filteredLayer can be added to
+// and add it to the map
+const allMarkers = L.markerClusterGroup({
+  showCoverageOnHover: false,
+  maxClusterRadius: 50
+})
+
+// add allMarkers to myMap
+myMap.addLayer(allMarkers)
+
 // get the list of datasets provided by django
 const datasetCheckboxes = document.getElementsByName('datasetCheckbox')
 
@@ -125,31 +137,33 @@ const datasetToggle = (value, ext) => {
   let layer
 
   // check to see if the map already has the layer
-  if (myMap.hasLayer(datasets[value])) {
-    myMap.removeLayer(datasets[value])
+  if (allMarkers.hasLayer(datasets[value])) {
+    allMarkers.removeLayer(datasets[value])
   } else {
     if (ext === 'kml') {
       layer = omnivore.kml(datasetUrl)
         .on('ready', () => {
           myMap.fitBounds(layer.getBounds())
-          myMap.addLayer(layer)
+          allMarkers.addLayer(layer)
           layer.eachLayer(addPopups)
         })
     } else if (ext === 'csv') {
       layer = omnivore.csv(datasetUrl)
         .on('ready', () => {
           myMap.fitBounds(layer.getBounds())
-          myMap.addLayer(layer)
+          allMarkers.addLayer(layer)
           layer.eachLayer(addPopups)
         })
     } else {
       layer = omnivore.geojson(datasetUrl)
         .on('ready', () => {
           myMap.fitBounds(layer.getBounds())
-          myMap.addLayer(layer)
+          allMarkers.addLayer(layer)
+          console.log(layer)
           layer.eachLayer(addPopups)
+          datasets[value] = layer
         })
     }
-    datasets[value] = layer
+//    datasets[value] = layer
   }
 }

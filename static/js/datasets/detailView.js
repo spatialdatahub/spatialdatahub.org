@@ -98,8 +98,8 @@ let allMarkers = L.markerClusterGroup({
 })
 
 // add filteredLayer to allMarkers
- allMarkers.addLayer(filteredLayer)
- myMap.addLayer(allMarkers)
+allMarkers.addLayer(filteredLayer)
+myMap.addLayer(allMarkers)
 
 // define my popups function
 const onReadyPopups = () => {
