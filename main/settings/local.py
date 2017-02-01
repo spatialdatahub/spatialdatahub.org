@@ -1,5 +1,6 @@
 """
-THIS PROJECT IS NOW USING DJANGO VERSION 1.10.3, AND WILL BE UPGRADED FREQUENTLY
+THIS PROJECT IS NOW USING DJANGO VERSION 1.10.3,
+AND IT WILL BE UPGRADED FREQUENTLY
 
 Django settings for main project.
 
@@ -14,7 +15,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
@@ -48,7 +50,7 @@ INSTALLED_APPS = [
     "accounts",
 ]
 
-#AUTH_USER_MODEL = 'accounts.User'
+# AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE_CLASSES = [
     "django.middleware.security.SecurityMiddleware",
@@ -88,8 +90,18 @@ WSGI_APPLICATION = "main.wsgi.application"
 ################################################
 # set this thing up for travis and for gitlab-ci
 ################################################
-
-if 'TRAVIS' in os.environ:
+if 'GITLAB' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE':   'django.db.backends.postgresql_psycopg2',
+            'NAME':     'gitlab_ci_test',
+            'USER':     'postgres',
+            'PASSWORD': '',
+            'HOST':     'localhost',
+            'PORT':     '',
+        }
+    }
+elif 'TRAVIS' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE':   'django.db.backends.postgresql_psycopg2',
@@ -118,16 +130,20 @@ else:
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth." +
+        "password_validation.UserAttributeSimilarityValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": "django.contrib.auth." +
+        "password_validation.MinimumLengthValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": "django.contrib.auth." +
+        "password_validation.CommonPasswordValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "django.contrib.auth." +
+        "password_validation.NumericPasswordValidator",
     },
 ]
 
