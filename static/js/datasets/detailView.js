@@ -9,29 +9,29 @@
 // I am setting three as constants here
 
 const osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">' +
-  'OpenStreetMap</a>',
+  attribution: `&copy; <a href="http://www.openstreetmap.org/copyright">
+  OpenStreetMap</a>`,
   minZoom: 2,
   maxZoom: 19
 })
 
-const stamenToner = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/' +
-'toner/{z}/{x}/{y}.{ext}', {
-  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>,' +
-  ' <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>' +
-  ' &mdash; Map data &copy;' +
-  ' <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+const stamenToner = L.tileLayer(`http://stamen-tiles-{s}.a.ssl.fastly.net/
+toner/{z}/{x}/{y}.{ext}`, {
+  attribution: `Map tiles by <a href="http://stamen.com">Stamen Design</a>,
+  <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>
+  &mdash; Map data &copy;
+  <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>`,
   subdomains: 'abcd',
   minZoom: 2,
   maxZoom: 19,
   ext: 'png'
 })
 
-const esriWorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/' +
-'rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-  attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA,' +
-  ' USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP,' +
-  ' and the GIS User Community'
+const esriWorldImagery = L.tileLayer(`http://server.arcgisonline.com/ArcGIS/
+rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`, {
+  attribution: `Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA,
+  USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP,
+  and the GIS User Community`
 })
 
 // set up map, view and base layer
@@ -53,7 +53,6 @@ const baseLayerControl = L.control.layers(baseLayers)
 baseLayerControl.addTo(myMap)
 
 // toggle map scrollability
-// save anonymous arrow function to variable
 const scrollWheelToggle = () => {
   if (myMap.scrollWheelZoom.enabled()) {
     myMap.scrollWheelZoom.disable()
@@ -66,7 +65,7 @@ const scrollWheelToggle = () => {
 
 myMap.on('click', scrollWheelToggle)
 
-// This is the javascript file for the map detail view
+// below is the javascript file specific to the map detail view
 // I am going to include all the javascript here... as in I will not try to
 // inheret javascript from former files. It goes against the 'DRY' style
 // of writing code, but it puts everything here for me, right now.
@@ -87,7 +86,6 @@ const datasetUrl = `/load_dataset/${value}`
 let dataset
 let featureCount = 0
 let datasetProperties = []
-// let featureSelector = document.getElementById('property_selector')
 
 // define geojson layer that the dataset may be added to
 let filteredLayer = L.geoJson().addTo(myMap)
@@ -113,15 +111,17 @@ const onReadyPopups = () => {
     }
 
     if (layer.feature.geometry.type === 'Point') {
-      popupContent.push(`<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`)
-      popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`)
+      popupContent.push(`<b>Latitude:</b>
+        ${layer.feature.geometry.coordinates[1]}`)
+      popupContent.push(`<b>Longitude:</b>
+        ${layer.feature.geometry.coordinates[0]}`)
     }
     layer.bindPopup(popupContent.join('<br/>'))
   })
 
   // fit map to bounds
-  // const bounds = filteredLayer.getBounds()
-  // myMap.fitBounds(bounds)
+  const bounds = filteredLayer.getBounds()
+  myMap.fitBounds(bounds)
 
   if (datasetProperties.length > 0) {
     // get unique dataset properties
@@ -254,24 +254,6 @@ const addDatasetToMapJSON = () => {
     })
 }
 
-// I will define the filter by feature property function here.
-/*
-const filterPropertyValues = () => {
-  myMap.removeLayer(filteredLayer)
-  const selectedProperty = document.getElementById('property_selector').value
-  const propertyValue = document.getElementById('property_selector_input').value
-  console.log(selectedProperty)
-  console.log(propertyValue)
-
-  filteredLayer = L.geoJson(dataset, {
-    filter: (feature, layer) => {
-      let filteredData = feature.properties.selectedProperty === propertyValue
-      return filteredData
-    }
-  }).addTo(myMap)
-}
-*/
-
 // Now I've got to figure out what the url and necessary DOM elements are
 // all called.
 // I think that the filterValues and filterPropertyValues functions
@@ -281,10 +263,10 @@ const filterValues = () => {
   myMap.removeLayer(filteredLayer)
 
   // get the property and the input values
-  const selectedProperty = document.getElementById('property_selector').value
-  const propertyValue = document.getElementById('property_selector_input').value
-
-
+  const selectedProperty = document.getElementById('property_selector')
+    .value
+  const propertyValue = document.getElementById('property_selector_input')
+    .value
 
   // get min and max values from lat and lng inputs
   // can I lift this out of the function, and just get the values
@@ -295,6 +277,8 @@ const filterValues = () => {
   let maxLat = latMaxInput.value
 
   // if else statements. There should be a better way to do this.
+  // the problem is that there are different default values for each
+  // of the lat/lng options
   if (minLng === '') {
     minLng = -180
   } else if (minLng <= -180) {
@@ -330,31 +314,34 @@ const filterValues = () => {
   // remake filtered layer with new min and max values
   filteredLayer = L.geoJson(dataset, {
     filter: (feature, layer) => {
+      const coords = feature.geometry.coordinates
+      // check if the property filter input is empty or not
       if (propertyValue === '') {
-        const coords = feature.geometry.coordinates
         let filteredData = coords[0] > minLng &&
-                          coords[0] < maxLng &&
-                          coords[1] > minLat &&
-                          coords[1] < maxLat
+                           coords[0] < maxLng &&
+                           coords[1] > minLat &&
+                           coords[1] < maxLat
         return filteredData
       } else {
-        const coords = feature.geometry.coordinates
         let prop = feature.properties[`${selectedProperty}`]
         let propBool
 
-        if (typeof(prop) === 'string') {
+        // check to see what type of object the map.feature.property is
+        if (typeof (prop) === 'string') {
           propBool = prop.toLowerCase().includes(propertyValue.toLowerCase())
-        } else if (typeof(prop) === 'number') {
+        } else if (typeof (prop) === 'number') {
           propBool = prop === Number(propertyValue)
         } else {
           console.log('only strings or numbers')
         }
 
+        // each of these things evalutes to either true or false, if any
+        // one of them is false the point will be filtered out
         let filteredData = coords[0] > minLng &&
-                          coords[0] < maxLng &&
-                          coords[1] > minLat &&
-                          coords[1] < maxLat &&
-                          propBool
+                           coords[0] < maxLng &&
+                           coords[1] > minLat &&
+                           coords[1] < maxLat &&
+                           propBool
         return filteredData
       }
     }
@@ -375,10 +362,6 @@ const resetValues = () => {
   latMaxInput.value = ''
 }
 
-// call the function that adds data to the map
-// should the switch function for JSON / XML / CSV be here?
-addDatasetToMapJSON()
-
 // add event listener to submitValuesButton
 submitValuesButton.addEventListener('click', () => {
   filterValues()
@@ -390,3 +373,7 @@ resetValuesButton.addEventListener('click', () => {
   resetValues()
   onReadyPopups()
 })
+
+// call the function that adds data to the map
+// should the switch function for JSON / XML / CSV be here?
+addDatasetToMapJSON()
