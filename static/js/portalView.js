@@ -76,138 +76,80 @@ myMap.on('click', scrollWheelToggle)
 // I am going to bring the base_map javascript into this file, just like the
 // javascript for the detailView
 
-// maybe I should take this function out. It's somewhat extraneous.
-/*
-function mapToggler() {
-  toggleDisplay("sidebar");
-  main_map = document.getElementById("main_map");
-  if (main_map.classList) {
-    let classes = ["col-md-8"];
-    main_map.classList.toggle(classes);
-  } else {
-    let classes = main_map.className.split(' '),
-        existingIndex = classes.indexOf(className);
-    if (existingIndex >= 0)
-      classes.splice(existingIndex, 1);
-    else
-      classes.push(className);
-    main_map.className = classes.join(' ');
-  }
-}
+// Get list of dataset checkbox items and the length of the list
+// and make empty array to push datasets to
 
-domReady( () => {
-  mapToggler();
-});
+/*
+All I have to do is make a list of urls that omnivore, or whatever else, can
+make calls to. The urls just have to be in the form "load_dataset/#/" where
+the # is the primary key for the dataset. This will call a django view
+that is programmed to make a request to the actual dataset url with any
+auth and password information the actual url needs.
 */
 
-// make empty array to push datasets to
-const datasets = []
-
-// Get list of dataset checkbox items and the length of the list
+// get the list of datasets provided by django
 const datasetCheckboxes = document.getElementsByName('datasetCheckbox')
-const l = datasetCheckboxes.length
 
-// push their values to the datasets array
-// maybe it would be better to save this as an array of dictionaries, that way
-// file extension could also be saved
-for (let i = 0; i < l; i++) {
-  const value = datasetCheckboxes[i].getAttribute('value')
-  const ext = datasetCheckboxes[i].getAttribute('ext')
-  datasets.push({'value': `ds${value}`, 'ext': ext})
-}
+// make empty dictionary object that I can add layers to as key: value pairs
+// with the dataset primary key being the key and the layer being the value
+const datasets = {}
 
-// I feel like this should be refactored in a way that lets me re-use the code better
-// add layers to variables stored in dataset list
-const datasetToggle = (value, ext) => {
-  const dsUrl = `/load_dataset/${value}`
-  const dsValue = `ds${value}`
-  const ds = datasets[dsValue]
-
-// the function
-  const onReadyPopups = () => {
-    datasets[dsValue].eachLayer((layer) => {
-      const popupContent = []
-      for (const key in layer.feature.properties) {
-        popupContent.push(
-          `<b>${key}</b>: ${layer.feature.properties[key]}`
-        )
-      }
-      if (layer.feature.geometry.type === 'Point') {
-        popupContent.push(`<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`)
-        popupContent.push(`<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`)
-      }
-      layer.bindPopup(popupContent.join('<br/>'))
-    })
-    let bounds = datasets[dsValue].getBounds()
-    myMap.fitBounds(bounds)
-  }
-
-  // if map already has dataset, remove it, otherwise, add it
-  if (myMap.hasLayer(ds)) {
-    myMap.removeLayer(ds)
-  } else {
-    // would a switch statement be better
-    switch (ext) {
-      case 'kml':
-        datasets[dsValue] = omnivore.kml(dsUrl)
-        .on('ready', onReadyPopups)
-        .addTo(myMap)
-        break
-      case 'csv':
-        datasets[dsValue] = omnivore.csv(dsUrl)
-        .on('ready', onReadyPopups)
-        .addTo(myMap)
-        break
-      default:
-        datasets[dsValue] = omnivore.geojson(dsUrl)
-        .on('ready', onReadyPopups)
-        .addTo(myMap)
-        break
-    }
-
-    // use dataset.ext to get dataset type
-    /*
-    if (ext === "kml") {
-      datasets[dsValue] = omnivore.kml(url=dsUrl)
-      .on("ready", onReadyPopups)
-      .addTo(myMap);
-    } else if (ext === "csv") {
-      datasets[dsValue] = omnivore.kml(url=dsUrl)
-      .on("ready", onReadyPopups)
-      .addTo(myMap);
-    } else {
-      datasets[dsValue] = omnivore.geojson(url=dsUrl)
-      .on("ready", onReadyPopups)
-      .addTo(myMap);
-    }
-    */
-  }
-}
-
-for (let i = 0; i < datasetCheckboxes.length; i++) {
-  datasetCheckboxes[i].addEventListener('click', (event) => {
-    const value = event.target.value
-    const ext = event.target.getAttribute('ext')
+// add event listeners to each of the checkboxes on the html page
+datasetCheckboxes.forEach((cb) => {
+  cb.addEventListener('click', (e) => {
+    const value = e.target.value
+    const ext = e.target.id
     datasetToggle(value, ext)
   })
+})
+
+// create popups function
+const addPopups = (layer) => {
+  const popupContent = []
+  for (const key in layer.feature.properties) {
+    popupContent.push(
+      `<b>${key}</b>: ${layer.feature.properties[key]}`
+    )
+  }
+  if (layer.feature.geometry.type === 'Point') {
+    popupContent.push(`<b>Latitude:</b>
+    ${layer.feature.geometry.coordinates[1]}`)
+    popupContent.push(`<b>Longitude:</b>
+    ${layer.feature.geometry.coordinates[0]}`)
+  }
+  layer.bindPopup(popupContent.join('<br/>'))
 }
 
-// function clearAllLayers() {
-//   myMap.eachLayer(function (layer) {
-//     myMap.removeLayer(layer);
-//   });
-// }
+const datasetToggle = (value, ext) => {
+  const datasetUrl = `/load_dataset/${value}`
+  let layer
 
-/*
-// there's potential to replace this with a fullscreen map button
-// map resize button with id, for testing purposes
-const mapResizeButton = L.easyButton({
-  states: [{
-    icon: "<i class='fa fa-arrows-h' aria-hidden='true'></i>",
-    id: "mapResizeButton",
-    onClick: function resizeMap(btn, myMap) {
-      mapToggler();
+  // check to see if the map already has the layer
+  if (myMap.hasLayer(datasets[value])) {
+    myMap.removeLayer(datasets[value])
+  } else {
+    if (ext === 'kml') {
+      layer = omnivore.kml(datasetUrl)
+        .on('ready', () => {
+          myMap.fitBounds(layer.getBounds())
+          myMap.addLayer(layer)
+          layer.eachLayer(addPopups)
+        })
+    } else if (ext === 'csv') {
+      layer = omnivore.csv(datasetUrl)
+        .on('ready', () => {
+          myMap.fitBounds(layer.getBounds())
+          myMap.addLayer(layer)
+          layer.eachLayer(addPopups)
+        })
+    } else {
+      layer = omnivore.geojson(datasetUrl)
+        .on('ready', () => {
+          myMap.fitBounds(layer.getBounds())
+          myMap.addLayer(layer)
+          layer.eachLayer(addPopups)
+        })
     }
-  }]
-}).addTo(myMap);
-*/
+    datasets[value] = layer
+  }
+}
