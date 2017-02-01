@@ -1,5 +1,11 @@
 // this is the portal view specific javascript
 
+/*
+This file is going to need to be refactored so that it can deal with the
+marker cluster functions and so that it can be used to change the colors
+and shapes of the dataset points, lines, and polygons
+*/
+
 // This file has all the basic map stuff, if there are specific functions
 // for specific pages they will be in their own javascript files
 // writen with ES6
