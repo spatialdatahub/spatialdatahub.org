@@ -88,7 +88,18 @@ let featureCount = 0
 let datasetProperties = []
 
 // define geojson layer that the dataset may be added to
-let filteredLayer = L.geoJson().addTo(myMap)
+let filteredLayer = L.geoJson()
+
+// define markercluster group that filteredLayer can be added to
+// and add it to the map
+let allMarkers = L.markerClusterGroup({
+  showCoverageOnHover: false,
+  maxClusterRadius: 50
+})
+
+// add filteredLayer to allMarkers
+ allMarkers.addLayer(filteredLayer)
+ myMap.addLayer(allMarkers)
 
 // define my popups function
 const onReadyPopups = () => {
@@ -245,7 +256,10 @@ const addDatasetToMapJSON = () => {
     .then((response) => {
       dataset = response // this should work after kml has been
                          // converted to geojson
+
+
       filteredLayer.addData(dataset)
+      allMarkers.addLayer(filteredLayer)
     })
     .then((response) => {
       onReadyPopups(response)
@@ -260,7 +274,7 @@ const addDatasetToMapJSON = () => {
 // may have to be combined.
 const filterValues = () => {
   // remove filteredLayer
-  myMap.removeLayer(filteredLayer)
+  allMarkers.removeLayer(filteredLayer)
 
   // get the property and the input values
   const selectedProperty = document.getElementById('property_selector')
@@ -345,15 +359,17 @@ const filterValues = () => {
         return filteredData
       }
     }
-  }).addTo(myMap)
+  })
+  allMarkers.addLayer(filteredLayer)
 }
 
 const resetValues = () => {
   // remove filteredLayer
-  myMap.removeLayer(filteredLayer)
+  allMarkers.removeLayer(filteredLayer)
 
   // set filteredLayer to unfiltered dataset
-  filteredLayer = L.geoJson(dataset).addTo(myMap)
+  filteredLayer = L.geoJson(dataset)
+  allMarkers.addLayer(filteredLayer)
 
   // clear lat and long min and max input values
   lngMinInput.value = ''
