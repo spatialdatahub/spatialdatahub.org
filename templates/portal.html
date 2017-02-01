@@ -13,7 +13,8 @@
   </style>
 
 {% include "base_map_css.html" %}
-
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.Default.css" />
 {% endblock additional_css %}
 
 {% block content %}
@@ -82,6 +83,7 @@
 
 {% block js %}
 
-<script type="text/javascript" src="{% static 'js/portalView.js' %}"></script> 
+<script src='https://unpkg.com/leaflet.markercluster@1.0.0/dist/leaflet.markercluster.js'></script>
+<script type="text/javascript" src="{% static 'js/portalView.js' %}"></script>
 
 {% endblock js %}
