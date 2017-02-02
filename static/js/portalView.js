@@ -91,13 +91,7 @@ auth and password information the actual url needs.
 
 // define markercluster group that filteredLayer can be added to
 // and add it to the map
-const allMarkers = L.markerClusterGroup({
-  showCoverageOnHover: false,
-  maxClusterRadius: 50
-})
-
 // add allMarkers to myMap
-myMap.addLayer(allMarkers)
 
 // get the list of datasets provided by django
 const datasetCheckboxes = document.getElementsByName('datasetCheckbox')
@@ -106,12 +100,21 @@ const datasetCheckboxes = document.getElementsByName('datasetCheckbox')
 // with the dataset primary key being the key and the layer being the value
 const datasets = {}
 
+// set colors to add to the points
+const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
+let colorCounter = 0
+
 // add event listeners to each of the checkboxes on the html page
 datasetCheckboxes.forEach((cb) => {
+  // increment colors
+  colorCounter++
+  const color = colors[colorCounter%colors.length]
   cb.addEventListener('click', (e) => {
     const value = e.target.value
     const ext = e.target.id
-    datasetToggle(value, ext)
+    // set color here
+    // const color = colors[colorCounter%colors.length]
+    datasetToggle(value, ext, color)
   })
 })
 
@@ -132,38 +135,67 @@ const addPopups = (layer) => {
   layer.bindPopup(popupContent.join('<br/>'))
 }
 
-const datasetToggle = (value, ext) => {
+const datasetToggle = (value, ext, color) => {
   const datasetUrl = `/load_dataset/${value}`
   let layer
 
+  const colorMarkerOptions = {
+    radius: 8,
+    fillColor: color,
+    color: 'black',
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.4
+  }
+
   // check to see if the map already has the layer
-  if (allMarkers.hasLayer(datasets[value])) {
-    allMarkers.removeLayer(datasets[value])
+  if (myMap.hasLayer(datasets[value])) {
+    myMap.removeLayer(datasets[value])
   } else {
+    // set up custom color selector layer/function
+    const layerColor = L.geoJson(null, {
+      // do this for points
+      pointToLayer: (feature, latlng) => {
+        return L.circleMarker(latlng, colorMarkerOptions)
+      },
+      // do this for everything else
+      onEachFeature: (feature, layer) => {
+        layer.options.color = color
+      }
+    })
+
+
     if (ext === 'kml') {
-      layer = omnivore.kml(datasetUrl)
+      layer = omnivore.kml(datasetUrl, null, layerColor)
         .on('ready', () => {
           myMap.fitBounds(layer.getBounds())
-          allMarkers.addLayer(layer)
+          myMap.addLayer(layer)
           layer.eachLayer(addPopups)
         })
     } else if (ext === 'csv') {
-      layer = omnivore.csv(datasetUrl)
+      layer = omnivore.csv(datasetUrl, null, layerColor)
         .on('ready', () => {
           myMap.fitBounds(layer.getBounds())
-          allMarkers.addLayer(layer)
+          myMap.addLayer(layer)
           layer.eachLayer(addPopups)
         })
     } else {
-      layer = omnivore.geojson(datasetUrl)
+      layer = omnivore.geojson(datasetUrl, null, layerColor)
         .on('ready', () => {
           myMap.fitBounds(layer.getBounds())
-          allMarkers.addLayer(layer)
-          console.log(layer)
+          myMap.addLayer(layer)
           layer.eachLayer(addPopups)
-          datasets[value] = layer
         })
     }
-//    datasets[value] = layer
+    datasets[value] = layer
+    console.log(color)
+    console.log(datasets[value])
+//    datasets[value][color] = "red"
+
+    //Increment and set the color
+//    colorCounter++
+//    let color = "color"// = colors[(incrementer%colors.length)]
+
   }
+  datasets[value]
 }
