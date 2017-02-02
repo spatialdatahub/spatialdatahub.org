@@ -257,7 +257,6 @@ const addDatasetToMapJSON = () => {
       dataset = response // this should work after kml has been
                          // converted to geojson
 
-
       filteredLayer.addData(dataset)
       allMarkers.addLayer(filteredLayer)
     })

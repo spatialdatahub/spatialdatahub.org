@@ -108,14 +108,14 @@ let colorCounter = 0
 datasetCheckboxes.forEach((cb) => {
   // increment colors
   colorCounter++
-  const color = colors[colorCounter%colors.length]
+  const color = colors[colorCounter % colors.length]
   cb.addEventListener('click', (e) => {
     const value = e.target.value
     const ext = e.target.id
-    // set color here
-    // const color = colors[colorCounter%colors.length]
     datasetToggle(value, ext, color)
   })
+  // change the element's color to it's map layer color
+  // cb.style.backgroundColor = color
 })
 
 // create popups function
@@ -164,7 +164,6 @@ const datasetToggle = (value, ext, color) => {
       }
     })
 
-
     if (ext === 'kml') {
       layer = omnivore.kml(datasetUrl, null, layerColor)
         .on('ready', () => {
@@ -188,14 +187,5 @@ const datasetToggle = (value, ext, color) => {
         })
     }
     datasets[value] = layer
-    console.log(color)
-    console.log(datasets[value])
-//    datasets[value][color] = "red"
-
-    //Increment and set the color
-//    colorCounter++
-//    let color = "color"// = colors[(incrementer%colors.length)]
-
   }
-  datasets[value]
 }
