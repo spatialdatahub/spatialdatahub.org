@@ -145,10 +145,10 @@ class DatasetModelTests(TestCase):
 
     def test_that_PASSWORD_PROTECTED_dataset_user_can_be_decrypted(self):
         # set base dir
-        BASE_DIR = os.path.dirname(os.path.dirname(
+        base_dir = os.path.dirname(os.path.dirname(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
         # get key from file
-        f = BASE_DIR + "/temp_password.txt"
+        f = base_dir + "/temp_password.txt"
         g = open(f)
         key = g.read().encode("utf-8")
         g.close()
