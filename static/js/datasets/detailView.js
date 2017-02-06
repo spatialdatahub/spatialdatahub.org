@@ -243,13 +243,7 @@ const getDataset = (url) => {
   return promise
 }
 
-if (ext === 'csv') {
-  console.log('csv')
-} else if (ext === 'kml') {
-  console.log('kml')
-} else {
-  console.log('json')
-}
+console.log(ext)
 
 // I don't want to add another if / else statement, but I think i may have to
 // so that I can deal with the kml and csv stuff, except that I don't want
