@@ -43,7 +43,9 @@ rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`, {
 })
 
 // set up map, view and base layer
-const myMap = new L.Map('mapid', {
+// I have no idea why I have to use the "new" keyword here, so i'm taking it
+// out
+const myMap = L.map('mapid', {
   center: {lat: 0, lng: 8.8460},
   zoom: 2,
   layers: osm,
@@ -92,6 +94,21 @@ auth and password information the actual url needs.
 // define markercluster group that filteredLayer can be added to
 // and add it to the map
 // add allMarkers to myMap
+// should these groups just be added to the 'datasets' dictionary instead of
+// the 'layer item?'
+
+const makeGroup = (color) => {
+  return new L.MarkerClusterGroup({
+    iconCreateFunction: (cluster) => {
+      return new L.DivIcon({
+        iconSize: [20, 20],
+        html: `<div style="text-align:center;color:#fff;background: ${color}
+        ${cluster.getChildCount()}</div>`
+      })
+    }
+  })
+}
+
 
 // get the list of datasets provided by django
 const datasetCheckboxes = document.getElementsByName('datasetCheckbox')
@@ -104,6 +121,7 @@ const datasets = {}
 const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
 let colorCounter = 0
 
+// how do I functionalize this?
 // add event listeners to each of the checkboxes on the html page
 datasetCheckboxes.forEach((cb) => {
   // increment colors
@@ -121,24 +139,25 @@ datasetCheckboxes.forEach((cb) => {
 // create popups function
 const addPopups = (layer) => {
   const popupContent = []
+  // How can I functionalize this block
   for (const key in layer.feature.properties) {
     popupContent.push(
       `<b>${key}</b>: ${layer.feature.properties[key]}`
     )
   }
+  // How can I functionalize this block
   if (layer.feature.geometry.type === 'Point') {
     popupContent.push(`<b>Latitude:</b>
     ${layer.feature.geometry.coordinates[1]}`)
     popupContent.push(`<b>Longitude:</b>
     ${layer.feature.geometry.coordinates[0]}`)
   }
+  // How can I functionalize this block
   layer.bindPopup(popupContent.join('<br/>'))
 }
 
-const datasetToggle = (value, ext, color) => {
-  const datasetUrl = `/load_dataset/${value}`
-  let layer
-
+// create function that sets the color marker's options (for point datasets)
+const setColorMarkerOptions = (color) => {
   const colorMarkerOptions = {
     radius: 8,
     fillColor: color,
@@ -147,7 +166,15 @@ const datasetToggle = (value, ext, color) => {
     opacity: 1,
     fillOpacity: 0.4
   }
+  return colorMarkerOptions
+}
 
+const datasetToggle = (value, ext, color) => {
+  const datasetUrl = `/load_dataset/${value}` // supposed to be a function?
+  let layer
+
+  // How can I functionalize this block -- I could turn the if/else into a
+  // function
   // check to see if the map already has the layer
   if (myMap.hasLayer(datasets[value])) {
     myMap.removeLayer(datasets[value])
@@ -156,7 +183,8 @@ const datasetToggle = (value, ext, color) => {
     const layerColor = L.geoJson(null, {
       // do this for points
       pointToLayer: (feature, latlng) => {
-        return L.circleMarker(latlng, colorMarkerOptions)
+        // return L.circleMarker(latlng, colorMarkerOptions)
+        return L.circleMarker(latlng, setColorMarkerOptions(color))
       },
       // do this for everything else
       onEachFeature: (feature, layer) => {

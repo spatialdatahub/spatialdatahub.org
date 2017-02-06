@@ -1,3 +1,7 @@
+// How hard would it be to write this in functional programming style?
+// If I were to do that would it be easier to deal with later? Would it
+// be worth the effort?
+
 // This file has all the basic map stuff, if there are specific functions
 // for specific pages they will be in their own javascript files
 // writen with ES6
