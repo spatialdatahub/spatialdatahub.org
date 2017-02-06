@@ -4,6 +4,18 @@ from django.utils.text import slugify
 
 from accounts.models import Account
 
+from cryptography.fernet import Fernet
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+f = BASE_DIR + "/temp_password.txt"
+
+
+g = open(f)
+key = g.read()
+g.close()
+cipher_start = Fernet(key)
+
 
 class Dataset(models.Model):
     """
@@ -47,6 +59,15 @@ class Dataset(models.Model):
             self.ext = "kml"
         else:
             self.ext = "geojson"
+
+        # encrypt the password and username
+        if self.dataset_password:
+            bytes_password = self.dataset_password.encode('utf-8')
+            self.dataset_password = cipher_start.encrypt(bytes_password)
+
+        if self.dataset_user:
+            bytes_user = self.dataset_user.encode('utf-8')
+            self.dataset_user = cipher_start.encrypt(bytes_user)
 
         self.dataset_slug = slugify(self.title)
         super(Dataset, self).save(*args, **kwargs)

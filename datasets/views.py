@@ -9,11 +9,6 @@ from accounts.models import Account
 # from cryptography.fernet import Fernet
 
 
-"""
-I still need to figure out a good way to deal with KML and KMZ files.
-"""
-
-
 def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)

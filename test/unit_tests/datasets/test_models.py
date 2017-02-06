@@ -5,6 +5,11 @@ from django.test import TestCase
 from datasets.models import Dataset
 from accounts.models import Account
 
+from cryptography.fernet import Fernet
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 class DatasetModelTests(TestCase):
     """
@@ -24,6 +29,18 @@ class DatasetModelTests(TestCase):
             description="Polygons spelling 'GOOGLE' over Australia",
             url="https://storage.googleapis.com/maps-devrel/google.json",
             public_access=True)
+
+        self.ds2 = Dataset.objects.create(
+           account=self.a1,
+           author="zmtdummy",
+           title="Password Protected Dataset",
+           description="Just a page that requires login and password info",
+           url="https://bitbucket.org/zmtdummy/geojsondata/raw/" +
+               "ad675d6fd6e2256b365e79e785603c2ab454006b/" +
+               "password_protected_dataset.json",
+           dataset_user="zmtdummy",
+           dataset_password="zmtBremen1991",
+           public_access=False)
 
     def test_that_dataset_object_can_be_saved_to_database_and_found(self):
         test_dataset = Dataset.objects.get(
@@ -102,3 +119,41 @@ class DatasetModelTests(TestCase):
         test_account.delete()
         with self.assertRaises(ObjectDoesNotExist):
             Dataset.objects.get(dataset_slug="google-geojson-example")
+
+    def test_that_PASSWORD_PROTECTED_dataset_password_is_encrypted(self):
+        dataset = Dataset.objects.get(dataset_slug="password-protected-dataset")
+        self.assertNotEqual(dataset.dataset_password, "zmtBremen1991")
+
+    def test_that_PASSWORD_PROTECTED_dataset_user_is_encrypted(self):
+        dataset = Dataset.objects.get(dataset_slug="password-protected-dataset")
+        self.assertNotEqual(dataset.dataset_user, "zmtdummy")
+
+    def test_that_PASSWORD_PROTECTED_dataset_password_can_be_decrypted(self):
+        # set base dir
+        BASE_DIR = os.path.dirname(os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+        # get key from file
+        f = BASE_DIR + "/temp_password.txt"
+        g = open(f)
+        key = g.read().encode("utf-8")
+        g.close()
+        cipher_end = Fernet(key)
+        dataset = Dataset.objects.get(dataset_slug="password-protected-dataset")
+        bytes_password = dataset.dataset_password.encode("utf-8")
+        decrypted_password = cipher_end.decrypt(bytes_password).decode("utf-8")
+        self.assertEqual(decrypted_password, "zmtBremen1991")
+
+    def test_that_PASSWORD_PROTECTED_dataset_user_can_be_decrypted(self):
+        # set base dir
+        BASE_DIR = os.path.dirname(os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+        # get key from file
+        f = BASE_DIR + "/temp_password.txt"
+        g = open(f)
+        key = g.read().encode("utf-8")
+        g.close()
+        cipher_end = Fernet(key)
+        dataset = Dataset.objects.get(dataset_slug="password-protected-dataset")
+        bytes_user = dataset.dataset_user.encode("utf-8")
+        decrypted_user = cipher_end.decrypt(bytes_user).decode("utf-8")
+        self.assertEqual(decrypted_user, "zmtdummy")

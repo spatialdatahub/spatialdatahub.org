@@ -20,6 +20,9 @@ def load_dataset(request, pk):
     Also there needs to be a better way to hide the cryptokey
 
     Bringing in different types of datasets (kml, csv, geojson) isn't much fun.
+
+    Start with unencrypted authentication information
+
     """
     # bring in the dataset and save it to a json object
     dataset = Dataset.objects.get(pk=pk)

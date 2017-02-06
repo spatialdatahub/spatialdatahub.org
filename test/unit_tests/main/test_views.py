@@ -121,7 +121,7 @@ class PortalViewTests(TestCase):
         self.assertTrue(response.context["dataset_list"])
 
     # it is probably unnecessary to run these two tests with these 4
-    # assertions, they are redundant 
+    # assertions, they are redundant
     def test_portal_search_function_1(self):
        response = self.client.get('/?q=Bien')
        self.assertEqual(response.status_code, 200)
@@ -132,37 +132,51 @@ class PortalViewTests(TestCase):
 class LoadDatasetTests(TestCase):
 
     def setUp(self):
-        self.a1 = Account.objects.create(user="test_user",
+        self.a1 = Account.objects.create(
+            user="test_user",
             affiliation="Zentrum für Marine Tropenökologie")
 
-        self.ds1 = Dataset.objects.create(account=self.a1,
+        self.ds1 = Dataset.objects.create(
+            account=self.a1,
             author="Google",
             title="Google GeoJSON Example",
             description="Polygons spelling 'GOOGLE' over Australia",
             url="https://storage.googleapis.com/maps-devrel/google.json",
             public_access=True)
 
-#        self.ds2 = Dataset.objects.create(account=self.a1,
-#            author="zmtdummy",
-#            title="Password Protected Dataset",
-#            description="Just a page that requires login and password info",
-#            url="https://bitbucket.org/zmtdummy/geojsondata/raw/ad675d6fd6e2256b365e79e785603c2ab454006b/password_protected_dataset.json",
-#            dataset_user="zmtdummy",
-#            dataset_password="zmtBremen1991",
-#            public_access=False)
+        self.ds2 = Dataset.objects.create(
+           account=self.a1,
+           author="zmtdummy",
+           title="Password Protected Dataset",
+           description="Just a page that requires login and password info",
+           url="https://bitbucket.org/zmtdummy/geojsondata/raw/" +
+               "ad675d6fd6e2256b365e79e785603c2ab454006b/" +
+               "password_protected_dataset.json",
+           dataset_user="zmtdummy",
+           dataset_password="zmtBremen1991",
+           public_access=False)
 
     def test_load_dataset_returns_status_code_200(self):
         response = self.client.get(reverse("load_dataset",
             kwargs={"pk": self.ds1.pk}))
         self.assertEqual(200, response.status_code)
 
-#    def test_load_dataset_returns_status_code_200_PASSWORD_PROTECTED(self):
-#        response = self.client.get(reverse("load_dataset",
-#            kwargs={"pk": self.ds2.pk}))
-#        self.assertEqual(200, response.status_code)
+    def test_load_dataset_returns_status_code_200_PASSWORD_PROTECTED(self):
+        """
+        This only checks that there is a load dataset page for the view we set
+        up, not for the actual dataset, so it's not useless, but not really
+        that useful
+        """
+        response = self.client.get(reverse("load_dataset",
+            kwargs={"pk": self.ds2.pk}))
+        self.assertEqual(200, response.status_code)
 
     def test_load_dataset_returns_content(self):
         response = self.client.get(reverse('load_dataset',
             kwargs={'pk': self.ds1.pk}))
         self.assertIn(b'properties', response.content)
 
+    def test_load_dataset_returns_content_PASSWORD_PROTECTED(self):
+        response = self.client.get(reverse('load_dataset',
+            kwargs={'pk': self.ds2.pk}))
+        self.assertIn(b'properties', response.content)
