@@ -19,8 +19,8 @@ class DatasetModelTests(TestCase):
 
     def setUp(self):
         self.a1 = Account.objects.create(
-            user='test_user',
-            affiliation='Zentrum für Marine Tropenökologie')
+            user="test_user",
+            affiliation="Zentrum für Marine Tropenökologie")
 
         self.ds1 = Dataset.objects.create(
             account=self.a1,
@@ -76,17 +76,17 @@ class DatasetModelTests(TestCase):
         self.assertEqual(self.ds1.dataset_slug, "slug-update-test")
 
     def test_that_ext_field_is_saved_correctly(self):
-        self.assertEqual(self.ds1.ext, 'geojson')
+        self.assertEqual(self.ds1.ext, "geojson")
 
     def test_that_database_object_updates_ext_on_save_kml(self):
         self.ds1.url = "https://storage.googleapis.com/maps-devrel/google.kml"
         self.ds1.save()
-        self.assertEqual(self.ds1.ext, 'kml')
+        self.assertEqual(self.ds1.ext, "kml")
 
     def test_that_database_object_updates_ext_on_save_csv(self):
         self.ds1.url = "https://storage.googleapis.com/maps-devrel/google.csv"
         self.ds1.save()
-        self.assertEqual(self.ds1.ext, 'csv')
+        self.assertEqual(self.ds1.ext, "csv")
 
     def test_get_absolute_url_returns_correct_url(self):
         expected_url = "/{account_slug}/{dataset_slug}/{pk}/".format(

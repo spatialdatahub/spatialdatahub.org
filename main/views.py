@@ -7,17 +7,6 @@ from accounts.models import Account
 import requests
 import os
 from cryptography.fernet import Fernet
-# import json
-
-# set base dir
-base_dir = os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__)))
-# get key from file
-f = base_dir + "/temp_password.txt"
-g = open(f)
-key = g.read().encode("utf-8")
-g.close()
-cipher_end = Fernet(key)
 
 
 def load_dataset(request, pk):
@@ -32,13 +21,31 @@ def load_dataset(request, pk):
 
     Start with unencrypted authentication information
 
+    These things should only be called when a password protected dataset needs
+    to be loaded
+
     """
-    # bring in the dataset and save it
+    # bring in the dataset by pk
     dataset = Dataset.objects.get(pk=pk)
     if dataset.dataset_password:
-        r = requests.get(
-            dataset.url,
-            auth=(dataset.dataset_user, dataset.dataset_password)).content
+        # the basedir/filepath stuff can probably be done better
+        # set base dir
+        base_dir = os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__)))
+        # get key from file
+        f = base_dir + "/temp_password.txt"
+        g = open(f)
+        key = g.read().encode("utf-8")
+        g.close()
+        cipher_end = Fernet(key)
+
+        # this would probably go better with a little loop or something
+        bytes_user = dataset.dataset_user.encode("utf-8")
+        bytes_password = dataset.dataset_password.encode("utf-8")
+        decrypted_user = cipher_end.decrypt(bytes_user).decode("utf-8")
+        decrypted_password = cipher_end.decrypt(bytes_password).decode("utf-8")
+        r = requests.get(dataset.url,
+                         auth=(decrypted_user, decrypted_password)).content
     else:
         r = requests.get(dataset.url).content
     data = r
