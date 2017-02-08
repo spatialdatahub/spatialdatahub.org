@@ -9,8 +9,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 f = BASE_DIR + "/temp_password.txt"
-
-
 g = open(f)
 key = g.read()
 g.close()

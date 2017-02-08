@@ -9,7 +9,13 @@ from datasets.models import Dataset
 from datasets.views import new_dataset
 from datasets.views import dataset_detail
 from datasets.views import dataset_update
+from datasets.views import dataset_update_auth
 from datasets.views import dataset_remove
+
+from cryptography.fernet import Fernet
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class NewDatasetViewTests(TestCase):
@@ -93,11 +99,15 @@ class DatasetDetailViewTests(TestCase):
 
         self.ds2 = Dataset.objects.create(
             account=self.a1,
-            author="zmtdummy",
+            author="ZMT Dummy",
             title="Password Protected Dataset",
-            description="Just a page that requires login and password info",
-            url="https://bitbucket.org/zmtdummy/geojsondata",
-            public_access=False)
+            description="I don't remember what this dataset looks like",
+            url="https://bitbucket.org/zmtdummy/geojsondata/raw/" +
+                "ad675d6fd6e2256b365e79e785603c2ab454006b/" +
+                "password_protected_dataset.json",
+            dataset_user="zmtdummy",
+            dataset_password="zmtBremen1991",
+            public_access=True)
 
     def test_dataset_detail_view_url_resolves(self):
         response = self.client.get(
@@ -155,8 +165,10 @@ class DatasetDetailViewTests(TestCase):
                 kwargs={"account_slug": self.a1.account_slug,
                         "dataset_slug": self.ds2.dataset_slug,
                         "pk": self.ds2.pk}))
-        self.assertNotIn(self.ds2.dataset_password, response.context)
-        self.assertNotIn("dataset_password", response.content.decode("utf-8"))
+        self.assertNotIn(self.ds2.dataset_password.decode("utf-8"),
+                         response.context)
+        self.assertNotIn("dataset_password",
+                         response.content.decode("utf-8"))
 
     def test_dataset_detail_view_does_not_show_the_dataset_username(self):
         response = self.client.get(
@@ -165,8 +177,10 @@ class DatasetDetailViewTests(TestCase):
                 kwargs={"account_slug": self.a1.account_slug,
                         "dataset_slug": self.ds2.dataset_slug,
                         "pk": self.ds2.pk}))
-        self.assertNotIn(self.ds2.dataset_user, response.context)
-        self.assertNotIn("dataset_user", response.content.decode("utf-8"))
+        self.assertNotIn(self.ds2.dataset_user.decode("utf-8"),
+                         response.context)
+        self.assertNotIn("dataset_user",
+                         response.content.decode("utf-8"))
 
 
 class DatasetUpdateViewTests(TestCase):
@@ -182,6 +196,18 @@ class DatasetUpdateViewTests(TestCase):
             title="Google GeoJSON Example",
             description="Polygons spelling 'GOOGLE' over Australia",
             url="https://storage.googleapis.com/maps-devrel/google.json",
+            public_access=True)
+
+        self.ds2 = Dataset.objects.create(
+            account=self.a1,
+            author="ZMT Dummy",
+            title="Password Protected Dataset",
+            description="I don't remember what this dataset looks like",
+            url="https://bitbucket.org/zmtdummy/geojsondata/raw/" +
+                "ad675d6fd6e2256b365e79e785603c2ab454006b/" +
+                "password_protected_dataset.json",
+            dataset_user="zmtdummy",
+            dataset_password="zmtBremen1991",
             public_access=True)
 
     def test_dataset_update_view_url_resolves(self):
@@ -221,6 +247,7 @@ class DatasetUpdateViewTests(TestCase):
             title=self.ds1.title),
             response.content.decode("utf-8"))
 
+    # These next two tests are not updating on client.post
     def test_dataset_update_view_redirects_dataset_detail_view_on_save(self):
         response = self.client.post(
             reverse(
@@ -246,8 +273,139 @@ class DatasetUpdateViewTests(TestCase):
             data={"author": "pat", "title": "test dataset",
                   "description": "This is a test dataset",
                   "url": "https://duckduckgo.com/"}, follow=True)
-        test_dataset = Dataset.objects.all()[0]
-        self.assertEqual(test_dataset.title, "test dataset")
+        test_dataset = Dataset.objects.get(title="test dataset")
+        self.assertEqual(test_dataset.description, "This is a test dataset")
+
+    def test_dataset_update_view_updates_dataset_but_not_auth_pswd(self):
+        self.client.post(
+            reverse(
+                "datasets:dataset_update",
+                kwargs={"account_slug": self.a1.account_slug,
+                        "dataset_slug": self.ds2.dataset_slug,
+                        "pk": self.ds2.pk}),
+            data={"author": "pat", "title": "test dataset",
+                  "description": "This is a test dataset",
+                  "url": "https://duckduckgo.com/"}, follow=True)
+
+        # set base dir
+        BASE_DIR = os.path.dirname(os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+        # get key from file
+        f = BASE_DIR + "/temp_password.txt"
+        g = open(f)
+        key = g.read().encode("utf-8")
+        g.close()
+        cipher_end = Fernet(key)
+
+        test_dataset = Dataset.objects.get(title="test dataset")
+        bytes_password = test_dataset.dataset_password.encode("utf-8")
+        decrypted_password = cipher_end.decrypt(bytes_password).decode("utf-8")
+
+        self.assertEqual(decrypted_password, "zmtBremen1991")
+
+    def test_dataset_update_view_updates_dataset_but_not_auth_user(self):
+        self.client.post(
+            reverse(
+                "datasets:dataset_update",
+                kwargs={"account_slug": self.a1.account_slug,
+                        "dataset_slug": self.ds2.dataset_slug,
+                        "pk": self.ds2.pk}),
+            data={"author": "pat", "title": "test dataset",
+                  "description": "This is a test dataset",
+                  "url": "https://duckduckgo.com/"}, follow=True)
+
+        # set base dir
+        BASE_DIR = os.path.dirname(os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+        # get key from file
+        f = BASE_DIR + "/temp_password.txt"
+        g = open(f)
+        key = g.read().encode("utf-8")
+        g.close()
+        cipher_end = Fernet(key)
+
+        test_dataset = Dataset.objects.get(title="test dataset")
+        bytes_user = test_dataset.dataset_user.encode("utf-8")
+        decrypted_user = cipher_end.decrypt(bytes_user).decode("utf-8")
+
+        self.assertEqual(decrypted_user, "zmtdummy")
+
+
+class DatasetUpdateAuthViewTests(TestCase):
+    """
+    I have to make sure that the dataset user and dataset passwords are saved
+    and encrypted on save...
+    """
+
+    def setUp(self):
+        self.a1 = Account.objects.create(
+            user="test_user",
+            affiliation="Zentrum für Marine Tropenökologie")
+
+        self.ds2 = Dataset.objects.create(
+            account=self.a1,
+            author="ZMT Dummy",
+            title="Password Protected Dataset",
+            description="I don't remember what this dataset looks like",
+            url="https://bitbucket.org/zmtdummy/geojsondata/raw/" +
+                "ad675d6fd6e2256b365e79e785603c2ab454006b/" +
+                "password_protected_dataset.json",
+            dataset_user="zmtdummy",
+            dataset_password="zmtBremen1991",
+            public_access=True)
+
+    def test_dataset_update_auth_view_url_resolves(self):
+        response = self.client.get(
+            "/test_user/password-protected-dataset/{pk}/update/auth/".format(
+                pk=self.ds2.pk))
+        self.assertEqual(response.status_code, 200)
+
+    def test_dataset_update_auth_function_resolves(self):
+        request = HttpRequest()
+        response = dataset_update_auth(request,
+                                       account_slug=self.a1.account_slug,
+                                       dataset_slug=self.ds2.dataset_slug,
+                                       pk=self.ds2.pk)
+        self.assertEqual(response.status_code, 200)
+
+    def test_dataset_update_auth_view_uses_correct_templates(self):
+        response = self.client.get(
+            reverse(
+                "datasets:dataset_update_auth",
+                kwargs={"account_slug": self.a1.account_slug,
+                        "dataset_slug": self.ds2.dataset_slug,
+                        "pk": self.ds2.pk}))
+        self.assertTemplateUsed(
+            response,
+            template_name="datasets/dataset_update_auth.html")
+        self.assertTemplateUsed(response,
+                                template_name="base.html")
+
+    def test_dataset_update_auth_view_title_is_correct(self):
+        response = self.client.get(
+            reverse(
+                "datasets:dataset_update_auth",
+                kwargs={"account_slug": self.a1.account_slug,
+                        "dataset_slug": self.ds2.dataset_slug,
+                        "pk": self.ds2.pk}))
+        self.assertIn("<title>ZMT | Update {title}</title>".format(
+            title=self.ds2.title),
+            response.content.decode("utf-8"))
+
+    # These next two tests are not updating on client.post
+    def test_dataset_update_auth_redirects_dataset_detail_on_save(self):
+        response = self.client.post(
+            reverse(
+                "datasets:dataset_update_auth",
+                kwargs={"account_slug": self.a1.account_slug,
+                        "dataset_slug": self.ds2.dataset_slug,
+                        "pk": self.ds2.pk}),
+            data={"dataset_user": "differentUser",
+                  "dataset_password": "differentPassword"})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["location"],
+                         "/test_user/password-protected-dataset/{pk}/".format(
+                         pk=self.ds2.pk))
 
 
 class DatasetRemoveViewTests(TestCase):

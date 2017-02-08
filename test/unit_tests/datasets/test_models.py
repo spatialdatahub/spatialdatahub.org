@@ -121,11 +121,13 @@ class DatasetModelTests(TestCase):
             Dataset.objects.get(dataset_slug="google-geojson-example")
 
     def test_that_PASSWORD_PROTECTED_dataset_password_is_encrypted(self):
-        dataset = Dataset.objects.get(dataset_slug="password-protected-dataset")
+        dataset = Dataset.objects.get(
+            dataset_slug="password-protected-dataset")
         self.assertNotEqual(dataset.dataset_password, "zmtBremen1991")
 
     def test_that_PASSWORD_PROTECTED_dataset_user_is_encrypted(self):
-        dataset = Dataset.objects.get(dataset_slug="password-protected-dataset")
+        dataset = Dataset.objects.get(
+            dataset_slug="password-protected-dataset")
         self.assertNotEqual(dataset.dataset_user, "zmtdummy")
 
     def test_that_PASSWORD_PROTECTED_dataset_password_can_be_decrypted(self):
@@ -138,7 +140,8 @@ class DatasetModelTests(TestCase):
         key = g.read().encode("utf-8")
         g.close()
         cipher_end = Fernet(key)
-        dataset = Dataset.objects.get(dataset_slug="password-protected-dataset")
+        dataset = Dataset.objects.get(
+            dataset_slug="password-protected-dataset")
         bytes_password = dataset.dataset_password.encode("utf-8")
         decrypted_password = cipher_end.decrypt(bytes_password).decode("utf-8")
         self.assertEqual(decrypted_password, "zmtBremen1991")
@@ -153,7 +156,8 @@ class DatasetModelTests(TestCase):
         key = g.read().encode("utf-8")
         g.close()
         cipher_end = Fernet(key)
-        dataset = Dataset.objects.get(dataset_slug="password-protected-dataset")
+        dataset = Dataset.objects.get(
+            dataset_slug="password-protected-dataset")
         bytes_user = dataset.dataset_user.encode("utf-8")
         decrypted_user = cipher_end.decrypt(bytes_user).decode("utf-8")
         self.assertEqual(decrypted_user, "zmtdummy")

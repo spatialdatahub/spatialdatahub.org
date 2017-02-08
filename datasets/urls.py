@@ -18,6 +18,10 @@ urlpatterns = [
         views.dataset_update,
         name="dataset_update"),
 
+    url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>[0-9]+)/update/auth/$',
+        views.dataset_update_auth,
+        name="dataset_update_auth"),
+
     url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>[0-9]+)/remove/$',
         views.dataset_remove,
         name="dataset_remove"),

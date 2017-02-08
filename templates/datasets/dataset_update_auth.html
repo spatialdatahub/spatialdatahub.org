@@ -15,22 +15,28 @@
       <a href="{{ dataset.get_absolute_url }}" >{{ dataset.title }}</a> /
       <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}" >
         update
+      </a> /
+      <a href="{% url 'datasets:dataset_update_auth' account.account_slug dataset.dataset_slug dataset.pk %}" >
+        auth
       </a>
     </h5>
   </div>
   <hr class="divider">
 <!-- end account / dataset links -->
 
+  <h3>Update <a href="{{ dataset.get_absolute_url }}" >{{ dataset.title }}</a> user and password information</h3>
+
+  <hr class="divider">
+
 <!-- The Forms -->
   <div class="col-12 col-xs-12" id="update_dataset_form">
     <form action="." method="post">
       {% csrf_token %}
       {{ form.as_p }}
-      <a href="{% url 'datasets:dataset_update_auth' account.account_slug dataset.dataset_slug dataset.pk %}" class="btn btn-success">
-        Update {{ dataset.title }} User and Password
-      </a>
-      <hr class="divider">
       <input id="submit_dataset" class="btn btn-success" type="submit" value="Update">
+      <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}" class="btn btn-warning">
+        Back to dataset update page
+      </a>
       <a href="{{  dataset.get_absolute_url }}" class="btn btn-info">
         Back to dataset page
       </a>
