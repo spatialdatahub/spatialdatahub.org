@@ -2,6 +2,8 @@
 // If I were to do that would it be easier to deal with later? Would it
 // be worth the effort?
 
+// I just need to reorganize all this stuff
+
 // This file has all the basic map stuff, if there are specific functions
 // for specific pages they will be in their own javascript files
 // writen with ES6
@@ -53,8 +55,8 @@ const baseLayers = {
   'ESRI World Map': esriWorldImagery
 }
 
-const baseLayerControl = L.control.layers(baseLayers)
-baseLayerControl.addTo(myMap)
+const baseLayerControl = L.control.layers(baseLayers).addTo(myMap)
+//baseLayerControl.addTo(myMap)
 
 // toggle map scrollability
 const scrollWheelToggle = () => {
@@ -73,6 +75,68 @@ myMap.on('click', scrollWheelToggle)
 // I am going to include all the javascript here... as in I will not try to
 // inheret javascript from former files. It goes against the 'DRY' style
 // of writing code, but it puts everything here for me, right now.
+
+///////////////////////////////////////////////////////////////////////////////
+/*
+  I need to add a custom home button control
+
+  I need to fix this whole document so that it is written in the functional
+  programming style
+
+  I need to have tests for everything
+*/
+///////////////////////////////////////////////////////////////////////////////
+// Going to test something out
+/*
+L.Control.Home = L.Control.extend({
+
+  onAdd: (map) => {
+    const container = L.DomUtil.create('div',
+      'leaflet-bar leaflet-control leaflet-control-custom');
+
+    container.style.backgroundColor = 'white';
+    container.style.width = '33px';
+    container.style.height = '33px';
+    container.style.zIndex = 100000;
+
+    container.onclick = () => {
+      map.setView({'lat': 0, 'lng': 0}, 2);
+      console.log('buttonClicked');
+    }
+    return container;
+  },
+
+  onRemove: (map) => {
+
+  }
+})
+
+L.control.search = (options) => { new L.Control.Home(options) }
+
+L.control.search({ position: "topright" }).addTo(myMap)
+*/
+// EXAMPLE Control Extension:
+L.Control.Watermark = L.Control.extend({
+    onAdd: (map) => {
+        var img = L.DomUtil.create('img');
+
+        img.src = 'http://coresymposium.zmt-bremen.com/wp-content/uploads/' +
+                  '2015/02/zmt_logo_blue_and_white-300x146.png';
+        img.style.width = '100px';
+
+        return img;
+    },
+
+    onRemove: (map) => {
+        // Nothing to do here
+    }
+});
+
+L.control.watermark = (options) => {
+    return new L.Control.Watermark(options);
+}
+
+L.control.watermark({ position: 'bottomleft' }).addTo(myMap);
 
 // Define my variables
 
