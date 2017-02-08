@@ -2,7 +2,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
 from datasets.models import Dataset
-from datasets.forms import DatasetForm
+from datasets.forms import DatasetForm, DatasetAuthForm
 
 from accounts.models import Account
 
@@ -60,7 +60,9 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
     ###########################
     """
     account = get_object_or_404(Account, account_slug=account_slug)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
 
+    """
     try:
         dataset = Dataset.objects.filter(
             pk=pk,
@@ -74,33 +76,41 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
         old = Dataset.objects.filter(
             pk=pk,
             dataset_slug=dataset_slug).only(
-                "dataset_user", "datset_password")
+                "dataset_user", "dataset_password")
     except Dataset.DoesNotExist:
         return None
 
     print(dataset)
+    """
 
     if request.method == "POST":
-        form = DatasetForm(request.POST)#, initial=dataset)
-        if form.is_valid():
-            updated_dataset = form.save(commit=False)
+        dsform = DatasetForm(request.POST, instance=dataset)
+        authform = DatasetAuthForm(request.POST, instance=dataset)
+        if dsform.is_valid():
+            updated_dataset = dsform.save(commit=False)
             updated_dataset.account = account
-            if old:
-                if form.instance.dataset_user == "":
-                    updated_dataset.dataset_user = old.dataset_user
-                if form.instance.dataset_password == "":
-                    updated_dataset.dataset_password = old.dataset_password
-            else:
-                updated_dataset.save()
-            return redirect("datasets:dataset_detail",
-                            account_slug=account.account_slug,
-                            dataset_slug=dataset.dataset_slug,
-                            pk=dataset.pk)
+            updated_dataset.save()
+# check if the auth form is empty or not right here
+        if authform.is_valid():
+            updated_auth = authform.save(commit=False)
+            updated_auth.account = account
+            updated_auth.save()
+        else:
+            authform=None
+
+        return redirect("datasets:dataset_detail",
+                        account_slug=account.account_slug,
+                        dataset_slug=dataset.dataset_slug,
+                        pk=dataset.pk)
     else:
-        form = DatasetForm(instance=dataset)
+        dsform = DatasetForm(instance=dataset)
+        authform = DatasetAuthForm()#instance=dataset)
     template_name = "datasets/dataset_update.html"
     return render(request, template_name,
-                  {"form": form, "account": account, "dataset": dataset})
+                  {"dsform": dsform,
+                   "authform": authform,
+                   "account": account,
+                   "dataset": dataset})
 
 
 def dataset_remove(request, account_slug=None, dataset_slug=None, pk=None):

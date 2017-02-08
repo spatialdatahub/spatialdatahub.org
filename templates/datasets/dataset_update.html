@@ -21,11 +21,13 @@
   <hr class="divider">
 <!-- end account / dataset links -->
 
-<!-- The Form -->
+<!-- The Forms -->
   <div class="col-12 col-xs-12" id="update_dataset_form">
     <form action="." method="post">
       {% csrf_token %}
-      {{ form.as_p }}
+      {{ dsform.as_p }}
+      <hr class="divider">
+      {{ authform.as_p }}
       <input id="submit_dataset" class="btn btn-success" type="submit" value="Update">
       <a href="{{  dataset.get_absolute_url }}" class="btn btn-info">
         Back to dataset page

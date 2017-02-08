@@ -15,14 +15,26 @@ class DatasetForm(forms.ModelForm):
     class Meta:
         model = Dataset
         fields = ["title", "author", "url",
-                  "dataset_user", "dataset_password",
                   "public_access", "description"]
         basic_input_class = {"class": "form-control"}
         widgets = {
             "title": forms.TextInput(attrs=basic_input_class),
             "author": forms.TextInput(attrs=basic_input_class),
             "url": forms.TextInput(attrs=basic_input_class),
-            "dataset_user": forms.PasswordInput(attrs=basic_input_class),
-            "dataset_password": forms.PasswordInput(attrs=basic_input_class),
             "description": forms.Textarea(attrs=basic_input_class)
+        }
+
+class DatasetAuthForm(forms.ModelForm):
+    """
+    This will only update the dataset_user and the dataset_password fields
+    """
+    dataset_user = forms.CharField(required=True)
+    dataset_password = forms.CharField(required=True)
+    class Meta:
+        model = Dataset
+        fields = ["dataset_user", "dataset_password"]
+        basic_input_class = {"class": "form-control"}
+        widgets = {
+            "dataset_user": forms.TextInput(attrs=basic_input_class),
+            "dataset_password": forms.TextInput(attrs=basic_input_class)
         }
