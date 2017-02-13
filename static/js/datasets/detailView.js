@@ -56,20 +56,6 @@ const baseLayers = {
 }
 
 const baseLayerControl = L.control.layers(baseLayers).addTo(myMap)
-//baseLayerControl.addTo(myMap)
-
-// toggle map scrollability -> maybe I should make this a leaflet control thing
-const scrollWheelToggle = () => {
-  if (myMap.scrollWheelZoom.enabled()) {
-    myMap.scrollWheelZoom.disable()
-    console.log('no scroll!')
-  } else {
-    myMap.scrollWheelZoom.enable()
-    console.log('scroll away!')
-  }
-}
-
-myMap.on('click', scrollWheelToggle)
 
 // below is the javascript file specific to the map detail view
 // I am going to include all the javascript here... as in I will not try to
@@ -86,6 +72,7 @@ myMap.on('click', scrollWheelToggle)
   I need to have tests for everything
 */
 ///////////////////////////////////////////////////////////////////////////////
+
 // Going to test something out
 // EXAMPLE Control Extension:
 
@@ -105,38 +92,53 @@ L.Control.Watermark = L.Control.extend({
 
 // make button with multiple buttons; one for home, and one for scroll wheel
 // so far there is only the home button
-L.Control.MultiButton = L.Control.extend({
+
+L.Control.HomeButton = L.Control.extend({
     onAdd: (map) => {
       const container = L.DomUtil.create('div',
         'leaflet-bar leaflet-control leaflet-control-custom')
       container.style.backgroundColor = 'white'
       container.style.width = '34px'
       container.style.height = '34px'
-
       container.addEventListener("click", () => map.setView({lat:0, lng:0}, 2))
-
       return container
     },
     onRemove: (map) => {
-        // Nothing to do here
+      // Nothing to do here
     }
+})
+
+L.Control.ToggleScrollButton = L.Control.extend({
+  onAdd: (map) => {
+    const container = L.DomUtil.create('div',
+      'leaflet-bar leaflet-control leaflet-control-custom')
+    container.style.backgroundColor = 'white'
+    container.style.width = '34px'
+    container.style.height = '34px'
+    container.addEventListener("click", () => {
+      map.scrollWheelZoom.enabled() ? map.scrollWheelZoom.disable() :
+                                      map.scrollWheelZoom.enable()
+    })
+    return container
+  },
+  onRemove: (map) => {
+    // Nothing to do here
+  }
 })
 
 // set controls
 L.control.watermark = (options) => new L.Control.Watermark(options)
-L.control.multibutton = (options) => new L.Control.MultiButton(options)
+L.control.homebutton = (options) => new L.Control.HomeButton(options)
+L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(options)
+
 
 // add controls
-L.control.watermark({ position: 'bottomleft' }).addTo(myMap)
-L.control.multibutton({ position: 'topleft' }).addTo(myMap)
-
-
-
-
-
-
-
+L.control.watermark({position: 'bottomleft'}).addTo(myMap)
+L.control.homebutton({position: 'topleft'}).addTo(myMap)
+L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 // Define my variables
+
+
 
 const value = document.getElementById('dataset_pk').getAttribute('value')
 const ext = document.getElementById('dataset_ext').getAttribute('value')
