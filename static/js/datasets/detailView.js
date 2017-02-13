@@ -48,7 +48,6 @@ const myMap = new L.Map('mapid', {
   scrollWheelZoom: false
 })
 
-// create layer group and add base tile layers, then add it to the map
 const baseLayers = {
   'Open Street Maps': osm,
   'Black and White': stamenToner,
@@ -194,12 +193,12 @@ const onReadyPopups = () => {
       }
     }
 
-    if (layer.feature.geometry.type === 'Point') {
-      popupContent.push(`<b>Latitude:</b>
-        ${layer.feature.geometry.coordinates[1]}`)
-      popupContent.push(`<b>Longitude:</b>
-        ${layer.feature.geometry.coordinates[0]}`)
-    }
+    // given that the geometry type of the dataset is a point, include latlng
+    layer.feature.geometry.type === 'Point' ?
+      popupContent.push(
+        `<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`,
+        `<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`
+      ) : console.log(layer.feature.geometry.type)
     layer.bindPopup(popupContent.join('<br/>'))
   })
 
