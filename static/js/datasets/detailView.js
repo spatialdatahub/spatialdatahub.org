@@ -58,7 +58,7 @@ const baseLayers = {
 const baseLayerControl = L.control.layers(baseLayers).addTo(myMap)
 //baseLayerControl.addTo(myMap)
 
-// toggle map scrollability
+// toggle map scrollability -> maybe I should make this a leaflet control thing
 const scrollWheelToggle = () => {
   if (myMap.scrollWheelZoom.enabled()) {
     myMap.scrollWheelZoom.disable()
@@ -87,56 +87,54 @@ myMap.on('click', scrollWheelToggle)
 */
 ///////////////////////////////////////////////////////////////////////////////
 // Going to test something out
-/*
-L.Control.Home = L.Control.extend({
-
-  onAdd: (map) => {
-    const container = L.DomUtil.create('div',
-      'leaflet-bar leaflet-control leaflet-control-custom');
-
-    container.style.backgroundColor = 'white';
-    container.style.width = '33px';
-    container.style.height = '33px';
-    container.style.zIndex = 100000;
-
-    container.onclick = () => {
-      map.setView({'lat': 0, 'lng': 0}, 2);
-      console.log('buttonClicked');
-    }
-    return container;
-  },
-
-  onRemove: (map) => {
-
-  }
-})
-
-L.control.search = (options) => { new L.Control.Home(options) }
-
-L.control.search({ position: "topright" }).addTo(myMap)
-*/
 // EXAMPLE Control Extension:
+
 L.Control.Watermark = L.Control.extend({
     onAdd: (map) => {
-        var img = L.DomUtil.create('img');
-
-        img.src = 'http://coresymposium.zmt-bremen.com/wp-content/uploads/' +
-                  '2015/02/zmt_logo_blue_and_white-300x146.png';
-        img.style.width = '100px';
-
-        return img;
+        const img = L.DomUtil.create('img')
+        // this will have to be changed relative to the site for production
+        img.src = 'http://localhost:8000/static/images/ZMT_Logo_BILDMARKE' +
+          '_100px.png'
+        img.style.width = '100px'
+        return img
     },
-
     onRemove: (map) => {
         // Nothing to do here
     }
-});
+})
 
-L.control.watermark = (options) => {
-    return new L.Control.Watermark(options);
-}
+// make button with multiple buttons; one for home, and one for scroll wheel
+// so far there is only the home button
+L.Control.MultiButton = L.Control.extend({
+    onAdd: (map) => {
+      const container = L.DomUtil.create('div',
+        'leaflet-bar leaflet-control leaflet-control-custom')
+      container.style.backgroundColor = 'white'
+      container.style.width = '34px'
+      container.style.height = '34px'
 
-L.control.watermark({ position: 'bottomleft' }).addTo(myMap);
+      container.addEventListener("click", () => map.setView({lat:0, lng:0}, 2))
+
+      return container
+    },
+    onRemove: (map) => {
+        // Nothing to do here
+    }
+})
+
+// set controls
+L.control.watermark = (options) => new L.Control.Watermark(options)
+L.control.multibutton = (options) => new L.Control.MultiButton(options)
+
+// add controls
+L.control.watermark({ position: 'bottomleft' }).addTo(myMap)
+L.control.multibutton({ position: 'topleft' }).addTo(myMap)
+
+
+
+
+
+
 
 // Define my variables
 
