@@ -43,21 +43,8 @@ const baseLayers = {
 
 // values to be used in the file
 const value = document.getElementById('dataset_pk').getAttribute('value')
-const ext = document.getElementById('dataset_ext').getAttribute('value')
 const datasetUrl = `/load_dataset/${value}`
-
-// buttons
-const submitValuesButton = document.getElementById('submit_values_button')
-const resetValuesButton = document.getElementById('reset_values_button')
-
-// values to be received by functions
-const lngMinInput = document.getElementById('lng_min_input')
-const lngMaxInput = document.getElementById('lng_max_input')
-const latMinInput = document.getElementById('lat_min_input')
-const latMaxInput = document.getElementById('lat_max_input')
-
-// values to be set
-const featureCountElement = document.getElementById('feature_count')
+const ext = document.getElementById('dataset_ext').getAttribute('value')
 
 // containers
 const filteredLayer = L.geoJson()
@@ -65,35 +52,35 @@ const filteredLayer = L.geoJson()
 // Do function stuff
 // Control button creation -- eventually this will need to be written better
 L.Control.Watermark = L.Control.extend({
-    onAdd: (map) => {
-        const img = L.DomUtil.create('img')
-        // this will have to be changed relative to the site for production
-        img.src = 'http://localhost:8000/static/images/ZMT_Logo_BILDMARKE' +
-          '_100px.png'
-        img.style.width = '100px'
-        return img
-    },
-    onRemove: (map) => {
-        // Nothing to do here
-    }
+  onAdd: (map) => {
+    const img = L.DomUtil.create('img')
+    // this will have to be changed relative to the site for production
+    img.src = 'http://localhost:8000/static/images/zmt_logo_blue_black' +
+      '_100px.png'
+    img.style.width = '100px'
+    return img
+  },
+  onRemove: (map) => {
+    // Nothing to do here
+  }
 })
 
 L.Control.HomeButton = L.Control.extend({
-    onAdd: (map) => {
-      const container = L.DomUtil.create('div',
-        'leaflet-bar leaflet-control leaflet-control-custom')
-//      container.innerHTML = '<i class="fa fa-home fa-2x" aria-hidden="true"></i>'
-      container.style.backgroundImage = 'url("http://localhost:8000/static/images/home_icon.png")'
-      container.style.backgroundRepeat = 'no-repeat'
-      container.style.backgroundColor = 'white'
-      container.style.width = '34px'
-      container.style.height = '34px'
-      container.addEventListener("click", () => map.setView({lat:0, lng:0}, 2))
-      return container
-    },
-    onRemove: (map) => {
-      // Nothing to do here
-    }
+  onAdd: (map) => {
+    const container = L.DomUtil.create('div',
+      'leaflet-bar leaflet-control leaflet-control-custom')
+    //  container.innerHTML = '<i class="fa fa-home fa-2x" aria-hidden="true"></i>'
+    container.style.backgroundImage = 'url("http://localhost:8000/static/images/home_icon.png")'
+    container.style.backgroundRepeat = 'no-repeat'
+    container.style.backgroundColor = 'white'
+    container.style.width = '34px'
+    container.style.height = '34px'
+    container.addEventListener('click', () => map.setView({lat: 0, lng: 0}, 2))
+    return container
+  },
+  onRemove: (map) => {
+    // Nothing to do here
+  }
 })
 
 L.Control.ToggleScrollButton = L.Control.extend({
@@ -105,9 +92,10 @@ L.Control.ToggleScrollButton = L.Control.extend({
     container.style.backgroundColor = 'white'
     container.style.width = '34px'
     container.style.height = '34px'
-    container.addEventListener("click", () => {
-      map.scrollWheelZoom.enabled() ? map.scrollWheelZoom.disable() :
-                                      map.scrollWheelZoom.enable()
+    container.addEventListener('click', () => {
+      map.scrollWheelZoom.enabled()
+        ? map.scrollWheelZoom.disable()
+        : map.scrollWheelZoom.enable()
     })
     return container
   },
@@ -116,14 +104,73 @@ L.Control.ToggleScrollButton = L.Control.extend({
   }
 })
 
-// function to get data
-// const getDataset = (url) => {}
+// Can I separate XMLHttpRequest calls, Promises, and if/else statements?
+// Start by separating the kml / csv / json XMLHttpRequests.
+// function to get data from geojson dataset with a promise
+// Can I do this without using all the promise logic in here?
+
+// I hate repeating code, i've already had issues with errors because of it
+
+// JSON
+const getJSONDataset = (url) => {
+  const promise = new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', url)
+    xhr.onload = () => {
+      xhr.readyState === 4 && xhr.status === 200
+        ? resolve(JSON.parse(xhr.responseText)) : reject(Error(xhr.statusText))
+    }
+    xhr.onerror = () => reject(Error('Network Error - JSON'))
+    xhr.send()
+  })
+  return promise
+}
+
+// KML
+const getKMLDataset = (url) => {
+  const promise = new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', url)
+    xhr.responseType = 'document' // this line
+    xhr.overrideMimeType('text/xml') // and this line are making my life tough
+    xhr.onload = () => {
+      xhr.readyState === 4 && xhr.status === 200
+        ? resolve(toGeoJSON.kml(xhr.response)) : reject(Error(xhr.statusText))
+    }
+    xhr.onerror = () => reject(Error('Network Error - KML'))
+    xhr.send()
+  })
+  return promise
+}
+
+// CSV
+const getCSVDataset = (url) => {
+  const promise = new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', url)
+    xhr.onload = () => {
+      xhr.readyState === 4 && xhr.status === 200
+        ? csv2geojson.csv2geojson(
+            xhr.responseText, (err, data) => {
+              err ? reject(Error(err)) : resolve(data)
+            }
+          )
+        : reject(Error(xhr.statusText))
+    }
+    xhr.onerror = () => reject(Error('Network Error - CSV'))
+    xhr.send()
+  })
+  return promise
+}
+
+// I need to make a function or something that takes the ext and calls the
+// correct getData function
 
 // build filtering select function
 
 // Implement functions
 // this one is sorta not in the right style
-const baseLayerControl = L.control.layers(baseLayers).addTo(myMap)
+L.control.layers(baseLayers).addTo(myMap)
 
 L.control.watermark = (options) => new L.Control.Watermark(options)
 L.control.watermark({position: 'bottomleft'}).addTo(myMap)
@@ -132,4 +179,25 @@ L.control.homebutton = (options) => new L.Control.HomeButton(options)
 L.control.homebutton({position: 'topleft'}).addTo(myMap)
 
 L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(options)
+
 L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
+
+// make sure filteredLayer is added to the map
+filteredLayer.addTo(myMap)
+
+// Function that calls correct get___Dataset function based on ext
+// this should be written differently
+
+if (ext === 'kml') {
+  getKMLDataset(datasetUrl)
+    .then(data => filteredLayer.addData(data),
+      error => console.log(error))
+} else if (ext === 'csv') {
+  getCSVDataset(datasetUrl)
+    .then(data => filteredLayer.addData(data),
+      error => console.log(error))
+} else {
+  getJSONDataset(datasetUrl)
+    .then(data => filteredLayer.addData(data),
+      error => console.log(error))
+}
