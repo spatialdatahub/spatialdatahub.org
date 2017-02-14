@@ -47,7 +47,8 @@ const datasetUrl = `/load_dataset/${value}`
 const ext = document.getElementById('dataset_ext').getAttribute('value')
 
 // containers
-const filteredLayer = L.geoJson()
+// this container may need to have a bunch of options set... or I donno
+// const filteredLayer = L.geoJson()
 
 // Do function stuff
 // Control button creation -- eventually this will need to be written better
@@ -131,12 +132,15 @@ const getKMLDataset = (url) => {
   const promise = new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
     xhr.open('GET', url)
-    xhr.responseType = 'document' // this line
-    xhr.overrideMimeType('text/xml') // and this line are making my life tough
+    // The next few lines are different than the getJSONDataset and getCSVDataset
+    // calls from here
+    xhr.responseType = 'document'
+    xhr.overrideMimeType('text/xml')
     xhr.onload = () => {
       xhr.readyState === 4 && xhr.status === 200
         ? resolve(toGeoJSON.kml(xhr.response)) : reject(Error(xhr.statusText))
     }
+    // to here
     xhr.onerror = () => reject(Error('Network Error - KML'))
     xhr.send()
   })
@@ -163,6 +167,31 @@ const getCSVDataset = (url) => {
   return promise
 }
 
+// Function to get data from layer - how do I make this work?
+// I think that I have to work within the confines of the leaflet library
+// If I want everything to be separated out
+/*
+const getLatLng = layer => {
+  const popupContent = []
+  layer.feature.geometry.type === 'Point' // check that the dataset type is "Point"
+    ? popupContent.push(
+      `<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`,
+      `<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`
+    ) : console.log(layer.feature.geometry.type)
+  layer.bindPopup(popupContent.join('<br/>'))
+}
+*/
+
+const onReadyPopups = (feature, layer) => {
+  const popupContent = []
+  feature.geometry.type === 'Point'
+    ? popupContent.push(
+        `<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`,
+        `<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`
+    ) : console.log(feature.geometry.type)
+  layer.bindPopup(popupContent.join('<br/>'))
+}
+
 // I need to make a function or something that takes the ext and calls the
 // correct getData function
 
@@ -179,25 +208,30 @@ L.control.homebutton = (options) => new L.Control.HomeButton(options)
 L.control.homebutton({position: 'topleft'}).addTo(myMap)
 
 L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(options)
-
 L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 
 // make sure filteredLayer is added to the map
+// I might have to create the filteredLayer with options here
+// now every time a layer is added to the filteredLayer it automatically adds
+// the popupContent and stuff
+const filteredLayer = L.geoJson(null, {
+  onEachFeature: onReadyPopups
+})
 filteredLayer.addTo(myMap)
 
 // Function that calls correct get___Dataset function based on ext
 // this should be written differently
 
-if (ext === 'kml') {
-  getKMLDataset(datasetUrl)
+// I need to set this up as a function that returns a function, then the
+// rest of the . notation stuff can be used, I think
+ext === 'kml'
+  ? getKMLDataset(datasetUrl)
     .then(data => filteredLayer.addData(data),
       error => console.log(error))
-} else if (ext === 'csv') {
-  getCSVDataset(datasetUrl)
+: ext === 'csv'
+  ?  getCSVDataset(datasetUrl)
     .then(data => filteredLayer.addData(data),
       error => console.log(error))
-} else {
-  getJSONDataset(datasetUrl)
+  : getJSONDataset(datasetUrl)
     .then(data => filteredLayer.addData(data),
       error => console.log(error))
-}
