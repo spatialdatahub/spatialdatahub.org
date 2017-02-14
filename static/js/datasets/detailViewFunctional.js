@@ -1,5 +1,8 @@
-// Set up basic variables then move to functions that I will use to deal with
-// data and stuff
+// ////////////////////////////////////////////////////////////////////////////
+/*
+// Define Constants
+*/
+// ////////////////////////////////////////////////////////////////////////////
 
 const osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: `&copy; <a href="http://www.openstreetmap.org/copyright">
@@ -41,14 +44,34 @@ const baseLayers = {
   'ESRI World Map': esriWorldImagery
 }
 
-// values to be used in the file
+const circleOptions = {
+  radius: 8,
+  fillColor: '#ee74f7',
+  color: 'green',
+  weight: 1,
+  opacity: 1,
+  fillOpacity: 0.7
+}
+
+// Constant values
 const value = document.getElementById('dataset_pk').getAttribute('value')
 const datasetUrl = `/load_dataset/${value}`
 const ext = document.getElementById('dataset_ext').getAttribute('value')
 
-// containers
-// this container may need to have a bunch of options set... or I donno
-// const filteredLayer = L.geoJson()
+// Text input elements
+const lngMinInput = document.getElementById('lng_min_input')
+const lngMaxInput = document.getElementById('lng_max_input')
+const latMinInput = document.getElementById('lat_min_input')
+const latMaxInput = document.getElementById('lat_max_input')
+
+// Button elements
+const submitValuesButton = document.getElementById('submit_values_button')
+
+// ////////////////////////////////////////////////////////////////////////////
+/*
+// Define Functions
+*/
+// ////////////////////////////////////////////////////////////////////////////
 
 // Do function stuff
 // Control button creation -- eventually this will need to be written better
@@ -167,27 +190,29 @@ const getCSVDataset = (url) => {
   return promise
 }
 
-// Function to get data from layer - how do I make this work?
-// I think that I have to work within the confines of the leaflet library
-// If I want everything to be separated out
-/*
-const getLatLng = layer => {
-  const popupContent = []
-  layer.feature.geometry.type === 'Point' // check that the dataset type is "Point"
-    ? popupContent.push(
-      `<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`,
-      `<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`
-    ) : console.log(layer.feature.geometry.type)
-  layer.bindPopup(popupContent.join('<br/>'))
-}
-*/
+// I don't really like the little html droplets, so I'm going to make all
+// points into little circle markers. This is the function for that.
+const makeCircles = (feature, latlng) => L.circleMarker(latlng, circleOptions)
 
+// function to run through feature and layer once and count
+
+// function to count dataset features
+
+// Since I was having trouble with the .map feature, I decided to use the
+// .forEach feature to add data to the popupContent array
 const onReadyPopups = (feature, layer) => {
+  // empty array to contain popup content
   const popupContent = []
+  // run through feature properties, if there are any and add them to array
+  feature.properties.length !== undefined || feature.properties.length !== 0
+    ? Object.keys(feature.properties).forEach(key => {
+      popupContent.push(`<b>${key}</b>: ${feature.properties[key]}`)
+    }) : console.log('No feature properties')
+  // push coordinates to array, if the feature is of the type point
   feature.geometry.type === 'Point'
     ? popupContent.push(
-        `<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`,
-        `<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`
+        `<b>Latitude:</b> ${feature.geometry.coordinates[1]}`,
+        `<b>Longitude:</b> ${feature.geometry.coordinates[0]}`
     ) : console.log(feature.geometry.type)
   layer.bindPopup(popupContent.join('<br/>'))
 }
@@ -196,6 +221,58 @@ const onReadyPopups = (feature, layer) => {
 // correct getData function
 
 // build filtering select function
+// start with clearLayers
+/*
+const filterValues = (layer, cluster, minLng, maxLng, minLat, maxLat) => {
+  layer.clearlayers()
+  cluster.removeLayer(layer)
+
+  // these have to be values taken from the inputs
+  minLng = 0
+  maxLng = 180
+  minLat = -90
+  maxLat = 90
+}
+*/
+const getInputValue = (element) => console.log(element.value)
+
+const filterValues = (feature, layer, minLng, maxLng, minLat, maxLat) => {
+  /*
+  minLng = 0
+  maxLng = 180
+  minLat = -90
+  maxLat = 90
+  */
+  const coords = feature.geometry.coordinates
+  const filteredData = coords[0] > minLng &&
+                       coords[0] < maxLng &&
+                       coords[1] > minLat &&
+                       coords[1] < maxLat
+  return filteredData
+}
+
+
+// ////////////////////////////////////////////////////////////////////////////
+/*
+// Implement Functions
+*/
+// ////////////////////////////////////////////////////////////////////////////
+
+// ////////////////////////////////////////////////////////////////////////////
+// Special Interlude - Make constants that require functions to be created
+
+// It looks like 'onEachFeature' can be called more than once
+const filteredLayer = L.geoJson(null, {
+  filter: filterValues,
+  onEachFeature: onReadyPopups,
+  pointToLayer: makeCircles
+})
+
+const allMarkers = L.markerClusterGroup({
+  showCoverageOnHover: false,
+  maxClusterRadius: 50
+})
+// ////////////////////////////////////////////////////////////////////////////
 
 // Implement functions
 // this one is sorta not in the right style
@@ -210,15 +287,15 @@ L.control.homebutton({position: 'topleft'}).addTo(myMap)
 L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(options)
 L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 
+// Add filteredLayer to the marker cluster stuff, then add the markercluster
+// group to the map
+// allMarkers.addLayer(filteredLayer)
+myMap.addLayer(allMarkers)
+
 // make sure filteredLayer is added to the map
 // I might have to create the filteredLayer with options here
 // now every time a layer is added to the filteredLayer it automatically adds
 // the popupContent and stuff
-const filteredLayer = L.geoJson(null, {
-  onEachFeature: onReadyPopups
-})
-filteredLayer.addTo(myMap)
-
 // Function that calls correct get___Dataset function based on ext
 // this should be written differently
 
@@ -226,12 +303,33 @@ filteredLayer.addTo(myMap)
 // rest of the . notation stuff can be used, I think
 ext === 'kml'
   ? getKMLDataset(datasetUrl)
-    .then(data => filteredLayer.addData(data),
-      error => console.log(error))
+    .then(data => {
+      filteredLayer.addData(data)
+      allMarkers.addLayer(filteredLayer)
+    }, error => console.log(error))
 : ext === 'csv'
-  ?  getCSVDataset(datasetUrl)
-    .then(data => filteredLayer.addData(data),
-      error => console.log(error))
+  ? getCSVDataset(datasetUrl)
+    .then(data => {
+      filteredLayer.addData(data)
+      allMarkers.addLayer(filteredLayer)
+    }, error => console.log(error))
   : getJSONDataset(datasetUrl)
-    .then(data => filteredLayer.addData(data),
-      error => console.log(error))
+    .then(data => {
+      filteredLayer.addData(data)
+      allMarkers.addLayer(filteredLayer)
+    }, error => console.log(error))
+
+// ////////////////////////////////////////////////////////////////////////////
+// Special Interlude - Add Event Listeners function calls
+
+submitValuesButton.addEventListener("click",
+  (
+    getInputValue(lngMinInput),
+    getInputValue(lngMaxInput),
+    getInputValue(latMinInput),
+    getInputValue(latMaxInput)) => {
+
+//  filterValues(filteredLayer, allMarkers, -180, 180, -90, 90)
+})
+
+// ////////////////////////////////////////////////////////////////////////////
