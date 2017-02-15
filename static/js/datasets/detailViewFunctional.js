@@ -67,6 +67,9 @@ const maxLngInput = document.getElementById('max_lng_input')
 const minLatInput = document.getElementById('min_lat_input')
 const maxLatInput = document.getElementById('max_lat_input')
 
+const propertySelector = document.getElementById('property_selector')
+const propertySelectorInput = document.getElementById('property_selector_input')
+
 // Display elements
 const featureCountElement = document.getElementById('feature_count')
 
@@ -235,7 +238,7 @@ const getInputValue = (element) => element.value
 
 // check longitude and latitude values
 const checkVal = (val, defaultVal, minVal, maxVal) => {
-  val = (typeof val === 'undefined') ? defaultVal
+  val = typeof val === 'undefined' ? defaultVal
     : val === '' ? defaultVal
     : val < minVal ? minVal
     : val > maxVal ? maxVal
@@ -243,7 +246,7 @@ const checkVal = (val, defaultVal, minVal, maxVal) => {
   return val
 }
 
-const filterValues = (feature, layer, minLng, maxLng, minLat, maxLat) => {
+const filterLatLngValues = (feature, layer, minLng, maxLng, minLat, maxLat) => {
   // set default values for minimum and maximum lat and lng, incase no
   // values are passed through
   minLng = checkVal(getInputValue(minLngInput), -180, -180, 180)
@@ -256,6 +259,19 @@ const filterValues = (feature, layer, minLng, maxLng, minLat, maxLat) => {
                        coords[0] < maxLng &&
                        coords[1] > minLat &&
                        coords[1] < maxLat
+  return filteredData
+}
+
+const filterFeaturePropertyValues = (feature, layer, featureProperty) => {
+  // get the property and the input value
+  const selectedProperty = getInputValue(propertySelector)
+  const propertyValue = getInputValue(propertySelectorInput)
+
+  const prop = feature.properties[`${selectedProperty}`]
+  const filteredData = typeof prop === 'string'
+    ? prop.toLowerCase().includes(propertyValue.toLowerCase())
+    : typeof(prop) === 'number' ? prop === Number(propertyValue)
+    : console.log('only strings or numbers')
   return filteredData
 }
 
@@ -327,7 +343,14 @@ const onDatasetImport = data => {
 // It also looks like I need to check if the dataset is a points type or not
 // how do I pass values to the filter function?
 const filteredLayer = L.geoJson(null, {
-  filter: filterValues,
+  filter: () => {
+    filterLatLngValues
+    if (propertySelectorInput !== 'undefined') {
+      getInputValue(propertySelectorInput) !== ''
+        ? filterFeaturePropertyValues
+        : console.log('lat lng')
+    }
+  },
   onEachFeature: onReadyPopups,
   pointToLayer: makeCircles
 })
