@@ -1,68 +1,47 @@
 {% load staticfiles %}
 <html>
 <head>
-  <meta charset="utf-8">
   <title>Mocha Tests</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css" rel="stylesheet" />
-
-
-  <!-- bring in leaflet css -->
-  {% include "base_map_css.html" %}
-  <!-- end bring in leaflet css -->
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.Default.css" />
 
   <style>
     #map_id {
-      height: 15%;
+      height: 100px;
       margin-bottom: 10px;
     }
   </style>
 
 </head>
 <body>
-
-
-  <!-- How do i mock these? -->
-  <div>
-    <h5>test items</h5>
-    <div id="mapid">
-    </div>
-    <div id="sidebar">sidebar</div>
-    <div id="main_map">main_map</div>
-    {% for dataset in dataset_list %}
-    <input type="checkbox" name="datasetCheckbox" id="datasetCheckbox" value={{ dataset.pk }}>
-      <label>{{ dataset.pk }}</label>
-    {% endfor %}
-    <h5 id="item_to_hide" style="display:none;">Hide</h5>
-  </div>
-  <!-- How do i mock these? -->
+  <div id="dataset_pk" value="5"></div>
+  <div id="dataset_ext" value="geojson"></div>
+  <input id='submit_values_button' type='submit' value='Submit'>
+  <div id="mapid"></div>
 
   <div id="mocha"></div>
 
-  <!-- bring in leaflet css and leaflet js -->
-  {% include "base_map_js.html" %}
-  <!-- bring in leaflet js -->
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
-  <script src="http://sinonjs.org/releases/sinon-1.17.6.js"></script>
-
-  <script>mocha.setup('bdd')</script>
-
-  <!-- bring in the javascript files to be tested -->
-  <script type="text/javascript" src="{% static 'js/base.js' %}"></script> 
-  <script type="text/javascript" src="{% static 'js/base_map.js' %}"></script> 
-  <script type="text/javascript" src="{% static 'js/portalView.js' %}"></script> 
-  <!-- end bring in the javascript files to be tested -->
-
-  <!-- bring in the javascript test files -->
-  <script type="text/javascript" src="{% static 'test/test.base.js' %}"></script>
-  <script type="text/javascript" src="{% static 'test/test.base_map.js' %}"></script>
-  <script type="text/javascript" src="{% static 'test/test.portalView.js' %}"></script>
-  <!-- end bring in the javascript test files -->
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+  <script src='https://unpkg.com/leaflet.markercluster@1.0.0/dist/leaflet.markercluster.js'></script>
 
   <script>
-    mocha.run();
+    mocha.setup('bdd')
+    mocha.reporter('html')
+    var assert = chai.assert
+  </script>
+
+  <script type="text/javascript" src="{% static 'js/datasets/detailViewFunctional.js' %}"></script>
+  <script type="text/javascript" src="./test/test.detailView.js"></script>
+
+  <script>
+    mocha.checkLeaks()
+    mocha.globals(['L'])
+    mocha.run()
   </script>
 </body>
 </html>
-

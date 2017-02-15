@@ -67,6 +67,9 @@ const maxLngInput = document.getElementById('max_lng_input')
 const minLatInput = document.getElementById('min_lat_input')
 const maxLatInput = document.getElementById('max_lat_input')
 
+// Display elements
+const featureCountElement = document.getElementById('feature_count')
+
 // Button elements
 const submitValuesButton = document.getElementById('submit_values_button')
 
@@ -141,7 +144,6 @@ L.Control.ToggleScrollButton = L.Control.extend({
 // test whether I need promise to be wrapped in a function
 // I do need the url... so
 
-const getInputValue = (element) => element.value
 
 // JSON
 const getJSONDataset = (url) => {
@@ -230,6 +232,8 @@ const onReadyPopups = (feature, layer) => {
 
 // build filtering select function
 
+const getInputValue = (element) => element.value
+
 // check longitude and latitude values
 const checkVal = (val, defaultVal, minVal, maxVal) => {
   val = (typeof val === 'undefined') ? defaultVal
@@ -241,7 +245,6 @@ const checkVal = (val, defaultVal, minVal, maxVal) => {
 }
 
 const filterValues = (feature, layer, minLng, maxlng, minLat, maxLat) => {
-
   // set default values for minimum and maximum lat and lng, incase no
   // values are passed through
   minLng = checkVal(getInputValue(minLngInput), -180, -180, 180)
@@ -255,6 +258,61 @@ const filterValues = (feature, layer, minLng, maxlng, minLat, maxLat) => {
                        coords[1] > minLat &&
                        coords[1] < maxLat
   return filteredData
+}
+
+const buildFeaturePropertiesSelector = data => {
+  // get keys for feature properties for first element dataset and add to array
+  const featureKeys = Object.keys(dataset[0].features[0].properties)
+    .map(key => key)
+
+  // create elements
+  const ifFeaturesElement = document.getElementById('if_features')
+  const p = document.createElement('p')
+  const span = document.createElement('span')
+  const b = document.createElement('b')
+  const text = document.createTextNode('Select property to filter by: ')
+  const selector = document.createElement('select')
+  const input = document.createElement('input')
+
+  // set id of p and select elements
+  p.setAttribute('id', 'selector_container')
+  selector.setAttribute('id', 'property_selector')
+  input.setAttribute('id', 'property_selector_input')
+  input.setAttribute('type', 'text')
+
+  // put them all together
+  b.appendChild(text)
+  span.appendChild(b)
+  span.appendChild(selector)
+  span.appendChild(input)
+  p.appendChild(span)
+  ifFeaturesElement.appendChild(p)
+
+  // create and add options to the feature selector element
+  featureKeys.forEach(i => {
+    const opt = document.createElement('option')
+    opt.value = i
+    opt.innerHTML = i
+    selector.appendChild(opt)
+  })
+}
+
+const onDatasetImport = data => {
+  // make sure that original data are saved somewhere
+  dataset.push(data)
+
+  // get keys for feature properties for first element dataset and add to array
+  Object.keys(dataset[0].features[0].properties).length > 0 ?
+    buildFeaturePropertiesSelector(dataset)
+    : console.log('No feature properties to filter')
+
+  // add dataset to the filteredLayer and filteredLayer to allMarkers
+  filteredLayer.addData(dataset)
+  allMarkers.addLayer(filteredLayer)
+
+  // get count of features in filteredLayer
+  const featureCount = Object.keys(filteredLayer._layers).length
+  featureCountElement.innerHTML = ` ${featureCount}`
 }
 
 // ////////////////////////////////////////////////////////////////////////////
@@ -311,27 +369,15 @@ myMap.addLayer(allMarkers)
 // rest of the . notation stuff can be used, I think
 ext === 'kml'
   ? getKMLDataset(datasetUrl)
-    .then(data => {
-      dataset.push(data)
-      filteredLayer.addData(dataset)
-      allMarkers.addLayer(filteredLayer)
-    }, error => console.log(error))
+    .then(onDatasetImport, error => console.log(error))
 : ext === 'csv'
   ? getCSVDataset(datasetUrl)
-    .then(data => {
-      dataset.push(data)
-      filteredLayer.addData(dataset)
-      allMarkers.addLayer(filteredLayer)
-    }, error => console.log(error))
+    .then(onDatasetImport, error => console.log(error))
   : getJSONDataset(datasetUrl)
-    .then(data => {
-      dataset.push(data)
-      filteredLayer.addData(dataset)
-      allMarkers.addLayer(filteredLayer)
-    }, error => console.log(error))
+    .then(onDatasetImport, error => console.log(error))
 
 // ////////////////////////////////////////////////////////////////////////////
-// Special Interlude - Add Event Listeners function calls
+// Add Event Listeners for function calls
 
 // submit button:
 // clearLayers in filteredLayer
@@ -344,6 +390,8 @@ submitValuesButton.addEventListener("click", () => {
   allMarkers.clearLayers()
   filteredLayer.addData(dataset)
   allMarkers.addLayer(filteredLayer)
+  const featureCount = Object.keys(filteredLayer._layers).length
+  featureCountElement.innerHTML = ` ${featureCount}`
 })
 
 // ////////////////////////////////////////////////////////////////////////////
