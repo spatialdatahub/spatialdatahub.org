@@ -144,7 +144,6 @@ L.Control.ToggleScrollButton = L.Control.extend({
 // test whether I need promise to be wrapped in a function
 // I do need the url... so
 
-
 // JSON
 const getJSONDataset = (url) => {
   const promise = new Promise((resolve, reject) => {
@@ -244,7 +243,7 @@ const checkVal = (val, defaultVal, minVal, maxVal) => {
   return val
 }
 
-const filterValues = (feature, layer, minLng, maxlng, minLat, maxLat) => {
+const filterValues = (feature, layer, minLng, maxLng, minLat, maxLat) => {
   // set default values for minimum and maximum lat and lng, incase no
   // values are passed through
   minLng = checkVal(getInputValue(minLngInput), -180, -180, 180)
@@ -302,8 +301,8 @@ const onDatasetImport = data => {
   dataset.push(data)
 
   // get keys for feature properties for first element dataset and add to array
-  Object.keys(dataset[0].features[0].properties).length > 0 ?
-    buildFeaturePropertiesSelector(dataset)
+  Object.keys(dataset[0].features[0].properties).length > 0
+    ? buildFeaturePropertiesSelector(dataset)
     : console.log('No feature properties to filter')
 
   // add dataset to the filteredLayer and filteredLayer to allMarkers
@@ -385,7 +384,7 @@ ext === 'kml'
 // add data to filteredLayer -- and hopefully the data are filtered
 // add filteredLayer to allMarkers
 
-submitValuesButton.addEventListener("click", () => {
+submitValuesButton.addEventListener('click', () => {
   filteredLayer.clearLayers()
   allMarkers.clearLayers()
   filteredLayer.addData(dataset)
