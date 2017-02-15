@@ -58,11 +58,14 @@ const value = document.getElementById('dataset_pk').getAttribute('value')
 const datasetUrl = `/load_dataset/${value}`
 const ext = document.getElementById('dataset_ext').getAttribute('value')
 
+// Empty container to be filled with data from XMLHttpRequest
+const dataset = []
+
 // Text input elements
-const lngMinInput = document.getElementById('lng_min_input')
-const lngMaxInput = document.getElementById('lng_max_input')
-const latMinInput = document.getElementById('lat_min_input')
-const latMaxInput = document.getElementById('lat_max_input')
+const minLngInput = document.getElementById('min_lng_input')
+const maxLngInput = document.getElementById('max_lng_input')
+const minLatInput = document.getElementById('min_lat_input')
+const maxLatInput = document.getElementById('max_lat_input')
 
 // Button elements
 const submitValuesButton = document.getElementById('submit_values_button')
@@ -134,6 +137,11 @@ L.Control.ToggleScrollButton = L.Control.extend({
 // Can I do this without using all the promise logic in here?
 
 // I hate repeating code, i've already had issues with errors because of it
+
+// test whether I need promise to be wrapped in a function
+// I do need the url... so
+
+const getInputValue = (element) => element.value
 
 // JSON
 const getJSONDataset = (url) => {
@@ -221,28 +229,26 @@ const onReadyPopups = (feature, layer) => {
 // correct getData function
 
 // build filtering select function
-// start with clearLayers
-/*
-const filterValues = (layer, cluster, minLng, maxLng, minLat, maxLat) => {
-  layer.clearlayers()
-  cluster.removeLayer(layer)
 
-  // these have to be values taken from the inputs
-  minLng = 0
-  maxLng = 180
-  minLat = -90
-  maxLat = 90
+// check longitude and latitude values
+const checkVal = (val, defaultVal, minVal, maxVal) => {
+  val = (typeof val === 'undefined') ? defaultVal
+    : val === '' ? defaultVal
+    : val < minVal ? minVal
+    : val > maxVal ? maxVal
+    : val
+  return val
 }
-*/
-const getInputValue = (element) => console.log(element.value)
 
-const filterValues = (feature, layer, minLng, maxLng, minLat, maxLat) => {
-  /*
-  minLng = 0
-  maxLng = 180
-  minLat = -90
-  maxLat = 90
-  */
+const filterValues = (feature, layer, minLng, maxlng, minLat, maxLat) => {
+
+  // set default values for minimum and maximum lat and lng, incase no
+  // values are passed through
+  minLng = checkVal(getInputValue(minLngInput), -180, -180, 180)
+  maxLng = checkVal(getInputValue(maxLngInput), 180, -180, 180)
+  minLat = checkVal(getInputValue(minLatInput), -90, -90, 90)
+  maxLat = checkVal(getInputValue(maxLatInput), 90, -90, 90)
+
   const coords = feature.geometry.coordinates
   const filteredData = coords[0] > minLng &&
                        coords[0] < maxLng &&
@@ -250,7 +256,6 @@ const filterValues = (feature, layer, minLng, maxLng, minLat, maxLat) => {
                        coords[1] < maxLat
   return filteredData
 }
-
 
 // ////////////////////////////////////////////////////////////////////////////
 /*
@@ -262,6 +267,8 @@ const filterValues = (feature, layer, minLng, maxLng, minLat, maxLat) => {
 // Special Interlude - Make constants that require functions to be created
 
 // It looks like 'onEachFeature' can be called more than once
+// It also looks like I need to check if the dataset is a points type or not
+// how do I pass values to the filter function?
 const filteredLayer = L.geoJson(null, {
   filter: filterValues,
   onEachFeature: onReadyPopups,
@@ -290,6 +297,7 @@ L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 // Add filteredLayer to the marker cluster stuff, then add the markercluster
 // group to the map
 // allMarkers.addLayer(filteredLayer)
+// This should only work for points datasets
 myMap.addLayer(allMarkers)
 
 // make sure filteredLayer is added to the map
@@ -304,32 +312,38 @@ myMap.addLayer(allMarkers)
 ext === 'kml'
   ? getKMLDataset(datasetUrl)
     .then(data => {
-      filteredLayer.addData(data)
+      dataset.push(data)
+      filteredLayer.addData(dataset)
       allMarkers.addLayer(filteredLayer)
     }, error => console.log(error))
 : ext === 'csv'
   ? getCSVDataset(datasetUrl)
     .then(data => {
-      filteredLayer.addData(data)
+      dataset.push(data)
+      filteredLayer.addData(dataset)
       allMarkers.addLayer(filteredLayer)
     }, error => console.log(error))
   : getJSONDataset(datasetUrl)
     .then(data => {
-      filteredLayer.addData(data)
+      dataset.push(data)
+      filteredLayer.addData(dataset)
       allMarkers.addLayer(filteredLayer)
     }, error => console.log(error))
 
 // ////////////////////////////////////////////////////////////////////////////
 // Special Interlude - Add Event Listeners function calls
 
-submitValuesButton.addEventListener("click",
-  (
-    getInputValue(lngMinInput),
-    getInputValue(lngMaxInput),
-    getInputValue(latMinInput),
-    getInputValue(latMaxInput)) => {
+// submit button:
+// clearLayers in filteredLayer
+// remove filteredLayer from allMarkers
+// add data to filteredLayer -- and hopefully the data are filtered
+// add filteredLayer to allMarkers
 
-//  filterValues(filteredLayer, allMarkers, -180, 180, -90, 90)
+submitValuesButton.addEventListener("click", () => {
+  filteredLayer.clearLayers()
+  allMarkers.clearLayers()
+  filteredLayer.addData(dataset)
+  allMarkers.addLayer(filteredLayer)
 })
 
 // ////////////////////////////////////////////////////////////////////////////
