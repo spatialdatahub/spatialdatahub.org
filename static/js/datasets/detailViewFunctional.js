@@ -67,14 +67,17 @@ const maxLngInput = document.getElementById('max_lng_input')
 const minLatInput = document.getElementById('min_lat_input')
 const maxLatInput = document.getElementById('max_lat_input')
 
-const propertySelector = document.getElementById('property_selector')
-const propertySelectorInput = document.getElementById('property_selector_input')
+// Do these have to be called after the elements have been created? Probably.
+// const propertySelector = document.getElementById('property_selector')
+// const propertySelectorInput = document.getElementById('property_selector_input')
 
 // Display elements
 const featureCountElement = document.getElementById('feature_count')
+const ifFeaturesElement = document.getElementById('if_features')
 
 // Button elements
 const submitValuesButton = document.getElementById('submit_values_button')
+const resetValuesButton = document.getElementById('reset_values_button')
 
 // ////////////////////////////////////////////////////////////////////////////
 /*
@@ -229,59 +232,12 @@ const onReadyPopups = (feature, layer) => {
   layer.bindPopup(popupContent.join('<br/>'))
 }
 
-// I need to make a function or something that takes the ext and calls the
-// correct getData function
-
-// build filtering select function
-
-const getInputValue = (element) => element.value
-
-// check longitude and latitude values
-const checkVal = (val, defaultVal, minVal, maxVal) => {
-  val = typeof val === 'undefined' ? defaultVal
-    : val === '' ? defaultVal
-    : val < minVal ? minVal
-    : val > maxVal ? maxVal
-    : val
-  return val
-}
-
-const filterLatLngValues = (feature, layer, minLng, maxLng, minLat, maxLat) => {
-  // set default values for minimum and maximum lat and lng, incase no
-  // values are passed through
-  minLng = checkVal(getInputValue(minLngInput), -180, -180, 180)
-  maxLng = checkVal(getInputValue(maxLngInput), 180, -180, 180)
-  minLat = checkVal(getInputValue(minLatInput), -90, -90, 90)
-  maxLat = checkVal(getInputValue(maxLatInput), 90, -90, 90)
-
-  const coords = feature.geometry.coordinates
-  const filteredData = coords[0] > minLng &&
-                       coords[0] < maxLng &&
-                       coords[1] > minLat &&
-                       coords[1] < maxLat
-  return filteredData
-}
-
-const filterFeaturePropertyValues = (feature, layer, featureProperty) => {
-  // get the property and the input value
-  const selectedProperty = getInputValue(propertySelector)
-  const propertyValue = getInputValue(propertySelectorInput)
-
-  const prop = feature.properties[`${selectedProperty}`]
-  const filteredData = typeof prop === 'string'
-    ? prop.toLowerCase().includes(propertyValue.toLowerCase())
-    : typeof(prop) === 'number' ? prop === Number(propertyValue)
-    : console.log('only strings or numbers')
-  return filteredData
-}
-
 const buildFeaturePropertiesSelector = data => {
   // get keys for feature properties for first element dataset and add to array
   const featureKeys = Object.keys(dataset[0].features[0].properties)
     .map(key => key)
 
   // create elements
-  const ifFeaturesElement = document.getElementById('if_features')
   const p = document.createElement('p')
   const span = document.createElement('span')
   const b = document.createElement('b')
@@ -310,6 +266,122 @@ const buildFeaturePropertiesSelector = data => {
     opt.innerHTML = i
     selector.appendChild(opt)
   })
+}
+
+// I need to make a function or something that takes the ext and calls the
+// correct getData function
+
+// build filtering select function
+
+const getInputValue = (element) => element.value
+
+// check longitude and latitude values
+const checkLatLngVal = (val, defaultVal, minVal, maxVal) => {
+  val = typeof val === 'undefined' ? defaultVal
+    : val === '' ? defaultVal
+    : val < minVal ? minVal
+    : val > maxVal ? maxVal
+    : val
+  return val
+}
+
+/*
+// I will combine the two filter functions
+const filterLatLngValues = (feature, layer, minLng, maxLng, minLat, maxLat) => {
+  // set default values for minimum and maximum lat and lng, incase no
+  // values are passed through
+  minLng = checkLatLngVal(getInputValue(minLngInput), -180, -180, 180)
+  maxLng = checkLatLngVal(getInputValue(maxLngInput), 180, -180, 180)
+  minLat = checkLatLngVal(getInputValue(minLatInput), -90, -90, 90)
+  maxLat = checkLatLngVal(getInputValue(maxLatInput), 90, -90, 90)
+
+  const coords = feature.geometry.coordinates
+  const filteredData = coords[0] > minLng &&
+                       coords[0] < maxLng &&
+                       coords[1] > minLat &&
+                       coords[1] < maxLat
+  return filteredData
+}
+
+const filterFeaturePropertyValues = (feature, layer) => {
+  // get the property and the input value
+  const selectedProperty = document.getElementById('property_selector').value
+  const propertyValue = document.getElementById('property_selector_input').value
+
+  // get the selected property -- why can't i just use the 'selectedProperty'
+  // because the selectedProperty is the key, this is the value
+  const prop = feature.properties[`${selectedProperty}`]
+
+    const filteredData = propertyValue === '' ? true
+      : typeof prop === 'string'
+        ? prop.toLowerCase().includes(propertyValue.toLowerCase())
+      : typeof prop === 'number'
+        ? prop === Number(propertyValue)
+      : console.log('Must be a string or a number')
+    return filteredData
+}
+*/
+
+const filterValues = (feature, layer, minLng, maxLng, minLat, maxLat) => {
+  // set default values for minimum and maximum lat and lng, incase no
+  // values are passed through
+  minLng = checkLatLngVal(getInputValue(minLngInput), -180, -180, 180)
+  maxLng = checkLatLngVal(getInputValue(maxLngInput), 180, -180, 180)
+  minLat = checkLatLngVal(getInputValue(minLatInput), -90, -90, 90)
+  maxLat = checkLatLngVal(getInputValue(maxLatInput), 90, -90, 90)
+
+  // I need to figure out how to write if else for whether this element is here
+  if (document.getElementById(property_selector) !== 'null'){
+    // get the property and the input value
+    const selectedProperty = document.getElementById('property_selector').value
+    const propertyValue = document.getElementById('property_selector_input').value
+
+    // get the selected property -- why can't i just use the 'selectedProperty'
+    // because the selectedProperty is the key, this is the value
+    const prop = feature.properties[`${selectedProperty}`]
+
+    const coords = feature.geometry.coordinates
+
+    const propBool = propertyValue === '' ? true
+      : typeof prop === 'string'
+        ? prop.toLowerCase().includes(propertyValue.toLowerCase())
+      : typeof prop === 'number'
+        ? prop === Number(propertyValue)
+      : console.log('Must be a string or a number')
+
+    const filteredData = coords[0] > minLng &&
+                         coords[0] < maxLng &&
+                         coords[1] > minLat &&
+                         coords[1] < maxLat &&
+                         propBool
+    return filteredData
+  } else {
+    const coords = feature.geometry.coordinates
+    const filteredData = coords[0] > minLng &&
+                         coords[0] < maxLng &&
+                         coords[1] > minLat &&
+                         coords[1] < maxLat
+    return filteredData
+  }
+}
+
+const resetValues = () => {
+  // clear lat and lng min and max input values
+  minLngInput.value = ''
+  maxLngInput.value = ''
+  minLatInput.value = ''
+  maxLatInput.value = ''
+
+  // clear feature property selector input
+  document.getElementById('property_selector_input').value = ''
+
+  // remove dataset from filteredLayer and filteredLayer from allMarkers
+  filteredLayer.clearLayers()
+  allMarkers.clearLayers()
+
+  // add dataset to the filteredLayer and filteredLayer to allMarkers
+  filteredLayer.addData(dataset)
+  allMarkers.addLayer(filteredLayer)
 }
 
 const onDatasetImport = data => {
@@ -343,14 +415,7 @@ const onDatasetImport = data => {
 // It also looks like I need to check if the dataset is a points type or not
 // how do I pass values to the filter function?
 const filteredLayer = L.geoJson(null, {
-  filter: () => {
-    filterLatLngValues
-    if (propertySelectorInput !== 'undefined') {
-      getInputValue(propertySelectorInput) !== ''
-        ? filterFeaturePropertyValues
-        : console.log('lat lng')
-    }
-  },
+  filter: filterValues,
   onEachFeature: onReadyPopups,
   pointToLayer: makeCircles
 })
@@ -412,6 +477,12 @@ submitValuesButton.addEventListener('click', () => {
   allMarkers.clearLayers()
   filteredLayer.addData(dataset)
   allMarkers.addLayer(filteredLayer)
+  const featureCount = Object.keys(filteredLayer._layers).length
+  featureCountElement.innerHTML = ` ${featureCount}`
+})
+
+resetValuesButton.addEventListener('click', () => {
+  resetValues()
   const featureCount = Object.keys(filteredLayer._layers).length
   featureCountElement.innerHTML = ` ${featureCount}`
 })
