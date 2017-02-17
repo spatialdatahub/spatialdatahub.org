@@ -59,6 +59,8 @@ def account_remove(request, account_slug=None):
     return render(request, template_name, context)
 
 
+# account_detail and account_portal are the same... I want to have one view
+# that doesn't have the leaflet logic though
 def account_detail(request, account_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset_list = Dataset.objects.filter(account=account)

@@ -1,40 +1,25 @@
-{% extends 'base.html' %}
-
-{% block head_title %}Accounts{% endblock head_title %}
-
+{% extends "base.html" %}
 {% block content %}
 
-<div class="container-fluid">
+<p><a href='{% url "portal" %}'>Back to portal page</a></p>
 
-<!-- account / dataset links -->
-  <div class="row">
-    <h5 class="col-xs-12">
-      <a href="{% url 'portal' %}" >*</a> /
-      <a href="{% url 'accounts:account_list' %}" >accounts</a>
-    </h5>
-  </div>
-  <hr class="divider">
-<!-- end account / dataset links -->
+{% if account_list %}
 
-<!-- account list -->
-  <div class="row">
-    <div class="col-xs-12">
-    <a href="{% url 'accounts:new_account' %}" class="btn btn-success">
-      Add New Account
-    </a>
-  <hr class="divider">
-  </div>
+  {% for account in account_list %}
+  <p>
+    <p>{{ account.pk }}</p>
+    <p>{{ account.user }}</p>
+    <p>{{ account.affiliation }}</p>
+    <p>{{ account.account_slug }}</p>
+    <p>{{ account.date_added }}</p>
+    <p><a href='{{ account.get_absolute_url }}'>{{ account.get_absolute_url }}</a></p>
+  </p>
+  {% endfor %}
 
-    <h5 class="col-xs-12">
-    {% if account_list %}
-      {% for account in account_list %}
-        <p><a href="{{ account.get_absolute_url }}" >{{ account.user }}</a></p>
-      {% endfor %}
-    {% else %}
-      No Accounts
-    {% endif %}
-    </h5>
-  </div>
-<!-- end account list -->
+{% else %}
+
+  No accounts
+
+{% endif %}
 
 {% endblock content %}

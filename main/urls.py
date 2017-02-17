@@ -18,7 +18,6 @@ urlpatterns = [
         name="contact"),
 
     url(r'^jstests/$',
-        # TemplateView.as_view(template_name="jstests.html"),
         views.jstests,
         name="jstests"),
 

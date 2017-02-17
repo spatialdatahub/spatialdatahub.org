@@ -1,89 +1,56 @@
 {% extends "base.html" %}
-{% load staticfiles %}
-
-{% block head_title %}Portal{% endblock head_title %}
-
-
-{% block additional_css %}
-  <style>
-      #mapid {
-        height: 80%;
-        margin-bottom: 10px;
-      }
-  </style>
-
-{% include "base_map_css.html" %}
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.Default.css" />
-{% endblock additional_css %}
-
 {% block content %}
 
+{% if account_list %}
 
-<div class="container-fluid">
+  <p><a href='{% url "accounts:account_list" %}'>Account List</a></p>
 
-<!-- account / dataset links -->
-  <div class="row">
-    <h5 class="col-xs-12">
-      <a href="{% url 'portal' %}" >*</a> /
-      <a href="{% url 'portal' %}" >portal</a>
-    </h5>
-  </div>
-  <hr class="divider">
-<!-- end account / dataset links -->
+  {% for account in account_list %}
+  <p>
+    <p>{{ account.pk }}</p>
+    <p>{{ account.user }}</p>
+    <p>{{ account.affiliation }}</p>
+    <p>{{ account.account_slug }}</p>
+    <p>{{ account.date_added }}</p>
+    <p>
+      <a href='{{ account.get_absolute_url }}'>
+        {{ account.get_absolute_url }}
+      </a>
+    </p>
+  </p>
+  {% endfor %}
 
+{% else %}
+  No accounts
+{% endif %}
 
-  <div class="row">
-<!-- Dataset Choices Sidebar NEW -->
-    <div class="col-xs-12 col-md-4 sidebar-offcanvas" id="sidebar"><!-- style="display:none"-->
+{% if dataset_list %}
 
-      <form action="" method="get">
-        <input type="text" class="form-control text-center" name="q" placeholder="Search Datasets by Title">
-        <a role="button" class="btn btn-secondary btn-block" href="{% url 'portal' %}">Show All</a>
-      </form>
+  {% for dataset in dataset_list %}
+  <p>
+    <p>{{ dataset.pk }}</p>
+    <p>{{ dataset.account }}</p>
+    <p>{{ dataset.author }}</p>
+    <p>{{ dataset.title }}</p>
+    <p>{{ dataset.description }}</p>
+    <p>{{ dataset.url }}</p>
+    <p>{{ dataset.dataset_user }}</p>
+    <p>{{ dataset.dataset_password }}</p>
+    <p>{{ dataset.public_access }}</p>
+    <p>{{ dataset.dataset_slug }}</p>
+    <p>{{ dataset.date_added }}</p>
+    <p>{{ dataset.ext }}</p>
+    <p>
+      <a href='{{ dataset.get_absolute_url }}'>
+        {{ dataset.get_absolute_url }}
+      </a>
+    </p>
+  </p>
 
-<!-- List of maps with if statements parsing through them-->
-      <div>
-        <ul id="sidebar_map_list" class="nav nav-sidebar">
-          <li><b>Map Name <!--<div class="pull-right">Meta Data</div></b></li>-->Meta Data</b></li>
-        {% if dataset_list %}
-          {% for dataset in dataset_list %}
+  {% endfor %}
 
-              <li>
-                <label>
-                  <input type="checkbox" name="datasetCheckbox" id={{ dataset.ext }}
-                    value={{ dataset.pk }} ext={{ dataset.ext }}>
-                    {{ dataset.title }}
-                </label>
-                <a href="{{ dataset.get_absolute_url }}" >
-                  <i class="fa fa-newspaper-o fa-pull-right fa-border" aria-hidden="true"></i>
-                </a>
-              </li>
+{% else %}
+  No datasets
+{% endif %}
 
-          {% endfor %}
-        {% else %}
-          <h4>There are no datasets available</h4>
-        {% endif %}
-      </div>
-      </ul>
-    </div>
-<!-- End List of maps -->
-
-<!-- Map and Background Choices -->
-    <div class="col-12 col-xs-12 col-md-8" role="main" id="main_map">
-      <div id="mapid">
-      </div>
-    </div>
-<!-- End Map and Background Choices -->
-
-
-{% include "base_map_js.html" %}
 {% endblock content %}
-
-
-{% block js %}
-
-<script src='https://unpkg.com/leaflet.markercluster@1.0.0/dist/leaflet.markercluster.js'></script>
-<script type="text/javascript" src="{% static 'js/portalView.js' %}"></script>
-
-{% endblock js %}

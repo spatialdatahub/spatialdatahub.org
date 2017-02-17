@@ -1,35 +1,18 @@
 {% extends "base.html" %}
-{% load staticfiles %}
-
-{% block head_title %}New Account{% endblock head_title %}
-
 {% block content %}
 
-<div class="container-fluid">
+<p>
+  <form action='.' method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type='submit' value='Submit'>
+  </form>
+</p>
 
-<!-- account / dataset links -->
-  <div class="row">
-    <h5 class="col-xs-12">
-      <a href="{% url 'portal' %}" >*</a> /
-      <a href="{% url 'accounts:new_account'%}" >new account</a>
-    </h5>
-  </div>
-  <hr class="divider">
-<!-- end account / dataset links -->
-
-<!-- new account form -->
-  <div class="col-12 col-xs-12" id="new_account_form">
-    <form action="." method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input id="submit_dataset" class="btn btn-success" type="submit" value="Submit">
-      <a href="{% url 'portal' %}" class="btn btn-primary">
-        Back to home page
-      </a>
-    </form>
-  </div>
-<!-- end new account form -->
-
-</div>
+<p>
+  <a href='{% url "portal" %}'>
+    Back to home page
+  </a>
+</p>
 
 {% endblock content %}

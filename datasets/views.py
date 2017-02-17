@@ -6,9 +6,6 @@ from datasets.forms import DatasetForm, DatasetAuthForm
 
 from accounts.models import Account
 
-# import os
-# from cryptography.fernet import Fernet
-
 
 def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)
