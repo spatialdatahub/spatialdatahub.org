@@ -1,7 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 
-<p><a href='{% url "portal" %}'>Back to portal page</a></p>
+<p>
+  <a href='{% url "portal" %}'>
+    Back to portal page
+  </a>
+</p>
+
+<p>
+  <a href='{% url "accounts:new_account" %}'>
+    Create New Account
+  </a>
+</p>
 
 {% if account_list %}
 

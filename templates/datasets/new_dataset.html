@@ -1,36 +1,18 @@
 {% extends "base.html" %}
-{% load staticfiles %}
-
-{% block head_title %}New Dataset{% endblock head_title %}
-
 {% block content %}
 
-<div class="container-fluid">
+<p>
+  <form action='.' method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type='submit' value='Submit'>
+  </form>
+</p>
 
-<!-- account / dataset links -->
-  <div class="row">
-    <h5 class="col-xs-12">
-      <a href="{% url 'portal' %}" >*</a> /
-      <a href="{{ account.get_absolute_url }}" >{{ account.user }}</a> /
-      <a href="{% url 'datasets:new_dataset' account.account_slug %}" >new dataset</a>
-    </h5>
-  </div>
-  <hr class="divider">
-<!-- end account / dataset links -->
-
-<!-- new dataset form -->
-  <div class="col-12 col-xs-12" id="dataset_create_form">
-    <form action="." method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input id="submit_dataset" class="btn btn-success" type="submit" value="Submit">
-      <a href="{{  account.get_absolute_url }}" class="btn btn-primary">
-        Back to account page 
-      </a>
-    </form>
-  </div>
-<!-- end new dataset form -->
-
-</div>
+<p>
+  <a href='{{ account.get_absolute_url }}'>
+      No, take me back to {{ account.user }}'s page
+  </a>
+</p>
 
 {% endblock content %}

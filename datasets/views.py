@@ -2,7 +2,9 @@ from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
 from datasets.models import Dataset
-from datasets.forms import DatasetForm, DatasetAuthForm
+from datasets.forms import DatasetCreateForm
+from datasets.forms import DatasetUpdateForm
+from datasets.forms import DatasetUpdateAuthForm
 
 from accounts.models import Account
 
@@ -18,7 +20,7 @@ def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
 def new_dataset(request, account_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     if request.method == "POST":
-        form = DatasetForm(request.POST)
+        form = DatasetCreateForm(request.POST)
         if form.is_valid():
             dataset = form.save(commit=False)
             dataset.account = account
@@ -26,7 +28,7 @@ def new_dataset(request, account_slug=None):
             return redirect("accounts:account_detail",
                             account_slug=account.account_slug)
     else:
-        form = DatasetForm()
+        form = DatasetCreateForm()
     template_name = "datasets/new_dataset.html"
     return render(request,
                   template_name,
@@ -38,7 +40,7 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
 
     if request.method == "POST":
-        form = DatasetForm(request.POST, instance=dataset)
+        form = DatasetUpdateForm(request.POST, instance=dataset)
         if form.is_valid():
             updated_dataset = form.save(commit=False)
             updated_dataset.account = account
@@ -50,7 +52,7 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
                         dataset_slug=dataset.dataset_slug,
                         pk=dataset.pk)
     else:
-        form = DatasetForm(instance=dataset)
+        form = DatasetUpdateForm(instance=dataset)
     template_name = "datasets/dataset_update.html"
     return render(request, template_name,
                   {"form": form,
@@ -62,7 +64,7 @@ def dataset_update_auth(request, account_slug=None, dataset_slug=None, pk=None):
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
 
     if request.method == "POST":
-        form = DatasetAuthForm(request.POST, instance=dataset)
+        form = DatasetUpdateAuthForm(request.POST, instance=dataset)
         if form.is_valid():
             updated_dataset = form.save(commit=False)
             updated_dataset.account = account
@@ -73,7 +75,7 @@ def dataset_update_auth(request, account_slug=None, dataset_slug=None, pk=None):
                         dataset_slug=dataset.dataset_slug,
                         pk=dataset.pk)
     else:
-        form = DatasetAuthForm(instance=dataset)
+        form = DatasetUpdateAuthForm(instance=dataset)
     template_name = "datasets/dataset_update_auth.html"
     return render(request, template_name,
                   {"form": form,

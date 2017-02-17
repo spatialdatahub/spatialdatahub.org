@@ -1,1 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
 
+<p>
+  <form action='' method='post'>
+    {% csrf_token %}
+    <input type='submit' value='Yes, please remove {{ dataset.title }}'/>
+  </form>
+</p>
+
+<p>
+  <a href='{{ dataset.get_absolute_url }}'>
+      No, take me back to the {{ dataset.title }} page
+  </a>
+</p>
+
+{% endblock content %}

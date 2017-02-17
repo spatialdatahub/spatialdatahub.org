@@ -1,1 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
 
+</p>
+  <form action='.' method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type='submit' value='Update {{ dataset.title }}'>
+  </form>
+</p>
+
+<p>
+  <a href='{% url "datasets:dataset_update" account.account_slug dataset.dataset_slug dataset.pk %}'>
+    No, take me back to {{ dataset.title }}'s regular update page
+  </a>
+</p>
+
+
+<p>
+  <a href='{{ dataset.get_absolute_url }}'>
+      No, take me back to {{ dataset.title }}'s page
+  </a>
+</p>
+
+{% endblock content %}
