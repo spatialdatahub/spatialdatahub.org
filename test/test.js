@@ -1,24 +1,27 @@
-describe("DOM Tests", function () {
-    var el = document.createElement("div");
-    el.id = "myDiv";
-    el.innerHTML = "Hi there!";
-    el.style.background = "#ccc";
-    document.body.appendChild(el);
- 
-    var myEl = document.getElementById('myDiv');
-    it("is in the DOM", function () {
-        assert.notEqual(myEl, null);
-    });
- 
-    it("is a child of the body", function () {
-        assert.equal(myEl.parentElement, document.body);
-    });
- 
-    it("has the right text", function () {
-        assert.equal(myEl.innerHTML, "Hi there!");
-    });
- 
-    it("has the right background", function () {
-        assert.equal(myEl.style.background, "rgb(204, 204, 204)");
-    });
-});
+var assert = require('chai').assert
+
+var index = require('./../index.js')
+// var jsdom = require('jsdom')
+//var fs = require('fs')
+//var index = fs.readFileSync('../index.js', 'utf-8')
+
+// console.log(index)
+
+//
+// jsdom.env(
+//   '<html><body><div></div></body></html>',
+//   [index],
+//   function (err, window) {
+//     console.log("did it work?", index)
+//   }
+// )
+//
+//
+
+// const addSmoke = (a, b) => a + b
+
+describe('smoke test', function() {
+  it('should be able to bring in a dummy function', function() {
+    assert.equal(index.addSmoke(1,2), 3)
+  })
+})
