@@ -1,10 +1,11 @@
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.text import slugify
 
 
 class Account(models.Model):
-    user = models.CharField(max_length=50, unique=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     affiliation = models.CharField(max_length=200, null=True, blank=True)
     account_slug = models.SlugField(max_length=50, unique=True)
     date_added = models.DateTimeField(auto_now=False, auto_now_add=True,

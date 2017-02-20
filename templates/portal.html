@@ -1,56 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 
-{% if account_list %}
-
-  <p><a href='{% url "accounts:account_list" %}'>Account List</a></p>
-
-  {% for account in account_list %}
-  <p>
-    <p>{{ account.pk }}</p>
-    <p>{{ account.user }}</p>
-    <p>{{ account.affiliation }}</p>
-    <p>{{ account.account_slug }}</p>
-    <p>{{ account.date_added }}</p>
-    <p>
-      <a href='{{ account.get_absolute_url }}'>
-        {{ account.get_absolute_url }}
-      </a>
-    </p>
-  </p>
-  {% endfor %}
-
-{% else %}
-  No accounts
-{% endif %}
-
-{% if dataset_list %}
-
-  {% for dataset in dataset_list %}
-  <p>
-    <p>{{ dataset.pk }}</p>
-    <p>{{ dataset.account }}</p>
-    <p>{{ dataset.author }}</p>
-    <p>{{ dataset.title }}</p>
-    <p>{{ dataset.description }}</p>
-    <p>{{ dataset.url }}</p>
-    <p>{{ dataset.dataset_user }}</p>
-    <p>{{ dataset.dataset_password }}</p>
-    <p>{{ dataset.public_access }}</p>
-    <p>{{ dataset.dataset_slug }}</p>
-    <p>{{ dataset.date_added }}</p>
-    <p>{{ dataset.ext }}</p>
-    <p>
-      <a href='{{ dataset.get_absolute_url }}'>
-        {{ dataset.get_absolute_url }}
-      </a>
-    </p>
-  </p>
-
-  {% endfor %}
-
-{% else %}
-  No datasets
-{% endif %}
+{{ user_list }}
+{{ account_list }}
+{{ dataset_list }}
 
 {% endblock content %}

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -53,6 +54,7 @@ def load_dataset(request, pk):
 
 
 def portal(request):
+    user_list = User.objects.all()
     account_list = Account.objects.all()
     dataset_list = Dataset.objects.all()
     template_name = "portal.html"
@@ -63,7 +65,9 @@ def portal(request):
             title__icontains=q).order_by("title")
 
     return render(request, template_name,
-                  {"account_list": account_list, "dataset_list": dataset_list})
+                  {"user_list": user_list,
+                   "account_list": account_list,
+                   "dataset_list": dataset_list})
 
 
 def jstests(request):
