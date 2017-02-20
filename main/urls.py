@@ -9,6 +9,9 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
 
+    # django sign in forms and stuff
+    url(r'^registration/', include('django.contrib.auth.urls')),
+
     url(r'^about/$',
         TemplateView.as_view(template_name="about.html"),
         name="about"),

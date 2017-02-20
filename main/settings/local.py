@@ -178,3 +178,10 @@ STATICFILES_DIRS = [
 # from. Maybe just outside of the BASE_DIR would be good for development, but I
 # think that maybe a specific place for the deployed version would be good.
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_root")
+
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/'
+
+# This won't work yet I think, it's kind of just here before the real thing
+# gets set up
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
