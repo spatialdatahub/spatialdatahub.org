@@ -54,8 +54,6 @@ def load_dataset(request, pk):
 
 
 def portal(request):
-    user_list = User.objects.all()
-    account_list = Account.objects.all()
     dataset_list = Dataset.objects.all()
     template_name = "portal.html"
 
@@ -64,10 +62,7 @@ def portal(request):
         dataset_list = Dataset.objects.filter(
             title__icontains=q).order_by("title")
 
-    return render(request, template_name,
-                  {"user_list": user_list,
-                   "account_list": account_list,
-                   "dataset_list": dataset_list})
+    return render(request, template_name, {"dataset_list": dataset_list})
 
 
 def jstests(request):

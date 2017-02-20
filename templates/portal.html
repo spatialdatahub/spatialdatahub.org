@@ -1,8 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
 
-{{ user_list }}
-{{ account_list }}
-{{ dataset_list }}
-
+{% if user.is_authenticated %}
+  <p>
+    <a href='{{ user.account.get_absolute_url}}'>
+      Go to {{ user.account }}'s account
+    </a>
+  </p>
+  <p>{{ user.account.account_slug }}</p>
+  <p>PK: {{ user.pk }}</p>
+  <p>Email: {{ user.email }}</p>
+  <p>Affiliation: {{ user.account.affiliation }}</p>
+  <p><a href='{% url "logout" %}'>Logout</a></p>
+{% else %}
+  <p>
+    <a href='{% url "login" %}'>
+      Login
+    </a>
+    Or
+    <a href='{% url "register" %}'>
+      Register
+    </a>
+  </p>
+{% endif %}
 {% endblock content %}

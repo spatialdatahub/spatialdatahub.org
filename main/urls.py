@@ -17,7 +17,8 @@ urlpatterns = [
             template_name='register.html',
             form_class=UserCreationForm,
             success_url='/login'
-        )),
+        ),
+        name='register'),
 
     # django sign in forms and stuff
     url(r'^', include('django.contrib.auth.urls')),

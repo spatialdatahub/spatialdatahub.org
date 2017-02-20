@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 
@@ -48,10 +50,11 @@ def account_update(request, account_slug=None):
         form = AccountForm(instance=account)
     return render(request, template_name, {"account": account, "form": form})
 
-
-def account_remove(request, account_slug=None):
-    account = get_object_or_404(Account, account_slug=account_slug)
-    context = {"account": account}
+@login_required
+def account_remove(request):
+    # this view actually removes the user model, and everything associated with it
+    user = request.user
+    context = {"account": user}
     template_name = "accounts/account_remove.html"
     if request.method == 'POST':
         account.delete()

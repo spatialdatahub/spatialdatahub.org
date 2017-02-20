@@ -1,5 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+
+<p>I am going to set this up to handle both an account and user form</p>
+
 <form action="" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />
 </form>
+
+{% endblock content %}

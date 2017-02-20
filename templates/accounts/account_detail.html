@@ -23,7 +23,15 @@
 
   <p>{{ account.pk }}</p>
   <p>{{ account.user }}</p>
-  <p>{{ account.affiliation }}</p>
+  {% if account.affiliation %}
+    <p>{{ account.affiliation }}</p>
+  {% else %}
+    <p>
+      <a href='{% url "accounts:account_update" account.account_slug %}'>
+        Add {{ account.user }}'s affiliation
+      </a>
+    </p>
+    {% endif %}
   <p>{{ account.account_slug }}</p>
   <p>{{ account.date_added }}</p>
 
