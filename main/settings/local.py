@@ -1,4 +1,7 @@
 """
+I don't think i'm doing the settings thing correctly, this will need to be
+revised
+
 THIS PROJECT IS NOW USING DJANGO VERSION 1.10.3,
 AND IT WILL BE UPGRADED FREQUENTLY
 
