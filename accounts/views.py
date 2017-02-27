@@ -8,28 +8,12 @@ from accounts.forms import AccountForm
 
 from datasets.models import Dataset
 
-
-def new_account(request):
-    template_name = "accounts/new_account.html"
-    if request.method == "POST":
-        form = AccountForm(request.POST or None)
-        if form.is_valid():
-            instance = form.save()
-            return redirect("accounts:account_detail",
-                            account_slug=instance.account_slug)
-        else:
-            return HttpResponse("Error!")
-    else:
-        form = AccountForm()
-    return render(request, template_name, {"form": form})
-
-
 def account_list(request):
     """
     This view will need to be searchable by account name, account affiliation,
     and other account terms.
     """
-    account_list = Account.objects.all()
+    account_list = User.objects.all()
     context = {"account_list": account_list}
     template_name = "accounts/account_list.html"
     return render(request, template_name, context)
