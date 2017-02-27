@@ -1,0 +1,14 @@
+#navbar {
+  background-color: #4286F4;
+  margin-bottom: 15px;
+}
+
+#on-left {
+  text-align: left;
+  display: inline-block;
+}
+
+#on-right {
+  text-align: right;
+  display: inline-block;
+}

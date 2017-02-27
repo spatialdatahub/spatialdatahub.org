@@ -13,13 +13,7 @@
   </a>
 </p>
 
-<p>
-  <a href='{% url "accounts:account_portal" account.account_slug %}'>
-    {{ account.user }}'s portal page
-  </a>
-</p>
-
-<p>
+<div id="info">
 
   <p>{{ account.pk }}</p>
   <p>{{ account.user }}</p>
@@ -53,7 +47,7 @@
     </a>
   </p>
 
-</p>
+</div>
 
 <p>
   <a href='{% url "datasets:new_dataset" account.account_slug %}'>

@@ -1,35 +1,70 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
-  <head>
-  <meta charset='UTF-8'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-  <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
-    <title>ZMT</title>
-  </head>
-  <body>
+<head>
+<meta charset='UTF-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+
+  <title>ZMT | {% block title %}{% endblock title%}</title>
+
+  <link rel='stylesheet' type='text/css' href='{% static "css/style.css" %}' />
+  {% block css %}
+  {% endblock css %}
+
+</head>
+<body>
+
+
 <!-- NAVBAR -->
-    <div id='navbar'> 
-      {% if user.is_authenticated %}
-        <p>Welcome, <a href='{{ user.account.get_absolute_url }}'>{{ user.account }}</a></p>
-        <p><a href='{% url "logout" %}'>Logout</a></p>
-      {% else %}
-        <p>
-          <a href='{% url "login" %}'>
-            Login
-          </a>
-          Or
-          <a href='{% url "register" %}'>
-            Register
-          </a>
-        </p>
-      {% endif %}
+    
+<div class='row'>
+  <div id='navbar'> 
+
+    <div id='on-left'>
+      <a href='http://www.zmt-bremen.de/en/zmt.html' target='_blank'>
+        <img src='{% static "images/ZMT_LOGO_WHITE_200px.png" %}'
+        height=32 alt='ZMT Logo White' />
+      </a>
     </div>
+
+  {% if user.is_authenticated %}
+    <div id='on-left'>
+      <a href='{{ user.account.get_absolute_url }}'>
+        {{ user.account }}
+      </a>
+    </div>
+    <div id='on-right'>
+      <a href='{% url "logout" %}'>
+        Logout
+      </a>
+    </div>
+  {% else %}
+    <div id='on-left'>
+      <a href='{% url "register" %}'>
+        Register
+      </a>
+    </div>
+    <div id='on-right'>
+      <a href='{% url "login" %}'>
+        Login
+      </a>
+    </div>
+  {% endif %}
+
+  </div>
+</div>
+
 <!-- NAVBAR -->
 
 <!-- CONTENT -->
-    {% block content %}
-    {% endblock content %}
+{% block content %}
+{% endblock content %}
 <!-- CONTENT -->
 
+<!-- JS -->
+{% block js %}
+{% endblock js %}
+<!-- JS -->
   </body>
 </html>
