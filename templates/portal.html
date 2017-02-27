@@ -7,15 +7,13 @@
 <style>
 
   #mapid {
-    height: 75%;
+    height: 50em;
     margin-bottom: 10px;
   }
 
 </style>
 
 <link rel='stylesheet' href='https://unpkg.com/leaflet@1.0.3/dist/leaflet.css' />
-<link rel='stylesheet' href='https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.css' />
-<link rel='stylesheet' href='https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.Default.css' />
 
 {% endblock css %}
 
@@ -31,27 +29,35 @@
   <hr class='divider'>
 <!-- end account / dataset links -->
 
-{% if dataset_list %}
+<!-- datasets -->
+<div id="dataset_list">
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      {% if dataset_list %}
+        {% for dataset in dataset_list %}
+          <li class='pure-menu-item'>
+            <a href="#" class="pure-menu-link" id={{ dataset.ext }} value={{ dataset.pk }}>
+              {{ dataset.title }}
+            </a>
+          </li>
+        {% endfor %}
+      {% else %}
+          <li class='pure-menu-item'>
+            There are no datasets available
+          </li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+<!-- end datasets -->
 
-  {% for dataset in dataset_list %}
-    {{ dataset.title }}
-    {{ dataset.pk }}
-    {{ dataset.ext }}
-  {% endfor %}
-
-{% else %}
-
-  <h4>There are no datasets available</h4>
-
-{% endif %}
-
+<!-- map -->
 <div id='mapid'></div>
+<!-- end map -->
 
 {% endblock content %}
 
 {% block js %}
-<script src='https://unpkg.com/leaflet@1.0.2/dist/leaflet.js'></script>
-<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
-<script src='https://unpkg.com/leaflet.markercluster@1.0.3/dist/leaflet.markercluster.js'></script>
+<script src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js'></script>
 <script src='{% static "js/portalView.js" %}'></script>
 {% endblock js %}

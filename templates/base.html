@@ -8,6 +8,7 @@
 
   <title>ZMT | {% block title %}{% endblock title%}</title>
 
+  <link rel='stylesheet' href='https://unpkg.com/purecss@0.6.2/build/pure-min.css'>
   <link rel='stylesheet' type='text/css' href='{% static "css/style.css" %}' />
   {% block css %}
   {% endblock css %}
@@ -17,44 +18,41 @@
 
 
 <!-- NAVBAR -->
-    
-<div class='row'>
-  <div id='navbar'> 
+<div class="header">
+  <div class="home-menu pure-menu pure-menu-horizontal">
+    <a class="pure-menu-heading" href='{% static "images/ZMT_LOGO_WHITE_200px.png" %}'>
+      <img src='{% static "images/ZMT_LOGO_WHITE_200px.png" %}'
+      height=32 alt='ZMT Logo White' />
+    </a>
 
-    <div id='on-left'>
-      <a href='http://www.zmt-bremen.de/en/zmt.html' target='_blank'>
-        <img src='{% static "images/ZMT_LOGO_WHITE_200px.png" %}'
-        height=32 alt='ZMT Logo White' />
-      </a>
-    </div>
-
-  {% if user.is_authenticated %}
-    <div id='on-left'>
-      <a href='{{ user.account.get_absolute_url }}'>
-        {{ user.account }}
-      </a>
-    </div>
-    <div id='on-right'>
-      <a href='{% url "logout" %}'>
-        Logout
-      </a>
-    </div>
-  {% else %}
-    <div id='on-left'>
-      <a href='{% url "register" %}'>
-        Register
-      </a>
-    </div>
-    <div id='on-right'>
-      <a href='{% url "login" %}'>
-        Login
-      </a>
-    </div>
-  {% endif %}
+    <ul class="pure-menu-list">
+    {% if user.is_authenticated %}
+      <li class="pure-menu-item">
+        <a href='{{ user.account.get_absolute_url }}' class="pure-menu-link">
+          {{ user.account }}
+        </a>
+      </li>
+      <li class="pure-menu-item">
+        <a href="{% url "logout" %}" class="pure-menu-link">
+          Logout 
+        </a>
+      </li>
+    {% else %}
+      <li class="pure-menu-item">
+        <a href='{% url "register" %}' class="pure-menu-link">
+          Register
+        </a>
+      </li>
+      <li class="pure-menu-item">
+        <a href="{% url "login" %}" class="pure-menu-link">
+          Login 
+        </a>
+      </li>
+    {% endif %}
+    </ul>
 
   </div>
 </div>
-
 <!-- NAVBAR -->
 
 <!-- CONTENT -->
@@ -66,5 +64,6 @@
 {% block js %}
 {% endblock js %}
 <!-- JS -->
+
   </body>
 </html>
