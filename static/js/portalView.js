@@ -47,10 +47,10 @@ myMap.on('click', () => scrollWheelToggle(myMap))
 // to toggle active datasets on the map, and otherwise I need the list of datasets 
 // should this be a const?
 const datasetLinks = document.getElementsByName('dataset')
-const datasets = []
+const datasets = {}
 
 // add event that toggles the link's class from active to not
-// I can't believe it works!
+// 
 datasetLinks.forEach(link => {
   const ext = link.getAttribute('id')
   const pk = link.getAttribute('value')
@@ -58,8 +58,8 @@ datasetLinks.forEach(link => {
 
   link.addEventListener('click', () => {
     classToggle(link, 'active')
-    getDataset(url, ext, myMap, datasets)
-    console.log(datasets)
+    // (map, obj, key, url, ext)
+    datasetToggle(myMap, datasets, pk, ext, url)
   })
 })
 

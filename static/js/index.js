@@ -7,18 +7,26 @@ const scrollWheelToggle = map => {
     : map.scrollWheelZoom.enable()
 }
 
-// dataset toggle function
+// toggle dataset, if already dataset, add it, else, get it
+const datasetToggle = (map, obj, key, ext, url) => {
+  obj[key]
+    ?  map.hasLayer(obj[key])
+         ? map.removeLayer(obj[key])
+         : map.addLayer(obj[key]).fitBounds(obj[key].getBounds()) // little crazy with the chain
+    : getDataset(map, obj, key, ext, url)
+}
 
-// get and save dataset function and array
-const getDataset = (url, ext, map, array) => {
+// get and save dataset to obj[key], and add it to map
+const getDataset = (map, obj, key, ext, url)  => {
 
   // private function to be called when omnivore is ready
   const layerReady = dl => {
     map.fitBounds(dl.getBounds())
     map.addLayer(dl)
-    array.push(dl)
+    obj[key] = dl
   }
 
+  // check which type of dataset there is, and add it to map
   if (ext === 'kml') {
     const dataLayer = omnivore.kml(url, null)
       .on('ready', () => {
@@ -35,7 +43,6 @@ const getDataset = (url, ext, map, array) => {
         layerReady(dataLayer)
       })
   }
-
 } 
 
 // CUSTOM OTHER FUNCTIONS
