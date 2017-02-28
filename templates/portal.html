@@ -22,16 +22,17 @@
 <div class='container-fluid'>
   <div class='row'>
     <nav class='col-sm-3 hidden-xs-down bg-faded sidebar'>
-      <ul class='nav nav-pills flex-column'>
+    <!-- I want to put the search box here -->
+<!--      <ul class='nav nav-pills flex-column'>
         <li class='nav-item'>
           <a class='nav-link active' href='#'>Overview</a>
         </li>
-      </ul>
+      </ul> -->
       <ul class='nav nav-pills flex-column'>
       {% if dataset_list %}
         {% for dataset in dataset_list %}
         <li class='nav-item'>
-          <a class='nav-link' id={{ dataset.ext }} value={{ dataset.pk }}
+          <a class='nav-link' name='dataset' id={{ dataset.ext }} value={{ dataset.pk }}
             href='#'>
             {{ dataset.title }}
           </a>
@@ -58,6 +59,7 @@
 
 {% block js %}
 <script src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js'></script>
+<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
 <script src='{% static "js/index.js" %}'></script>
 <script src='{% static "js/portalView.js" %}'></script>
 {% endblock js %}
