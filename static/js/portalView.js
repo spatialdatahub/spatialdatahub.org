@@ -41,4 +41,6 @@ const baseLayers = {
 const baseLayerControl = L.control.layers(baseLayers)
 baseLayerControl.addTo(myMap)
 
+// my own function (scrollWheelToggle), sitting in index.js
+myMap.on('click', () => scrollWheelToggle(myMap))
 

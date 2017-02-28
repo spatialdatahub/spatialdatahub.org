@@ -2,11 +2,11 @@
  * Base structure
  */
 
-/* Move down content because we have a fixed navbar that is 50px tall */
+/* Move down content because we have a fixed navbar that is 50px tall
 body {
   padding-top: 50px;
 }
-
+*/
 /*
  * Typography
  */
@@ -19,16 +19,17 @@ h1 {
 
 /*
  * Sidebar
+ * I hate bootstrap. This thing is not easy to work with.
  */
 
 .sidebar {
   position: fixed;
-  top: 51px;
+  top: 60px;
   bottom: 0;
   left: 0;
   z-index: 1000;
   padding: 20px;
-  overflow-x: hidden;
+  overflow-x: hidden; /* what does this mean, the text should wrap, i guess that's an li item */
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
   border-right: 1px solid #eee;
 }

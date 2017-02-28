@@ -75,6 +75,7 @@ const scrollWheelToggle = () => {
   }
 }
 
+
 myMap.on('click', scrollWheelToggle)
 
 // I am going to bring the base_map javascript into this file, just like the
@@ -120,7 +121,7 @@ const datasetCheckboxes = document.getElementsByName('datasetCheckbox')
 const datasets = {}
 
 // set colors to add to the points
-const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
+const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 let colorCounter = 0
 
 // how do I functionalize this?

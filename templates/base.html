@@ -18,7 +18,7 @@
 <body>
 
 <!-- NAVBAR -->
-<nav class='navbar navbar-toggleable-sm navbar-inverse bg-inverse fixed-top'>
+<nav class='navbar navbar-toggleable-sm navbar-inverse bg-inverse static-top'>
   <button class='navbar-toggler navbar-toggler-right' type='button'
     data-toggle='collapse' data-target='#navbarsExampleDefault'
     aria-controls='navbarsExampleDefault' aria-expanded='false'
@@ -45,7 +45,7 @@
           <a class='nav-link' href='{{ user.account.get_absolute_url }}'>{{ user.account }}</a>
         </li>
         <li class='nav-item'>
-          <a class='nav-link' href='{% url "logout" %}'>Logout</a>
+          <a class='nav-link' href='{% url "logout" %}?next=/'>Logout</a>
         </li>
       {% else %}
         <li class='nav-item'>
