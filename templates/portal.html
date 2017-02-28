@@ -7,53 +7,52 @@
 <style>
 
   #mapid {
-    height: 50em;
+    height: 45em;
     margin-bottom: 10px;
   }
 
 </style>
-
+<link rel='stylesheet' href='{% static "css/dashboard.css" %}'/>
 <link rel='stylesheet' href='https://unpkg.com/leaflet@1.0.3/dist/leaflet.css' />
 
 {% endblock css %}
 
 {% block content %}
 
-<!-- account / dataset links -->
+<div class='container-fluid'>
   <div class='row'>
-    <h5 class='col-xs-12'>
-      <a href='{% url "portal" %}' >*</a> /
-      <a href='{% url "portal" %}' >portal</a>
-    </h5>
-  </div>
-  <hr class='divider'>
-<!-- end account / dataset links -->
-
-<!-- datasets -->
-<div id="dataset_list">
-  <div class="pure-menu">
-    <ul class="pure-menu-list">
+    <nav class='col-sm-3 hidden-xs-down bg-faded sidebar'>
+      <ul class='nav nav-pills flex-column'>
+        <li class='nav-item'>
+          <a class='nav-link active' href='#'>Overview <span class='sr-only'>(current)</span></a>
+        </li>
+      </ul>
+      <ul class='nav nav-pills flex-column'>
       {% if dataset_list %}
         {% for dataset in dataset_list %}
-          <li class='pure-menu-item'>
-            <a href="#" class="pure-menu-link" id={{ dataset.ext }} value={{ dataset.pk }}>
-              {{ dataset.title }}
-            </a>
-          </li>
+        <li class='nav-item'>
+          <a class='nav-link' id={{ dataset.ext }} value={{ dataset.pk }}
+            href='#'>
+            {{ dataset.title }}
+          </a>
+        </li>
         {% endfor %}
       {% else %}
-          <li class='pure-menu-item'>
-            There are no datasets available
-          </li>
+        <li class='nav-item'>
+          There are no datasets available
+        </li>
       {% endif %}
-    </ul>
+      </ul>
+
+    </nav>
+
+    <main class="col-sm-9 offset-sm-3 pt-3">
+      <!-- MAP -->
+      <div id='mapid'></div>
+      <!-- END MAP -->
+    </main>
   </div>
 </div>
-<!-- end datasets -->
-
-<!-- map -->
-<div id='mapid'></div>
-<!-- end map -->
 
 {% endblock content %}
 
