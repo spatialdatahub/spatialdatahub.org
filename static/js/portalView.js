@@ -46,23 +46,20 @@ baseLayerControl.addTo(myMap)
 const datasetLinks = document.getElementsByName('dataset')
 const datasets = {}
 
-// color marker options
+// colors 
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 let colorCounter = 0
-const setColorMarkerOptions = (color) => {
-  const colorMarkerOptions = {
-    radius: 8,
-    fillColor: color,
-    color: 'black',
-    weight: 1,
-    opacity: 1,
-    fillOpacity: 0.4
-  }
-  return colorMarkerOptions
+
+// pointMarkerOptions
+const markerOptions = {
+  radius: 8,
+  color: 'black',
+  weight: 1,
+  opacity: 1,
+  fillOpacity: 0.4
 }
 
-// add event that toggles the link's class from active to not
-// 
+// add event that toggles the link's class from active to not active
 datasetLinks.forEach(link => {
   const ext = link.getAttribute('id')
   const pk = link.getAttribute('value')
@@ -73,14 +70,19 @@ datasetLinks.forEach(link => {
   const color = colors[colorCounter % colors.length]
   console.log(color)
 
-  // I have to put the modJson in here. If I don't do that then every dataset will be
-  // added to the modJson L.geoJson layer, resulting in one monstrous layer.
   // Every time I call the 'getDataset' function there needs to be a new modJson called
   const layerMod = L.geoJson(null, {
+
+    // set the points to little circles
     pointToLayer: (feature, latlng) => {
-      return L.circleMarker(latlng, setColorMarkerOptions(color))
+      return L.circleMarker(latlng, markerOptions)
     },
-    onEachFeature: addPopups
+
+    // set the colors of each layer, and add popups to everything
+    onEachFeature: (feature, layer) => {
+      layer.options.color = color
+      addPopups(feature, layer)
+    }
   })
 
   link.addEventListener('click', () => {
