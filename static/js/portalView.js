@@ -49,6 +49,8 @@ myMap.on('click', () => scrollWheelToggle(myMap))
 const datasetLinks = document.getElementsByName('dataset')
 const datasets = {}
 
+
+
 // add event that toggles the link's class from active to not
 // 
 datasetLinks.forEach(link => {
@@ -56,10 +58,17 @@ datasetLinks.forEach(link => {
   const pk = link.getAttribute('value')
   const url = `/load_dataset/${pk}`
 
+  // I have to put the modJson in here. If I don't do that then every dataset will be
+  // added to the modJson L.geoJson layer, resulting in one monstrous layer.
+  // Every time I call the 'getDataset' function there needs to be a new modJson called
+  const layerMod = L.geoJson(null, {
+    onEachFeature: addPopups
+  })
+
   link.addEventListener('click', () => {
     classToggle(link, 'active')
     // (map, obj, key, url, ext)
-    datasetToggle(myMap, datasets, pk, ext, url)
+    datasetToggle(myMap, datasets, pk, ext, url, layerMod)
   })
 })
 
