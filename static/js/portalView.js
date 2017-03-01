@@ -41,15 +41,25 @@ const baseLayers = {
 const baseLayerControl = L.control.layers(baseLayers)
 baseLayerControl.addTo(myMap)
 
-// my own function (scrollWheelToggle), sitting in index.js
-myMap.on('click', () => scrollWheelToggle(myMap))
-
 // to toggle active datasets on the map, and otherwise I need the list of datasets 
 // should this be a const?
 const datasetLinks = document.getElementsByName('dataset')
 const datasets = {}
 
-
+// color marker options
+const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
+let colorCounter = 0
+const setColorMarkerOptions = (color) => {
+  const colorMarkerOptions = {
+    radius: 8,
+    fillColor: color,
+    color: 'black',
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.4
+  }
+  return colorMarkerOptions
+}
 
 // add event that toggles the link's class from active to not
 // 
@@ -58,10 +68,18 @@ datasetLinks.forEach(link => {
   const pk = link.getAttribute('value')
   const url = `/load_dataset/${pk}`
 
+  // deal with colors
+  colorCounter++
+  const color = colors[colorCounter % colors.length]
+  console.log(color)
+
   // I have to put the modJson in here. If I don't do that then every dataset will be
   // added to the modJson L.geoJson layer, resulting in one monstrous layer.
   // Every time I call the 'getDataset' function there needs to be a new modJson called
   const layerMod = L.geoJson(null, {
+    pointToLayer: (feature, latlng) => {
+      return L.circleMarker(latlng, setColorMarkerOptions(color))
+    },
     onEachFeature: addPopups
   })
 
@@ -72,6 +90,7 @@ datasetLinks.forEach(link => {
   })
 })
 
-// I want to add a bunch of calls on the link 'click' event listener, should they
-// go in the same 'forEach' call?
+// my own function (scrollWheelToggle), sitting in index.js
+myMap.on('click', () => scrollWheelToggle(myMap))
+
 
