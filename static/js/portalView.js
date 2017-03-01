@@ -68,9 +68,9 @@ datasetLinks.forEach(link => {
   // deal with colors
   colorCounter++
   const color = colors[colorCounter % colors.length]
-  console.log(color)
 
   // Every time I call the 'getDataset' function there needs to be a new modJson called
+  // there should probably also be a marker cluster function called
   const layerMod = L.geoJson(null, {
 
     // set the points to little circles
@@ -85,6 +85,14 @@ datasetLinks.forEach(link => {
     }
   })
 
+  // Make a markercluster group
+  // this is going to suck, so i'm going to do it after i do something else.
+  const cluster = L.markerClusterGroup({
+    showCoverageOnHover: false,
+    maxClusterRadius: 50
+  })
+
+
   link.addEventListener('click', () => {
     classToggle(link, 'active')
     // (map, obj, key, url, ext)
@@ -95,4 +103,7 @@ datasetLinks.forEach(link => {
 // my own function (scrollWheelToggle), sitting in index.js
 myMap.on('click', () => scrollWheelToggle(myMap))
 
+// watermark function
+L.control.watermark = (options) => new L.Control.Watermark(options)
+L.control.watermark({position: 'bottomleft'}).addTo(myMap)
 

@@ -28,6 +28,8 @@ const layerReady = (dl, map, obj, key) => {
 const getDataset = (map, obj, key, ext, url, modJson)  => {
 
   // check which type of dataset there is, and add it to map
+  // this should be a function or a loop. I really don't like this if else
+  // set that does almost the exact same thing
   if (ext === 'kml') {
     const dataLayer = omnivore.kml(url, null, modJson)
       .on('ready', () => {
@@ -52,7 +54,6 @@ const getDataset = (map, obj, key, ext, url, modJson)  => {
 const addPopups = (feature, layer) => {
   // make array to add content to
   popupContent = []
-  //console.log(feature.properties)
 
   // first check if there are properties
   feature.properties.length !== undefined || feature.properties.length !== 0
@@ -63,7 +64,7 @@ const addPopups = (feature, layer) => {
     : console.log('No feature properties')
 
   // push feature cordinates to the popupContent array, if it's a point dataset
-  feature.geometry === 'Point'
+  feature.geometry.type === 'Point'
     ? popupContent.push(
         `<b>Latitude:</b> ${feature.geometry.coordinates[1]}`,
         `<b>Longitude:</b> ${feature.geometry.coordinates[0]}`
@@ -74,6 +75,20 @@ const addPopups = (feature, layer) => {
   layer.bindPopup(popupContent.join(`<br/>`))
 
 }
+
+L.Control.Watermark = L.Control.extend({
+  onAdd: (map) => {
+    const img = L.DomUtil.create('img')
+    // this will have to be changed relative to the site for production
+    img.src = 'http://localhost:8000/static/images/zmt_logo_blue_black_100px.png'
+    // img.src = imgSrc
+    img.style.width = '100px'
+    return img
+  },
+  onRemove: (map) => {
+    // Nothing to do here
+  }
+})
 
 // CUSTOM OTHER FUNCTIONS
 
