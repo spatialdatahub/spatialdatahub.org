@@ -100,10 +100,16 @@ datasetLinks.forEach(link => {
   })
 })
 
-// my own function (scrollWheelToggle), sitting in index.js
-myMap.on('click', () => scrollWheelToggle(myMap))
-
-// watermark function
+// watermark leaflet control
 L.control.watermark = (options) => new L.Control.Watermark(options)
 L.control.watermark({position: 'bottomleft'}).addTo(myMap)
+
+// home button leaflet control
+L.control.homebutton = (options) => new L.Control.HomeButton(options)
+L.control.homebutton({position: 'topleft'}).addTo(myMap)
+
+// toggle scroll button leaflet control
+L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(options)
+L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
+
 

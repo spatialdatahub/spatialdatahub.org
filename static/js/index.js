@@ -1,12 +1,5 @@
 // CUSTOM MAP FUNCTIONS
 
-// toggle map scrollability
-const scrollWheelToggle = map => {
-  map.scrollWheelZoom.enabled()
-    ? map.scrollWheelZoom.disable()
-    : map.scrollWheelZoom.enable()
-}
-
 // toggle dataset, if already dataset, add it, else, get it
 const datasetToggle = (map, obj, key, ext, url, modJson) => {
   obj[key]
@@ -76,6 +69,9 @@ const addPopups = (feature, layer) => {
 
 }
 
+// THESE THREE CONTROL FUNCTIONS ARE TIGHTLY COUPLED WITH DIFFERENT THINGS
+// THEY WILL HAVE TO BE CHANGED EVENTUALLY
+// ZMT watermark by extending Leaflet Control
 L.Control.Watermark = L.Control.extend({
   onAdd: (map) => {
     const img = L.DomUtil.create('img')
@@ -89,6 +85,48 @@ L.Control.Watermark = L.Control.extend({
     // Nothing to do here
   }
 })
+
+// Home button by extending Leaflet Control
+L.Control.HomeButton = L.Control.extend({
+  onAdd: (map) => {
+    const container = L.DomUtil.create('div',
+      'leaflet-bar leaflet-control leaflet-control-custom')
+    //  container.innerHTML = '<i class="fa fa-home fa-2x" aria-hidden="true"></i>'
+    container.style.backgroundImage = 'url("http://localhost:8000/static/images/home_icon.png")'
+    container.style.backgroundRepeat = 'no-repeat'
+    container.style.backgroundColor = 'white'
+    container.style.width = '34px'
+    container.style.height = '34px'
+    container.addEventListener('click', () => map.setView({lat: 0, lng: 0}, 2))
+    return container
+  },
+  onRemove: (map) => {
+    // Nothing to do here
+  }
+})
+
+// scroll wheel toggle button
+L.Control.ToggleScrollButton = L.Control.extend({
+  onAdd: (map) => {
+    const container = L.DomUtil.create('div',
+      'leaflet-bar leaflet-control leaflet-control-custom')
+    container.style.backgroundImage = 'url("http://localhost:8000/static/images/mouse.png")'
+    container.style.backgroundRepeat = 'no-repeat'
+    container.style.backgroundColor = 'white'
+    container.style.width = '34px'
+    container.style.height = '34px'
+    container.addEventListener('click', () => {
+      map.scrollWheelZoom.enabled()
+        ? map.scrollWheelZoom.disable()
+        : map.scrollWheelZoom.enable()
+    })
+    return container
+  },
+  onRemove: (map) => {
+    // Nothing to do here
+  }
+})
+
 
 // CUSTOM OTHER FUNCTIONS
 
