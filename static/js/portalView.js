@@ -87,10 +87,12 @@ datasetLinks.forEach(link => {
 
   // Make a markercluster group
   // this is going to suck, so i'm going to do it after i do something else.
+/*
   const cluster = L.markerClusterGroup({
     showCoverageOnHover: false,
     maxClusterRadius: 50
   })
+*/
 
 
   link.addEventListener('click', () => {
