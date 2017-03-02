@@ -23,7 +23,7 @@ accountLinks.forEach(link => {
   const url = `/ajax/${account}`
 
   link.addEventListener('click', () => {
-    classToggle(link, 'active')
+    classToggleOnDiffLink(link, accountLinks, 'active')
     makeReq(url, dataToDiv, accountInfo) 
   })
 })

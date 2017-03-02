@@ -3,6 +3,10 @@
 // toggle active / inactive links in list
 // almost exactly copied from 'youmightnotneedjquery.com'
 const classToggle = (el, className) => {
+  /*
+    Toggle class on element. Click element once to turn it on,
+    and again to turn it off, or vis versa.
+  */
   if (el.classList) {
     el.classList.toggle(className) 
   } else {
@@ -14,4 +18,29 @@ const classToggle = (el, className) => {
       classes.push(className) 
     el.className = classes.join(' ') 
   }
+}
+
+const classToggleOnDiffLink = (el, el_list, className) => {
+  /*
+    Toggle class on element, but with multiple elements.
+    Click element 1 once to turn class on, and click element 2
+    to turn class off for element 1, and to turn class on
+    for element 2.
+
+    Just turn class off for everything in element list,
+    and then add class to element that was clicked.
+
+  */
+
+  // first remove className from all elements
+  el_list.forEach(e => {
+    if (e.classList) {
+      e.classList.remove(className) 
+    }
+  })
+
+  // then add className to element that was clicked
+  const classes = el.className.split(' ')
+  classes.push(className)
+  el.className = classes.join(' ')
 }
