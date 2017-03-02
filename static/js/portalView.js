@@ -41,6 +41,20 @@ const baseLayers = {
 const baseLayerControl = L.control.layers(baseLayers)
 baseLayerControl.addTo(myMap)
 
+// watermark leaflet control
+L.control.watermark = (options) => new L.Control.Watermark(options)
+L.control.watermark({position: 'bottomleft'}).addTo(myMap)
+
+// home button leaflet control
+L.control.homebutton = (options) => new L.Control.HomeButton(options)
+L.control.homebutton({position: 'topleft'}).addTo(myMap)
+
+// toggle scroll button leaflet control
+L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(options)
+L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
+
+
+
 // to toggle active datasets on the map, and otherwise I need the list of datasets 
 // should this be a const?
 const datasetLinks = document.getElementsByName('dataset')
@@ -52,9 +66,9 @@ let colorCounter = 0
 
 // pointMarkerOptions
 const markerOptions = {
-  radius: 8,
+  radius: 6,
   color: 'black',
-  weight: 1,
+  weight: 1.5,
   opacity: 1,
   fillOpacity: 0.4
 }
@@ -78,9 +92,16 @@ datasetLinks.forEach(link => {
       return L.circleMarker(latlng, markerOptions)
     },
 
+
     // set the colors of each layer, and add popups to everything
     onEachFeature: (feature, layer) => {
-      layer.options.color = color
+      // this is for the non-points
+      if (feature.geometry.type !== 'Point') {
+        layer.options.color = color
+      }
+      // make sure the perimeter of the circle is black, and the fill is the color
+      layer.options.fillColor = color
+
       addPopups(feature, layer)
     }
   })
@@ -94,24 +115,10 @@ datasetLinks.forEach(link => {
   })
 */
 
-
   link.addEventListener('click', () => {
     classToggle(link, 'active')
     // (map, obj, key, url, ext)
     datasetToggle(myMap, datasets, pk, ext, url, layerMod)
   })
 })
-
-// watermark leaflet control
-L.control.watermark = (options) => new L.Control.Watermark(options)
-L.control.watermark({position: 'bottomleft'}).addTo(myMap)
-
-// home button leaflet control
-L.control.homebutton = (options) => new L.Control.HomeButton(options)
-L.control.homebutton({position: 'topleft'}).addTo(myMap)
-
-// toggle scroll button leaflet control
-L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(options)
-L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
-
 

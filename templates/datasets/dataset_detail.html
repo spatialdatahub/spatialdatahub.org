@@ -1,55 +1,95 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ dataset.title }}{% endblock title %}
+
+{% block css %}
+ 
+<link rel='stylesheet' href='https://unpkg.com/leaflet@1.0.3/dist/leaflet.css' />
+
+<style>
+
+  #mapid {
+    height: 45em;
+    margin-bottom: 1em;
+  }
+
+  #breadcrumbs {
+    padding-top: 1em;
+  }
+
+</style>
+
+<!-- Marker Cluster CSS -->
+<!--
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.Default.css" />
+-->
+<!-- End Marker Cluster CSS -->
+
+
+{% endblock css %}
+
 {% block content %}
 
-<p>
-  <a href='{% url "portal" %}'>
-    Back to portal page
-  </a>
-</p>
- <p>
-  <a href='{{ account.get_absolute_url }}'>
-    {{ account.user }}'s detail page
-  </a>
-</p>
+<div class='container'>
+<!-- account / dataset links -->
+  <div class='row' id='breadcrumbs'>
+    <h5 class='col-xs-12'>
+      <a href='{% url "portal" %}' >*</a> /
+      <a href='{{ account.get_absolute_url }}' >{{ account.user }}</a> /
+      <a href='{{ dataset.get_absolute_url }}' >{{ dataset.title }}</a>
+    </h5>
+  </div>
+  <hr class="divider">
+<!-- end account / dataset links -->
+</div>
 
-<p>
+<div class='container'>
+  <p><h4><b>Title:</b> {{ dataset.title }}</h4></p> 
+  <p><b>Author:</b> {{ dataset.author }}</p> 
+  <p><b>Description:</b> {{ dataset.description }}</p>
+</div>
 
-  <p>{{ dataset.pk }}</p>
-  <p>{{ dataset.account }}</p>
-  <p>{{ dataset.author }}</p>
-  <p>{{ dataset.title }}</p>
-  <p>{{ dataset.description }}</p>
-  <p>{{ dataset.url }}</p>
-  <p>{{ dataset.dataset_user }}</p>
-  <p>{{ dataset.dataset_password }}</p>
-  <p>{{ dataset.public_access }}</p>
-  <p>{{ dataset.dataset_slug }}</p>
-  <p>{{ dataset.date_added }}</p>
-  <p>{{ dataset.ext }}</p>
+<!-- info divs -->
+<div id='dataset_pk' value={{ dataset.pk }}></div>
+<div id='dataset_ext' value={{ dataset.ext }}></div>
+<!-- info divs -->
 
-  <p>
-    <a href='{{ dataset.get_absolute_url }}'>
-      {{ dataset.get_absolute_url }}
-    </a>
-  </p>
-
+<!-- These should be inline links -->
+<div class='container'>
   <p>
     <a href='{% url "datasets:dataset_update" account.account_slug dataset.dataset_slug dataset.pk %}'>
       Update {{ dataset.title }}
     </a>
   </p>
-
   <p>
     <a href='{% url "datasets:dataset_update_auth" account.account_slug dataset.dataset_slug dataset.pk %}'>
       Update {{ dataset.title }} authentication details
     </a>
   </p>
-
   <p>
     <a href='{% url "datasets:dataset_remove" account.account_slug dataset.dataset_slug dataset.pk %}'>
       Remove {{ dataset.title }}
     </a>
   </p>
+<hr class="divider">
+</div>
 
-</p>
+<!-- MAP -->
+<div class='container'>
+  <div id='mapid'></div>
+</div>
+<!-- END MAP -->
+
 {% endblock content %}
+
+{% block js %}
+
+<script src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js'></script>
+<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+
+<script src='{% static "js/index_maps.js" %}'></script>
+<script src='{% static "js/datasets/detailView.js" %}'></script>
+
+{% endblock js %}
