@@ -92,18 +92,21 @@ datasetLinks.forEach(link => {
       return L.circleMarker(latlng, markerOptions)
     },
 
-
-    // set the colors of each layer, and add popups to everything
     onEachFeature: (feature, layer) => {
-      // this is for the non-points
-      if (feature.geometry.type !== 'Point') {
-        layer.options.color = color
-      }
-      // make sure the perimeter of the circle is black, and the fill is the color
+
+      // make sure the fill is the color
       layer.options.fillColor = color
 
+      // and make sure the perimiter is black (if it's a point) and the color otherwise
+      feature.geometry.type === 'Point'
+        ? layer.options.color = 'black'
+        : layer.options.color = color
+
+      // add those popups
       addPopups(feature, layer)
     }
+
+
   })
 
   // Make a markercluster group

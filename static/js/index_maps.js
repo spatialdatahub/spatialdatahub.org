@@ -1,4 +1,74 @@
+// ////////////////////////////////////////////////////////////////////////////
+/*
 // CUSTOM MAP FUNCTIONS
+*/
+/*
+// Even though I like using omnivore, I am going to have to use my own omnivore
+// like function for loading datasets. I cannot parse the leaflet L.geoJson
+// layers in the ways that I want to, but I can parse through geojson data
+// fairly easily. My own ugly little function will return geojson, and not a
+// layer.
+*/
+// ////////////////////////////////////////////////////////////////////////////
+
+// my own omnivore-like functions that return geojson
+// unfortunately I must load the csv2geojson.js and the toGeoJson.js libararies
+// to use these home made functions
+
+// JSON
+const getJSONDataset = (url) => {
+  const promise = new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', url)
+    xhr.onload = () => {
+      xhr.readyState === 4 && xhr.status === 200
+        ? resolve(JSON.parse(xhr.responseText)) : reject(Error(xhr.statusText))
+    }
+    xhr.onerror = () => reject(Error('Network Error - JSON'))
+    xhr.send()
+  })
+  return promise
+}
+
+// KML
+const getKMLDataset = (url) => {
+  const promise = new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', url)
+    // The next few lines are different than the getJSONDataset and getCSVDataset
+    // calls from here
+    xhr.responseType = 'document'
+    xhr.overrideMimeType('text/xml')
+    xhr.onload = () => {
+      xhr.readyState === 4 && xhr.status === 200
+        ? resolve(toGeoJSON.kml(xhr.response)) : reject(Error(xhr.statusText))
+    }
+    // to here
+    xhr.onerror = () => reject(Error('Network Error - KML'))
+    xhr.send()
+  })
+  return promise
+}
+
+// CSV
+const getCSVDataset = (url) => {
+  const promise = new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', url)
+    xhr.onload = () => {
+      xhr.readyState === 4 && xhr.status === 200
+        ? csv2geojson.csv2geojson(
+            xhr.responseText, (err, data) => {
+              err ? reject(Error(err)) : resolve(data)
+            }
+          )
+        : reject(Error(xhr.statusText))
+    }
+    xhr.onerror = () => reject(Error('Network Error - CSV'))
+    xhr.send()
+  })
+  return promise
+}
 
 // toggle dataset, if already dataset, add it, else, get it
 const datasetToggle = (map, obj, key, ext, url, modJson) => {
@@ -126,6 +196,3 @@ L.Control.ToggleScrollButton = L.Control.extend({
     // Nothing to do here
   }
 })
-
-
-

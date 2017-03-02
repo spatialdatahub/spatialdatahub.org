@@ -58,9 +58,65 @@ const dataset = []
 const pk = document.getElementById('dataset_pk').getAttribute('value')
 const ext = document.getElementById('dataset_ext').getAttribute('value')
 const url = `/load_dataset/${pk}`
+const color = 'red' // I'm going to make a color selector element, and take the value
+
+// if dataset is point dataset add filter elements
+// there must be a better way to do this
+const createFilterElements = () => {
+  // create elements, one by one
+  const submitValuesButton = document.createElement('button')
+  submitValuesButton.setAttribute('id', 'submit_values_button')
+
+  const resetValuesButton = document.createElement('button')
+  resetValuesButton.setAttribute('id', 'reset_values_button')
+
+  const lngMinInput = document.createElement('input')
+  lngMinInput.setAttribute('id', 'lng_min_input')
+
+  const lngMaxInput = document.createElement('input')
+  lngMaxInput.setAttribute('id', 'lng_max_input')
+
+  const latMinInput = document.createElement('input')
+  latMinInput.setAttribute('id', 'lat_min_input')
+
+  const latMaxInput = document.createElement('input')
+  latMaxInput.setAttribute('id', 'lat_max_input')
+
+  const featureCountElement = document.createElement('div')
+  featureCountElement.setAttribute('id', 'feature_count')
+}
+
+
+// pointMarkerOptions
+const markerOptions = {
+  radius: 6,
+  color: color,
+  weight: 1.5,
+  opacity: 1,
+  fillOpacity: 0.4
+}
 
 let filteredLayer = L.geoJson(null, {
-  onEachFeature: addPopups
+
+  // set the points to little circles
+  pointToLayer: (feature, latlng) => {
+    return L.circleMarker(latlng, markerOptions)
+  },
+
+  onEachFeature: (feature, layer) => {
+
+    // make sure the fill is the color
+    layer.options.fillColor = color
+
+    // and make sure the perimiter is black (if it's a point) and the color otherwise
+    feature.geometry.type === 'Point'
+      ? layer.options.color = 'black'
+      : layer.options.color = color
+
+    // add those popups
+    addPopups(feature, layer)
+  }
+
 })
 
 getDataset(myMap, dataset, pk, ext, url, filteredLayer)
