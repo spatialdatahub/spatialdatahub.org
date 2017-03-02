@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 
@@ -13,10 +13,17 @@ def account_list(request):
     This view will need to be searchable by account name, account affiliation,
     and other account terms.
     """
-    account_list = User.objects.all()
+    account_list = Account.objects.all()
     context = {"account_list": account_list}
     template_name = "accounts/account_list.html"
     return render(request, template_name, context)
+
+def account_ajax(request, account_slug=None):
+    account = get_object_or_404(Account, account_slug=account_slug)
+    dataset_list = Dataset.objects.filter(account=account)
+    template_name = "accounts/account_ajax.html"
+    return render(request, template_name,
+                  context={"account": account, "dataset_list": dataset_list})
 
 
 def account_update(request, account_slug=None):
