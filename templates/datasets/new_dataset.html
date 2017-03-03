@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class='container'>
 <p>
   <form action='.' method='post'>
     {% csrf_token %}
@@ -14,5 +15,6 @@
       No, take me back to {{ account.user }}'s page
   </a>
 </p>
+</div>
 
 {% endblock content %}

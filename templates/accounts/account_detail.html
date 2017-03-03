@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class='container'>
 <p>
   <a href='{% url "portal" %}'>
     Back to portal page
@@ -42,10 +43,11 @@
   </p>
 
   <p>
-    <a href='{% url "accounts:account_remove" account.account_slug %}'>
-      Remove {{ account.user }}'s Account
+    <a href='{% url "delete_user" user.pk %}'>
+      Remove {{ user }}'s Account
     </a>
   </p>
+
 
 </div>
 
@@ -90,5 +92,6 @@
 
 {% endif %}
 
+</div>
 
 {% endblock content %}

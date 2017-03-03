@@ -2,9 +2,10 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.models import User
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import DeleteView
 
 from main import views
 
@@ -19,6 +20,16 @@ urlpatterns = [
             success_url='/login'
         ),
         name='register'),
+
+    url(r'^remove/(?P<pk>\d+)/$',
+       DeleteView.as_view(
+            model=User,
+            template_name='delete_user.html',
+            success_url='/'
+        ),
+        name='delete_user'),
+
+      
 
     # django sign in forms and stuff
     url(r'^', include('django.contrib.auth.urls')),
