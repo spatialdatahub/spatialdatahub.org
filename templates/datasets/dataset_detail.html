@@ -14,10 +14,6 @@
     margin-bottom: 1em;
   }
 
-  #breadcrumbs {
-    padding-top: 1em;
-  }
-
 </style>
 
 <!-- Marker Cluster CSS -->
@@ -35,11 +31,11 @@
 <div class='container'>
 <!-- account / dataset links -->
   <div class='row' id='breadcrumbs'>
-    <h5 class='col-xs-12'>
+    <h4 class='col-xs-12'>
       <a href='{% url "portal" %}' >*</a> /
       <a href='{{ account.get_absolute_url }}' >{{ account.user }}</a> /
       <a href='{{ dataset.get_absolute_url }}' >{{ dataset.title }}</a>
-    </h5>
+    </h4>
   </div>
   <hr class="divider">
 <!-- end account / dataset links -->

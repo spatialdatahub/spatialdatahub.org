@@ -73,6 +73,9 @@ const markerOptions = {
   fillOpacity: 0.4
 }
 
+// get breadcrumbs appender link
+const adBreadcrumbContainer = document.getElementById('account-dataset-breadcrumbs')
+
 // add event that toggles the link's class from active to not active
 datasetLinks.forEach(link => {
   const ext = link.getAttribute('id')
@@ -117,11 +120,23 @@ datasetLinks.forEach(link => {
     maxClusterRadius: 50
   })
 */
+  // I have to get the parent of the link, or the <li> around the <a> element and
+  // change it's class to active, instead of the actual link, with bootstrap3
+  const linkParent = link.parentElement
+
+  // one more thing I have to do is append the dataset to the bread crumbs on click
+  const dsText = link.textContent
+  const dsUrl = link.getAttribute('url')
+  const adBreadcrumb = `/ <a href="${dsUrl}">${dsText}</a>`
 
   link.addEventListener('click', () => {
-    classToggle(link, 'active')
+    classToggle(linkParent, 'active')
+
     // (map, obj, key, url, ext)
     datasetToggle(myMap, datasets, pk, ext, url, layerMod)
+
+    // append breadcrumbs links to breadcrumbs thing on click
+    adBreadcrumbContainer.innerHTML = adBreadcrumb
   })
 })
 
