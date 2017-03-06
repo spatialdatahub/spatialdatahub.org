@@ -111,6 +111,8 @@ const getDataset = (map, obj, key, ext, url, modJson)  => {
   }
 } 
 
+// I need to make a nice looking popup background that scrolls
+
 // add popups to the data points
 // should this function be called every time a layer is added to a map? or will the layer 
 // still have the popups after it's toggled off and on?
@@ -135,7 +137,7 @@ const addPopups = (feature, layer) => {
     : console.log(feature.geometry.type)
 
   // bind the popupContent array to the layer's layers
-  layer.bindPopup(popupContent.join(`<br/>`))
+  layer.bindPopup(popupContent.join(`<br/>`)) // this is where the popup html will be implemented
 
 }
 
