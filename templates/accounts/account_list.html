@@ -11,33 +11,37 @@
 
 {% block content %}
 
+<!-- account / dataset links -->
+<!-- I will append the link to the dataset here -->
+<div class='container'>
+  <div class='row' id='breadcrumbs'>
+    <h4 class='col-xs-12'>
+      <a href='{% url "portal" %}' >*</a> /
+      <a href='{% url "accounts:account_list" %}' >accounts</a>
+      <span id='account-dataset-breadcrumbs'></span>
+    </h4>
+  </div>
+  <hr class="divider">
+</div>
+<!-- end account / dataset links -->
+
 <div class='container-fluid'>
   <div class='row'>
-
-    <nav class='col-sm-3 hidden-xs-down bg-faded sidebar'>
-
-      <ul class='nav nav-pills flex-column'>
-      {% if account_list %}
-        {% for account in account_list %}
-        <li class='nav-item'>
-          <a class='nav-link' id={{ account.account_slug }} name='account' href='#'>
-            {{ account }}
-          </a>
-        </li>
-        {% endfor %}
-      {% else %}
-        <li class='nav-item'>
-          There are no accounts yet 
-        </li>
-      {% endif %}
+    <div class='col-sm-3 sidebar'>
+      <ul class='nav nav-sidebar'>
+        {% if account_list %}
+          {% for account in account_list %}
+            <li id={{ account.account_slug }} name='account'><a href='#'>{{ account }}</a></li>
+          {% endfor %}
+        {% else %}
+          <li>There are no accounts yet</li>
+        {% endif %}
       </ul>
-
-    </nav>
-
-    <main class="col-sm-9 offset-sm-3 pt-3">
-      <div id="account_info">
+    </div>
+    <div class='col-sm-9 col-sm-offset-3 main'>
+      <div id='account_info'>
       </div>
-    </main>
+    </div>
   </div>
 </div>
 
