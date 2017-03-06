@@ -120,6 +120,10 @@ datasetLinks.forEach(link => {
     maxClusterRadius: 50
   })
 */
+
+  // make link color = color
+  // link.style.color=color
+
   // I have to get the parent of the link, or the <li> around the <a> element and
   // change it's class to active, instead of the actual link, with bootstrap3
   const linkParent = link.parentElement
