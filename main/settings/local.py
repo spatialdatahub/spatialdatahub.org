@@ -119,9 +119,9 @@ else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": "webgisfork_db",
-            "USER": "webgisfork_user",
-            "PASSWORD": "webgisfork_password",
+            "NAME": "webgis_db",
+            "USER": "webgis_user",
+            "PASSWORD": "webgis_password",
             "HOST": "localhost",
             "PORT": "5432",
         }
