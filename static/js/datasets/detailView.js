@@ -76,14 +76,13 @@ const createFilterElements = () => {
   const lngMaxInput = document.createElement('input')
   lngMaxInput.setAttribute('id', 'lng_max_input')
 
-  const latMinInput = document.createElement('input')
-  latMinInput.setAttribute('id', 'lat_min_input')
-
-  const latMaxInput = document.createElement('input')
-  latMaxInput.setAttribute('id', 'lat_max_input')
-
-  const featureCountElement = document.createElement('div')
-  featureCountElement.setAttribute('id', 'feature_count')
+    // given that the geometry type of the dataset is a point, include latlng
+    layer.feature.geometry.type === 'Point' ?
+      popupContent.push(
+        `<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`,
+        `<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`
+      ) : console.log(layer.feature.geometry.type)
+    layer.bindPopup(popupContent.join('<br/>'))
 }
 
 
@@ -120,5 +119,3 @@ let filteredLayer = L.geoJson(null, {
 })
 
 getDataset(myMap, dataset, pk, ext, url, filteredLayer)
-
-

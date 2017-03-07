@@ -4,7 +4,7 @@
 {% block title %}{{ dataset.title }}{% endblock title %}
 
 {% block css %}
- 
+
 <link rel='stylesheet' href='https://unpkg.com/leaflet@1.0.3/dist/leaflet.css' />
 
 <style>
@@ -29,7 +29,6 @@
 {% block content %}
 
 <div class='container'>
-<!-- account / dataset links -->
   <div class='row' id='breadcrumbs'>
     <h4 class='col-xs-12'>
       <a href='{% url "portal" %}' >*</a> /
@@ -38,39 +37,70 @@
     </h4>
   </div>
   <hr class="divider">
-<!-- end account / dataset links -->
 </div>
 
 <div class='container'>
-  <p><h4><b>Title:</b> {{ dataset.title }}</h4></p> 
-  <p><b>Author:</b> {{ dataset.author }}</p> 
-  <p><b>Description:</b> {{ dataset.description }}</p>
+  <div class='row'>
+    <p><h4><b>Title:</b> {{ dataset.title }}</h4></p>
+    <p><b>Author:</b> {{ dataset.author }}</p>
+    <p><b>Description:</b> {{ dataset.description }}</p>
+    <!-- info divs -->
+    <div id='dataset_pk' value={{ dataset.pk }}></div>
+    <div id='dataset_ext' value={{ dataset.ext }}></div>
+    <!-- info divs -->
+  </div>
+  <hr class="divider">
 </div>
 
-<!-- info divs -->
-<div id='dataset_pk' value={{ dataset.pk }}></div>
-<div id='dataset_ext' value={{ dataset.ext }}></div>
-<!-- info divs -->
+
 
 <!-- These should be inline links -->
 <div class='container'>
-  <p>
-    <a href='{% url "datasets:dataset_update" account.account_slug dataset.dataset_slug dataset.pk %}'>
-      Update {{ dataset.title }}
-    </a>
-  </p>
-  <p>
-    <a href='{% url "datasets:dataset_update_auth" account.account_slug dataset.dataset_slug dataset.pk %}'>
-      Update {{ dataset.title }} authentication details
-    </a>
-  </p>
-  <p>
-    <a href='{% url "datasets:dataset_remove" account.account_slug dataset.dataset_slug dataset.pk %}'>
-      Remove {{ dataset.title }}
-    </a>
-  </p>
-<hr class="divider">
+  <div class='row'>
+    <p>
+      <a href='{% url "datasets:dataset_update" account.account_slug dataset.dataset_slug dataset.pk %}'>
+        Update {{ dataset.title }}
+      </a>
+    </p>
+    <p>
+      <a href='{% url "datasets:dataset_update_auth" account.account_slug dataset.dataset_slug dataset.pk %}'>
+        Update {{ dataset.title }} authentication details
+      </a>
+    </p>
+    <p>
+      <a href='{% url "datasets:dataset_remove" account.account_slug dataset.dataset_slug dataset.pk %}'>
+        Remove {{ dataset.title }}
+      </a>
+    </p>
+  </div class='row'>
+  <hr class="divider">
 </div>
+
+<div class='container'>
+  <div class='row'>
+    <p><b>Number of dataset features:</b><span id='feature_count'></span></p>
+
+    <div id="if_features"></div>
+
+    <p>
+      <b>Latitude:</b>
+      <input id="min_lat_input" type="text" placeholder="minimum" />
+      <input id="max_lat_input" type="text" placeholder="maximum" />
+    </p>
+    <p>
+      <b>Longitude:</b>
+      <input id="min_lng_input" type="text" placeholder="minimum" />
+      <input id="max_lng_input" type="text" placeholder="maximum" />
+    </p>
+  	<p>
+  		<input id='submit_values_button' type='submit' value='Submit'>
+  		<input id='reset_values_button' type='submit' value='Reset Points'>
+  	</p>
+  </div>
+  <hr class="divider">
+</div>
+
+
 
 <!-- MAP -->
 <div class='container'>
