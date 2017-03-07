@@ -25,32 +25,38 @@ def account_ajax(request, account_slug=None):
     return render(request, template_name,
                   context={"account": account, "dataset_list": dataset_list})
 
-
+@login_required
 def account_update(request, account_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
-    template_name = "accounts/account_update.html"
-    if request.method == "POST":
-        form = AccountForm(request.POST, instance=account)
-        if form.is_valid():
-            form.save()
-            return redirect("accounts:account_detail",
-                            account_slug=account.account_slug)
-        else:
-            return HttpResponse("Error!")
+    if request.user.id != account.user.id:
+        return redirect("access_denied")
     else:
-        form = AccountForm(instance=account)
-    return render(request, template_name, {"account": account, "form": form})
+        if request.method == "POST":
+            form = AccountForm(request.POST, instance=account)
+            if form.is_valid():
+                form.save()
+                return redirect("accounts:account_detail",
+                                account_slug=account.account_slug)
+            else:
+                return HttpResponse("Error!")
+        else:
+            form = AccountForm(instance=account)
+        template_name = "accounts/account_update.html"
+        return render(request, template_name, {"account": account, "form": form})
 
 @login_required
-def account_remove(request):
+def account_remove(request, account_slug=None):
     # this view actually removes the user model, and everything associated with it
-    user = request.user
-    context = {"account": user}
-    template_name = "accounts/account_remove.html"
-    if request.method == 'POST':
-        account.delete()
-        return redirect('/')
-    return render(request, template_name, context)
+    account = get_object_or_404(Account, account_slug=account_slug)
+    if request.user.id != account.user.id:
+        return redirect("access_denied")
+    else:
+        context = {"account": account}
+        template_name = "accounts/account_remove.html"
+        if request.method == 'POST':
+            account.user.delete()
+            return redirect('/')
+        return render(request, template_name, context)
 
 
 # account_detail and account_portal are the same... I want to have one view

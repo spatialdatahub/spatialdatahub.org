@@ -43,7 +43,7 @@
   </p>
 
   <p>
-    <a href='{% url "delete_user" account.user.id %}'>
+    <a href='{% url "accounts:account_remove" account.account_slug %}'>
       Remove {{ account.user }}'s Account
     </a>
   </p>

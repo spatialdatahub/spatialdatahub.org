@@ -21,16 +21,6 @@ urlpatterns = [
         ),
         name='register'),
 
-    url(r'^remove/(?P<pk>\d+)/$',
-       DeleteView.as_view(
-            model=User,
-            template_name='delete_user.html',
-            success_url='/'
-        ),
-        name='delete_user'),
-
-      
-
     # django sign in forms and stuff
     url(r'^', include('django.contrib.auth.urls')),
     #
