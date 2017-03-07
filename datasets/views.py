@@ -17,42 +17,22 @@ def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     template_name = "datasets/dataset_detail.html"
     return render(request, template_name, context)
 
-"""
-@login_required
-def new_dataset(request, account_slug=None):
-    account = get_object_or_404(Account, account_slug=account_slug)
-    rsi = request.session['_auth_user_id']
-
-    print('request session id', rsi)
-    print('account id', account.user.id)
-
-    if rsi == 1:
-        print('yeah')
-
-    if request.method == "POST":
-        form = DatasetCreateForm(request.POST)
-        if form.is_valid():
-            dataset = form.save(commit=False)
-            dataset.account = account
-            dataset.save()
-            return redirect("accounts:account_detail",
-                            account_slug=account.account_slug)
-    else:
-        form = DatasetCreateForm()
-    template_name = "datasets/new_dataset.html"
-    return render(request,
-                  template_name,
-                  {"form": form,
-                   "account": account})
-"""
-
 @login_required
 def new_dataset(request, account_slug):
     account = get_object_or_404(Account, account_slug=account_slug)
     if request.user.id != account.user.id:
         return redirect("access_denied")
     else:
-        form = DatasetCreateForm()
+        if request.method == "POST":
+            form = DatasetCreateForm(request.POST)
+            if form.is_valid():
+                dataset = form.save(commit=False)
+                dataset.account = account
+                dataset.save()
+                return redirect("accounts:account_detail",
+                            account_slug=account.account_slug)
+        else:
+            form = DatasetCreateForm()
         template_name = "datasets/new_dataset.html"
         return render(request,
                   template_name,
