@@ -48,26 +48,16 @@ def new_dataset(request, account_slug=None):
 
 @login_required
 def new_dataset(request, account_slug):
-    if '_auth_user_id' in request.session:
-        rsi = request.session['_auth_user_id']
-        account = get_object_or_404(Account, user_id=rsi)
-        print(account)
-        if request.method == "POST":
-            form = DatasetCreateForm(request.POST)
-            if form.is_valid():
-                dataset = form.save(commit=False)
-                dataset.account = account
-                dataset.save()
-                return redirect("accounts:account_detail",
-                            account_slug=account.account_slug)
-        else:
-            form = DatasetCreateForm()
+    account = get_object_or_404(Account, account_slug=account_slug)
+    if request.user.id != account.user.id:
+        return redirect("access_denied")
+    else:
+        form = DatasetCreateForm()
         template_name = "datasets/new_dataset.html"
         return render(request,
-                      template_name,
-                      {"form": form,
-                      "account": account})
-
+                  template_name,
+                  {"form": form,
+                   "account": account})
 
 def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)

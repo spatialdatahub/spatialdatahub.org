@@ -51,6 +51,10 @@ urlpatterns = [
 
    url(r'^admin/', admin.site.urls),
 
+  url(r'^access_denied/$',
+        TemplateView.as_view(template_name="access_denied.html"),
+        name="access_denied"),
+
     url(r'^about/$',
         TemplateView.as_view(template_name="about.html"),
         name="about"),
