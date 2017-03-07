@@ -43,16 +43,17 @@
   </p>
 
   <p>
-    <a href='{% url "delete_user" account.user.pk %}'>
+    <a href='{% url "delete_user" account.user.id %}'>
       Remove {{ account.user }}'s Account
     </a>
   </p>
 
 
 </div>
-
+<h1>{{ user.account }}</h1>
+<h1>{{ user.account.account_slug }}</h1>
 <p>
-  <a href='{% url "datasets:new_dataset" account.account_slug %}'>
+  <a href='{% url "datasets:new_dataset" user.account.account_slug %}'>
     Add New Dataset
   </a>
 </p>
