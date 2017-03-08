@@ -6,8 +6,21 @@
 {% block css %}
 <style>
 
+  #datasetsContainer {
+    overflow-y: auto;
+    float: left;
+  }
+
+  .breadcrumb {
+    background-color: white;
+  }
+
+  #mapContainer {
+    float: right;
+  }
+
   #mapid {
-    height: 45em;
+    height: 40em;
     margin-bottom: 10px;
   }
 
@@ -26,79 +39,51 @@
 
 {% block content %}
 
-<!-- account / dataset links -->
-<!-- I will append the link to the dataset here -->
-<div class='container'>
-  <div class='row' id='breadcrumbs'>
-    <h4 class='col-xs-12'>
-      <a href='{% url "portal" %}' >*</a>
-      <span id='account-dataset-breadcrumbs'></span>
-    </h4>
+<div class="container">
+  <!--
+  <div class="row" id="breadcrumbs">
+    <div class='col-xs-12'>
+      <h4>
+        <a href='{% url "portal" %}' >*</a>
+        <span id='account-dataset-breadcrumbs'></span>
+      </h4>
+      <hr>
+    </div>
   </div>
-  <hr class="divider">
-</div>
-<!-- end account / dataset links -->
+  -->
 
+  <ol class='breadcrumb'>
+    <li><a href='{% url "portal" %}' >*</a></li>
+    <li id='breadcrumbContainer'></li>
+  </ol>
 
-<div class='container-fluid'>
-  <div class='row'>
-    <div class='col-sm-3 sidebar'>
-      <ul class='nav nav-sidebar'>
+  <div class="row" id="filters">
+  </div>
+
+  <div class="row" id="main">
+    <div class="col-xs-12 col-md-8 col-lg-9" id="mapContainer">
+      <div id='mapid'></div>
+    </div>
+
+    <div class="col-xs-12 col-md-4 col-lg-3" id="datasetsContainer">
+      <ol class='nav nav-pills nav-stacked'>
         {% if dataset_list %}
           {% for dataset in dataset_list %}
-          <li class=''>
-            <!-- 
-              had to make some hacky code here... not to nice,
-              but it will allow me to append the link to
-              the breadcrumbs thing above 
-            -->
-            <a name='dataset' id={{ dataset.ext }} value={{ dataset.pk }} href='#'
-               url='{{ dataset.get_absolute_url}}'>
-              {{ dataset.title }}
-            </a>
-          </li>
+            <li class=''>
+              <a name='dataset' id={{ dataset.ext }} value={{ dataset.pk }} href='#'
+                 url='{{ dataset.get_absolute_url }}'>
+                {{ dataset.title }}
+              </a>
+            </li>
           {% endfor %}
         {% else %}
           <li><a href='#'>There are no datasets available</a></li>
         {% endif %}
-      </ul>
+      </ol>
     </div>
-
-    <div class='col-sm-9 col-sm-offset-3 main'>
-      <div id='mapid'></div>
-    </div>
-
   </div>
-</div>
 
-<!--
-<div class='container'>
-  <div class='row' id='main-content'>
-    <nav class='col-sm-3 hidden-xs-down bg-faded sidebar'>
-      <ul class='nav nav-pills flex-column'>
-      {% if dataset_list %}
-        {% for dataset in dataset_list %}
-        <li class='nav-item'>
-          <a class='nav-link' name='dataset' id={{ dataset.ext }} value={{ dataset.pk }}
-            href='#'>
-            {{ dataset.title }}
-          </a>
-        </li>
-        {% endfor %}
-      {% else %}
-        <li class='nav-item'>
-          There are no datasets available
-        </li>
-      {% endif %}
-      </ul>
-    </nav>
-    <main class="col-sm-9 offset-sm-3 pt-3">
-      <div id='mapid'></div>
-    </main>
-  </div>
 </div>
--->
-
 
 {% endblock content %}
 
