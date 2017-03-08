@@ -39,18 +39,21 @@
   <hr class="divider">
 </div>
 
+
 <div class='container'>
   <div class='row'>
     <p><h4><b>Title:</b> {{ dataset.title }}</h4></p>
     <p><b>Author:</b> {{ dataset.author }}</p>
     <p><b>Description:</b> {{ dataset.description }}</p>
-    <!-- info divs -->
-    <div id='dataset_pk' value={{ dataset.pk }}></div>
-    <div id='dataset_ext' value={{ dataset.ext }}></div>
-    <!-- info divs -->
   </div>
   <hr class="divider">
 </div>
+
+    <!-- info divs -->
+    <div id='dataset_pk' value={{ dataset.pk }}></div>
+    <div id='dataset_ext' value={{ dataset.ext }}></div>
+    <div id='auth' value={{ auth }}></div>
+    <!-- info divs -->
 
 
 

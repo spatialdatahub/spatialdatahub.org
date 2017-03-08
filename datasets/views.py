@@ -10,9 +10,18 @@ from accounts.models import Account
 
 
 def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
+    '''
+    In this view I bring in the account and the dataset, and I check to see
+    if the dataset is protected by password and username, meaning I will have
+    to make the ajax call to the /load_dataset/<pk>/ view. If I don't have to
+    do this, I can just use a plain old XMLHttpRequest to get the data, which
+    should be faster than getting it through the server.
+    '''
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
-    context = {"account": account, "dataset": dataset}
+    # auth = if there is no password and no user return True
+    auth = dataset.dataset_password is None and dataset.dataset_user is None
+    context = {"account": account, "dataset": dataset, "auth": auth}
     template_name = "datasets/dataset_detail.html"
     return render(request, template_name, context)
 
