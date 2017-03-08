@@ -73,8 +73,7 @@ const markerOptions = {
   fillOpacity: 0.4
 }
 
-// get breadcrumbs appender link
-const adBreadcrumbContainer = document.getElementById('account-dataset-breadcrumbs')
+const breadcrumbContainer = document.getElementById('breadcrumbContainer')
 
 // add event that toggles the link's class from active to not active
 datasetLinks.forEach(link => {
@@ -129,9 +128,10 @@ datasetLinks.forEach(link => {
   const linkParent = link.parentElement
 
   // one more thing I have to do is append the dataset to the bread crumbs on click
+  // sorta hacky...
   const dsText = link.textContent
   const dsUrl = link.getAttribute('url')
-  const adBreadcrumb = `/ <a href="${dsUrl}">${dsText}</a>`
+  const breadcrumb = `<a href="${dsUrl}">${dsText}</a>`
 
   link.addEventListener('click', () => {
     classToggle(linkParent, 'active')
@@ -140,7 +140,7 @@ datasetLinks.forEach(link => {
     datasetToggle(myMap, datasets, pk, ext, url, layerMod)
 
     // append breadcrumbs links to breadcrumbs thing on click
-    adBreadcrumbContainer.innerHTML = adBreadcrumb
+    breadcrumbContainer.innerHTML = breadcrumb
   })
 })
 
