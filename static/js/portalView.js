@@ -132,12 +132,13 @@ datasetLinks.forEach(link => {
   const dsText = link.textContent
   const dsUrl = link.getAttribute('url')
   const breadcrumb = `<a href="${dsUrl}">${dsText}</a>`
+  const fc = console.log('yeah')
 
   link.addEventListener('click', () => {
     classToggle(linkParent, 'active')
 
-    // (map, obj, key, url, ext)
-    datasetToggle(myMap, datasets, pk, ext, url, layerMod)
+    // (url, ext, map, obj, key, modJson, func)
+    datasetToggle(url, ext, myMap, datasets, pk, layerMod, fc)
 
     // append breadcrumbs links to breadcrumbs thing on click
     breadcrumbContainer.innerHTML = breadcrumb

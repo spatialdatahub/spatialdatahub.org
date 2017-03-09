@@ -2,96 +2,28 @@
 /*
 // CUSTOM MAP FUNCTIONS
 */
-/*
-// Even though I like using omnivore, I am going to have to use my own omnivore
-// like function for loading datasets. I cannot parse the leaflet L.geoJson
-// layers in the ways that I want to, but I can parse through geojson data
-// fairly easily. My own ugly little function will return geojson, and not a
-// layer.
-
-// I found a function called toGeoJSON() that should work
-
-*/
 // ////////////////////////////////////////////////////////////////////////////
 
-// my own omnivore-like functions that return geojson
-// unfortunately I must load the csv2geojson.js and the toGeoJson.js libararies
-// to use these home made functions
-
-// JSON
-/*
-const getJSONDataset = (url) => {
-  const promise = new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', url)
-    xhr.onload = () => {
-      xhr.readyState === 4 && xhr.status === 200
-        ? resolve(JSON.parse(xhr.responseText)) : reject(Error(xhr.statusText))
-    }
-    xhr.onerror = () => reject(Error('Network Error - JSON'))
-    xhr.send()
-  })
-  return promise
-}
-
-// KML
-const getKMLDataset = (url) => {
-  const promise = new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', url)
-    // The next few lines are different than the getJSONDataset and getCSVDataset
-    // calls from here
-    xhr.responseType = 'document'
-    xhr.overrideMimeType('text/xml')
-    xhr.onload = () => {
-      xhr.readyState === 4 && xhr.status === 200
-        ? resolve(toGeoJSON.kml(xhr.response)) : reject(Error(xhr.statusText))
-    }
-    // to here
-    xhr.onerror = () => reject(Error('Network Error - KML'))
-    xhr.send()
-  })
-  return promise
-}
-
-// CSV
-const getCSVDataset = (url) => {
-  const promise = new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', url)
-    xhr.onload = () => {
-      xhr.readyState === 4 && xhr.status === 200
-        ? csv2geojson.csv2geojson(
-            xhr.responseText, (err, data) => {
-              err ? reject(Error(err)) : resolve(data)
-            }
-          )
-        : reject(Error(xhr.statusText))
-    }
-    xhr.onerror = () => reject(Error('Network Error - CSV'))
-    xhr.send()
-  })
-  return promise
-}
-*/
 
 // toggle dataset, if already dataset, add it, else, get it
-const datasetToggle = (map, obj, key, ext, url, modJson) => {
+// instead of toggling the data on and off for the map, toggle it on and off
+// for the modJson
+const datasetToggle = (url, ext, map, obj, key, modJson, func) => {
   obj[key]
     ?  map.hasLayer(obj[key])
          ? map.removeLayer(obj[key])
          : map.addLayer(obj[key]).fitBounds(obj[key].getBounds()) // little crazy with the chain
-    : getDataset(map, obj, key, ext, url, modJson)
+    : getDataset(url, ext, map, obj, key, modJson, func)
 }
 
-// private function to be called when omnivore is ready
-// can this be lifted from this function? Can it be public?
-const layerReady = (dl, map, obj, key, modJson) => {
-  const ds = dl.toGeoJSON() // convert data to geojson
-  obj[key] = ds // add geojson to object with key
-  modJson.addData(ds) // add geojson to preset L.geoJSON layer
-  modJson.addTo(map) // add L.geoJSON layer to map
-  map.fitBounds(modJson.getBounds()) // fit map bounds to L.geoJSON layer
+// how can I break this function down?
+
+const layerReady = (dl, map, obj, key, modJson, func) => {
+  obj[key] = dl
+  modJson.addData(dl.toGeoJSON())
+  modJson.addTo(map) 
+  map.fitBounds(modJson.getBounds())
+  func(modJson)
 }
 
 // decouple the functions
@@ -100,21 +32,21 @@ const layerReady = (dl, map, obj, key, modJson) => {
 //   -obj and key (obj[key]) to save the data
 // the only thing i'm doing is converting the data to geojson
 // and saving in a specific place
-const getDataset = (url, ext, map, obj, key, modJson) => {
+const getDataset = (url, ext, map, obj, key, modJson, func) => {
   if (ext === 'kml') {
     const dl = omnivore.kml(url)
      .on('ready', () => {
-        layerReady(dl, map, obj, key, modJson)
+        layerReady(dl, map, obj, key, modJson, func)
       })
   } else if (ext === 'csv') {
     const dl = omnivore.csv(url)
       .on('ready', () => {
-        layerReady(dl, map, obj, key, modJson)
+        layerReady(dl, map, obj, key, modJson, func)
       })
   } else { 
     const dl = omnivore.geojson(url)
       .on('ready', () => {
-        layerReady(dl, map, obj, key, modJson)
+        layerReady(dl, map, obj, key, modJson, func)
       })
   }
 }

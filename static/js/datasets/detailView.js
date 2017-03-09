@@ -54,12 +54,14 @@ L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(opt
 L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 
 
-// now for my own JS
+// Page Specific JS
 const dataset = []
 const pk = document.getElementById('dataset_pk').getAttribute('value')
 const ext = document.getElementById('dataset_ext').getAttribute('value')
 const url = `/load_dataset/${pk}`
 const color = 'red' // I'm going to make a color selector element, and take the value
+
+const featureCountElement = document.getElementById('feature_count')
 
 // pointMarkerOptions
 const markerOptions = {
@@ -69,6 +71,7 @@ const markerOptions = {
   opacity: 1,
   fillOpacity: 0.4
 }
+
 
 // make a L.geoJSON object that can be used to filter the data
 const filteredLayer = L.geoJSON(null, {
@@ -93,15 +96,18 @@ const filteredLayer = L.geoJSON(null, {
     // add those popups
     addPopups(feature, layer)
   }
-
-
 })
 
 // get the dataset, add it to the map as a layer, and add the
 // geojson to the dataset array
-getDataset(url, ext, myMap, dataset, pk, filteredLayer)
+// could I just pass the dataset and object in here, instead
+// of in the index.js page?
+// or could i just put this on the index page and do it there?
+const fc = obj => {
+  featureCountElement.innerHTML = Object.keys(obj._layers).length
+}
 
-
+getDataset(url, ext, myMap, dataset, pk, filteredLayer, fc)
 
 /*
 // if dataset is point dataset add filter elements
@@ -119,7 +125,6 @@ const createFilterElements = () => {
 
   const lngMaxInput = document.createElement('input')
   lngMaxInput.setAttribute('id', 'lng_max_input')
-
 }
 
 */
