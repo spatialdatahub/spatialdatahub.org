@@ -53,38 +53,13 @@ L.control.homebutton({position: 'topleft'}).addTo(myMap)
 L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(options)
 L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 
+
 // now for my own JS
 const dataset = []
 const pk = document.getElementById('dataset_pk').getAttribute('value')
 const ext = document.getElementById('dataset_ext').getAttribute('value')
 const url = `/load_dataset/${pk}`
 const color = 'red' // I'm going to make a color selector element, and take the value
-
-// if dataset is point dataset add filter elements
-// there must be a better way to do this
-const createFilterElements = () => {
-  // create elements, one by one
-  const submitValuesButton = document.createElement('button')
-  submitValuesButton.setAttribute('id', 'submit_values_button')
-
-  const resetValuesButton = document.createElement('button')
-  resetValuesButton.setAttribute('id', 'reset_values_button')
-
-  const lngMinInput = document.createElement('input')
-  lngMinInput.setAttribute('id', 'lng_min_input')
-
-  const lngMaxInput = document.createElement('input')
-  lngMaxInput.setAttribute('id', 'lng_max_input')
-
-    // given that the geometry type of the dataset is a point, include latlng
-    layer.feature.geometry.type === 'Point' ?
-      popupContent.push(
-        `<b>Latitude:</b> ${layer.feature.geometry.coordinates[1]}`,
-        `<b>Longitude:</b> ${layer.feature.geometry.coordinates[0]}`
-      ) : console.log(layer.feature.geometry.type)
-    layer.bindPopup(popupContent.join('<br/>'))
-}
-
 
 // pointMarkerOptions
 const markerOptions = {
@@ -95,7 +70,10 @@ const markerOptions = {
   fillOpacity: 0.4
 }
 
-let filteredLayer = L.geoJson(null, {
+// make a L.geoJSON object that can be used to filter the data
+const filteredLayer = L.geoJSON(null, {
+
+  // filter: filterValues, // this should be a function...
 
   // set the points to little circles
   pointToLayer: (feature, latlng) => {
@@ -116,8 +94,32 @@ let filteredLayer = L.geoJson(null, {
     addPopups(feature, layer)
   }
 
+
 })
 
-getDataset(myMap, dataset, pk, ext, url, filteredLayer)
+// get the dataset, add it to the map as a layer, and add the
+// geojson to the dataset array
+getDataset(url, ext, myMap, dataset, pk, filteredLayer)
 
-// what next
+
+
+/*
+// if dataset is point dataset add filter elements
+// there must be a better way to do this
+const createFilterElements = () => {
+  // create elements, one by one
+  const submitValuesButton = document.createElement('button')
+  submitValuesButton.setAttribute('id', 'submit_values_button')
+
+  const resetValuesButton = document.createElement('button')
+  resetValuesButton.setAttribute('id', 'reset_values_button')
+
+  const lngMinInput = document.createElement('input')
+  lngMinInput.setAttribute('id', 'lng_min_input')
+
+  const lngMaxInput = document.createElement('input')
+  lngMaxInput.setAttribute('id', 'lng_max_input')
+
+}
+
+*/

@@ -8,6 +8,9 @@
 // layers in the ways that I want to, but I can parse through geojson data
 // fairly easily. My own ugly little function will return geojson, and not a
 // layer.
+
+// I found a function called toGeoJSON() that should work
+
 */
 // ////////////////////////////////////////////////////////////////////////////
 
@@ -16,6 +19,7 @@
 // to use these home made functions
 
 // JSON
+/*
 const getJSONDataset = (url) => {
   const promise = new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
@@ -69,6 +73,7 @@ const getCSVDataset = (url) => {
   })
   return promise
 }
+*/
 
 // toggle dataset, if already dataset, add it, else, get it
 const datasetToggle = (map, obj, key, ext, url, modJson) => {
@@ -81,35 +86,40 @@ const datasetToggle = (map, obj, key, ext, url, modJson) => {
 
 // private function to be called when omnivore is ready
 // can this be lifted from this function? Can it be public?
-const layerReady = (dl, map, obj, key) => {
-  map.fitBounds(dl.getBounds())
-  map.addLayer(dl)
-  obj[key] = dl
+const layerReady = (dl, map, obj, key, modJson) => {
+  const ds = dl.toGeoJSON() // convert data to geojson
+  obj[key] = ds // add geojson to object with key
+  modJson.addData(ds) // add geojson to preset L.geoJSON layer
+  modJson.addTo(map) // add L.geoJSON layer to map
+  map.fitBounds(modJson.getBounds()) // fit map bounds to L.geoJSON layer
 }
 
-// get and save dataset to obj[key], and add it to map
-const getDataset = (map, obj, key, ext, url, modJson)  => {
-
-  // check which type of dataset there is, and add it to map
-  // this should be a function or a loop. I really don't like this if else
-  // set that does almost the exact same thing
+// decouple the functions
+//   -url to get data from
+//   -ext to decide which omnivore function to use
+//   -obj and key (obj[key]) to save the data
+// the only thing i'm doing is converting the data to geojson
+// and saving in a specific place
+const getDataset = (url, ext, map, obj, key, modJson) => {
   if (ext === 'kml') {
-    const dataLayer = omnivore.kml(url, null, modJson)
-      .on('ready', () => {
-        layerReady(dataLayer, map, obj, key)
+    const dl = omnivore.kml(url)
+     .on('ready', () => {
+        layerReady(dl, map, obj, key, modJson)
       })
   } else if (ext === 'csv') {
-    const dataLayer = omnivore.csv(url, null, modJson)
+    const dl = omnivore.csv(url)
       .on('ready', () => {
-        layerReady(dataLayer, map, obj, key)
+        layerReady(dl, map, obj, key, modJson)
       })
-  } else {
-    const dataLayer = omnivore.geojson(url, null, modJson)
+  } else { 
+    const dl = omnivore.geojson(url)
       .on('ready', () => {
-        layerReady(dataLayer, map, obj, key)
+        layerReady(dl, map, obj, key, modJson)
       })
   }
-} 
+}
+
+
 
 // I need to make a nice looking popup background that scrolls
 const popupHtml ='<dl id="popup-content"></dl>'
