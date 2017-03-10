@@ -53,6 +53,11 @@ L.control.homebutton({position: 'topleft'}).addTo(myMap)
 L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(options)
 L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 
+// ////////////////////////////////////////////////////////////////////////////
+/*
+// PAGE SPECIFIC FUNCTIONS
+*/
+// ////////////////////////////////////////////////////////////////////////////
 
 
 // to toggle active datasets on the map, and otherwise I need the list of datasets 
@@ -88,43 +93,22 @@ datasetLinks.forEach(link => {
   // Every time I call the 'getDataset' function there needs to be a new modJson called
   // there should probably also be a marker cluster function called
   const layerMod = L.geoJson(null, {
-
     // set the points to little circles
     pointToLayer: (feature, latlng) => {
       return L.circleMarker(latlng, markerOptions)
     },
-
     onEachFeature: (feature, layer) => {
-
       // make sure the fill is the color
       layer.options.fillColor = color
-
       // and make sure the perimiter is black (if it's a point) and the color otherwise
       feature.geometry.type === 'Point'
         ? layer.options.color = 'black'
         : layer.options.color = color
-
       // add those popups
       addPopups(feature, layer)
     }
-
-
   })
 
-  // Make a markercluster group
-  // this is going to suck, so i'm going to do it after i do something else.
-/*
-  const cluster = L.markerClusterGroup({
-    showCoverageOnHover: false,
-    maxClusterRadius: 50
-  })
-*/
-
-  // make link color = color
-  // link.style.color=color
-
-  // I have to get the parent of the link, or the <li> around the <a> element and
-  // change it's class to active, instead of the actual link, with bootstrap3
   const linkParent = link.parentElement
 
   // one more thing I have to do is append the dataset to the bread crumbs on click
@@ -132,13 +116,27 @@ datasetLinks.forEach(link => {
   const dsText = link.textContent
   const dsUrl = link.getAttribute('url')
   const breadcrumb = `<a href="${dsUrl}">${dsText}</a>`
-  const fc = console.log('yeah')
 
   link.addEventListener('click', () => {
     classToggle(linkParent, 'active')
 
     // (url, ext, map, obj, key, modJson, func)
-    datasetToggle(url, ext, myMap, datasets, pk, layerMod, fc)
+    // this is proving difficult to putinto a function, so i'm jsut writing it here
+    // datasetToggle(myMap, datasets, pk)
+    datasets[pk]
+      ? myMap.hasLayer(datasets[pk])
+        ? myMap.removeLayer(datasets[pk]) 
+        : myMap.addLayer(datasets[pk]).fitBounds(datasets[pk].getBounds())
+      // if there is no datasets[pk] then go through the process of selecting
+      // the right omnivore function and getting the data and stuff
+      : extSelect(ext, url) // the promise
+        .then(response => {
+          layerMod.addData(response.toGeoJSON()) // modify the layer 
+          myMap.addLayer(layerMod).fitBounds(layerMod.getBounds())
+          addDataToContainer(layerMod, datasets, pk)
+        }, error => {
+          console.log(error)
+        })
 
     // append breadcrumbs links to breadcrumbs thing on click
     breadcrumbContainer.innerHTML = breadcrumb

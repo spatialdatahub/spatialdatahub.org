@@ -72,27 +72,20 @@ const markerOptions = {
   fillOpacity: 0.4
 }
 
-
 // make a L.geoJSON object that can be used to filter the data
 const filteredLayer = L.geoJSON(null, {
-
   // filter: filterValues, // this should be a function...
-
   // set the points to little circles
   pointToLayer: (feature, latlng) => {
     return L.circleMarker(latlng, markerOptions)
   },
-
   onEachFeature: (feature, layer) => {
-
     // make sure the fill is the color
     layer.options.fillColor = color
-
     // and make sure the perimiter is black (if it's a point) and the color otherwise
     feature.geometry.type === 'Point'
       ? layer.options.color = 'black'
       : layer.options.color = color
-
     // add those popups
     addPopups(feature, layer)
   }
@@ -108,6 +101,17 @@ const fc = obj => {
 }
 
 getDataset(url, ext, myMap, dataset, pk, filteredLayer, fc)
+
+
+
+/* instead of making a monster function with a bunch of arguements, do it sequentially */
+// 1) check the ext and select the omnivore function
+selectOmnivore(ext)
+
+// 2) use omnivore to get data
+
+// 3) then do stuff with the data
+
 
 /*
 // if dataset is point dataset add filter elements
