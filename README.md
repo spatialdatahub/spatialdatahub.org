@@ -122,3 +122,11 @@ Support
 
 If you are having issues, please let the development team (Patrick Curry) know.
 patrick.curry@leibniz-zmt.de
+
+
+Plan
+----
+
+Soon I will be adding Turf.js to the program, which will allow me to perform functions such as unions, and joins, and buffers etc.
+Currently the whole functional programming stuff is stumping me. I'm making really wild functions with too many arguements in the
+'index_map.js' file.
