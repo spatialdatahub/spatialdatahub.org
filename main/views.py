@@ -75,8 +75,6 @@ def owncloud_dataset(request, pk):
     decrypted_user = cipher_end.decrypt(bytes_user).decode("utf-8")
     decrypted_password = cipher_end.decrypt(bytes_password).decode("utf-8")
 
-    print(decrypted_user)
-    print(decrypted_password)
     print(dataset.owncloud_instance)
     print(dataset.owncloud_path)
 
