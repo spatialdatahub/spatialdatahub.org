@@ -38,6 +38,11 @@ class Dataset(models.Model):
     dataset_password = models.CharField(max_length=500,
                                         blank=True, unique=False)
     public_access = models.BooleanField(default=True)
+
+    owncloud = models.BooleanField(default=True)
+    owncloud_instance = models.CharField(default=False, max_length=500)
+    owncloud_path = models.CharField(default=False, max_length=500)
+
     dataset_slug = models.SlugField(max_length=50, unique=False)
     date_added = models.DateTimeField(auto_now=False, auto_now_add=True,
                                       blank=True, null=True)
