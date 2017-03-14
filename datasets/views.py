@@ -19,9 +19,12 @@ def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     '''
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
-    # auth = if there is no password and no user return True
-    auth = dataset.dataset_password is None and dataset.dataset_user is None
-    context = {"account": account, "dataset": dataset, "auth": auth}
+    if len(dataset.dataset_password) > 0:
+        auth = 1
+        context = {"account": account, "dataset": dataset, "auth": auth}
+    else:
+        context = {"account": account, "dataset": dataset}
+
     template_name = "datasets/dataset_detail.html"
     return render(request, template_name, context)
 

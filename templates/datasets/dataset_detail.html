@@ -50,11 +50,16 @@
 </div>
 
     <!-- info divs -->
+    <!-- There must be a better way to do this-->
     <div id='dataset_pk' value={{ dataset.pk }}></div>
     <div id='dataset_ext' value={{ dataset.ext }}></div>
-    <div id='auth' value={{ auth }}></div>
-    <!-- info divs -->
+      {% if auth %}
+        <div id='auth' value={{ auth }}></div> 
+      {% else %}
+        <div id='dataset_url' value={{ dataset.url }}></div>
+      {% endif %}
 
+    <!-- info divs -->
 
 
 <!-- These should be inline links -->
