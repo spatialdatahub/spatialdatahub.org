@@ -57,13 +57,7 @@ L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 const dataset = []
 const pk = document.getElementById('dataset_pk').getAttribute('value')
 const ext = document.getElementById('dataset_ext').getAttribute('value')
-
-let url
-
-// owncloud?
-document.getElementById('owncloud').getAttribute('value')
-  ? url = `/owncloud_dataset/${pk}`
-  : url = `/load_dataset/${pk}`
+const url = `/load_dataset/${pk}`
 
 const color = 'red' // I'm going to make a color selector element, and take the value
 

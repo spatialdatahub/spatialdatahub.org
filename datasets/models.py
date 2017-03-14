@@ -26,22 +26,26 @@ class Dataset(models.Model):
     I am going to create a method to save the dataset's extension as
     a model field.
     """
-    EXTCHOICES = {"csv": "csv", "kml": "kml", "geojson": "geojson"}
+    #EXTCHOICES = {"csv": "csv", "kml": "kml", "geojson": "geojson"} # there will be more
 
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     author = models.CharField(max_length=200)
     title = models.CharField(max_length=50)
     description = models.TextField()
-    url = models.URLField(max_length=500)
+    url = models.URLField(max_length=500, blank=True) # there should be an if/else
+                                                      # for this or owncloud
     dataset_user = models.CharField(max_length=500,
                                     blank=True, unique=False)
     dataset_password = models.CharField(max_length=500,
                                         blank=True, unique=False)
     public_access = models.BooleanField(default=True)
 
-    owncloud = models.BooleanField(default=True)
-    owncloud_instance = models.CharField(default=False, max_length=500)
-    owncloud_path = models.CharField(default=False, max_length=500)
+    owncloud = models.BooleanField(default=False)
+
+    owncloud_instance = models.CharField(max_length=500,
+                                         blank=True, unique=False)
+    owncloud_path = models.CharField(max_length=500,
+                                         blank=True, unique=False)
 
     dataset_slug = models.SlugField(max_length=50, unique=False)
     date_added = models.DateTimeField(auto_now=False, auto_now_add=True,
@@ -64,6 +68,7 @@ class Dataset(models.Model):
             self.ext = "geojson"
 
         # encrypt the password and username
+        # I'd like to do this with the owncloud stuff as well
         if self.dataset_password:
             bytes_password = self.dataset_password.encode('utf-8')
             self.dataset_password = cipher_start.encrypt(bytes_password)

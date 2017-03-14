@@ -65,10 +65,6 @@ urlpatterns = [
         views.load_dataset,
         name="load_dataset"),
 
-    url(r'^owncloud_dataset/(?P<pk>[0-9]+)/$',
-        views.owncloud_dataset,
-        name="owncloud_dataset"),
-
     url(r'^',
         include('accounts.urls',
                 namespace='accounts')),
