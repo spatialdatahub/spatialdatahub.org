@@ -3,113 +3,150 @@
 // CUSTOM MAP FUNCTIONS
 */
 /*
-// Even though I like using omnivore, I am going to have to use my own omnivore
-// like function for loading datasets. I cannot parse the leaflet L.geoJson
-// layers in the ways that I want to, but I can parse through geojson data
-// fairly easily. My own ugly little function will return geojson, and not a
-// layer.
+// As I get better at programming I will try and put more functions in here
+// but for right now I'm going to keep most of the javascript in the page
+// specific javascript files.
 */
 // ////////////////////////////////////////////////////////////////////////////
 
-// my own omnivore-like functions that return geojson
-// unfortunately I must load the csv2geojson.js and the toGeoJson.js libararies
-// to use these home made functions
+/*
 
-// JSON
-const getJSONDataset = (url) => {
-  const promise = new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', url)
-    xhr.onload = () => {
-      xhr.readyState === 4 && xhr.status === 200
-        ? resolve(JSON.parse(xhr.responseText)) : reject(Error(xhr.statusText))
-    }
-    xhr.onerror = () => reject(Error('Network Error - JSON'))
-    xhr.send()
-  })
-  return promise
+// SEQUENCE A: run this on detailView.js on page load and on portalView.js
+// on button click
+
+// 1) check ext and select omnivore function
+//   - this could probably be in the page specific js...
+
+// 2) run omnivore function to get datalayer
+
+// 3) after omnivore gets datalayer convert it to dataset
+
+// 4) add dataset to L.geoJSON layer that can be modified
+//    a) any modifications to the L.geoJSON layer should be predefined
+//    b) any extra function should be called here
+
+// 5) add L.geoJSON layer to the map
+
+// 6) add L.geoJSON layer to an object as a key: value pair
+
+// or
+
+// 1) check ext and select omnivore function
+const checkExt = ext => { ext === 'kml'
+  ? omnivoreKML()
+  : ext === 'csv'
+    ? omnivoreCSV()
+    : omnivoreGEOJSON()
 }
 
-// KML
-const getKMLDataset = (url) => {
-  const promise = new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', url)
-    // The next few lines are different than the getJSONDataset and getCSVDataset
-    // calls from here
-    xhr.responseType = 'document'
-    xhr.overrideMimeType('text/xml')
-    xhr.onload = () => {
-      xhr.readyState === 4 && xhr.status === 200
-        ? resolve(toGeoJSON.kml(xhr.response)) : reject(Error(xhr.statusText))
-    }
-    // to here
-    xhr.onerror = () => reject(Error('Network Error - KML'))
-    xhr.send()
+// 2) run omnivore function with any L.geoJSON modifications immediately
+
+// 3) add this datalayer to the map
+
+// 4) add this datalayer to an object as a key:value pair
+
+// 5) any further functions can then be run on it
+
+*/
+
+
+// 1) promisified omnivore functions
+// these should probably be refactored
+const getGeoJSON = url => {
+  return new Promise( (resolve, reject) => {
+    const dataLayer = omnivore.geojson(url)
+      .on('ready', () => resolve(dataLayer))
+      .on('error', () => reject(Error('Url problem...')))
   })
-  return promise
 }
 
-// CSV
-const getCSVDataset = (url) => {
-  const promise = new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', url)
-    xhr.onload = () => {
-      xhr.readyState === 4 && xhr.status === 200
-        ? csv2geojson.csv2geojson(
-            xhr.responseText, (err, data) => {
-              err ? reject(Error(err)) : resolve(data)
-            }
-          )
-        : reject(Error(xhr.statusText))
-    }
-    xhr.onerror = () => reject(Error('Network Error - CSV'))
-    xhr.send()
+const getKML = url => {
+  return new Promise( (resolve, reject) => {
+    const dataLayer = omnivore.kml(url)
+      .on('ready', () => resolve(dataLayer))
+      .on('error', () => reject(Error('Url problem...')))
   })
-  return promise
+}
+
+const getCSV = url => {
+  return new Promise( (resolve, reject) => {
+    const dataLayer = omnivore.csv(url)
+      .on('ready', () => resolve(dataLayer))
+      .on('error', () => reject(Error('Url problem...')))
+  })
+}
+
+// 2) function to choose which omnivore function to run
+const extSelect = (ext, url) => {
+  return ext === 'kml' ?
+    getKML(url) :
+    ext === 'csv' ?
+      getCSV(url) :
+      getGeoJSON(url)
+}
+
+// 3)
+const addDataToContainer = (data, obj, key) => obj[key] = data
+
+
+// 4) datasetToggleFunction // how can i write this to just do 'something' if 
+// the conditions are not met? I could just return false... then say 'if false do this'
+/*
+const datasetToggle = (map, obj, key) => {
+  return obj[key]
+    ?  map.hasLayer(obj[key])
+         ? map.removeLayer(obj[key])
+         : map.addLayer(obj[key]).fitBounds(obj[key].getBounds()) // little crazy with the chain
+    : false
+}
+*/
+
+// how can I break this function down?
+/*
+const layerReady = (dl, map, obj, key, func) => {
+  map.fitBounds(dl.getBounds())
+  dl.addTo(map) 
+  obj[key] = dl
+}
+*/
+
+// decouple the functions
+//   -url to get data from
+//   -ext to decide which omnivore function to use
+//   -obj and key (obj[key]) to save the data
+// the only thing i'm doing is converting the data to geojson
+// and saving in a specific place
+const getDataset = (url, ext, map, obj, key, modJson, func) => {
+  if (ext === 'kml') {
+    const dl = omnivore.kml(url, null, modJson)
+     .on('ready', () => {
+        layerReady(dl, map, obj, key, modJson, func)
+      })
+  } else if (ext === 'csv') {
+    const dl = omnivore.csv(url, null, modJson)
+      .on('ready', () => {
+        layerReady(dl, map, obj, key, modJson, func)
+      })
+  } else { 
+    const dl = omnivore.geojson(url, null, modJson)
+      .on('ready', () => {
+        layerReady(dl, map, obj, key, modJson,func)
+      })
+  }
 }
 
 // toggle dataset, if already dataset, add it, else, get it
-const datasetToggle = (map, obj, key, ext, url, modJson) => {
+// instead of toggling the data on and off for the map, toggle it on and off
+// for the modJson
+const datasetToggle = (url, ext, map, obj, key, modJson, func) => {
   obj[key]
     ?  map.hasLayer(obj[key])
          ? map.removeLayer(obj[key])
          : map.addLayer(obj[key]).fitBounds(obj[key].getBounds()) // little crazy with the chain
-    : getDataset(map, obj, key, ext, url, modJson)
+    : getDataset(url, ext, map, obj, key, modJson, func)
 }
 
-// private function to be called when omnivore is ready
-// can this be lifted from this function? Can it be public?
-const layerReady = (dl, map, obj, key) => {
-  map.fitBounds(dl.getBounds())
-  map.addLayer(dl)
-  obj[key] = dl
-}
 
-// get and save dataset to obj[key], and add it to map
-const getDataset = (map, obj, key, ext, url, modJson)  => {
-
-  // check which type of dataset there is, and add it to map
-  // this should be a function or a loop. I really don't like this if else
-  // set that does almost the exact same thing
-  if (ext === 'kml') {
-    const dataLayer = omnivore.kml(url, null, modJson)
-      .on('ready', () => {
-        layerReady(dataLayer, map, obj, key)
-      })
-  } else if (ext === 'csv') {
-    const dataLayer = omnivore.csv(url, null, modJson)
-      .on('ready', () => {
-        layerReady(dataLayer, map, obj, key)
-      })
-  } else {
-    const dataLayer = omnivore.geojson(url, null, modJson)
-      .on('ready', () => {
-        layerReady(dataLayer, map, obj, key)
-      })
-  }
-} 
 
 // I need to make a nice looking popup background that scrolls
 const popupHtml ='<dl id="popup-content"></dl>'
