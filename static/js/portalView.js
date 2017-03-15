@@ -133,6 +133,7 @@ datasetLinks.forEach(link => {
     classToggle(linkParent, 'active')
 
     // (map, obj, key, url, ext)
+    // I thought I changed this...
     datasetToggle(myMap, datasets, pk, ext, url, layerMod)
 
     // append breadcrumbs links to breadcrumbs thing on click
