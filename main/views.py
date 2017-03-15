@@ -52,6 +52,10 @@ def load_dataset(request, pk):
 
 
 def portal(request):
+    '''
+    I'm not ready to try and make this filter function ajax yet. That will
+    have to wait a bit longer.
+    '''
     dataset_list = Dataset.objects.all()
     template_name = "portal.html"
 

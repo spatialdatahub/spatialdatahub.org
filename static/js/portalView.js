@@ -59,10 +59,7 @@ L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 */
 // ////////////////////////////////////////////////////////////////////////////
 
-// to toggle active datasets on the map, and otherwise I need the list of datasets 
-// should this be a const?
-const datasetLinks = document.getElementsByName('dataset')
-const datasets = {}
+// Before dataset list load
 
 // colors
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
@@ -78,6 +75,15 @@ const markerOptions = {
 }
 
 const breadcrumbContainer = document.getElementById('breadcrumbContainer')
+
+// After dataset list load 
+
+
+
+// to toggle active datasets on the map, and otherwise I need the list of datasets 
+// should this be a const?
+const datasetLinks = document.getElementsByName('dataset')
+const datasets = {}
 
 // add event that toggles the link's class from active to not active
 datasetLinks.forEach(link => {
@@ -124,9 +130,6 @@ datasetLinks.forEach(link => {
   link.addEventListener('click', () => {
     classToggle(linkParent, 'active')
 
-    // (url, ext, map, obj, key, modJson, func)
-    // this is proving difficult to putinto a function, so i'm jsut writing it here
-    // datasetToggle(myMap, datasets, pk)
     datasets[pk]
       ? myMap.hasLayer(datasets[pk])
         ? myMap.removeLayer(datasets[pk]) 
