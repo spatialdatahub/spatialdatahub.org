@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -62,7 +63,7 @@ def portal(request):
     if "q" in request.GET:
         q = request.GET["q"]
         dataset_list = Dataset.objects.filter(
-            title__icontains=q).order_by("title")
+            Q(title__icontains=q) | Q(author__icontains=q)) 
 
     return render(request, template_name, {"dataset_list": dataset_list})
 

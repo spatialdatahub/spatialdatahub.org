@@ -37,8 +37,6 @@ Bootstrap for aesthetics, and the JavaScript mapping library Leaflet to display 
 If you wish to run the functional tests this site has you will need the browser automation tool Selenium with python
 bindings and a google chrome webdriver.
 
-Leaflet js background
-
 Contribute
 ----------
 
