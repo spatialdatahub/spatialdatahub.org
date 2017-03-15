@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load staticfiles %}
 
 {% block title %}{{ dataset.title }}{% endblock title %}
@@ -18,8 +18,8 @@
 
 <!-- Marker Cluster CSS -->
 <!--
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.Default.css" />
+<link rel='stylesheet' href='https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.css' />
+<link rel='stylesheet' href='https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.Default.css' />
 -->
 <!-- End Marker Cluster CSS -->
 
@@ -36,7 +36,7 @@
       <a href='{{ dataset.get_absolute_url }}' >{{ dataset.title }}</a>
     </h4>
   </div>
-  <hr class="divider">
+  <hr class='divider'>
 </div>
 
 
@@ -46,13 +46,14 @@
     <p><b>Author:</b> {{ dataset.author }}</p>
     <p><b>Description:</b> {{ dataset.description }}</p>
   </div>
-  <hr class="divider">
+  <hr class='divider'>
 </div>
 
     <!-- info divs -->
     <!-- There must be a better way to do this-->
     <div id='dataset_pk' value={{ dataset.pk }}></div>
     <div id='dataset_ext' value={{ dataset.ext }}></div>
+
       {% if auth %}
         <div id='auth' value={{ auth }}></div> 
       {% else %}
@@ -60,7 +61,6 @@
       {% endif %}
 
     <!-- info divs -->
-
 
 <!-- These should be inline links -->
 <div class='container'>
@@ -80,32 +80,35 @@
         Remove {{ dataset.title }}
       </a>
     </p>
-  </div class='row'>
-  <hr class="divider">
+  </div>
+  <hr class='divider'>
 </div>
 
 <div class='container'>
   <div class='row'>
-    <p><b>Number of dataset features:</b><span id='feature_count'></span></p>
+    <p><b>Number of dataset features: </b><span id='feature_count'></span></p>
 
-    <div id="if_features"></div>
+    <!-- button that adds the lat lng html to the page
+    <input id='latlng' type='button' value='Latitude Longitude Filter' />
+    <div id='if_latlng'></div>
+    -->
 
+    <p><b>Latitude and Longitude inputs:</b></p>
     <p>
-      <b>Latitude:</b>
-      <input id="min_lat_input" type="text" placeholder="minimum" />
-      <input id="max_lat_input" type="text" placeholder="maximum" />
-    </p>
-    <p>
-      <b>Longitude:</b>
-      <input id="min_lng_input" type="text" placeholder="minimum" />
-      <input id="max_lng_input" type="text" placeholder="maximum" />
+      <input id='min_lat_input' type='text' placeholder='minimum latitude' />
+      <input id='max_lat_input' type='text' placeholder='maximum latitude' />
+      <input id='min_lng_input' type='text' placeholder='minimum longitude' />
+      <input id='max_lng_input' type='text' placeholder='maximum longitude' />
     </p>
   	<p>
-  		<input id='submit_values_button' type='submit' value='Submit'>
-  		<input id='reset_values_button' type='submit' value='Reset Points'>
+  		<input id='submit_values_button' type='submit' value='Submit' />
+  		<input id='reset_values_button' type='submit' value='Reset Points' />
   	</p>
+
+    <div id='if_features'></div>
+
   </div>
-  <hr class="divider">
+  <hr class='divider'>
 </div>
 
 
@@ -122,6 +125,7 @@
 
 <script src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js'></script>
 <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 
 <script src='{% static "js/index_maps.js" %}'></script>
 <script src='{% static "js/datasets/detailView.js" %}'></script>

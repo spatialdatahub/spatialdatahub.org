@@ -12,6 +12,7 @@ class DatasetCreateForm(forms.ModelForm):
         model = Dataset
 
         fields = ["title", "author", "url",
+                  "owncloud", "owncloud_instance", "owncloud_path",
                   "public_access", "description",
                   "dataset_user", "dataset_password"]
 
@@ -21,6 +22,8 @@ class DatasetCreateForm(forms.ModelForm):
             "title": forms.TextInput(attrs=basic_input_class),
             "author": forms.TextInput(attrs=basic_input_class),
             "url": forms.TextInput(attrs=basic_input_class),
+            "owncloud_instance": forms.TextInput(attrs=basic_input_class),
+            "owncloud_path": forms.TextInput(attrs=basic_input_class),
             "description": forms.Textarea(attrs=basic_input_class),
             "dataset_user": forms.PasswordInput(attrs=basic_input_class),
             "dataset_password": forms.PasswordInput(attrs=basic_input_class)
@@ -57,11 +60,14 @@ class DatasetUpdateAuthForm(forms.ModelForm):
     class Meta:
         model = Dataset
 
-        fields = ["dataset_user", "dataset_password"]
+        fields = ["dataset_user", "dataset_password",
+                  "owncloud", "owncloud_instance", "owncloud_path"]
 
         basic_input_class = {"class": "form-control"}
 
         widgets = {
             "dataset_user": forms.PasswordInput(attrs=basic_input_class),
-            "dataset_password": forms.PasswordInput(attrs=basic_input_class)
+            "dataset_password": forms.PasswordInput(attrs=basic_input_class),
+            "owncloud_instance": forms.TextInput(attrs=basic_input_class),
+            "owncloud_path": forms.TextInput(attrs=basic_input_class)
         }

@@ -1,21 +1,21 @@
 GIS Portal
 ========
 
-This is the repository for the ZMT's GIS Portal (that will be online quite soon).
-The master branch is quite a few commits behind the development and feature branches, and it does not
-have the same functionality of the latest branches. Dispite this (or maybe because of this) it should 
-be more or less bug free.
+This is the repository for the ZMT's GIS Portal.
 
+We are also writing a scientific paper that describes the tool, it's repository
+is located at https://github.com/patcurry/WebGISPaper.
 
 Site Description
 ----------------
 
-The GIS Portal is a web application that allows anyone with locally stored 
+The GIS Portal is a web application that allows anyone with remotely stored 
 GIS files (in the correct formats) to project their GIS files onto a map background.
 
-The site does this by retrieving the dataset from the dataset's url (provided by the site user)
-then then pushing the dataset to the Leaflet map background. The site can currently handle urls that do
-and do not require password and username authentication.
+The site does this by making a request to the dataset's url (provided by the site user)
+then then projecting the dataset to the Leaflet map background. The site can currently handle
+urls that do and do not require password and username authentication, and datasets that are password and 
+username protected, and stored on owncloud.
 
 On the main portal page datasets can be searched and filtered by title and viewed together or separately.
 On the individual dataset pages user provided metadata can be viewed alongside the dataset. Eventually
@@ -43,6 +43,8 @@ Leaflet js background
 
 Installation and Dependencies
 -----------------------------
+
+* THIS NEEDS TO BE UPDATED *
 
 This project requires python 3 and postgresql to be installed on your system already. For more information
 on installing python 3 visit https://www.python.org/downloads/. For more information on installing postgres visit 
