@@ -73,7 +73,7 @@ const getCSVDataset = (url) => {
 // toggle dataset, if already dataset, add it, else, get it
 const datasetToggle = (map, obj, key, ext, url, modJson) => {
   obj[key]
-    ?  map.hasLayer(obj[key])
+    ? map.hasLayer(obj[key])
          ? map.removeLayer(obj[key])
          : map.addLayer(obj[key]).fitBounds(obj[key].getBounds()) // little crazy with the chain
     : getDataset(map, obj, key, ext, url, modJson)
@@ -88,8 +88,7 @@ const layerReady = (dl, map, obj, key) => {
 }
 
 // get and save dataset to obj[key], and add it to map
-const getDataset = (map, obj, key, ext, url, modJson)  => {
-
+const getDataset = (map, obj, key, ext, url, modJson) => {
   // check which type of dataset there is, and add it to map
   // this should be a function or a loop. I really don't like this if else
   // set that does almost the exact same thing
@@ -109,16 +108,15 @@ const getDataset = (map, obj, key, ext, url, modJson)  => {
         layerReady(dataLayer, map, obj, key)
       })
   }
-} 
+}
 
 // I need to make a nice looking popup background that scrolls
-const popupHtml ='<dl id="popup-content"></dl>'
+const popupHtml = '<dl id="popup-content"></dl>'
 
 // add popups to the data points
-// should this function be called every time a layer is added to a map? or will the layer 
-// still have the popups after it's toggled off and on?
+// should this function be called every time a layer is added to a map?
+// or will the layer still have the popups after it's toggled off and on?
 const addPopups = (feature, layer) => {
-
   const popupContent = []
 
   // first check if there are properties
@@ -146,24 +144,17 @@ const addPopups = (feature, layer) => {
   }
 
   const popup = L.popup(popupOptions)
-   .setContent(popupHtml.innerHTML=popupContent.join(''))
-
+   .setContent(popupHtml.innerHTML = popupContent.join(''))
 
   layer.bindPopup(popup)
 
   // make array to add content to
   /*
 
-
   // bind the popupContent array to the layer's layers
   layer.bindPopup(popupHtml.innerHTML=popupContent.join('')) // this is where the popup html will be implemented
 */
-
 }
-
-
-
-
 
 // THESE THREE CONTROL FUNCTIONS ARE TIGHTLY COUPLED WITH DIFFERENT THINGS
 // THEY WILL HAVE TO BE CHANGED EVENTUALLY

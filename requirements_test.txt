@@ -11,6 +11,7 @@ pyasn1==0.2.3
 pycodestyle==2.3.1
 pycparser==2.17
 pyflakes==1.5.0
+pyocclient==0.4
 pyparsing==2.2.0
 requests==2.13.0
 selenium==3.0.2

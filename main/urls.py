@@ -1,11 +1,8 @@
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import UserChangeForm
-from django.contrib.auth.models import User
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
-from django.views.generic.edit import DeleteView
 
 from main import views
 
@@ -39,9 +36,9 @@ urlpatterns = [
     # I also want to put create update delete user views in this part
     #
 
-   url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
 
-  url(r'^access_denied/$',
+    url(r'^access_denied/$',
         TemplateView.as_view(template_name="access_denied.html"),
         name="access_denied"),
 

@@ -59,6 +59,7 @@ const pk = document.getElementById('dataset_pk').getAttribute('value')
 const ext = document.getElementById('dataset_ext').getAttribute('value')
 
 // there must be a better way to do this... but for now it works
+// it should be turned into a function and used here and in the portalView
 let url
 document.getElementById('auth')
   ? url = `/load_dataset/${pk}`

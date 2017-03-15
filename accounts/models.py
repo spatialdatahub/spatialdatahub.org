@@ -24,10 +24,12 @@ class Account(models.Model):
         kwargs = {"account_slug": self.account_slug}
         return reverse("accounts:account_detail", kwargs=kwargs)
 
+
 @receiver(post_save, sender=User)
 def create_user_account(sender, instance, created, **kwargs):
     if created:
         Account.objects.create(user=instance)
+
 
 @receiver(post_save, sender=User)
 def save_user_account(sender, instance, **kwargs):

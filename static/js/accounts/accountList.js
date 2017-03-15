@@ -2,8 +2,10 @@
 const accountLinks = document.getElementsByName('account')
 const accountInfo = document.getElementById('account_info')
 
-// makeReq function 
-const dataToDiv = (data, div) => div.innerHTML = data
+// makeReq function
+const dataToDiv = (data, div) => {
+  div.innerHTML = data
+}
 
 // make ajax request function here, then move it to the index.js
 const makeReq = (url, func, div) => {
@@ -11,7 +13,8 @@ const makeReq = (url, func, div) => {
   xhr.open('GET', url, true)
   xhr.onload = () => {
     xhr.readyState === 4 && xhr.status === 200
-      func(xhr.responseText, div)
+    ? func(xhr.responseText, div)
+    : console.log(xhr.statusText)
   }
   xhr.onerror = () => console.log('error')
   xhr.send()
@@ -23,8 +26,7 @@ accountLinks.forEach(link => {
   const url = `/ajax/${account}`
 
   link.addEventListener('click', () => {
-    classToggleOnDiffLink(link, accountLinks, 'active')
-    makeReq(url, dataToDiv, accountInfo) 
+    classToggleOnDiffLink(link, accountLinks, 'active') // this is from index.js
+    makeReq(url, dataToDiv, accountInfo)
   })
 })
-

@@ -1,9 +1,7 @@
-from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
 
 from datasets.models import Dataset
-from accounts.models import Account
 
 import requests
 import os

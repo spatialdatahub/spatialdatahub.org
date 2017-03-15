@@ -53,14 +53,12 @@ L.control.homebutton({position: 'topleft'}).addTo(myMap)
 L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(options)
 L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 
-
-
-// to toggle active datasets on the map, and otherwise I need the list of datasets 
-// should this be a const?
+// to toggle active datasets on the map, and otherwise I need the list of
+// datasets should this be a const?
 const datasetLinks = document.getElementsByName('dataset')
 const datasets = {}
 
-// colors 
+// colors
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 let colorCounter = 0
 
@@ -95,7 +93,6 @@ datasetLinks.forEach(link => {
     },
 
     onEachFeature: (feature, layer) => {
-
       // make sure the fill is the color
       layer.options.fillColor = color
 
@@ -105,9 +102,8 @@ datasetLinks.forEach(link => {
         : layer.options.color = color
 
       // add those popups
-      addPopups(feature, layer)
+      addPopups(feature, layer) // this comes from the index_maps.js file
     }
-
 
   })
 
@@ -143,4 +139,3 @@ datasetLinks.forEach(link => {
     breadcrumbContainer.innerHTML = breadcrumb
   })
 })
-

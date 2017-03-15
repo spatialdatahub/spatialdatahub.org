@@ -20,7 +20,7 @@ def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
     if len(dataset.dataset_password) > 0:
-        auth = 1
+        auth = True
         context = {"account": account, "dataset": dataset, "auth": auth}
     else:
         context = {"account": account, "dataset": dataset}

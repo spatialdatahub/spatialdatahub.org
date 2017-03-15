@@ -2,10 +2,10 @@ from django.conf.urls import url
 
 from accounts import views
 
+
 app_name = "accounts"
 
 urlpatterns = [
-
     url(r'^accounts/$',
         views.account_list,
         name="account_list"),
@@ -25,5 +25,4 @@ urlpatterns = [
     url(r'^(?P<account_slug>[-\w]*)/update/$',
         views.account_update,
         name="account_update"),
-
 ]

@@ -5,8 +5,6 @@ from datasets import views
 app_name = "datasets"
 
 urlpatterns = [
-
-
     url(r'^new_dataset/$',
         views.new_dataset,
         name="new_dataset"),
@@ -26,5 +24,4 @@ urlpatterns = [
     url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>[0-9]+)/remove/$',
         views.dataset_remove,
         name="dataset_remove"),
-
 ]
