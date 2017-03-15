@@ -17,6 +17,7 @@ def load_dataset(request, pk):
     Also there needs to be a better way to hide the cryptokey
 
     This needs to be changed so that it only runs if the url requires authentication
+    Working on that now
     """
     # bring in the dataset by pk
     dataset = Dataset.objects.get(pk=pk)

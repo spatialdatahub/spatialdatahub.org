@@ -83,7 +83,12 @@ const breadcrumbContainer = document.getElementById('breadcrumbContainer')
 datasetLinks.forEach(link => {
   const ext = link.getAttribute('id')
   const pk = link.getAttribute('value')
-  const url = `/load_dataset/${pk}`
+
+  // this should be done better
+  let url
+  link.getAttribute('url')
+  ? url = link.getAttribute('url')
+  : url = `/load_dataset/${pk}`
 
   // deal with colors
   colorCounter++
@@ -111,10 +116,10 @@ datasetLinks.forEach(link => {
   const linkParent = link.parentElement
 
   // one more thing I have to do is append the dataset to the bread crumbs on click
-  // sorta hacky...
+  // sorta hacky... this should be written better
   const dsText = link.textContent
-  const dsUrl = link.getAttribute('url')
-  const breadcrumb = `<a href="${dsUrl}">${dsText}</a>`
+  const dsLink = link.getAttribute('link')
+  const breadcrumb = `<a href="${dsLink}">${dsText}</a>`
 
   link.addEventListener('click', () => {
     classToggle(linkParent, 'active')

@@ -69,15 +69,34 @@
     <div class="col-xs-12 col-md-4 col-lg-3" id="datasetsContainer">
       <ol class='nav nav-pills nav-stacked'>
 
+        <!-- about to get real hacky here -->
+        <!-- but it works -->
         {% if dataset_list %}
+
           {% for dataset in dataset_list %}
+
+            {% if dataset.dataset_password %}
+
             <li class=''>
               <a name='dataset' id={{ dataset.ext }} value={{ dataset.pk }} href='#'
-                 url='{{ dataset.get_absolute_url }}'>
+                link='{{ dataset.get_absolute_url }}'>
                 {{ dataset.title }}
               </a>
             </li>
+
+            {% else %}
+
+            <li class=''>
+              <a name='dataset' id={{ dataset.ext }} value={{ dataset.pk }} href='#'
+                link='{{ dataset.get_absolute_url }}' url={{ dataset.url }}>
+                {{ dataset.title }}
+              </a>
+            </li>
+
+            {% endif %}
+
           {% endfor %}
+
         {% else %}
           <li><a href='#'>There are no datasets available</a></li>
         {% endif %}
