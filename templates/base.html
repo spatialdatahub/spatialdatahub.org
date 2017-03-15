@@ -10,7 +10,7 @@
 
 
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>
 
 
 
@@ -24,11 +24,11 @@
 <nav class='navbar navbar-inverse static-top'>
   <div class='container'>
     <div class='navbar-header'>
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+      <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar'>
+        <span class='sr-only'>Toggle navigation</span>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
       </button>
       <a class='navbar-brand' href='http://www.zmt-bremen.de/en/zmt.html' target='_blank'>
         <img src='{% static "images/zmt_logo_blue_white.png" %}' height=32 alt='ZMT Logo' />
@@ -38,8 +38,6 @@
     <div id='navbar' class='collapse navbar-collapse' id='navbarsExampleDefault'>
       <ul class='nav navbar-nav'>
         <li><a href='{% url "portal" %}'>Home</a></li>
-        <li><a href='{% url "about" %}'>About</a></li>
-        <li><a href='{% url "contact" %}'>Contact</a></li>
         <li><a href='{% url "accounts:account_list" %}'>Accounts</a></li>
 
         {% if user.is_authenticated %}
@@ -62,11 +60,24 @@
 {% endblock content %}
 <!-- CONTENT -->
 
+<!-- footer -->
+<hr class='divider'>
+<footer class='bs-docs-footer'>
+  <div class='container text-center'>
+    <ul class='list-inline'>
+      <li><a href='{% url "about" %}'>About</a></li>
+      <li><a href='{% url "contact" %}'>Contact</a></li>
+      <li><a href='https://github.com/patcurry/WebGIS' target='_blank'>GitHub</a></li>
+    </ul>
+  </div>
+</footer>
+<!-- footer -->
+
 <!-- I don't want this here, but right now it needs to be so we can move on -->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa' crossorigin='anonymous'></script>
 <!-- I don't want this here, but right now it needs to be so we can move on -->
 
 <!-- JS -->
