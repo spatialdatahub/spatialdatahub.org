@@ -50,6 +50,10 @@ urlpatterns = [
         TemplateView.as_view(template_name="contact.html"),
         name="contact"),
 
+    url(r'^one_time_view/$',
+        views.one_time_view,
+        name="one_time_view"),
+
     url(r'^jstests/$',
         views.jstests,
         name="jstests"),
