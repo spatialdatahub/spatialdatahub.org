@@ -30,3 +30,18 @@ accountLinks.forEach(link => {
     makeReq(url, dataToDiv, accountInfo)
   })
 })
+
+// this is redundant. I don't like it, but it will work for now
+// call the classToggle and the makeReq functions on the first
+// of the dataset links
+
+//const account = link.getAttribute('id')
+//const url = `/ajax/${account}`
+const a = accountLinks[0]
+const l = a.getAttribute('id')
+console.log(l)
+const u = `/ajax/${l}`
+
+classToggleOnDiffLink(a, accountLinks, 'active')
+makeReq(u, dataToDiv, accountInfo)
+
