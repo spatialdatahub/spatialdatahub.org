@@ -23,7 +23,7 @@ const makeReq = (url, func, div) => {
 // add event that toggles the link's class from active to not active
 accountLinks.forEach(link => {
   const account = link.getAttribute('id')
-  const url = `/ajax/${account}`
+  const url = `/account_ajax/${account}`
 
   link.addEventListener('click', () => {
     classToggleOnDiffLink(link, accountLinks, 'active') // this is from index.js
@@ -39,8 +39,7 @@ accountLinks.forEach(link => {
 //const url = `/ajax/${account}`
 const a = accountLinks[0]
 const l = a.getAttribute('id')
-console.log(l)
-const u = `/ajax/${l}`
+const u = `/account_ajax/${l}`
 
 classToggleOnDiffLink(a, accountLinks, 'active')
 makeReq(u, dataToDiv, accountInfo)
