@@ -1,3 +1,4 @@
+// These first so many lines should be in their own file, I keep rewriting them
 // Start with a bunch of stuff from other libraries, then add code from my own libraries
 const osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: `&copy; <a href="http://www.openstreetmap.org/copyright">
@@ -58,42 +59,97 @@ L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 // PAGE SPECIFIC FUNCTIONS
 */
 // ////////////////////////////////////////////////////////////////////////////
+// get input text element and submit button
+const urlInput = document.getElementById('url_input')
+const urlButton = document.getElementById('url_button')
+const buttons = document.getElementById('buttons')
+const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
+
+// make container for the datasets 
+const datasets = {}
+let count = 0
+
+// pointMarkerOptions
+/*
+const markerOptions = {
+  radius: 6,
+  color: 'black',
+  weight: 1.5,
+  opacity: 1,
+  fillOpacity: 0.4
+}
+*/
+
+// set up layer to add data to
+
+
 
 // make function that gets the ext of the url
+// it can handle csv, kml, json, and geojson
 const getExt = url => {
   const ext = {}
   url.toLowerCase()
   url.endsWith('kml')
-    ? ext[0] = 'kml'
-    : url.endsWith('csv')
-      ? ext[0] = 'csv'
-      : url.endsWith('json')
-        ? ext[0] = 'geojson'
-        : console.log(url)
+  ? ext[0] = 'kml'
+  : url.endsWith('csv')
+  ? ext[0] = 'csv'
+  : url.endsWith('json')
+  ? ext[0] = 'geojson'
+  : console.log(url)
   return ext[0]
 }
 
-// get input text element and submit button
-const urlInput = document.getElementById('url_input')
-const urlButton= document.getElementById('url_button')
+// make function for adding buttons
+const addButton = (n, color, container) => {
+  const btn = document.createElement('button') 
+  const value = document.createTextNode(n)
+  btn.setAttribute('class', 'btn btn-default')
+  btn.setAttribute('value', n)
+
+  // make the color of the number correspond
+  // to the color of the dataset on the map
+  btn.style.color = color
+  btn.style.fontWeight = 'bold' 
+
+  // add text to button and button to div
+  btn.appendChild(value)
+  container.appendChild(btn)
+
+  return btn
+}
+
+
 
 // add event listener to the button
 urlButton.addEventListener('click', () =>{ 
   const ext = getExt(urlInput.value)
   const url = urlInput.value
+
+  // should these things be in the extSelect call?
+  // get dataset, save it to datasets container, and add it to map
   extSelect(ext, url)
     .then(response => {
+
+      // increment count and color
+      count++
+      const color = colors[count % colors.length]
+
+      // if response is good, add a button for it
+      addButton(count, color, buttons).addEventListener('click', function() {
+        const val = this.getAttribute('value')
+        myMap.hasLayer(datasets[val])
+        ? myMap.removeLayer(datasets[val])
+        : myMap.addLayer(datasets[val])
+      })
+
+      datasets[count] = response
       myMap.addLayer(response)
+        .fitBounds(response.getBounds())
     }, error => console.log(error))
+  
 })
 
-// url.endsWith('json') ? ext = 'geojson' : console.log('url')
 
-/*
-extSelect(ext, url)
-  .then(response => {
-    filteredLayer.addData(response.toGeoJSON()) // add data to filter layer
-    myMap.addLayer(filteredLayer)
-      .fitBounds(filteredLayer.getBounds()) // add filter layer to map
-  }, error => console.log(error))
-*/
+
+
+// add new colored button to buttons div
