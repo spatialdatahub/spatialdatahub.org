@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Test a URL{% endblock title %}
+
+{% block css %}
+<style>
+
+  .breadcrumb {
+    background-color: white;
+  }
+
+  #mapContainer {
+    float: right;
+  }
+
+  #mapid {
+    height: 50em;
+    margin-bottom: 10px;
+  }
+
+</style>
+<link rel='stylesheet' href='{% static "css/dashboard.css" %}'/>
+<link rel='stylesheet' href='https://unpkg.com/leaflet@1.0.3/dist/leaflet.css' />
+
+{% endblock css %}
+
+{% block content %}
+
+<div class='container'>
+  <ol class='breadcrumb'>
+    <li><a href='{% url "portal" %}' >*</a></li>
+    <li id='breadcrumbContainer'></li>
+  </ol>
+  <div class='row' id='main'>
+
+    <div class='col-xs-12' id='urlContainer'>
+      <label for='url_input'>For example copy and paste this into the input box then hit enter: https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson</label>
+      <div class='input-group'>
+        <span class='input-group-btn'>
+          <input id='url_button' class='btn btn-default' type='submit' value='Submit'>
+        </span>
+        <input id='url_input' class='form-control' type='text' placeholder='Enter URL Here'>
+      </div>
+    </div>
+
+    <div class='col-xs-12'>
+      <div id='buttons' class='btn-group' role='group'>
+        <button class='btn btn-default'>_</button>
+      </div>
+    </div>
+
+    <div class='col-xs-12' id='mapContainer'>
+      <div id='mapid'></div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js'></script>
+<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+
+<script src='{% static "js/index.js" %}'></script>
+<script src='{% static "js/index_maps.js" %}'></script>
+<script src='{% static "js/urlTest.js" %}'></script>
+{% endblock js %}
