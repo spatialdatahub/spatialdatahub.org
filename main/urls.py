@@ -39,28 +39,36 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^access_denied/$',
-        TemplateView.as_view(template_name="access_denied.html"),
-        name="access_denied"),
+        TemplateView.as_view(template_name='access_denied.html'),
+        name='access_denied'),
 
     url(r'^about/$',
-        TemplateView.as_view(template_name="about.html"),
-        name="about"),
+        TemplateView.as_view(template_name='about.html'),
+        name='about'),
 
     url(r'^contact/$',
-        TemplateView.as_view(template_name="contact.html"),
-        name="contact"),
+        TemplateView.as_view(template_name='contact.html'),
+        name='contact'),
+
+    url(r'^url_test/$',
+        TemplateView.as_view(template_name='url_test.html'),
+        name='url_test'),
+
+    url(r'^one_time_view/$',
+        views.one_time_view,
+        name="one_time_view"),
 
     url(r'^jstests/$',
         views.jstests,
-        name="jstests"),
+        name='jstests'),
 
     url(r'^$',
         views.portal,
-        name="portal"),
+        name='portal'),
 
     url(r'^load_dataset/(?P<pk>[0-9]+)/$',
         views.load_dataset,
-        name="load_dataset"),
+        name='load_dataset'),
 
     url(r'^',
         include('accounts.urls',
