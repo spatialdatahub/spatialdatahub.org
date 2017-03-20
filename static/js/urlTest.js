@@ -59,14 +59,33 @@ L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 */
 // ////////////////////////////////////////////////////////////////////////////
 
-// there must be a better way to do this... but for now it works
-// it should be turned into a function and used here and in the portalView
+// make function that gets the ext of the url
+const getExt = url => {
+  const ext = {}
+  url.toLowerCase()
+  url.endsWith('kml')
+    ? ext[0] = 'kml'
+    : url.endsWith('csv')
+      ? ext[0] = 'csv'
+      : url.endsWith('json')
+        ? ext[0] = 'geojson'
+        : console.log(url)
+  return ext[0]
+}
 
+// get input text element and submit button
+const urlInput = document.getElementById('url_input')
+const urlButton= document.getElementById('url_button')
 
-
-const urlInput = document.getElementById('url_test')
-
-urlInput.addEventListener('input', () => console.log(this))
+// add event listener to the button
+urlButton.addEventListener('click', () =>{ 
+  const ext = getExt(urlInput.value)
+  const url = urlInput.value
+  extSelect(ext, url)
+    .then(response => {
+      myMap.addLayer(response)
+    }, error => console.log(error))
+})
 
 // url.endsWith('json') ? ext = 'geojson' : console.log('url')
 
