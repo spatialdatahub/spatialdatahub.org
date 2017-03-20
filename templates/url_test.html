@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Test a URL{% endblock title %}
+
+{% block css %}
+<style>
+
+  .breadcrumb {
+    background-color: white;
+  }
+
+  #mapContainer {
+    float: right;
+  }
+
+  #mapid {
+    height: 50em;
+    margin-bottom: 10px;
+  }
+
+</style>
+<link rel='stylesheet' href='{% static "css/dashboard.css" %}'/>
+<link rel='stylesheet' href='https://unpkg.com/leaflet@1.0.3/dist/leaflet.css' />
+
+{% endblock css %}
+
+{% block content %}
+
+<div class='container'>
+  <ol class='breadcrumb'>
+    <li><a href='{% url "portal" %}' >*</a></li>
+    <li id='breadcrumbContainer'></li>
+  </ol>
+  <div class='row' id='main'>
+    <div class='col-xs-12' id='urlContainer'>
+      <form>
+        <label for='url_test'>For example copy and paste this into the input box then hit enter: https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson</label>
+        <input id='url_test' class='form-control' type='text' placeholder='Enter URL Here'>
+      </form>
+    </div>
+    <div class='col-xs-12' id='mapContainer'>
+      <div id='mapid'></div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js'></script>
+<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+
+<script src='{% static "js/index.js" %}'></script>
+<script src='{% static "js/index_maps.js" %}'></script>
+<script src='{% static "js/urlTest.js" %}'></script>
+{% endblock js %}
