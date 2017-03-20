@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}One Time View{% endblock title %}
+
+{% block css %}
+<style>
+
+  .breadcrumb {
+    background-color: white;
+  }
+
+  #mapid {
+    height: 50em;
+    margin-bottom: 10px;
+  }
+
+</style>
+<link rel='stylesheet' href='{% static "css/dashboard.css" %}'/>
+<link rel='stylesheet' href='https://unpkg.com/leaflet@1.0.3/dist/leaflet.css' />
+
+{% endblock css %}
+
+{% block content %}
+
+<!--
+  This page will allow users to put in a public url that
+  has a dataset linked to it, and test out the tools and
+  visualization. It will get the data using a promisified
+  leaflet omnivore call, and put it up on the map background.
+  The data will only last on the page for as long as the user
+  does not close or refresh the page.
+-->
+
+<div class='container'>
+
+  <ol class='breadcrumb'>
+    <li><a href='{% url "portal" %}' >*</a></li>
+    <li id='breadcrumbContainer'></li>
+  </ol>
+
+  <form action='' method='GET'>
+    <input class='form-control' type='text' placeholder='Dataset URL'>
+  </form>
+
+  <div class='row' id='main'>
+      <div id='mapid'></div>
+  </div>
+
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js'></script>
+<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+
+<script src='{% static "js/index.js" %}'></script>
+<script src='{% static "js/index_maps.js" %}'></script>
+<script src='{% static "js/one_time_view.js" %}'></script>
+{% endblock js %}
