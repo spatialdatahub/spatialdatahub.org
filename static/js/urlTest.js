@@ -70,7 +70,6 @@ const datasets = {}
 let count = 0
 
 // pointMarkerOptions
-/*
 const markerOptions = {
   radius: 6,
   color: 'black',
@@ -78,7 +77,6 @@ const markerOptions = {
   opacity: 1,
   fillOpacity: 0.4
 }
-*/
 
 // set up layer to add data to
 
@@ -103,7 +101,7 @@ const getExt = url => {
 const addButton = (n, color, container) => {
   const btn = document.createElement('button') 
   const value = document.createTextNode(n)
-  btn.setAttribute('class', 'btn btn-default')
+  btn.setAttribute('class', 'btn btn-default active')
   btn.setAttribute('value', n)
 
   // make the color of the number correspond
@@ -125,26 +123,52 @@ urlButton.addEventListener('click', () =>{
   const ext = getExt(urlInput.value)
   const url = urlInput.value
 
+
+  // increment count and color
+  count++
+  const color = colors[count % colors.length]
+
+
+
   // should these things be in the extSelect call?
   // get dataset, save it to datasets container, and add it to map
   extSelect(ext, url)
     .then(response => {
 
-      // increment count and color
-      count++
-      const color = colors[count % colors.length]
+    const layerMod = L.geoJson(null, {
+      // set the points to little circles
+      pointToLayer: (feature, latlng) => {
+        return L.circleMarker(latlng, markerOptions)
+      },
+      onEachFeature: (feature, layer) => {
+        // make sure the fill is the color
+        layer.options.fillColor = color
+        // and make sure the perimiter is black (if it's a point) and the color otherwise
+        feature.geometry.type === 'Point'
+          ? layer.options.color = 'black'
+          : layer.options.color = color
+        // add those popups
+        addPopups(feature, layer) // this comes from the index_maps.js file
+      }
+    })
+
+
 
       // if response is good, add a button for it
       addButton(count, color, buttons).addEventListener('click', function() {
+        classToggle(this, 'active')
         const val = this.getAttribute('value')
         myMap.hasLayer(datasets[val])
         ? myMap.removeLayer(datasets[val])
         : myMap.addLayer(datasets[val])
       })
 
-      datasets[count] = response
-      myMap.addLayer(response)
-        .fitBounds(response.getBounds())
+      // modify data here
+      layerMod.addData(response.toGeoJSON())
+
+      datasets[count] = layerMod
+      myMap.addLayer(layerMod)
+        .fitBounds(layerMod.getBounds())
     }, error => console.log(error))
   
 })
