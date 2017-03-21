@@ -45,8 +45,8 @@ const extSelect = (ext, url) => {
       getGeoJSON(url)
 }
 
-// 3)
-const addDataToContainer = (data, obj, key) => obj[key] = data
+// 3) I've added this to input.js
+// const addDataToContainer = (data, obj, key) => obj[key] = data
 
 // I need to make a nice looking popup background that scrolls
 const popupHtml = '<dl id="popup-content"></dl>'
