@@ -1,5 +1,4 @@
 // CUSTOM FUNCTIONS
-
 // toggle active / inactive links in list
 // almost exactly copied from 'youmightnotneedjquery.com'
 const classToggle = (el, className) => {
@@ -44,4 +43,10 @@ const classToggleOnDiffLink = (el, elList, className) => {
   const classes = el.className.split(' ')
   classes.push(className)
   el.className = classes.join(' ')
+}
+
+
+if(typeof exports !== 'undefined') {
+  exports.classToggle = classToggle
+  exports.classToggleOnDiffLink = classToggleOnDiffLink
 }
