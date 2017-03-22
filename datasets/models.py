@@ -32,19 +32,19 @@ class Dataset(models.Model):
     author = models.CharField(max_length=200)
     title = models.CharField(max_length=50)
     description = models.TextField()
-    url = models.URLField(max_length=500, blank=True) # there should be an if/else
+    url = models.URLField(max_length=500, null=True, blank=True) # there should be an if/else
                                                       # for this or owncloud
-    dataset_user = models.CharField(max_length=500,
+    dataset_user = models.CharField(max_length=500, null=True,
                                     blank=True, unique=False)
-    dataset_password = models.CharField(max_length=500,
+    dataset_password = models.CharField(max_length=500, null=True,
                                         blank=True, unique=False)
     public_access = models.BooleanField(default=True)
 
     owncloud = models.BooleanField(default=False)
 
-    owncloud_instance = models.CharField(max_length=500,
+    owncloud_instance = models.CharField(max_length=500, null=True,
                                          blank=True, unique=False)
-    owncloud_path = models.CharField(max_length=500,
+    owncloud_path = models.CharField(max_length=500, null=True,
                                          blank=True, unique=False)
 
     dataset_slug = models.SlugField(max_length=50, unique=False)
