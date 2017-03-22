@@ -57,6 +57,41 @@ const classToggleOnDiffLink = (el, elList, className) => {
   el.className = classes.join(' ')
 }
 
+// make function that gets the ext of the url
+// it can handle csv, kml, json, and geojson
+const getExt = url => {
+  const ext = {}
+  url.toLowerCase()
+  url.endsWith('kml')
+  ? ext[0] = 'kml'
+  : url.endsWith('csv')
+  ? ext[0] = 'csv'
+  : url.endsWith('json')
+  ? ext[0] = 'geojson'
+  : console.log(url)
+  return ext[0]
+}
+
+// make function for adding buttons
+const addButton = (text, color, container) => {
+  const btn = document.createElement('button') 
+  const value = document.createTextNode(text)
+  btn.setAttribute('class', 'btn btn-default active')
+  btn.setAttribute('value', text)
+
+  // make the color of the number correspond
+  // to the color of the dataset on the map
+  btn.style.color = color
+  btn.style.fontWeight = 'bold' 
+
+  // add text to button and button to div
+  btn.appendChild(value)
+  container.appendChild(btn)
+
+  return btn
+}
+
+
 
 
 
