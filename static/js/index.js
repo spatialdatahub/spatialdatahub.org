@@ -4,7 +4,6 @@
 */
 // ////////////////////////////////////////////////////////////////////////////
 
-
 // function to add data to a container
 // is this function completely unnecessary?
 const addDataToContainer = (data, obj, key) => obj[key] = data
@@ -43,7 +42,6 @@ const classToggleOnDiffLink = (el, elList, className) => {
 
     Just turn class off for everything in element list,
     and then add class to element that was clicked.
-
   */
 
   // first remove className from all elements
@@ -60,6 +58,9 @@ const classToggleOnDiffLink = (el, elList, className) => {
 }
 
 
+
+
+// export all the functions to node for testing
 if(typeof exports !== 'undefined') {
   exports.addDataToContainer = addDataToContainer
   exports.dataToDiv = dataToDiv

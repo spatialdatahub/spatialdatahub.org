@@ -47,6 +47,7 @@ const extSelect = (ext, url) => {
 
 
 // I need to make a nice looking popup background that scrolls
+// why isn't this in the add popups function?
 const popupHtml = '<dl id="popup-content"></dl>'
 
 // add popups to the data points
@@ -150,6 +151,8 @@ L.Control.ToggleScrollButton = L.Control.extend({
   }
 })
 
+
+// export all the functions to node for testing
 if(typeof exports !== 'undefined') {
   exports.extSelect = extSelect
   exports.getGeoJSON = getGeoJSON
