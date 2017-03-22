@@ -1,6 +1,6 @@
 // ////////////////////////////////////////////////////////////////////////////
 /*
-// PAGE SPECIFIC FUNCTIONS
+// URLTEST SPECIFIC FUNCTIONS
 */
 // ////////////////////////////////////////////////////////////////////////////
 // get input text element and submit button
@@ -21,46 +21,6 @@ const markerOptions = {
   opacity: 1,
   fillOpacity: 0.4
 }
-
-// set up layer to add data to
-
-
-
-// make function that gets the ext of the url
-// it can handle csv, kml, json, and geojson
-const getExt = url => {
-  const ext = {}
-  url.toLowerCase()
-  url.endsWith('kml')
-  ? ext[0] = 'kml'
-  : url.endsWith('csv')
-  ? ext[0] = 'csv'
-  : url.endsWith('json')
-  ? ext[0] = 'geojson'
-  : console.log(url)
-  return ext[0]
-}
-
-// make function for adding buttons
-const addButton = (n, color, container) => {
-  const btn = document.createElement('button') 
-  const value = document.createTextNode(n)
-  btn.setAttribute('class', 'btn btn-default active')
-  btn.setAttribute('value', n)
-
-  // make the color of the number correspond
-  // to the color of the dataset on the map
-  btn.style.color = color
-  btn.style.fontWeight = 'bold' 
-
-  // add text to button and button to div
-  btn.appendChild(value)
-  container.appendChild(btn)
-
-  return btn
-}
-
-
 
 // add event listener to the button
 urlButton.addEventListener('click', () =>{ 
@@ -96,8 +56,6 @@ urlButton.addEventListener('click', () =>{
       }
     })
 
-
-
       // if response is good, add a button for it
       addButton(count, color, buttons).addEventListener('click', function() {
         classToggle(this, 'active')
@@ -117,7 +75,3 @@ urlButton.addEventListener('click', () =>{
   
 })
 
-
-
-
-// add new colored button to buttons div
