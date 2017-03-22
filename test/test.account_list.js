@@ -26,62 +26,28 @@ function propagateToGlobal (window) {
     global[key] = window[key]
   }
 }
-//////// THIS SHOULD BE SET UP FOR ALL THE TEST FILES ////////
 
-const index = require('../static/js/index.js')
+/*
+const accountList = require('../static/js/accounts/accountList.js')
 
 
-describe('Test index.js', function() {
-  describe('Test addDataToContainer (is this function necessary?)', function() {
-    // bring in the function, and make it easy to call
-    const addDataToContainer = index.addDataToContainer
 
-    // make object
-    const container = {}
-
-    // make data
-    const text = 'text'
-
-    it('should add data to object[key]', function() {
-      addDataToContainer(text, container, 'key')
-      assert.equal(container['key'], 'text')
-    })
-  })
-
-  describe('Test dataToDiv (is this function necessary, and redundant?)', function() {
+describe('Test account_list.js', function() {
+  describe('Test dataToDiv, which should probably be in index.js', function() {
     // bring in the function, and make it easy to call
     const dataToDiv = index.dataToDiv
 
-    // make a div
     const div = document.createElement('div')  
-
+ 
     // make data
     const text = 'text'
 
     it('should add data to div', function() {
-      dataToDiv(text, div) 
+      dataToDiv(text, div)
       assert.equal(div.innerHTML, 'text')
     })
   })
-
-  describe('Test classToggle function', function() {
-    // bring in the function, and make it easy to call
-    const classToggle = index.classToggle
-
-    // make a div with an empty class
-    const div = document.createElement('div')  
-    div.className = '' 
-
-    it('should add the class "super"', function() {
-      classToggle(div, 'super')
-      assert.equal(div.className, 'super')
-    })
-
-    it('should remove the class "super"', function() {
-      classToggle(div, 'super')
-      assert.equal(div.className, '')
-    })
-  })
+})
 
   describe('Test classToggleOnDiffLink', function() {
     // bring in the function, and make it easy to call
@@ -108,4 +74,4 @@ describe('Test index.js', function() {
     })
   })
 })
-
+*/

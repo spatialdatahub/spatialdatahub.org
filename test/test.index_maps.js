@@ -1,5 +1,11 @@
-const assert = require('chai').assert
+const chai = require('chai')
+const assert = chai.assert
+const expect = chai.expect
+const chaiAsPromised = require('chai-as-promised')
+const sinon = require('sinon')
 const jsdom = require('jsdom')
+
+chai.use(chaiAsPromised)
 
 //////// THIS SHOULD BE SET UP FOR ALL THE TEST FILES ////////
 // setup the simplest document possible
@@ -26,34 +32,48 @@ function propagateToGlobal (window) {
     global[key] = window[key]
   }
 }
+//////// THIS SHOULD BE SET UP FOR ALL THE TEST FILES ////////
 
+// I shouldn't have to make so many global variables
 
 const leaflet = require('leaflet')
-const omnivore = require('@mapbox/leaflet-omnivore')
+const omn = require('@mapbox/leaflet-omnivore')
 
+global.L = leaflet
+global.omnivore = omn
 
-// import index_maps.js the import is relative to the file, not the environment
-// node is run in the WebGIS dir, the test file is in WebGIS/test dir
-// the path from WebGIS is static/js/index_maps.js, and the path from WebGIS/test
-// is ../static/js/index_maps.js
 const index_maps = require('../static/js/index_maps.js')
 
 describe('Test index_maps.js', function() {
 
-  describe('Test addDataToContainer', function() {
-    // bring in the function, and make it easy to call
-    const = index_maps.addDataToContainer
+  describe('Test getGeoJSON', function() {
+    const getGeoJSON = index_maps.getGeoJSON
 
-    // make object
-    const container = {}
+    it('should return a promise that runs omnivore.geojson', function() {
+      let url = 'www.whatever.json'
+      let promise = getGeoJSON(url)      
+      return expect(promise).to.eventually.equal()
+    }) 
+  })
 
-    // make data
-    const text = 'text'
+  describe('Test extSelect', function() {
+    const extSelect = index_maps.extSelect
 
-    it('should add data to object[key]', function() {
-      addDataToContainer(text, container, 'key')
-      assert.equal(container['key'], 'text')
+    it('should call getGeoJSON when url extension ends with json', function() {
+
+      const getGeoJSON = sinon.spy()
+      const url = 'www.whatever.json'
+      const ext = 'json'
+      assert.equal(
+        index_maps.extSelect(ext, url),
+        index_maps.getGeoJSON(url)
+      )
     })
+
+    it('should call correct getData function based on url extension', function() {
+    })
+
+
   })
 
 

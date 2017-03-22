@@ -2,10 +2,12 @@
 const accountLinks = document.getElementsByName('account')
 const accountInfo = document.getElementById('account_info')
 
+// this should probably be in the index of helper functions
+// this should probably be in the index of helper functions
 // makeReq function
-const dataToDiv = (data, div) => {
-  div.innerHTML = data
-}
+//const dataToDiv = (data, div) => {
+//  div.innerHTML = data
+//}
 
 // make ajax request function here, then move it to the index.js
 const makeReq = (url, func, div) => {
@@ -20,6 +22,8 @@ const makeReq = (url, func, div) => {
   xhr.send()
 }
 
+
+// this is just calling the functions, nothing new here
 // add event that toggles the link's class from active to not active
 accountLinks.forEach(link => {
   const account = link.getAttribute('id')
@@ -44,3 +48,7 @@ const u = `/account_ajax/${l}`
 classToggleOnDiffLink(a, accountLinks, 'active')
 makeReq(u, dataToDiv, accountInfo)
 
+
+if(typeof exports !== 'undefined') {
+  exports.dataToDiv = dataToDiv
+}

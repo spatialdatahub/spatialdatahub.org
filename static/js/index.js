@@ -9,6 +9,10 @@
 // is this function completely unnecessary?
 const addDataToContainer = (data, obj, key) => obj[key] = data
 
+// this should probably be in the index of helper functions
+// makeReq function
+const dataToDiv = (data, div) => div.innerHTML = data
+
 // toggle active / inactive links in list
 // almost exactly copied from 'youmightnotneedjquery.com'
 const classToggle = (el, className) => {
@@ -58,6 +62,7 @@ const classToggleOnDiffLink = (el, elList, className) => {
 
 if(typeof exports !== 'undefined') {
   exports.addDataToContainer = addDataToContainer
+  exports.dataToDiv = dataToDiv
   exports.classToggle = classToggle
   exports.classToggleOnDiffLink = classToggleOnDiffLink
 }

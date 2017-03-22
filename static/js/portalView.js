@@ -78,8 +78,6 @@ const breadcrumbContainer = document.getElementById('breadcrumbContainer')
 
 // After dataset list load 
 
-
-
 // to toggle active datasets on the map, and otherwise I need the list of datasets 
 // should this be a const?
 const datasetLinks = document.getElementsByName('dataset')
