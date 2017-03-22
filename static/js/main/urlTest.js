@@ -6,6 +6,7 @@
 // get input text element and submit button
 const urlInput = document.getElementById('url_input')
 const urlButton = document.getElementById('url_button')
+const toggleAllButton = document.getElementById('toggle_all')
 const buttons = document.getElementById('buttons')
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 
@@ -75,3 +76,30 @@ urlButton.addEventListener('click', () =>{
   
 })
 
+// this needs to be added to indexMap.js, and tested
+const toggleAll = (obj, map) => {
+  // make array
+  const array = []
+
+  // push values to array
+  Object.keys(obj).forEach(key => array.push(obj[key]))
+
+  // check if map has any of the layers
+    // if true, remove layers
+    // if false, add all layers
+  const tf = []
+  array.forEach(ds => {
+    map.hasLayer(ds)
+      ? tf[0] = true
+      : console.log('nope')
+  })
+
+  // if tf is true, remove all layers, otherwise add them all
+  tf[0] === true 
+    ? array.forEach(ds => map.removeLayer(ds))
+    : array.forEach(ds => map.addLayer(ds))
+}
+
+toggleAllButton.addEventListener('click', () => {
+  toggleAll(datasets, myMap)
+})
