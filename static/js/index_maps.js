@@ -45,8 +45,6 @@ const extSelect = (ext, url) => {
       getGeoJSON(url)
 }
 
-// 3)
-const addDataToContainer = (data, obj, key) => obj[key] = data
 
 // I need to make a nice looking popup background that scrolls
 const popupHtml = '<dl id="popup-content"></dl>'
@@ -151,3 +149,8 @@ L.Control.ToggleScrollButton = L.Control.extend({
     // Nothing to do here
   }
 })
+
+if(typeof exports !== 'undefined') {
+  exports.extSelect = extSelect
+  exports.getGeoJSON = getGeoJSON
+}

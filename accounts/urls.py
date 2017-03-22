@@ -10,7 +10,7 @@ urlpatterns = [
         views.account_list,
         name="account_list"),
 
-    url(r'^ajax/(?P<account_slug>[-\w]*)/$',
+    url(r'^account_ajax/(?P<account_slug>[-\w]*)/$',
         views.account_ajax,
         name="account_ajax"),
 

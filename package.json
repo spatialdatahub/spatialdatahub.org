@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.leibniz-zmt.de:pcu/ZMT_GIS_Portal.git"
+    "url": "https://github.com/patcurry/WebGIS.git"
   },
   "keywords": [
     "leaflet"
@@ -19,6 +19,11 @@
   "author": "Patrick Curry",
   "license": "ISC",
   "devDependencies": {
+    "@mapbox/corslite": "0.0.7",
+    "@mapbox/leaflet-omnivore": "^0.3.4",
+    "@mapbox/polyline": "^0.2.0",
+    "@mapbox/sexagesimal": "^1.0.0",
+    "@mapbox/togeojson": "^0.16.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "eslint": "^3.14.1",
@@ -26,7 +31,9 @@
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.0.1",
     "jsdom": "^9.11.0",
+    "leaflet": "^1.0.3",
     "mocha": "^3.2.0",
+    "sinon": "^2.1.0",
     "supertest": "^3.0.0",
     "xmlhttprequest": "^1.8.0"
   },
