@@ -37,6 +37,7 @@
 
   <ol class='breadcrumb'>
     <li><a href='{% url "portal" %}' >*</a></li>
+    <li><a id='account_link' value={{ account.account_slug }} href='{{ account.get_absolute_url }}' >{{ account.user }}</a></li>
     <li id='breadcrumbContainer'></li>
   </ol>
 

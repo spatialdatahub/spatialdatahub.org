@@ -9,6 +9,10 @@ urlpatterns = [
         views.new_dataset,
         name="new_dataset"),
 
+    url(r'^dataset_ajax/(?P<pk>[0-9]+)/$',
+        views.dataset_ajax,
+        name="dataset_ajax"),
+
     url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/$',
         views.dataset_detail,
         name="dataset_detail"),

@@ -5,42 +5,6 @@
 */
 // ////////////////////////////////////////////////////////////////////////////
 
-
-
-/*
-// this is just calling the functions, nothing new here
-// add event that toggles the link's class from active to not active
-accountLinks.forEach(link => {
-  const account = link.getAttribute('id')
-  const url = `/account_ajax/${account}`
-
-
-  link.addEventListener('click', () => {
-    classToggleOnDiffLink(link, accountLinks, 'active') // this is from index.js
-    makeReq(url, dataToDiv, accountInfo)
-  })
-})
-
-// this is redundant. I don't like it, but it will work for now
-// call the classToggle and the makeReq functions on the first
-// of the dataset links
-
-//const account = link.getAttribute('id')
-//const url = `/ajax/${account}`
-const a = accountLinks[0]
-const l = a.getAttribute('id')
-const u = `/account_ajax/${l}`
-
-classToggleOnDiffLink(a, accountLinks, 'active')
-makeReq(u, dataToDiv, accountInfo)
-*/
-
-// ////////////////////////////////////////////////////////////////////////////
-/*
-// PAGE SPECIFIC FUNCTIONS
-*/
-// ////////////////////////////////////////////////////////////////////////////
-
 // Before dataset list load
 
 // colors
@@ -67,6 +31,10 @@ const datasetDetail = document.getElementById('dataset_detail')
 const datasetLinks = document.getElementsByName('dataset')
 const datasets = {}
 
+// this should be in the breadcrumbs
+const account_slug = document.getElementById('account_link')//.getAttribute('value')
+console.log(account_slug)
+
 // add event that toggles the link's class from active to not active
 datasetLinks.forEach(link => {
   const ext = link.getAttribute('id')
@@ -77,6 +45,10 @@ datasetLinks.forEach(link => {
   link.getAttribute('url')
   ? url = link.getAttribute('url')
   : url = `/load_dataset/${pk}`
+
+  // this is getting out of hand
+//  const dsAjax = `${account_slug}/dataset_ajax/${pk}`
+  const dsAjax = `dataset_ajax/${pk}`
 
   // deal with colors
   colorCounter++
@@ -131,7 +103,7 @@ datasetLinks.forEach(link => {
     breadcrumbContainer.innerHTML = breadcrumb
 
     // append info from datasetDetail
-    makeReq(dsLink, dataToDiv, datasetDetail)
+    makeReq(dsAjax, dataToDiv, datasetDetail)
 
   })
 })

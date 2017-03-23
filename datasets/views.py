@@ -28,6 +28,13 @@ def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     template_name = "datasets/dataset_detail.html"
     return render(request, template_name, context)
 
+
+def dataset_ajax(request, account_slug=None, pk=None):
+    dataset = get_object_or_404(Dataset, pk=pk)
+    template_name = "datasets/dataset_ajax.html"
+    return render(request, template_name, {"dataset": dataset})
+
+
 @login_required
 def new_dataset(request, account_slug):
     account = get_object_or_404(Account, account_slug=account_slug)
