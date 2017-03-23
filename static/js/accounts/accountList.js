@@ -2,26 +2,6 @@
 const accountLinks = document.getElementsByName('account')
 const accountInfo = document.getElementById('account_info')
 
-// this should probably be in the index of helper functions
-// this should probably be in the index of helper functions
-// makeReq function
-//const dataToDiv = (data, div) => {
-//  div.innerHTML = data
-//}
-
-// make ajax request function here, then move it to the index.js
-const makeReq = (url, func, div) => {
-  const xhr = new XMLHttpRequest()
-  xhr.open('GET', url, true)
-  xhr.onload = () => {
-    xhr.readyState === 4 && xhr.status === 200
-    ? func(xhr.responseText, div)
-    : console.log(xhr.statusText)
-  }
-  xhr.onerror = () => console.log('error')
-  xhr.send()
-}
-
 
 // this is just calling the functions, nothing new here
 // add event that toggles the link's class from active to not active

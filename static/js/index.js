@@ -91,6 +91,18 @@ const addButton = (text, color, container) => {
   return btn
 }
 
+// make ajax request function here, then move it to the index.js
+const makeReq = (url, func, div) => {
+  const xhr = new XMLHttpRequest()
+  xhr.open('GET', url, true)
+  xhr.onload = () => {
+    xhr.readyState === 4 && xhr.status === 200
+    ? func(xhr.responseText, div)
+    : console.log(xhr.statusText)
+  }
+  xhr.onerror = () => console.log('error')
+  xhr.send()
+}
 
 
 

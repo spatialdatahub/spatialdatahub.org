@@ -63,7 +63,7 @@ def portal(request):
     if "q" in request.GET:
         q = request.GET["q"]
         dataset_list = Dataset.objects.filter(
-            Q(title__icontains=q) | Q(author__icontains=q)) 
+            Q(title__icontains=q) | Q(author__icontains=q)).order_by("title")
 
     return render(request, template_name, {"dataset_list": dataset_list})
 
