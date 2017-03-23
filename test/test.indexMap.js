@@ -42,12 +42,12 @@ const omn = require('@mapbox/leaflet-omnivore')
 global.L = leaflet
 global.omnivore = omn
 
-const index_maps = require('../static/js/index_maps.js')
+const indexMap = require('../static/js/indexMap.js')
 
-describe('Test index_maps.js', function() {
+describe('Test indexMap.js', function() {
 
   describe('Test getGeoJSON', function() {
-    const getGeoJSON = index_maps.getGeoJSON
+    const getGeoJSON = indexMap.getGeoJSON
 
     it('should return a promise that runs omnivore.geojson', function() {
       let url = 'www.whatever.json'
@@ -57,7 +57,7 @@ describe('Test index_maps.js', function() {
   })
 
   describe('Test extSelect', function() {
-    const extSelect = index_maps.extSelect
+    const extSelect = indexMap.extSelect
 
     it('should call getGeoJSON when url extension ends with json', function() {
 
@@ -65,8 +65,8 @@ describe('Test index_maps.js', function() {
       const url = 'www.whatever.json'
       const ext = 'json'
       assert.equal(
-        index_maps.extSelect(ext, url),
-        index_maps.getGeoJSON(url)
+        indexMap.extSelect(ext, url),
+        indexMap.getGeoJSON(url)
       )
     })
 
