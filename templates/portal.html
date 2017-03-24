@@ -7,8 +7,13 @@
 <style>
 
   #datasetsContainer {
-    overflow-y: auto;
+    height: 50em;
     float: left;
+  }
+
+  #datasets-list {
+    overflow-y: auto;
+    height: 41em;
   }
 
   .breadcrumb {
@@ -47,13 +52,15 @@
     <!-- I need to set this up so it loads by ajax -->
     <div class='col-xs-12 col-md-4 col-lg-3' id='datasetsContainer'>
       <ol class='nav nav-pills nav-stacked'>
-        <!-- about to get real hacky here -->
-        {% if dataset_list %}
           <li>
             <form action='.' method='GET'>
               <input class='form-control' name='q' type='text' placeholder='Search Datasets'>
             </form>
           <li>
+      </ol>
+      <ol id='datasets-list' class='nav nav-pills nav-stacked'>
+        <!-- about to get real hacky here -->
+        {% if dataset_list %}
           {% for dataset in dataset_list %}
             {% if dataset.dataset_password %}
               <li class=''>
