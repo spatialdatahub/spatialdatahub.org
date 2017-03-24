@@ -103,6 +103,8 @@ datasetLinks.forEach(link => {
     breadcrumbContainer.innerHTML = breadcrumb
 
     // append info from datasetDetail
+    // this should be handled in the same way as the datasets. If the data are
+    // already on the page, then we don't need to make a call to the server again
     makeReq(dsAjax, dataToDiv, datasetDetail)
 
   })

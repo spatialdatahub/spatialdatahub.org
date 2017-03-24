@@ -17,6 +17,7 @@
 
   #mainContainer {
     overflow-y: auto;
+    overflow-x: hidden;
     float: right;
   }
 
@@ -40,6 +41,24 @@
     <li><a id='account_link' value={{ account.account_slug }} href='{{ account.get_absolute_url }}' >{{ account.user }}</a></li>
     <li id='breadcrumbContainer'></li>
   </ol>
+
+  <div class='row' id='crud'>
+    <div class='col-xs-12'>
+      <h3>
+        <a href='{% url "datasets:new_dataset" account.account_slug %}'>
+          Add New Dataset
+        </a>
+      </h3>
+    </div>
+  </div>
+
+  <div class='row' id='filters'>
+    <div class='col-xs-12'>
+      <h1>Filters</h1>
+      <p>Have filters added here on ajax call</p>
+    </div>
+  </div>
+
 
   <div class='row' id='main'>
     <div class='col-xs-12 col-md-8 col-lg-9' id='mainContainer'> <!-- how do i make this container scrollable -->

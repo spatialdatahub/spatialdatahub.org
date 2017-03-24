@@ -1,6 +1,28 @@
 <h1>{{ dataset.title }} Details</h1>
-<p>{{ dataset.title }}</p>
-<p>{{ dataset.url }}</p>
+<p>Account: {{ dataset.account }}</p>
+<p>Author: {{ dataset.author }}</p>
 <p>{{ dataset.description }}</p>
-<p>{{ dataset.account }}</p>
 
+<!-- These should be inline links -->
+<div class='container'>
+  <div class='row'>
+    <ul class='list-inline'>
+    <li>
+      <a href='{% url "datasets:dataset_update" account.account_slug dataset.dataset_slug dataset.pk %}'>
+        Update {{ dataset.title }}
+      </a>
+    </li>
+    <li>
+      <a href='{% url "datasets:dataset_update_auth" account.account_slug dataset.dataset_slug dataset.pk %}'>
+        Update {{ dataset.title }} authentication details
+      </a>
+    </li>
+    <li>
+      <a href='{% url "datasets:dataset_remove" account.account_slug dataset.dataset_slug dataset.pk %}'>
+        Remove {{ dataset.title }}
+      </a>
+    </li>
+    </ul>
+  </div>
+  <hr class='divider'>
+</div>
