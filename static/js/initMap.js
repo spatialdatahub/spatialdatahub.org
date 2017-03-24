@@ -54,5 +54,3 @@ L.control.homebutton({position: 'topleft'}).addTo(myMap)
 // toggle scroll button leaflet control
 L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(options)
 L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
-
-

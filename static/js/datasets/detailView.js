@@ -71,7 +71,6 @@ extSelect(ext, url)
     fc(filteredLayer) // get the number of features and add it to the feature count div
   }, error => console.log(error))
 
-
 // Time to add turf
 // first get points for polygon
 const submitValuesButton = document.getElementById('submit_values_button')
@@ -83,7 +82,6 @@ const maxLngInput = document.getElementById('max_lng_input')
 
 // add event listener to submit button
 submitValuesButton.addEventListener('click', () => {
-
   // get values for (square) polygon
   minLat = minLatInput.value
   maxLat = maxLatInput.value
@@ -99,7 +97,7 @@ submitValuesButton.addEventListener('click', () => {
   } else if (minLng >= 180) {
     minLng = 180
   }
- 
+
   if (maxLng === '') {
     maxLng = 180
   } else if (maxLng <= -180) {
@@ -123,7 +121,6 @@ submitValuesButton.addEventListener('click', () => {
   } else if (maxLat >= 90) {
     maxLat = 90
   }
-
 
   // make polygon and add it to a feature collection
   // - values for lng are not working. try something else
@@ -152,7 +149,7 @@ var poly = turf.featureCollection(features)
 console.log(poly)
 
 /*
-  // make polygon with 
+  // make polygon with
   const poly = turf.polygon([[
       [-50, 50], // same as end
       [50, 50],
@@ -161,7 +158,7 @@ console.log(poly)
       [-50, 50] // same as beginning
     ]])
 */
-  
+
   L.geoJSON(poly).addTo(myMap)
 
   // clear filteredLayer

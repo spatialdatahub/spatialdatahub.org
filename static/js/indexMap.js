@@ -9,11 +9,10 @@
 */
 // ////////////////////////////////////////////////////////////////////////////
 
-
 // 1) promisified omnivore functions
 // these should probably be refactored
 const getGeoJSON = url => {
-  return new Promise( (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const dataLayer = omnivore.geojson(url)
       .on('ready', () => resolve(dataLayer))
       .on('error', () => reject(Error('Url problem...')))
@@ -21,7 +20,7 @@ const getGeoJSON = url => {
 }
 
 const getKML = url => {
-  return new Promise( (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const dataLayer = omnivore.kml(url)
       .on('ready', () => resolve(dataLayer))
       .on('error', () => reject(Error('Url problem...')))
@@ -29,7 +28,7 @@ const getKML = url => {
 }
 
 const getCSV = url => {
-  return new Promise( (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const dataLayer = omnivore.csv(url)
       .on('ready', () => resolve(dataLayer))
       .on('error', () => reject(Error('Url problem...')))
@@ -38,13 +37,12 @@ const getCSV = url => {
 
 // 2) function to choose which omnivore function to run
 const extSelect = (ext, url) => {
-  return ext === 'kml' ?
-    getKML(url) :
-    ext === 'csv' ?
-      getCSV(url) :
-      getGeoJSON(url)
+  return ext === 'kml'
+    ? getKML(url)
+    : ext === 'csv'
+    ? getCSV(url)
+    : getGeoJSON(url)
 }
-
 
 // I need to make a nice looking popup background that scrolls
 // why isn't this in the add popups function?
@@ -60,8 +58,8 @@ const addPopups = (feature, layer) => {
   feature.properties.length !== undefined || feature.properties.length !== 0
     // push data from the dataset to the array
     ? Object.keys(feature.properties).forEach(key => {
-        popupContent.push(`<dt>${key}</dt> <dd>${feature.properties[key]}</dd>`)
-      })
+      popupContent.push(`<dt>${key}</dt> <dd>${feature.properties[key]}</dd>`)
+    })
     : console.log('No feature properties')
 
   // push feature cordinates to the popupContent array, if it's a point dataset
@@ -151,9 +149,8 @@ L.Control.ToggleScrollButton = L.Control.extend({
   }
 })
 
-
 // export all the functions to node for testing
-if(typeof exports !== 'undefined') {
+if (typeof exports !== 'undefined') {
   exports.extSelect = extSelect
   exports.getGeoJSON = getGeoJSON
 }

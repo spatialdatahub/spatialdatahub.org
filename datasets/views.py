@@ -48,14 +48,15 @@ def new_dataset(request, account_slug):
                 dataset.account = account
                 dataset.save()
                 return redirect("accounts:account_detail",
-                            account_slug=account.account_slug)
+                                account_slug=account.account_slug)
         else:
             form = DatasetCreateForm()
         template_name = "datasets/new_dataset.html"
         return render(request,
-                  template_name,
-                  {"form": form,
-                   "account": account})
+                      template_name,
+                      {"form": form,
+                       "account": account})
+
 
 @login_required
 def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
@@ -69,8 +70,10 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
             if form.is_valid():
                 updated_dataset = form.save(commit=False)
                 updated_dataset.account = account
-                updated_dataset.save(update_fields=["title", "author", "url",
-                      "public_access", "description", "dataset_slug"])
+                updated_dataset.save(update_fields=[
+                                     "title", "author", "url",
+                                     "public_access", "description",
+                                     "dataset_slug"])
 
             return redirect("datasets:dataset_detail",
                             account_slug=account.account_slug,
@@ -84,8 +87,10 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
                        "account": account,
                        "dataset": dataset})
 
+
 @login_required
-def dataset_update_auth(request, account_slug=None, dataset_slug=None, pk=None):
+def dataset_update_auth(request,
+                        account_slug=None, dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
     if request.user.id != account.user.id:
@@ -109,6 +114,7 @@ def dataset_update_auth(request, account_slug=None, dataset_slug=None, pk=None):
                       {"form": form,
                        "account": account,
                        "dataset": dataset})
+
 
 @login_required
 def dataset_remove(request, account_slug=None, dataset_slug=None, pk=None):

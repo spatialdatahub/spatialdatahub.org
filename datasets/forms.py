@@ -29,6 +29,7 @@ class DatasetCreateForm(forms.ModelForm):
             "dataset_password": forms.PasswordInput(attrs=basic_input_class)
         }
 
+
 class DatasetUpdateForm(forms.ModelForm):
     """
     After a while I might try and move away from boostrap, but that may never
@@ -52,6 +53,7 @@ class DatasetUpdateForm(forms.ModelForm):
             "url": forms.TextInput(attrs=basic_input_class),
             "description": forms.Textarea(attrs=basic_input_class)
         }
+
 
 class DatasetUpdateAuthForm(forms.ModelForm):
     """

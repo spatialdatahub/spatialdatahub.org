@@ -21,10 +21,10 @@ const markerOptions = {
 
 const breadcrumbContainer = document.getElementById('breadcrumbContainer')
 
-// After dataset list load 
+// After dataset list load
 
-// to toggle active datasets on the map, and otherwise I need the list of datasets 
-// should this be a const?
+// to toggle active datasets on the map, and otherwise I need the list
+// of datasets should this be a const?
 const datasetLinks = document.getElementsByName('dataset')
 const datasets = {}
 
@@ -75,13 +75,13 @@ datasetLinks.forEach(link => {
 
     datasets[pk]
       ? myMap.hasLayer(datasets[pk])
-        ? myMap.removeLayer(datasets[pk]) 
+        ? myMap.removeLayer(datasets[pk])
         : myMap.addLayer(datasets[pk]).fitBounds(datasets[pk].getBounds())
       // if there is no datasets[pk] then go through the process of selecting
       // the right omnivore function and getting the data and stuff
       : extSelect(ext, url) // the promise
         .then(response => {
-          layerMod.addData(response.toGeoJSON()) // modify the layer 
+          layerMod.addData(response.toGeoJSON()) // modify the layer
           myMap.addLayer(layerMod).fitBounds(layerMod.getBounds())
           addDataToContainer(layerMod, datasets, pk)
         }, error => {

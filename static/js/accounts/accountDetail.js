@@ -4,7 +4,6 @@
 // ACCOUNT DETAIL SPECIFIC FUNCTIONS
 */
 // ////////////////////////////////////////////////////////////////////////////
-
 // Before dataset list load
 
 // colors
@@ -24,16 +23,14 @@ const markerOptions = {
 const breadcrumbContainer = document.getElementById('breadcrumbContainer')
 const datasetDetail = document.getElementById('dataset_detail')
 
-// After dataset list load 
+// After dataset list load
 
-// to toggle active datasets on the map, and otherwise I need the list of datasets 
-// should this be a const?
 const datasetLinks = document.getElementsByName('dataset')
 const datasets = {}
 
 // this should be in the breadcrumbs
-const account_slug = document.getElementById('account_link')//.getAttribute('value')
-console.log(account_slug)
+// const accountSlug = document.getElementById('account_link') // .getAttribute('value')
+// console.log(accountSlug)
 
 // add event that toggles the link's class from active to not active
 datasetLinks.forEach(link => {
@@ -47,7 +44,7 @@ datasetLinks.forEach(link => {
   : url = `/load_dataset/${pk}`
 
   // this is getting out of hand
-//  const dsAjax = `${account_slug}/dataset_ajax/${pk}`
+//  const dsAjax = `${accountSlug}/dataset_ajax/${pk}`
   const dsAjax = `dataset_ajax/${pk}`
 
   // deal with colors
@@ -86,13 +83,13 @@ datasetLinks.forEach(link => {
 
     datasets[pk]
       ? myMap.hasLayer(datasets[pk])
-        ? myMap.removeLayer(datasets[pk]) 
+        ? myMap.removeLayer(datasets[pk])
         : myMap.addLayer(datasets[pk]).fitBounds(datasets[pk].getBounds())
       // if there is no datasets[pk] then go through the process of selecting
       // the right omnivore function and getting the data and stuff
       : extSelect(ext, url) // the promise
         .then(response => {
-          layerMod.addData(response.toGeoJSON()) // modify the layer 
+          layerMod.addData(response.toGeoJSON()) // modify the layer
           myMap.addLayer(layerMod).fitBounds(layerMod.getBounds())
           addDataToContainer(layerMod, datasets, pk)
         }, error => {
@@ -106,6 +103,5 @@ datasetLinks.forEach(link => {
     // this should be handled in the same way as the datasets. If the data are
     // already on the page, then we don't need to make a call to the server again
     makeReq(dsAjax, dataToDiv, datasetDetail)
-
   })
 })

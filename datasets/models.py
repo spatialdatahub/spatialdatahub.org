@@ -26,14 +26,15 @@ class Dataset(models.Model):
     I am going to create a method to save the dataset's extension as
     a model field.
     """
-    #EXTCHOICES = {"csv": "csv", "kml": "kml", "geojson": "geojson"} # there will be more
+    # EXTCHOICES = {"csv": "csv", "kml": "kml", "geojson": "geojson"}
+    # there will be more
 
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     author = models.CharField(max_length=200)
     title = models.CharField(max_length=50)
     description = models.TextField()
-    url = models.URLField(max_length=500, null=True, blank=True) # there should be an if/else
-                                                      # for this or owncloud
+    # there should be an if/else for this or owncloud
+    url = models.URLField(max_length=500, null=True, blank=True)
     dataset_user = models.CharField(max_length=500, null=True,
                                     blank=True, unique=False)
     dataset_password = models.CharField(max_length=500, null=True,
@@ -45,7 +46,7 @@ class Dataset(models.Model):
     owncloud_instance = models.CharField(max_length=500, null=True,
                                          blank=True, unique=False)
     owncloud_path = models.CharField(max_length=500, null=True,
-                                         blank=True, unique=False)
+                                     blank=True, unique=False)
 
     dataset_slug = models.SlugField(max_length=50, unique=False)
     date_added = models.DateTimeField(auto_now=False, auto_now_add=True,

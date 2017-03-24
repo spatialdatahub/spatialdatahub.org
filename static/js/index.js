@@ -74,7 +74,7 @@ const getExt = url => {
 
 // make function for adding buttons
 const addButton = (text, color, container) => {
-  const btn = document.createElement('button') 
+  const btn = document.createElement('button')
   const value = document.createTextNode(text)
   btn.setAttribute('class', 'btn btn-default active')
   btn.setAttribute('value', text)
@@ -82,7 +82,7 @@ const addButton = (text, color, container) => {
   // make the color of the number correspond
   // to the color of the dataset on the map
   btn.style.color = color
-  btn.style.fontWeight = 'bold' 
+  btn.style.fontWeight = 'bold'
 
   // add text to button and button to div
   btn.appendChild(value)
@@ -104,11 +104,8 @@ const makeReq = (url, func, div) => {
   xhr.send()
 }
 
-
-
-
 // export all the functions to node for testing
-if(typeof exports !== 'undefined') {
+if (typeof exports !== 'undefined') {
   exports.addDataToContainer = addDataToContainer
   exports.dataToDiv = dataToDiv
   exports.classToggle = classToggle

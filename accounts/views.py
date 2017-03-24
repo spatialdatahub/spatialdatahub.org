@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-# from django.contrib.auth.models import User
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 
@@ -77,4 +77,3 @@ def account_detail(request, account_slug=None):
 
     return render(request, template_name,
                   context={"account": account, "dataset_list": dataset_list})
-
