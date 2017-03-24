@@ -1,4 +1,9 @@
-<h1>{{ dataset.title }} Details</h1>
+<h1>
+  <a href='{% url "datasets:dataset_detail" dataset.account.account_slug dataset.dataset_slug dataset.pk %}'>
+    {{ dataset.title }}
+      Details
+  </a>
+</h1>
 <p>Account: {{ dataset.account }}</p>
 <p>Author: {{ dataset.author }}</p>
 <p>{{ dataset.description }}</p>
@@ -8,17 +13,17 @@
   <div class='row'>
     <ul class='list-inline'>
     <li>
-      <a href='{% url "datasets:dataset_update" account.account_slug dataset.dataset_slug dataset.pk %}'>
+      <a href='{% url "datasets:dataset_update" dataset.account.account_slug dataset.dataset_slug dataset.pk %}'>
         Update {{ dataset.title }}
       </a>
     </li>
     <li>
-      <a href='{% url "datasets:dataset_update_auth" account.account_slug dataset.dataset_slug dataset.pk %}'>
+      <a href='{% url "datasets:dataset_update_auth" dataset.account.account_slug dataset.dataset_slug dataset.pk %}'>
         Update {{ dataset.title }} authentication details
       </a>
     </li>
     <li>
-      <a href='{% url "datasets:dataset_remove" account.account_slug dataset.dataset_slug dataset.pk %}'>
+      <a href='{% url "datasets:dataset_remove" dataset.account.account_slug dataset.dataset_slug dataset.pk %}'>
         Remove {{ dataset.title }}
       </a>
     </li>
