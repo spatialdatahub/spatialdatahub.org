@@ -32,9 +32,11 @@
     <li><a href='{% url "portal" %}' >*</a></li>
     <li id='breadcrumbContainer'></li>
   </ol>
+
   <div class='row' id='main'>
 
     <div class='col-xs-12' id='urlContainer'>
+      <h2>Test a URL</h2>
       <label for='url_input'>For example copy and paste this into the input box then hit enter: https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson</label>
       <div class='input-group'>
         <span class='input-group-btn'>
@@ -50,6 +52,23 @@
       </div>
     </div>
 
+    <div class='col-xs-12'>
+      <div id='nominatim'>
+        <h2>Find a place</h2>
+        <div class='input-group'>
+          <span class='input-group-btn'>
+            <input id='place_button' class='btn btn-default' type='submit' value='Submit'>
+          </span>
+          <input id='place_input' class='form-control' type='text' placeholder='Enter Place Here'>
+        </div>
+
+        <p>
+          <input id='select_button' class='btn btn-default' type='submit' value='Submit'>
+          <select id='selector'></select>
+        </p>
+      </div>
+    </div>
+
     <div class='col-xs-12' id='mapContainer'>
       <div id='mapid'></div>
     </div>
@@ -61,6 +80,7 @@
 {% block js %}
 <script src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js'></script>
 <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+<script src=''></script>
 
 <script src='{% static "js/index.js" %}'></script>
 <script src='{% static "js/indexMap.js" %}'></script>
