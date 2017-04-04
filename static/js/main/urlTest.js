@@ -12,13 +12,16 @@ const buttons = document.getElementById('buttons')
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 
 // nominatim stuff
+const nominatim = 'http://nominatim.openstreetmap.org/search/'
 const placeInput = document.getElementById('place_input')
 const placeButton = document.getElementById('place_button')
 const selector = document.getElementById('selector')
 const selectButton = document.getElementById('select_button')
 const possiblePlaces = {}
+const selectedPlace = [] 
 
-const nominatim = 'http://nominatim.openstreetmap.org/search/'
+// filter button
+const filterButton = document.getElementById('filter_button')
 
 // make geojson
 // this is lifted from http://nominatim.openstreetmap.org/js/nominatim-ui.js
@@ -85,7 +88,13 @@ selectButton.addEventListener('click', () => {
     myMap.removeLayer(possiblePlaces[n])
   })
 
-  const lyr = possiblePlaces[selector.value]
+  if (selectedPlace.length === 0) {
+    selectedPlace.push(possiblePlaces[selector.value])
+  } else {
+    selectedPlace.pop() 
+    selectedPlace.push(possiblePlaces[selector.value])
+  }
+  const lyr = selectedPlace[0]
   lyr.addTo(myMap)
   myMap.fitBounds(lyr.getBounds()) 
 })
@@ -197,3 +206,22 @@ polygon to polygon stuff.
 Also, the nominatim stuff should be saved as an npm package that I can bring in to whatever
 page I want. That will be for after I show the functionality off at the next meeting.
 */
+
+// selectedPlace[0]
+
+filterButton.addEventListener('click', () => {
+
+  const pointsDatasets = []
+
+  Object.values(datasets).forEach(ds => {
+    myMap.hasLayer(ds) ? pointsDatasets.push(ds) : console.log('no')
+  })
+
+  const poly = selectedPlace[0].toGeoJSON()  
+
+  pointsDatasets.forEach(ds => {
+    const jds = ds.toGeoJSON()
+    const fds = turf.within(jds, poly)
+    L.geoJSON(fds).addTo(myMap)
+  })
+})
