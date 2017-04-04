@@ -37,7 +37,6 @@ Bootstrap for aesthetics, and the JavaScript mapping library Leaflet to display 
 If you wish to run the functional tests this site has you will need the browser automation tool Selenium with python
 bindings and a google chrome webdriver.
 
-npm thing.
 
 Contribute
 ----------
@@ -51,3 +50,9 @@ Support
 If you are having issues, please let Patrick Curry, the site developer, know.
 patrick.curry@leibniz-zmt.de
 
+
+IDEAS
+_____
+
+npm thing.
+babeljs
