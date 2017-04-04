@@ -90,6 +90,8 @@ selectButton.addEventListener('click', () => {
   myMap.fitBounds(lyr.getBounds()) 
 })
 
+// test url js
+
 // make container for the datasets
 const datasets = {}
 let count = 0
@@ -178,3 +180,20 @@ const toggleAll = (obj, map) => {
 toggleAllButton.addEventListener('click', () => {
   toggleAll(datasets, myMap)
 })
+
+/*
+What I need to do is write a bunch of stuff for turf
+
+First, I need to save the test url data that are on the map in an obvious easy to access place,
+then I need to convert them to geojson using the leaflet function '.ToGeoJSON()'. Then the same
+thing needs to happen for the place polygon. Once that happens, I can use
+'turf.within(points, polygon)' to get the points within the place polygon. Then I have to add
+those data to a layer, and then add the layer to the map. There should also be a button that
+toggles the points on and off, for the test url, place, and points within.
+
+Once I've done this with a polygon and points I need to do a polygon intersect type thing for
+polygon to polygon stuff.
+
+Also, the nominatim stuff should be saved as an npm package that I can bring in to whatever
+page I want. That will be for after I show the functionality off at the next meeting.
+*/
