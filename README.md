@@ -56,3 +56,5 @@ _____
 
 npm thing.
 babeljs
+
+Vue instead of React...
