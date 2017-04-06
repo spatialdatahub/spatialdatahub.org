@@ -61,6 +61,7 @@ const makeSelectorOptions = (array, selector) => {
   })
 }
 
+// I should be pulling this from the index.js file
 const getPlace = url => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
@@ -84,9 +85,11 @@ placeButton.addEventListener('click', () => {
 // i can't just keep geojson in the possiblePlaces object, it must be layers, that way
 // i can use the 'map.hasLayer()' function
 selectButton.addEventListener('click', () => {
-  Object.keys(possiblePlaces).forEach(n => {
-    myMap.removeLayer(possiblePlaces[n])
+
+  Object.values(possiblePlaces).forEach(n => {
+    myMap.removeLayer(n)
   })
+
 
   if (selectedPlace.length === 0) {
     selectedPlace.push(possiblePlaces[selector.value])
@@ -94,6 +97,7 @@ selectButton.addEventListener('click', () => {
     selectedPlace.pop() 
     selectedPlace.push(possiblePlaces[selector.value])
   }
+
   const lyr = selectedPlace[0]
   lyr.addTo(myMap)
   myMap.fitBounds(lyr.getBounds()) 
@@ -163,12 +167,13 @@ urlButton.addEventListener('click', () => {
 })
 
 // this needs to be added to indexMap.js, and tested
+// this also needs to turn the other buttons from active to inactive and vise versa
 const toggleAll = (obj, map) => {
   // make array
   const array = []
 
   // push values to array
-  Object.keys(obj).forEach(key => array.push(obj[key]))
+  Object.values(obj).forEach(val => array.push(val))
 
   // check if map has any of the layers
     // if true, remove layers

@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+
+{% block title %}About{% endblock title %}
+
 {% block content %}
 
 <div class="container-fluid">
@@ -15,12 +18,14 @@
 
     <p>
       The goal of the Web GIS Portal is to be the world's top tropical Geographic Information Systems
-      (GIS) data displaying website. It is based out of the Leibniz Zentrum für Marine Tropenökologie
+      (GIS) data displaying website. It is based out of the
+      <a href="http://www.zmt-bremen.de/en/zmt.html" target="_blank">Leibniz Centre for Tropical Marine Research</a>
       in Bremen, Germany. We plan to keep the code behind the website as simple as possible, while 
       staying up to date with the latest trends. Further functionality will be added as the project
       matures.
     </p>
 
+<!--
     <p>
       Through out developement we are adhering to the Test Driven Development (TDD) method as much as possible.
       The TDD method requires that developers write tests for their functions before writing their functions.
@@ -29,9 +34,10 @@
       by writing the function. As an example have made our JavaScript testing suite available here:
       <a href="{% url 'jstests' %}" target="_blank" >JavaScript testing suite</a>.
     </p>
+-->
 
     <p>
-      If you would like to see the source code for the website visit our <a href="https://github.com/patzmt/WebGIS" target="_blank">github page</a>.
+      If you would like to see the source code for the website visit our <a href="https://github.com/patcurry/WebGIS" target="_blank">github page</a>.
     </p>
 
     <p>
@@ -42,8 +48,9 @@
     <p>This website is being developed with <a href="https://www.djangoproject.com/" target="_blank">
       Django</a>, 
       <a href="https://www.postgresql.org/" target="_blank">PostgreSQL</a>,
-      <a href="http://v4-alpha.getbootstrap.com/" target="_blank">Bootstrap 4</a>, 
-      and <a href="http://leafletjs.com/" target="_blank">Leafletjs</a>.
+      <a href="http://getbootstrap.com/" target="_blank">Bootstrap 3</a>, 
+      <a href="http://leafletjs.com/" target="_blank">Leaflet</a>,
+      and <a href="http://turfjs.org/" target="_blank">Turf</a>.
     </p>
 
 </div>
