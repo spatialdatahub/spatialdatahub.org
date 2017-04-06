@@ -18,8 +18,6 @@ accountLinks.forEach(link => {
 // call the classToggle and the makeReq functions on the first
 // of the dataset links
 
-// const account = link.getAttribute('id')
-// const url = `/ajax/${account}`
 const a = accountLinks[0]
 const l = a.getAttribute('id')
 const u = `/account_ajax/${l}`

@@ -54,7 +54,6 @@ patrick.curry@leibniz-zmt.de
 IDEAS
 _____
 
-npm thing.
+npm with nominatim
 babeljs
-
-React?
+Vue instead of React...
