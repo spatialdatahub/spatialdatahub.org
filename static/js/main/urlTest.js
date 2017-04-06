@@ -15,6 +15,7 @@ const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 const nominatim = 'http://nominatim.openstreetmap.org/search/'
 const placeInput = document.getElementById('place_input')
 const placeButton = document.getElementById('place_button')
+const placeToggle = document.getElementById('place_toggle')
 const selector = document.getElementById('selector')
 const selectButton = document.getElementById('select_button')
 const possiblePlaces = {}
@@ -90,13 +91,9 @@ selectButton.addEventListener('click', () => {
     myMap.removeLayer(n)
   })
 
-
-  if (selectedPlace.length === 0) {
-    selectedPlace.push(possiblePlaces[selector.value])
-  } else {
-    selectedPlace.pop() 
-    selectedPlace.push(possiblePlaces[selector.value])
-  }
+  selectedPlace.length !== 0
+  ? (selectedPlace.pop(), selectedPlace.push(possiblePlaces[selector.value]))
+  : selectedPlace.push(possiblePlaces[selector.value])
 
   const lyr = selectedPlace[0]
   lyr.addTo(myMap)
@@ -153,8 +150,8 @@ urlButton.addEventListener('click', () => {
         classToggle(this, 'active')
         const val = this.getAttribute('value')
         myMap.hasLayer(datasets[val])
-          ? myMap.removeLayer(datasets[val])
-          : myMap.addLayer(datasets[val])
+        ? myMap.removeLayer(datasets[val])
+        : myMap.addLayer(datasets[val])
       })
 
       // modify data here
@@ -181,14 +178,14 @@ const toggleAll = (obj, map) => {
   const tf = []
   array.forEach(ds => {
     map.hasLayer(ds)
-      ? tf[0] = true
-      : console.log('nope')
+    ? tf[0] = true
+    : console.log('nope')
   })
 
   // if tf is true, remove all layers, otherwise add them all
   tf[0] === true
-    ? array.forEach(ds => map.removeLayer(ds))
-    : array.forEach(ds => map.addLayer(ds))
+  ? array.forEach(ds => map.removeLayer(ds))
+  : array.forEach(ds => map.addLayer(ds))
 }
 
 toggleAllButton.addEventListener('click', () => {
@@ -212,21 +209,26 @@ Also, the nominatim stuff should be saved as an npm package that I can bring in 
 page I want. That will be for after I show the functionality off at the next meeting.
 */
 
-// selectedPlace[0]
 
+// map and datasets should be arguements for a predefined function
 filterButton.addEventListener('click', () => {
-
   const pointsDatasets = []
-
   Object.values(datasets).forEach(ds => {
     myMap.hasLayer(ds) ? pointsDatasets.push(ds) : console.log('no')
   })
-
   const poly = selectedPlace[0].toGeoJSON()  
-
   pointsDatasets.forEach(ds => {
     const jds = ds.toGeoJSON()
     const fds = turf.within(jds, poly)
     L.geoJSON(fds).addTo(myMap)
   })
 })
+
+// map and layer should be arguements for a predefined function
+placeToggle.addEventListener('click', () => {
+  myMap.hasLayer(selectedPlace[0])
+  ? myMap.removeLayer(selectedPlace[0])
+  : myMap.addLayer(selectedPlace[0])
+})
+
+
