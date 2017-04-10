@@ -12,51 +12,39 @@ const buttons = document.getElementById('buttons')
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 
 // nominatim stuff
-const nominatim = 'http://nominatim.openstreetmap.org/search/'
 const placeInput = document.getElementById('place_input')
 const placeButton = document.getElementById('place_button')
 const placeToggle = document.getElementById('place_toggle')
 const selector = document.getElementById('selector')
 const selectButton = document.getElementById('select_button')
-const possiblePlaces = {}
+//const possiblePlaces = {}
+const possiblePlaces = en.possiblePlaces
+const possiblePlacesLayers = []
 const selectedPlace = [] 
 
 // filter button
 const filterButton = document.getElementById('filter_button')
-
-// make geojson
-// this is lifted from http://nominatim.openstreetmap.org/js/nominatim-ui.js
-const normalize_geojson = obj => {
-    // normalize places the geometry into a featurecollection, similar to
-    // https://github.com/mapbox/geojson-normalize
-    const geojson = {
-        type: "FeatureCollection",
-        features: [
-            {
-                type: "Feature",
-                geometry: obj,
-                properties: {}
-            }
-        ]
-    }
-    return geojson
-}
 
 // make selector options
 const makeSelectorOptions = (array, selector) => {
   // clear selector options
   selector.innerHTML = ''
   array.forEach(p => {
+    const obj = {}
     // get the osm data
-    const display_name = p['display_name']
-    const geojson = p['geojson']
+    // const display_name = p['display_name']
+    // const geojson = p['geojson']
+
+    obj.display_name = p['display_name']
+    obj.geojson = p['geojson']
 
     const option = document.createElement('option')
     option.value = display_name
-    const text = document.createTextNode(display_name)
-    const lyr = L.geoJSON(normalize_geojson(geojson))
+    const text = document.createTextNode(obj.display_name)
+    //const lyr = L.geoJSON(normalize_geojson(geojson))
+    //const lyr = L.geoJSON(en.normalizeGeoJSON(obj.geojson))
 
-    possiblePlaces[display_name] = lyr
+    // possiblePlaces[display_name] = lyr // here's my issue
     option.appendChild(text)
     selector.appendChild(option)
   })
@@ -78,8 +66,9 @@ const getPlace = url => {
 } 
 
 placeButton.addEventListener('click', () => {
-  const searchString = `${nominatim}${placeInput.value}?format=json&polygon_geojson=1`
+  const searchString = `${en.nominatim}${placeInput.value}?format=json&polygon_geojson=1`
   getPlace(searchString)
+  //en.getPlaceData(searchString)
 })
 
 // tightly coupled with the selector options thing
