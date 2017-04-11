@@ -61,4 +61,100 @@ describe('Tests for the functions in the index.js', function() {
       })
     })
   })
+
+  describe('getExt', function() {
+    describe('is used to get a specific extension from the end of a string', function() {
+      it('should recognize "kml"', function() {
+        const string = 'something.kml'
+        assert.equal(getExt(string), 'kml')
+      })
+
+      it('should recognize "csv"', function() {
+        const string = 'something.csv'
+        assert.equal(getExt(string), 'csv')
+      })
+
+      it('should recognize "json", but return "geojson"', function() {
+        const string = 'something.json'
+        assert.equal(getExt(string), 'geojson')
+      })
+
+      it('should recognize "geojson"', function() {
+        const string = 'something.geojson'
+        assert.equal(getExt(string), 'geojson')
+      })
+
+      it('should convert uppercase to lowercase', function() {
+        const string = 'something.GEOJSON'
+        assert.equal(getExt(string), 'geojson')
+      })
+    })
+  })
+
+  describe('addButton', function() {
+    describe('is used to add a button with a specific color to a container', function() {
+      it('should add a button element to the container', function() {
+        const div = document.createElement('div')
+        addButton('hey', 'blue', div)
+        assert.equal(div.children.item(0).tagName, 'BUTTON')
+      })
+
+      it('should make the button text "hey"', function() {
+        const div = document.createElement('div')
+        addButton('hey', 'blue', div)
+        assert.equal(div.children.item(0).innerHTML, 'hey')
+      })
+
+      it('should make the button text color blue', function() {
+        const div = document.createElement('div')
+        addButton('hey', 'blue', div)
+        assert.equal(div.children.item(0).style.color, 'blue')
+      })
+
+      it('should make the button text font weight bold', function() {
+        const div = document.createElement('div')
+        addButton('hey', 'blue', div)
+        assert.equal(div.children.item(0).style.fontWeight, 'bold')
+      })
+    })
+  })
+
+  describe('makeReq', function() {
+    describe('Is used to get data from a url, then pass it to a function that does something with a div', function() {
+
+      const url = 'https://raw.githubusercontent.com/patcurry/GeoJsonData/master/singlepoint.json'
+      const div = document.createElement('div')
+      const func = (data, el) => el.innerHTML = data
+
+      before(function(done) {
+          makeReq(url, func, div)
+      })
+
+      it('adds calls function that adds data to div', function(done) {
+        const expected = `{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "marker-color": "#7e7e7e",
+        "marker-size": "medium",
+        "marker-symbol": "",
+        "island": "oahu",
+        "largest-city": "honolulu"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -157.950439453125,
+          21.468405577312012
+        ]
+      }
+    }
+  ]
+}`
+        assert.equal(div.innerHTML, expected)
+      })
+    })
+  })
 })

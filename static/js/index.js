@@ -8,7 +8,7 @@
 // is this function completely unnecessary?
 const addDataToContainer = (data, obj, key) => obj[key] = data
 
-// is this function necessary?
+// should this function be here?
 const dataToDiv = (data, div) => div.innerHTML = data
 
 // toggle active / inactive links in list
@@ -58,16 +58,16 @@ const classToggleOnDiffLink = (el, elList, className) => {
 
 // make function that gets the ext of the url
 // it can handle csv, kml, json, and geojson
-const getExt = url => {
+const getExt = string => {
   const ext = {}
-  url.toLowerCase()
-  url.endsWith('kml')
+  const stringLower = string.toLowerCase()
+  stringLower.endsWith('kml')
   ? ext[0] = 'kml'
-  : url.endsWith('csv')
+  : stringLower.endsWith('csv')
   ? ext[0] = 'csv'
-  : url.endsWith('json')
+  : stringLower.endsWith('json')
   ? ext[0] = 'geojson'
-  : console.log(url)
+  : console.log(stringLower)
   return ext[0]
 }
 
@@ -75,7 +75,8 @@ const getExt = url => {
 const addButton = (text, color, container) => {
   const btn = document.createElement('button')
   const value = document.createTextNode(text)
-  btn.setAttribute('class', 'btn btn-default active')
+  btn.setAttribute('class', 'btn btn-default active') // this is bootstrap3 specific,
+                                                      // it should probably be removed
   btn.setAttribute('value', text)
 
   // make the color of the number correspond
@@ -91,6 +92,8 @@ const addButton = (text, color, container) => {
 }
 
 // make ajax request function here, then move it to the index.js
+// this is the makeRequest Function... ah, time to add it to the tests
+// this is set up to take a function and an arguement for that function
 const makeReq = (url, func, div) => {
   const xhr = new XMLHttpRequest()
   xhr.open('GET', url, true)
@@ -104,6 +107,9 @@ const makeReq = (url, func, div) => {
 }
 
 // export all the functions to node for testing
+// This is probably no longer necessary, because I'm using the browser to
+// test functions that should be run in the browser... although I will
+// leave this if I do decide to use node
 if (typeof exports !== 'undefined') {
   exports.addDataToContainer = addDataToContainer
   exports.dataToDiv = dataToDiv
