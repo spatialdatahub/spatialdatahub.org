@@ -3,6 +3,7 @@ from django.db.utils import IntegrityError
 from django.test import TestCase
 
 from datasets.models import Dataset
+from datasets.models import Keyword
 from accounts.models import Account
 
 from cryptography.fernet import Fernet
@@ -161,3 +162,30 @@ class DatasetModelTests(TestCase):
         bytes_user = dataset.dataset_user.encode("utf-8")
         decrypted_user = cipher_end.decrypt(bytes_user).decode("utf-8")
         self.assertEqual(decrypted_user, "zmtdummy")
+
+# This won't come until after I fix my tests. There aren't any account tests
+
+class KeywordModelTests(TestCase):
+    def setUp(self):
+        self.a1 = Account.objects.create(
+            user="test_user",
+            affiliation="Zentrum für Marine Tropenökologie")
+
+        self.ds1 = Dataset.objects.create(
+            account=self.a1,
+            author="Google",
+            title="Google GeoJSON Example",
+            description="Polygons spelling 'GOOGLE' over Australia",
+            url="https://storage.googleapis.com/maps-devrel/google.json",
+            public_access=True)
+
+    def test_that_keyword_can_be_created(self):
+        test_dataset = Dataset.objects.get(
+            dataset_slug="google-geojson-example")
+
+        Keyword.objects.create(keyword="biology", dataset=self.ds1)
+        #self.assertEqual(keyword.dataset, "biology")
+        
+        length = len(Keyword.objects.all())
+        self.assertEqual(length, 1)
+

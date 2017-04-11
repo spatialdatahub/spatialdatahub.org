@@ -33,6 +33,12 @@ class Dataset(models.Model):
     author = models.CharField(max_length=200)
     title = models.CharField(max_length=50)
     description = models.TextField()
+
+    # start with tests... should this many to many be defined in the
+    # keywords model itself
+    # keywords = models.ManyToMany(KeyWord, null=True, blank=True)
+
+
     # there should be an if/else for this or owncloud
     url = models.URLField(max_length=500, null=True, blank=True)
     dataset_user = models.CharField(max_length=500, null=True,
@@ -86,3 +92,12 @@ class Dataset(models.Model):
                   "dataset_slug": self.dataset_slug,
                   "pk": self.pk}
         return reverse("datasets:dataset_detail", kwargs=kwargs)
+
+'''
+class Keyword(models.Model):
+
+    keyword = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return self.keyword
+'''
