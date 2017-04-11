@@ -17,77 +17,64 @@ const placeButton = document.getElementById('place_button')
 const placeToggle = document.getElementById('place_toggle')
 const selector = document.getElementById('selector')
 const selectButton = document.getElementById('select_button')
-//const possiblePlaces = {}
-const possiblePlaces = en.possiblePlaces
-const possiblePlacesLayers = []
+// const possiblePlaces = {}
+// const possiblePlaces = en.possiblePlaces
+const possiblePlaceLayers = {} // this is where i keep the layers to query the map with
 const selectedPlace = [] 
 
 // filter button
 const filterButton = document.getElementById('filter_button')
 
 // make selector options
-const makeSelectorOptions = (array, selector) => {
+// hardcoding this
+//const makeSelectorOptions = (array, selector) => {
+const makeSelectorOptions = array => {
   // clear selector options
   selector.innerHTML = ''
+
   array.forEach(p => {
     const obj = {}
-    // get the osm data
-    // const display_name = p['display_name']
-    // const geojson = p['geojson']
+    obj.display_name = p.display_name
+    obj.geojson = p.geojson
 
-    obj.display_name = p['display_name']
-    obj.geojson = p['geojson']
+    const display_name = obj.display_name
 
     const option = document.createElement('option')
-    option.value = display_name
+    option.value = obj.display_name
     const text = document.createTextNode(obj.display_name)
-    //const lyr = L.geoJSON(normalize_geojson(geojson))
-    //const lyr = L.geoJSON(en.normalizeGeoJSON(obj.geojson))
-
-    // possiblePlaces[display_name] = lyr // here's my issue
     option.appendChild(text)
     selector.appendChild(option)
+
+    const lyr = L.geoJson(obj.geojson) 
+    possiblePlaceLayers[display_name] = lyr
   })
 }
 
-// I should be pulling this from the index.js file
-const getPlace = url => {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', url, true)
-    xhr.onload = () => {
-      xhr.readyState === 4 && xhr.status === 200
-      ? makeSelectorOptions(JSON.parse(xhr.responseText), selector)
-      : console.log(xhr.statusText)
-    }
-    xhr.onerror = () => console.log('error')
-    xhr.send()
-  })
-} 
-
 placeButton.addEventListener('click', () => {
-  const searchString = `${en.nominatim}${placeInput.value}?format=json&polygon_geojson=1`
-  getPlace(searchString)
-  //en.getPlaceData(searchString)
+  const callback = data => console.log(data)
+  const val = placeInput.value
+  const data = en.getPlaceData(val, makeSelectorOptions)
 })
 
 // tightly coupled with the selector options thing
 // i can't just keep geojson in the possiblePlaces object, it must be layers, that way
 // i can use the 'map.hasLayer()' function
+
 selectButton.addEventListener('click', () => {
 
-  Object.values(possiblePlaces).forEach(n => {
+  Object.values(possiblePlaceLayers).forEach(n => {
     myMap.removeLayer(n)
   })
 
   selectedPlace.length !== 0
-  ? (selectedPlace.pop(), selectedPlace.push(possiblePlaces[selector.value]))
-  : selectedPlace.push(possiblePlaces[selector.value])
+  ? (selectedPlace.pop(), selectedPlace.push(possiblePlaceLayers[selector.value]))
+  : selectedPlace.push(possiblePlaceLayers[selector.value])
 
   const lyr = selectedPlace[0]
   lyr.addTo(myMap)
   myMap.fitBounds(lyr.getBounds()) 
 })
+
 
 // test url js
 
