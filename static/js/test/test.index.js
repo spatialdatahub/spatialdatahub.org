@@ -1,7 +1,7 @@
 describe('Tests for the functions in the index.js', function() {
   // this should probably be removed... it's not an important function
   describe('dataToDiv', function() {
-    it('is used to add data to html elements, or anything really', () => {
+    it('is used to add data to html elements, or anything really', function() {
       const div = document.createElement('div')
       const data = 'hey'
       dataToDiv(data, div)
@@ -122,39 +122,36 @@ describe('Tests for the functions in the index.js', function() {
   describe('makeReq', function() {
     describe('Is used to get data from a url, then pass it to a function that does something with a div', function() {
 
+
+var geojson = '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","island":"oahu","largest-city":"honolulu"},"geometry":{"type":"Point","coordinates":[-157.950439453125,21.468405577312012]}}]}' 
+
+      const expected = JSON.stringify(geojson)
       const url = 'https://raw.githubusercontent.com/patcurry/GeoJsonData/master/singlepoint.json'
       const div = document.createElement('div')
-      const func = (data, el) => el.innerHTML = data
 
-      before(function(done) {
-          makeReq(url, func, div)
-      })
+      it('gets the data', function(done) {
 
-      it('adds calls function that adds data to div', function(done) {
-        const expected = `{
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {
-        "marker-color": "#7e7e7e",
-        "marker-size": "medium",
-        "marker-symbol": "",
-        "island": "oahu",
-        "largest-city": "honolulu"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -157.950439453125,
-          21.468405577312012
-        ]
+      const func = function(data) {
+        data.should.equal(expected)
+        done()
       }
-    }
-  ]
-}`
-        assert.equal(div.innerHTML, expected)
+
+      makeReq(url, func, div)
       })
     })
+/*
+it('should parse fetched data as JSON', function(done) {
+    var data = { foo: 'bar' };
+    var dataJson = JSON.stringify(data);
+
+    myapi.get(function(err, result) {
+        result.should.deep.equal(data);
+        done();
+    });
+
+    this.requests[0].respond(200, { 'Content-Type': 'text/json' }, dataJson);
+});
+*/
+
   })
 })

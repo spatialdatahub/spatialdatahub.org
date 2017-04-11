@@ -16,16 +16,25 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
-<!--  <script src="https://unpkg.com/chai-as-promised@6.0.0"></script> -->
+  <!-- <script src="../node_modules/chai-as-promised/lib/chai-as-promised.js"></script> -->
 
   <script>
     mocha.setup('bdd')
     mocha.reporter('html')
     var assert = chai.assert
+    var should = chai.should
+    var expect = chai.expect
   </script>
 
   <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/test/test.index.js' %}"></script>
+
+  <!-- importing leaflet and omnivore after index.js stuff above because it's not relevant to it -->
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+  <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/leaflet-omnivore/0.3.4/leaflet-omnivore.js'></script>
+
+  <script type="text/javascript" src="{% static 'js/indexMap.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/test/test.indexMap.js' %}"></script>
 
   <script>
     mocha.checkLeaks()

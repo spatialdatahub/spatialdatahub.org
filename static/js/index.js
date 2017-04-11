@@ -8,7 +8,8 @@
 // is this function completely unnecessary?
 const addDataToContainer = (data, obj, key) => obj[key] = data
 
-// should this function be here?
+// this should probably be in the index of helper functions
+// makeReq function
 const dataToDiv = (data, div) => div.innerHTML = data
 
 // toggle active / inactive links in list
@@ -75,8 +76,7 @@ const getExt = string => {
 const addButton = (text, color, container) => {
   const btn = document.createElement('button')
   const value = document.createTextNode(text)
-  btn.setAttribute('class', 'btn btn-default active') // this is bootstrap3 specific,
-                                                      // it should probably be removed
+  btn.setAttribute('class', 'btn btn-default active')
   btn.setAttribute('value', text)
 
   // make the color of the number correspond
@@ -92,8 +92,6 @@ const addButton = (text, color, container) => {
 }
 
 // make ajax request function here, then move it to the index.js
-// this is the makeRequest Function... ah, time to add it to the tests
-// this is set up to take a function and an arguement for that function
 const makeReq = (url, func, div) => {
   const xhr = new XMLHttpRequest()
   xhr.open('GET', url, true)
@@ -107,9 +105,6 @@ const makeReq = (url, func, div) => {
 }
 
 // export all the functions to node for testing
-// This is probably no longer necessary, because I'm using the browser to
-// test functions that should be run in the browser... although I will
-// leave this if I do decide to use node
 if (typeof exports !== 'undefined') {
   exports.addDataToContainer = addDataToContainer
   exports.dataToDiv = dataToDiv
