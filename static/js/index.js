@@ -8,8 +8,7 @@
 // is this function completely unnecessary?
 const addDataToContainer = (data, obj, key) => obj[key] = data
 
-// this should probably be in the index of helper functions
-// makeReq function
+// is this function necessary?
 const dataToDiv = (data, div) => div.innerHTML = data
 
 // toggle active / inactive links in list
