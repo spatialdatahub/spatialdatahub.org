@@ -80,12 +80,20 @@ def one_time_view(request):
     return render(request, template_name)
 
 
+# should this be in the dataset app, or should it be in it's own app?
 def keyword_list(request):
     """
     This is a view that will show all the keywords.
     """
     keyword_list = Keyword.objects.all()
     template_name = "datasets/keyword_list.html"
+
+    # how do I put this into an ajax call?
+    # check the django ajax project
+#    if "q" in request.GET:
+#        q = request.GET["q"]
+#        dataset_list = Keyword.objects.filter().order_by("keyword")
+
     return render(request, template_name, {"keyword_list": keyword_list})
 
 '''
