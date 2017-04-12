@@ -1,4 +1,6 @@
+from django.contrib.auth.models import User
 from django.http import HttpRequest
+from django.test import Client
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
@@ -12,7 +14,7 @@ from accounts.views import account_remove
 from datasets.models import Dataset
 
 # this is all obsolete, new accounts are automatically created
-# when new users are created
+# when new users are created, there should be tests for that
 '''
 class NewAccountViewTests(TestCase):
 
@@ -56,28 +58,16 @@ class NewAccountViewTests(TestCase):
 class AccountListViewTests(TestCase):
 
     def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
 
     def test_account_list_url_resolves_to_account_list_view(self):
         response = self.client.get("/accounts/")
         self.assertEqual(response.status_code, 200)
-'''
-    def test_account_list_function_resolves(self):
-        request = HttpRequest()
-        response = account_list(request)
-        self.assertEqual(response.status_code, 200)
-
-    def test_account_list_view_uses_correct_templates(self):
-        response = self.client.get(
-            reverse("accounts:account_list"))
-        self.assertTemplateUsed(
-            response,
-            template_name="accounts/account_list.html")
-        self.assertTemplateUsed(
-            response,
-            template_name="base.html")
 
     def test_account_list_view_title_is_correct(self):
         response = self.client.get(
@@ -94,9 +84,12 @@ class AccountListViewTests(TestCase):
 class AccountDetailViewTests_NO_DATASETS(TestCase):
 
     def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
 
     def test_account_detail_view_without_datasets_says_none_available(self):
         response = self.client.get(
@@ -117,9 +110,12 @@ class AccountDetailViewTests_NO_DATASETS(TestCase):
 class AccountDetailViewTests(TestCase):
 
     def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
 
         self.ds1 = Dataset.objects.create(
             account=self.a1,
@@ -143,21 +139,6 @@ class AccountDetailViewTests(TestCase):
         response = self.client.get("/test_user/")
         self.assertEqual(response.status_code, 200)
 
-    def test_account_detail_view_function_resolves(self):
-        request = HttpRequest()
-        response = account_detail(request, account_slug=self.a1.account_slug)
-        self.assertEqual(response.status_code, 200)
-
-    def test_account_detail_view_uses_correct_templates(self):
-        response = self.client.get(
-            reverse(
-                "accounts:account_detail",
-                kwargs={"account_slug": self.a1.account_slug}))
-        self.assertTemplateUsed(response,
-                                template_name="accounts/account_detail.html")
-        self.assertTemplateUsed(response,
-                                template_name="base.html")
-
     def test_account_detail_view_title_is_correct(self):
         response = self.client.get(
             reverse("accounts:account_detail",
@@ -173,134 +154,50 @@ class AccountDetailViewTests(TestCase):
                          response.content.decode('utf-8'))
 
 
-class AccountPortalViewTests_NO_DATASETS(TestCase):
-
-    def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
-
-    def test_account_portal_view_without_datasets_says_none_available(self):
-        response = self.client.get(
-            reverse(
-                "accounts:account_portal",
-                kwargs={"account_slug": self.a1.account_slug}))
-        self.assertIn('There are no datasets available',
-                      response.content.decode('utf-8'))
-
-    def test_account_portal_view_brings_in_correct_number_dataset_objs(self):
-        response = self.client.get(
-            reverse(
-                "accounts:account_portal",
-                kwargs={"account_slug": self.a1.account_slug}))
-        self.assertEqual(0, len(response.context['dataset_list']))
-
-
-class AccountPortalViewTests(TestCase):
-
-    def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
-
-        self.ds1 = Dataset.objects.create(
-            account=self.a1,
-            author="Google",
-            title="Google GeoJSON Example",
-            description="Polygons spelling 'GOOGLE' over Australia",
-            url="https://storage.googleapis.com/maps-devrel/google.json",
-            public_access=True)
-
-        self.ds3 = Dataset.objects.create(
-            account=self.a1,
-            author="Pat",
-            title="Bienvenidos",
-            description="Polygons spelling 'Bienvenidos'" +
-                        " over the United States",
-            url="https://raw.githubusercontent.com/zmtdummy/" +
-                "GeoJsonData/master/bienvenidos.json",
-            public_access=True)
-
-    def test_account_portal_url_resolves_to_account_portal_view(self):
-        response = self.client.get("/test_user/portal/")
-        self.assertEqual(response.status_code, 200)
-
-    def test_account_portal_view_function_resolves(self):
-        request = HttpRequest()
-        response = account_portal(request, account_slug=self.a1.account_slug)
-        self.assertEqual(response.status_code, 200)
-
-    def test_account_portal_view_uses_correct_templates(self):
-        response = self.client.get(
-            reverse(
-                "accounts:account_portal",
-                kwargs={"account_slug": self.a1.account_slug}))
-        self.assertTemplateUsed(
-            response,
-            template_name="accounts/account_portal.html")
-        self.assertTemplateUsed(response,
-                                template_name="base.html")
-
-    def test_account_portal_view_title_is_correct(self):
-        response = self.client.get(
-            reverse(
-                "accounts:account_portal",
-                kwargs={"account_slug": self.a1.account_slug}))
-        self.assertIn("<title>ZMT | {0} Portal</title>".format(self.a1.user),
-                      response.content.decode("utf-8"))
-
-    def test_account_portal_search_function_1(self):
-        response = self.client.get("/test_user/?q=Bien")
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('Bienvenidos', response.content.decode('utf-8'))
-        self.assertNotIn('Google GeoJSON Example',
-                         response.content.decode('utf-8'))
-
-
 class AccountUpdateViewTests(TestCase):
 
     def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
 
-    def test_account_update_url_resolves_to_account_update_view(self):
-        response = self.client.get("/test_user/update/")
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
+
+        # pretty much login u1
+        self.logged_in = Client()
+        self.logged_in.login(username="test_user", password="test_password")
+        self.logged_in.is_authenticated = True
+        self.logged_in.id = self.u1.id
+
+        # make non logged in client
+        self.not_logged_in = Client()
+
+    def test_account_update_url_resolves_to_account_update_view_for_logged_in_user(self):
+        response = self.logged_in.get("/test_user/update/")
         self.assertEqual(response.status_code, 200)
 
-    def test_account_update_view_function_resolves(self):
-        request = HttpRequest()
-        response = account_update(request, account_slug=self.a1.account_slug)
-        self.assertEqual(response.status_code, 200)
-
-    def test_account_update_view_uses_correct_templates(self):
-        response = self.client.get(
-            reverse(
-                "accounts:account_update",
-                kwargs={"account_slug": self.a1.account_slug}))
-        self.assertTemplateUsed(
-            response,
-            template_name="accounts/account_update.html")
-        self.assertTemplateUsed(response,
-                                template_name="base.html")
+    def test_account_update_url_redirects_for_non_logged_in_user(self):
+        response = self.not_logged_in.get("/test_user/update/")
+        self.assertEqual(response.status_code, 302)
 
     def test_account_update_view_title_is_correct(self):
-        response = self.client.get(
+        response = self.logged_in.get(
             reverse(
                 "accounts:account_update",
                 kwargs={"account_slug": self.a1.account_slug}))
         self.assertIn("<title>ZMT | Update {}</title>".format(self.a1.user),
                       response.content.decode("utf-8"))
 
-    def test_account_update_view_uses_DatasetForm(self):
-        response = self.client.get(
+    def test_account_update_view_uses_AccountForm(self):
+        response = self.logged_in.get(
             reverse(
                 "accounts:account_update",
                 kwargs={"account_slug": self.a1.account_slug}))
         self.assertIsInstance(response.context["form"], AccountForm)
 
     def test_account_update_view_redirect_to_account_detail_view_on_save(self):
-        response = self.client.post(
+        response = self.logged_in.post(
             reverse(
                 "accounts:account_update",
                 kwargs={"account_slug": self.a1.account_slug}),
@@ -309,7 +206,7 @@ class AccountUpdateViewTests(TestCase):
         self.assertEqual(response["location"], "/changed_test_user/")
 
     def test_account_update_view_updates_account_data(self):
-        self.client.post(
+        self.logged_in.post(
             reverse(
                 "accounts:account_update",
                 kwargs={"account_slug": self.a1.account_slug}),
@@ -317,7 +214,7 @@ class AccountUpdateViewTests(TestCase):
             follow=True)
         test_account = Account.objects.all()[0]
         self.assertEqual(test_account.user, "changed test user")
-
+'''
 
 class AccountRemoveViewTests(TestCase):
 
