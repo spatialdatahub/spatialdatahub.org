@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from datasets.models import Dataset
+from datasets.models import Keyword
 
 import requests
 import owncloud

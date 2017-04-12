@@ -34,7 +34,6 @@ urlpatterns = [
     # ^reset/done/$ [name='password_reset_complete']
     #
     # I also want to put create update delete user views in this part
-    #
 
     url(r'^admin/', admin.site.urls),
 
@@ -50,10 +49,6 @@ urlpatterns = [
         TemplateView.as_view(template_name='contact.html'),
         name='contact'),
 
-    url(r'^url_test/$',
-        TemplateView.as_view(template_name='url_test.html'),
-        name='url_test'),
-
     url(r'^one_time_view/$',
         views.one_time_view,
         name="one_time_view"),
@@ -62,13 +57,21 @@ urlpatterns = [
         views.jstests,
         name='jstests'),
 
-    url(r'^$',
-        views.portal,
-        name='portal'),
+    url(r'^keywords/$',
+        views.keyword_list,
+        name='keyword_list'),
+
+    url(r'^url_test/$',
+        TemplateView.as_view(template_name='url_test.html'),
+        name='url_test'),
 
     url(r'^load_dataset/(?P<pk>[0-9]+)/$',
         views.load_dataset,
         name='load_dataset'),
+
+    url(r'^$',
+        views.portal,
+        name='portal'),
 
     url(r'^',
         include('accounts.urls',

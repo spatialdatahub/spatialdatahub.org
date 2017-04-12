@@ -108,4 +108,20 @@ class KeywordViewTests(TestCase):
            dataset_password="zmtBremen1991",
            public_access=False)
 
+        # make keywords
+        self.kw1 = Keyword.objects.create(keyword="biology")
+        self.kw2 = Keyword.objects.create(keyword="chemistry")
+
+        # add keywords to datasets
+        self.kw1.datasets.add(self.ds1, self.ds2)
+        self.kw2.datasets.add(self.ds1)        
+
+        # save keywords
+        self.kw1.save()
+        self.kw2.save()
+
+    def test_keyword_list_shows_keywords(self):
+        response = self.client.get("/keywords/")
+        self.assertEqual(response.status_code, 200)
+
 
