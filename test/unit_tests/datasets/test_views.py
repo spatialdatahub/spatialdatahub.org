@@ -24,6 +24,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 class NewDatasetViewTests(TestCase):
 
     def setUp(self):
+
+        # this should have two users set up
         self.u1 = User.objects.create_user(
             username="test_user", password="test_password")
 
@@ -47,23 +49,6 @@ class NewDatasetViewTests(TestCase):
     def test_new_dataset_view_url_resolves(self):
         response = self.logged_in.get("/test_user/new_dataset/")
         self.assertEqual(response.status_code, 200)
-
-    # do i need this?
-    def test_new_dataset_function_resolves(self):
-        request = HttpRequest()
-        request.user = self.logged_in
-        response = new_dataset(request, account_slug=self.a1.account_slug)
-        self.assertEqual(response.status_code, 200)
-
-    def test_new_dataset_view_uses_correct_templates(self):
-        response = self.logged_in.get(
-            reverse(
-                "datasets:new_dataset",
-                kwargs={"account_slug": self.a1.account_slug}))
-        self.assertTemplateUsed(response,
-                                template_name="datasets/new_dataset.html")
-        self.assertTemplateUsed(response,
-                                template_name="base.html")
 
     def test_new_dataset_view_title_is_correct(self):
         response = self.logged_in.get(
@@ -101,7 +86,6 @@ class NewDatasetViewTests(TestCase):
                   "url": "https://duckduckgo.com/"}, follow=True)
         test_dataset = Dataset.objects.all()[0]
         self.assertEqual(test_dataset.title, "test dataset")
-
 
 
 class DatasetDetailViewTests(TestCase):
@@ -148,26 +132,6 @@ class DatasetDetailViewTests(TestCase):
             "/test_user/google-geojson-example/{pk}/".format(
                 pk=self.ds1.pk))
         self.assertEqual(response.status_code, 200)
-
-    def test_dataset_detail_function_resolves(self):
-        request = HttpRequest()
-        response = dataset_detail(request,
-                                  account_slug=self.a1.account_slug,
-                                  dataset_slug=self.ds1.dataset_slug,
-                                  pk=self.ds1.pk)
-        self.assertEqual(response.status_code, 200)
-
-    def test_dataset_detail_view_uses_correct_templates(self):
-        response = self.not_logged_in.get(
-            reverse(
-                "datasets:dataset_detail",
-                kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}))
-        self.assertTemplateUsed(response,
-                                template_name="datasets/dataset_detail.html")
-        self.assertTemplateUsed(response,
-                                template_name="base.html")
 
     def test_dataset_detail_view_title_is_correct(self):
         response = self.not_logged_in.get(
@@ -234,8 +198,6 @@ class DatasetUpdateViewTests(TestCase):
         self.a2.affiliation = "Zentrum für Marine Tropenökologie"
         self.a2.save()
 
-
-
         # pretty much login u1
         self.logged_in = Client()
         self.logged_in.login(username="test_user", password="test_password")
@@ -290,28 +252,6 @@ class DatasetUpdateViewTests(TestCase):
             "/user_two/whatever/{pk}/update/".format(
                 pk=self.ds3.pk))
         self.assertEqual(response.status_code, 302)
-
-    def test_dataset_update_function_resolves(self):
-        request = HttpRequest()
-        request.user = self.logged_in
-        response = dataset_update(request,
-                                  account_slug=self.a1.account_slug,
-                                  dataset_slug=self.ds1.dataset_slug,
-                                  pk=self.ds1.pk)
-        self.assertEqual(response.status_code, 200)
-
-
-    def test_dataset_update_view_uses_correct_templates(self):
-        response = self.logged_in.get(
-            reverse(
-                "datasets:dataset_update",
-                kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}))
-        self.assertTemplateUsed(response,
-                                template_name="datasets/dataset_update.html")
-        self.assertTemplateUsed(response,
-                                template_name="base.html")
 
     def test_dataset_update_view_title_is_correct(self):
         response = self.logged_in.get(
@@ -436,27 +376,6 @@ class DatasetUpdateAuthViewTests(TestCase):
                 pk=self.ds2.pk))
         self.assertEqual(response.status_code, 200)
 
-    def test_dataset_update_auth_function_resolves(self):
-        request = HttpRequest()
-        response = dataset_update_auth(request,
-                                       account_slug=self.a1.account_slug,
-                                       dataset_slug=self.ds2.dataset_slug,
-                                       pk=self.ds2.pk)
-        self.assertEqual(response.status_code, 200)
-
-    def test_dataset_update_auth_view_uses_correct_templates(self):
-        response = self.client.get(
-            reverse(
-                "datasets:dataset_update_auth",
-                kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds2.dataset_slug,
-                        "pk": self.ds2.pk}))
-        self.assertTemplateUsed(
-            response,
-            template_name="datasets/dataset_update_auth.html")
-        self.assertTemplateUsed(response,
-                                template_name="base.html")
-
     def test_dataset_update_auth_view_title_is_correct(self):
         response = self.client.get(
             reverse(
@@ -482,14 +401,17 @@ class DatasetUpdateAuthViewTests(TestCase):
         self.assertEqual(response["location"],
                          "/test_user/password-protected-dataset/{pk}/".format(
                          pk=self.ds2.pk))
-
+'''
 
 class DatasetRemoveViewTests(TestCase):
 
     def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
 
         self.ds1 = Dataset.objects.create(
             account=self.a1,
@@ -499,35 +421,29 @@ class DatasetRemoveViewTests(TestCase):
             url="https://storage.googleapis.com/maps-devrel/google.json",
             public_access=True)
 
+        # pretty much login u1
+        self.logged_in = Client()
+        self.logged_in.login(username="test_user", password="test_password")
+        self.logged_in.is_authenticated = True
+        self.logged_in.id = self.u1.id
+
+        # make non logged in client
+        self.not_logged_in = Client()
+
+    def test_dataset_remove_view_url_does_not_resolve_for_non_logged_in_users(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/{pk}/remove/".format(
+                pk=self.ds1.pk))
+        self.assertEqual(response.status_code, 302)
+
     def test_dataset_remove_view_url_resolves(self):
-        response = self.client.get(
+        response = self.logged_in.get(
             "/test_user/google-geojson-example/{pk}/remove/".format(
                 pk=self.ds1.pk))
         self.assertEqual(response.status_code, 200)
 
-    def test_dataset_remove_function_resolves(self):
-        request = HttpRequest()
-        response = dataset_remove(
-            request,
-            account_slug=self.a1.account_slug,
-            dataset_slug=self.ds1.dataset_slug,
-            pk=self.ds1.pk)
-        self.assertEqual(response.status_code, 200)
-
-    def test_dataset_remove_view_uses_correct_templates(self):
-        response = self.client.get(
-            reverse(
-                "datasets:dataset_remove",
-                kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}))
-        self.assertTemplateUsed(response,
-                                template_name="datasets/dataset_remove.html")
-        self.assertTemplateUsed(response,
-                                template_name="base.html")
-
     def test_dataset_remove_view_title_is_correct(self):
-        response = self.client.get(
+        response = self.logged_in.get(
             reverse(
                 "datasets:dataset_remove",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -537,7 +453,7 @@ class DatasetRemoveViewTests(TestCase):
                       response.content.decode("utf-8"))
 
     def test_dataset_remove_view_redirects_account_detail_view_on_save(self):
-        response = self.client.post(
+        response = self.logged_in.post(
             reverse(
                 "datasets:dataset_remove",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -549,18 +465,8 @@ class DatasetRemoveViewTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"], "/test_user/")
 
-    def test_that_dataset_remove_view_brings_in_correct_dataset_object(self):
-        response = self.client.get(
-            reverse(
-                "datasets:dataset_remove",
-                kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}))
-        self.assertEqual(self.ds1, response.context["dataset"])
-        self.assertEqual(self.a1, response.context["account"])
-
     def test_that_dataset_remove_view_removes_datasets(self):
-        self.client.post(
+        self.logged_in.post(
             reverse(
                 "datasets:dataset_remove",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -568,4 +474,3 @@ class DatasetRemoveViewTests(TestCase):
                         "pk": self.ds1.pk}),
             follow=True)
         self.assertFalse(Dataset.objects.all())
-'''

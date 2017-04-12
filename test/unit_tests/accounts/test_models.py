@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
 from django.test import TestCase
 
@@ -10,9 +11,12 @@ class AccountModelTests(TestCase):
     different things in the web app.
     """
     def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
 
     def test_that_account_object_can_be_saved_to_database_and_found(self):
         """
@@ -21,14 +25,14 @@ class AccountModelTests(TestCase):
         the user, affiliation, and slug are correct
         """
         test_account = Account.objects.get(account_slug="test_user")
-        self.assertEqual(test_account.user, "test_user")
+        self.assertEqual(test_account.user, self.u1)
         self.assertEqual(test_account.affiliation,
                          "Zentrum für Marine Tropenökologie")
         self.assertEqual(test_account.account_slug, "test_user")
 
     def test_that_accounts_with_same_user_name_cannot_be_saved(self):
         with self.assertRaises(IntegrityError):
-            Account.objects.create(user="test_user", affiliation="zmt")
+            Account.objects.create(user=self.u1, affiliation="zmt")
 
     def test_account_method_get_absolute_url_returns_correct_url(self):
         expected_url = "/{account_slug}/".format(
