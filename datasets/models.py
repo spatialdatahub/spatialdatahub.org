@@ -38,7 +38,6 @@ class Dataset(models.Model):
     # keywords model itself
     # keywords = models.ManyToMany(KeyWord, null=True, blank=True)
 
-
     # there should be an if/else for this or owncloud
     url = models.URLField(max_length=500, null=True, blank=True)
     dataset_user = models.CharField(max_length=500, null=True,
@@ -96,9 +95,9 @@ class Dataset(models.Model):
 
 class Keyword(models.Model):
     # keywords should be unique, and they should not be blank
-    keyword = models.CharField(max_length=100, blank=False, null=False, unique=True)
+    keyword = models.CharField(max_length=100,
+                               blank=False, null=False, unique=True)
     datasets = models.ManyToManyField(Dataset)
 
     def __str__(self):
         return self.keyword
-
