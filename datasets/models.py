@@ -93,11 +93,12 @@ class Dataset(models.Model):
                   "pk": self.pk}
         return reverse("datasets:dataset_detail", kwargs=kwargs)
 
-'''
-class Keyword(models.Model):
 
-    keyword = models.CharField(max_length=100, blank=True, null=True)
+class Keyword(models.Model):
+    # keywords should be unique, and they should not be blank
+    keyword = models.CharField(max_length=100, blank=False, null=False, unique=True)
+    datasets = models.ManyToManyField(Dataset)
 
     def __str__(self):
         return self.keyword
-'''
+

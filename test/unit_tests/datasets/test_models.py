@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.utils import IntegrityError
 from django.test import TestCase
@@ -19,9 +20,13 @@ class DatasetModelTests(TestCase):
     """
 
     def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
+
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
 
         self.ds1 = Dataset.objects.create(
             account=self.a1,
@@ -43,9 +48,11 @@ class DatasetModelTests(TestCase):
            dataset_password="zmtBremen1991",
            public_access=False)
 
+    # I don't like this first test, but it covers a lot of things
     def test_that_dataset_object_can_be_saved_to_database_and_found(self):
         test_dataset = Dataset.objects.get(
             dataset_slug="google-geojson-example")
+        
         self.assertEqual(test_dataset.author, "Google")
         self.assertEqual(test_dataset.title, "Google GeoJSON Example")
         self.assertEqual(test_dataset.description,
@@ -53,7 +60,7 @@ class DatasetModelTests(TestCase):
         self.assertEqual(
             test_dataset.url,
             "https://storage.googleapis.com/maps-devrel/google.json")
-        self.assertEqual(test_dataset.account.user, "test_user")
+        self.assertEqual(test_dataset.account.user, self.u1)
         self.assertEqual(test_dataset.account.affiliation,
                          "Zentrum für Marine Tropenökologie")
         self.assertEqual(test_dataset.account.account_slug, "test_user")
@@ -167,9 +174,13 @@ class DatasetModelTests(TestCase):
 
 class KeywordModelTests(TestCase):
     def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
+
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
 
         self.ds1 = Dataset.objects.create(
             account=self.a1,
@@ -179,13 +190,52 @@ class KeywordModelTests(TestCase):
             url="https://storage.googleapis.com/maps-devrel/google.json",
             public_access=True)
 
-    def test_that_keyword_can_be_created(self):
-        test_dataset = Dataset.objects.get(
-            dataset_slug="google-geojson-example")
+        self.ds2 = Dataset.objects.create(
+           account=self.a1,
+           author="zmtdummy",
+           title="Password Protected Dataset",
+           description="Just a page that requires login and password info",
+           url="https://bitbucket.org/zmtdummy/geojsondata/raw/" +
+               "ad675d6fd6e2256b365e79e785603c2ab454006b/" +
+               "password_protected_dataset.json",
+           dataset_user="zmtdummy",
+           dataset_password="zmtBremen1991",
+           public_access=False)
 
-        Keyword.objects.create(keyword="biology", dataset=self.ds1)
-        #self.assertEqual(keyword.dataset, "biology")
-        
-        length = len(Keyword.objects.all())
-        self.assertEqual(length, 1)
+    def test_that_keyword_can_be_created(self):
+        kw1 = Keyword.objects.create(keyword="biology")
+        self.assertEqual(kw1, Keyword.objects.get(keyword="biology"))
+
+    def test_that_keyword_can_be_associated_with_dataset(self):
+        kw1 = Keyword.objects.create(keyword="biology")
+        kw1.datasets.add(self.ds1)
+        kw1.save()
+
+        self.assertEqual(kw1.datasets.all().first(), self.ds1)
+
+    def test_that_keyword_can_be_associated_with_multiple_datasets(self):
+        kw1 = Keyword.objects.create(keyword="biology") 
+        kw1.datasets.add(self.ds1, self.ds2)
+        kw1.save()
+
+        self.assertEqual(len(kw1.datasets.all()), 2)
+
+    def test_that_dataset_can_be_associated_with_multiple_keywords(self):
+        kw1 = Keyword.objects.create(keyword="biology")
+        kw1.datasets.add(self.ds1)
+        kw1.save()
+        kw2 = Keyword.objects.create(keyword="chemistry")
+        kw2.datasets.add(self.ds1)
+        kw2.save()
+
+        self.assertEqual(len(self.ds1.keyword_set.all()), 2)
+
+    def test_keywords_must_be_unique(self):
+        with self.assertRaises(IntegrityError):
+            kw1 = Keyword.objects.create(keyword="biology")
+            kw1.datasets.add(self.ds1)
+            kw1.save()
+            kw2 = Keyword.objects.create(keyword="biology")
+            kw2.datasets.add(self.ds1)
+            kw2.save()
 
