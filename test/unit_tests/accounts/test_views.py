@@ -214,37 +214,37 @@ class AccountUpdateViewTests(TestCase):
             follow=True)
         test_account = Account.objects.all()[0]
         self.assertEqual(test_account.user, "changed test user")
-'''
+
 
 class AccountRemoveViewTests(TestCase):
 
     def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
+
+        # pretty much login u1
+        self.logged_in = Client()
+        self.logged_in.login(username="test_user", password="test_password")
+        self.logged_in.is_authenticated = True
+        self.logged_in.id = self.u1.id
+
+        # make non logged in client
+        self.not_logged_in = Client()
 
     def test_account_remove_url_resolves_to_account_remove_view(self):
-        response = self.client.get("/"+self.a1.account_slug+"/remove/")
+        response = self.logged_in.get("/"+self.a1.account_slug+"/remove/")
         self.assertEqual(response.status_code, 200)
 
-    def test_account_remove_function_resolves_to_account_remove_view(self):
-        request = HttpRequest()
-        response = account_remove(request, account_slug=self.a1.account_slug)
-        self.assertEqual(response.status_code, 200)
-
-    def test_account_remove_view_uses_correct_templates(self):
-        response = self.client.get(
-            reverse(
-                "accounts:account_remove",
-                kwargs={"account_slug": self.a1.account_slug}))
-        self.assertTemplateUsed(
-            response,
-            template_name="accounts/account_remove.html")
-        self.assertTemplateUsed(response,
-                                template_name="base.html")
+    def test_account_remove_url_redirects_non_logged_in_user(self):
+        response = self.not_logged_in.get("/"+self.a1.account_slug+"/remove/")
+        self.assertEqual(response.status_code, 302)
 
     def test_dataset_account_remove_view_url_title_is_correct(self):
-        response = self.client.get(
+        response = self.logged_in.get(
             reverse(
                 "accounts:account_remove",
                 kwargs={"account_slug": self.a1.account_slug}))
@@ -252,7 +252,7 @@ class AccountRemoveViewTests(TestCase):
                       response.content.decode("utf-8"))
 
     def test_account_remove_view_redirects_to_portal_view_on_save(self):
-        response = self.client.post(
+        response = self.logged_in.post(
             reverse(
                 "accounts:account_remove",
                 kwargs={"account_slug": self.a1.account_slug}))
@@ -260,8 +260,8 @@ class AccountRemoveViewTests(TestCase):
         self.assertEqual(response["location"], "/")
 
     def test_account_remove_view_removes_account_data(self):
-        self.client.post(reverse(
+        self.logged_in.post(reverse(
              "accounts:account_remove",
              kwargs={"account_slug": self.a1.account_slug}))
         self.assertFalse(Account.objects.all())
-'''
+
