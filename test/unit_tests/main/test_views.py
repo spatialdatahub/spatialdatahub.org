@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.http import HttpRequest
 from django.test import TestCase
 from django.core.urlresolvers import reverse
@@ -31,6 +32,7 @@ class AboutViewTests(TestCase):
         response = self.client.get(reverse("about"))
         self.assertIn("<title>ZMT | About</title>",
                       response.content.decode("utf-8"))
+
 
 
 class ContactViewTests(TestCase):
@@ -72,9 +74,13 @@ class PortalViewTests_EMPTY_DATABASE(TestCase):
 class PortalViewTests(TestCase):
 
     def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
+
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
 
         self.ds1 = Dataset.objects.create(
             account=self.a1,
@@ -107,18 +113,6 @@ class PortalViewTests(TestCase):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
 
-    def test_portal_function_resolves(self):
-        request = HttpRequest()
-        response = portal(request)
-        self.assertEqual(response.status_code, 200)
-
-    def test_dataset_detail_view_uses_correct_templates(self):
-        response = self.client.get(reverse("portal"))
-        self.assertTemplateUsed(response,
-                                template_name="portal.html")
-        self.assertTemplateUsed(response,
-                                template_name="base.html")
-
     def test_dataset_detail_view_title_is_correct(self):
         response = self.client.get(reverse("portal"))
         self.assertIn("<title>ZMT | Portal</title>",
@@ -128,8 +122,6 @@ class PortalViewTests(TestCase):
         response = self.client.get(reverse("portal"))
         self.assertTrue(response.context["dataset_list"])
 
-    # it is probably unnecessary to run these two tests with these 4
-    # assertions, they are redundant
     def test_portal_search_function_1(self):
         response = self.client.get("/?q=Bien")
         self.assertEqual(response.status_code, 200)
@@ -139,19 +131,18 @@ class PortalViewTests(TestCase):
 
 
 class LoadDatasetTests(TestCase):
+    """
+    This is what I really need to be testing. It's a bit more complex than
+    the other code. It is now NOT USED for non-protected datasets.
+    """
 
     def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
 
-        self.ds1 = Dataset.objects.create(
-            account=self.a1,
-            author="Google",
-            title="Google GeoJSON Example",
-            description="Polygons spelling 'GOOGLE' over Australia",
-            url="https://storage.googleapis.com/maps-devrel/google.json",
-            public_access=True)
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
 
         self.ds2 = Dataset.objects.create(
             account=self.a1,
@@ -167,25 +158,12 @@ class LoadDatasetTests(TestCase):
 
     def test_load_dataset_returns_status_code_200(self):
         response = self.client.get(reverse("load_dataset",
-                                   kwargs={"pk": self.ds1.pk}))
-        self.assertEqual(200, response.status_code)
-
-    def test_load_dataset_returns_status_code_200_PASSWORD_PROTECTED(self):
-        """
-        This only checks that there is a load dataset page for the view we set
-        up, not for the actual dataset, so it's not useless, but not really
-        that useful
-        """
-        response = self.client.get(reverse("load_dataset",
                                    kwargs={"pk": self.ds2.pk}))
         self.assertEqual(200, response.status_code)
-
-    def test_load_dataset_returns_content(self):
-        response = self.client.get(reverse("load_dataset",
-                                   kwargs={"pk": self.ds1.pk}))
-        self.assertIn(b"properties", response.content)
 
     def test_load_dataset_returns_content_PASSWORD_PROTECTED(self):
         response = self.client.get(reverse("load_dataset",
                                    kwargs={"pk": self.ds2.pk}))
         self.assertIn(b"properties", response.content)
+
+    # There needs to be one for owncloud now

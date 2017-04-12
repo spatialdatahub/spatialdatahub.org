@@ -13,7 +13,7 @@ from cryptography.fernet import Fernet
 def load_dataset(request, pk):
     """
     This needs to be fixed to run asynchronously, incase of a very large
-    dataset
+    dataset, actually... would that even matter?
 
     Also there needs to be a better way to hide the cryptokey
 
