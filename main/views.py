@@ -53,10 +53,10 @@ def load_dataset(request, pk):
 
 
 def portal(request):
-    '''
+    """
     I'm not ready to try and make this filter function ajax yet. That will
     have to wait a bit longer.
-    '''
+    """
     dataset_list = Dataset.objects.all()
     template_name = "portal.html"
 
@@ -77,3 +77,24 @@ def jstests(request):
 def one_time_view(request):
     template_name = "one_time_view.html"
     return render(request, template_name)
+
+
+def keyword_list(request):
+    """
+    This is a view that will show all the keywords.
+    """
+    keyword_list = Keyword.objects.all()
+    template_name = "datasets/keyword_list.html"
+    return render(request, template_name, {"keyword_list": keyword_list})
+
+'''
+def keyword_detail(request, keyword_slug):
+    """
+    This view will show all the datasets and accounts associated with
+    each keyword
+    """
+    keyword = get_object_or_404(Keyword, keyword_slug=keyword_slug) 
+    template_name = "datasets/keyword_detail.html"
+    return render(request, template_name, {"keyword": keyword})
+'''
+

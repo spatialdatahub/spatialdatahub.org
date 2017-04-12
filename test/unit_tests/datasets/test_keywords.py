@@ -7,6 +7,7 @@ from accounts.models import Account
 from datasets.models import Dataset
 from datasets.models import Keyword
 
+from main.views import keyword_list
 
 class KeywordModelTests(TestCase):
     def setUp(self):
@@ -74,4 +75,37 @@ class KeywordModelTests(TestCase):
             kw2 = Keyword.objects.create(keyword="biology")
             kw2.datasets.add(self.ds1)
             kw2.save()
+
+
+class KeywordViewTests(TestCase):
+
+    def setUp(self):
+
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
+
+        self.ds1 = Dataset.objects.create(
+            account=self.a1,
+            author="Google",
+            title="Google GeoJSON Example",
+            description="Polygons spelling 'GOOGLE' over Australia",
+            url="https://storage.googleapis.com/maps-devrel/google.json",
+            public_access=True)
+
+        self.ds2 = Dataset.objects.create(
+           account=self.a1,
+           author="zmtdummy",
+           title="Password Protected Dataset",
+           description="Just a page that requires login and password info",
+           url="https://bitbucket.org/zmtdummy/geojsondata/raw/" +
+               "ad675d6fd6e2256b365e79e785603c2ab454006b/" +
+               "password_protected_dataset.json",
+           dataset_user="zmtdummy",
+           dataset_password="zmtBremen1991",
+           public_access=False)
+
 
