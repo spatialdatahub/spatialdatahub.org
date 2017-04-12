@@ -148,7 +148,7 @@ class DatasetDetailViewTests(TestCase):
             "/test_user/google-geojson-example/{pk}/".format(
                 pk=self.ds1.pk))
         self.assertEqual(response.status_code, 200)
-'''
+
     def test_dataset_detail_function_resolves(self):
         request = HttpRequest()
         response = dataset_detail(request,
@@ -158,7 +158,7 @@ class DatasetDetailViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_dataset_detail_view_uses_correct_templates(self):
-        response = self.client.get(
+        response = self.not_logged_in.get(
             reverse(
                 "datasets:dataset_detail",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -170,7 +170,7 @@ class DatasetDetailViewTests(TestCase):
                                 template_name="base.html")
 
     def test_dataset_detail_view_title_is_correct(self):
-        response = self.client.get(
+        response = self.not_logged_in.get(
             reverse(
                 "datasets:dataset_detail",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -180,7 +180,7 @@ class DatasetDetailViewTests(TestCase):
                       response.content.decode("utf-8"))
 
     def test_that_dataset_detail_view_brings_in_correct_dataset_object(self):
-        response = self.client.get(
+        response = self.not_logged_in.get(
             reverse(
                 "datasets:dataset_detail",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -193,7 +193,7 @@ class DatasetDetailViewTests(TestCase):
     # but i want to make sure that the
     # authentication details do not show up in the detail view
     def test_dataset_detail_view_does_not_show_the_dataset_password(self):
-        response = self.client.get(
+        response = self.not_logged_in.get(
             reverse(
                 "datasets:dataset_detail",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -205,7 +205,7 @@ class DatasetDetailViewTests(TestCase):
                          response.content.decode("utf-8"))
 
     def test_dataset_detail_view_does_not_show_the_dataset_username(self):
-        response = self.client.get(
+        response = self.not_logged_in.get(
             reverse(
                 "datasets:dataset_detail",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -220,9 +220,30 @@ class DatasetDetailViewTests(TestCase):
 class DatasetUpdateViewTests(TestCase):
 
     def setUp(self):
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
+
+        self.u2 = User.objects.create_user(
+            username="user_two", password="password_two")
+
+        self.a2 = self.u2.account
+        self.a2.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a2.save()
+
+
+
+        # pretty much login u1
+        self.logged_in = Client()
+        self.logged_in.login(username="test_user", password="test_password")
+        self.logged_in.is_authenticated = True
+        self.logged_in.id = self.u1.id
+
+        # make non logged in client
+        self.not_logged_in = Client()
 
         self.ds1 = Dataset.objects.create(
             account=self.a1,
@@ -244,22 +265,44 @@ class DatasetUpdateViewTests(TestCase):
             dataset_password="zmtBremen1991",
             public_access=True)
 
-    def test_dataset_update_view_url_resolves(self):
-        response = self.client.get(
+        self.ds3 = Dataset.objects.create(
+            account=self.a2,
+            author="somebody",
+            title="whatever",
+            description="yeah",
+            url="https://storage.googleapis.com/maps-devrel/google.json",
+            public_access=True)
+
+    def test_dataset_update_view_url_requires_logged_in_user(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/{pk}/update/".format(
+                pk=self.ds1.pk))
+        self.assertEqual(response.status_code, 302)
+
+    def test_dataset_update_view_url_resolves_for_logged_in_user(self):
+        response = self.logged_in.get(
             "/test_user/google-geojson-example/{pk}/update/".format(
                 pk=self.ds1.pk))
         self.assertEqual(response.status_code, 200)
 
+    def test_dataset_update_view_url_does_not_resolve_for_incorrect_user(self):
+        response = self.logged_in.get(
+            "/user_two/whatever/{pk}/update/".format(
+                pk=self.ds3.pk))
+        self.assertEqual(response.status_code, 302)
+
     def test_dataset_update_function_resolves(self):
         request = HttpRequest()
+        request.user = self.logged_in
         response = dataset_update(request,
                                   account_slug=self.a1.account_slug,
                                   dataset_slug=self.ds1.dataset_slug,
                                   pk=self.ds1.pk)
         self.assertEqual(response.status_code, 200)
 
+
     def test_dataset_update_view_uses_correct_templates(self):
-        response = self.client.get(
+        response = self.logged_in.get(
             reverse(
                 "datasets:dataset_update",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -271,7 +314,7 @@ class DatasetUpdateViewTests(TestCase):
                                 template_name="base.html")
 
     def test_dataset_update_view_title_is_correct(self):
-        response = self.client.get(
+        response = self.logged_in.get(
             reverse(
                 "datasets:dataset_update",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -281,9 +324,8 @@ class DatasetUpdateViewTests(TestCase):
             title=self.ds1.title),
             response.content.decode("utf-8"))
 
-    # These next two tests are not updating on client.post
     def test_dataset_update_view_redirects_dataset_detail_view_on_save(self):
-        response = self.client.post(
+        response = self.logged_in.post(
             reverse(
                 "datasets:dataset_update",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -298,7 +340,7 @@ class DatasetUpdateViewTests(TestCase):
                          pk=self.ds1.pk))
 
     def test_dataset_update_view_updates_dataset(self):
-        self.client.post(
+        self.logged_in.post(
             reverse(
                 "datasets:dataset_update",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -311,7 +353,7 @@ class DatasetUpdateViewTests(TestCase):
         self.assertEqual(test_dataset.description, "This is a test dataset")
 
     def test_dataset_update_view_updates_dataset_but_not_auth_pswd(self):
-        self.client.post(
+        self.logged_in.post(
             reverse(
                 "datasets:dataset_update",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -338,7 +380,7 @@ class DatasetUpdateViewTests(TestCase):
         self.assertEqual(decrypted_password, "zmtBremen1991")
 
     def test_dataset_update_view_updates_dataset_but_not_auth_user(self):
-        self.client.post(
+        self.logged_in.post(
             reverse(
                 "datasets:dataset_update",
                 kwargs={"account_slug": self.a1.account_slug,
@@ -363,7 +405,7 @@ class DatasetUpdateViewTests(TestCase):
         decrypted_user = cipher_end.decrypt(bytes_user).decode("utf-8")
 
         self.assertEqual(decrypted_user, "zmtdummy")
-
+'''
 
 class DatasetUpdateAuthViewTests(TestCase):
     """
