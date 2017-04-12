@@ -52,7 +52,8 @@ def load_dataset(request, pk):
 
     return HttpResponse(data)
 
-
+# the search function on this page should be controlled by another view
+# and called with ajax
 def portal(request):
     """
     I'm not ready to try and make this filter function ajax yet. That will
