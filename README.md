@@ -57,3 +57,8 @@ _____
 npm with nominatim
 babeljs
 Vue instead of React...
+
+Ajax for search functions
+
+
+Maybe Keywords should just be it's own app

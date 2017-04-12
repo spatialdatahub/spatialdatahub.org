@@ -6,7 +6,7 @@ from accounts import views
 app_name = "accounts"
 
 urlpatterns = [
-    url(r'^accounts/$',
+    url(r'^$',
         views.account_list,
         name="account_list"),
 

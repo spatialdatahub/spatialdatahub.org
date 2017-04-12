@@ -57,10 +57,6 @@ urlpatterns = [
         views.jstests,
         name='jstests'),
 
-    url(r'^keywords/$',
-        views.keyword_list,
-        name='keyword_list'),
-
     url(r'^url_test/$',
         TemplateView.as_view(template_name='url_test.html'),
         name='url_test'),
@@ -73,9 +69,13 @@ urlpatterns = [
         views.portal,
         name='portal'),
 
-    url(r'^',
+    url(r'^accounts',
         include('accounts.urls',
                 namespace='accounts')),
+
+    url(r'^keywords/',
+        include('keywords.urls',
+                namespace='keywords')),
 
     url(r'^(?P<account_slug>[-\w]*)/',
         include('datasets.urls',

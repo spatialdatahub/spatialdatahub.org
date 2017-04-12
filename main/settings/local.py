@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     # LOCAL
     "datasets",
     "accounts",
+    "keywords",
 ]
 
 # AUTH_USER_MODEL = 'accounts.User'
