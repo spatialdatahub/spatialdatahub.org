@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 
 from keywords.models import Keyword
 
@@ -19,13 +20,13 @@ def keyword_list(request):
     template_name = "keywords/keyword_list.html"
     return render(request, template_name, {"keyword_list": keyword_list})
 
-'''
+
 def keyword_detail(request, keyword_slug):
     """
     This view will show all the datasets and accounts associated with
     each keyword
     """
     keyword = get_object_or_404(Keyword, keyword_slug=keyword_slug) 
-    template_name = "datasets/keyword_detail.html"
+    template_name = "keywords/keyword_detail.html"
     return render(request, template_name, {"keyword": keyword})
-'''
+

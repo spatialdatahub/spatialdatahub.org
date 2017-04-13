@@ -10,9 +10,12 @@ urlpatterns = [
         views.keyword_base,
         name="keyword_base"),
 
-    url(r'^list$',
+    url(r'^list/$',
         views.keyword_list,
         name="keyword_list"),
 
+    url(r'^(?P<keyword_slug>[-\w]*)/$',
+        views.keyword_detail,
+        name="keyword_detail"),
 ]
 

@@ -1,3 +1,7 @@
 {% for keyword in keyword_list %}
-  <p><a href="#">{{ keyword.keyword }}</a></p>
+  <p>
+    <a name="keyword_link" href="{{ keyword.get_absolute_url }}">
+      {{ keyword.keyword }}
+    </a>
+  </p>
 {% endfor %}

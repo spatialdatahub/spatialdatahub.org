@@ -1,0 +1,5 @@
+<h2>{{ keyword.keyword }}</h2>
+
+{% for dataset in keyword.datasets.all %}
+  <p><a href="{{ dataset.get_absolute_url}}">{{ dataset }}</a></p>
+{% endfor %}

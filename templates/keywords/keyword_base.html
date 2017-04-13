@@ -10,6 +10,7 @@
 <input id='keyword_query_input' type='text' />
 <!-- <input id='keyword_query_button' type='submit' /> -->
 <div id='keyword_list_div'></div>
+<div id='keyword_detail'></div> <!-- should this just be keyword_datasets -->
 
 
 <script>
@@ -17,7 +18,7 @@
 const keywordListDiv = document.getElementById('keyword_list_div')
 const keywordListUrl = '/keywords/list'
 const keywordQueryInput = document.getElementById('keyword_query_input')
-//const keywordQueryButton = document.getElementById('keyword_query_button')
+const keywordDetail = document.getElementById('keyword_detail')
 
 // data to div function
 const dataToDiv = (data, div) => div.innerHTML = data
@@ -34,6 +35,11 @@ const getPage = ( (url, func, target) => {
   xhr.onerror = () => console.log('error')
   xhr.send()
 })
+
+// get the elements in the template that are in the div, and
+// add event listeners to them that call their pages
+
+
 
 // add event listener to input
 keywordQueryInput.addEventListener('input', () => {
