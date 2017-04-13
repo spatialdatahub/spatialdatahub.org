@@ -21,12 +21,12 @@ def keyword_list(request):
     return render(request, template_name, {"keyword_list": keyword_list})
 
 
-def keyword_detail(request, keyword_slug):
+def keyword_datasets(request, keyword_slug):
     """
     This view will show all the datasets and accounts associated with
     each keyword
     """
     keyword = get_object_or_404(Keyword, keyword_slug=keyword_slug) 
-    template_name = "keywords/keyword_detail.html"
+    template_name = "keywords/keyword_datasets.html"
     return render(request, template_name, {"keyword": keyword})
 
