@@ -7,20 +7,20 @@
 
 <h1>Keywords</h1>
 
-<input type='text' />
-<input type='submit' />
+<input id='keyword_query_input' type='text' />
+<!-- <input id='keyword_query_button' type='submit' /> -->
 <div id='keyword_list_div'></div>
 
 
 <script>
 
-const keyword_list_div = document.getElementById('keyword_list_div')
-const keyword_list_url = '/keywords/list'
+const keywordListDiv = document.getElementById('keyword_list_div')
+const keywordListUrl = '/keywords/list'
+const keywordQueryInput = document.getElementById('keyword_query_input')
+//const keywordQueryButton = document.getElementById('keyword_query_button')
 
 // data to div function
-const dataToDiv = (data, div) => {
-  div.innerHTML = data
-}
+const dataToDiv = (data, div) => div.innerHTML = data
 
 // the XMLHttpRequest function to get the view
 const getPage = ( (url, func, target) => {
@@ -35,10 +35,16 @@ const getPage = ( (url, func, target) => {
   xhr.send()
 })
 
-// 
+// add event listener to input
+keywordQueryInput.addEventListener('input', () => {
+  const val = keywordQueryInput.value
+  const queryUrl = keywordListUrl + '?q=' + val
+  getPage(queryUrl, dataToDiv, keywordListDiv)
+})
+
+getPage(keywordListUrl, dataToDiv, keywordListDiv)
 
 
-getPage(keyword_list_url, dataToDiv, keyword_list_div)
 
 </script>
 {% endblock content %}
