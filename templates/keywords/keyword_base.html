@@ -35,9 +35,18 @@ const getPage = ( (url, func, target) => {
 
 // get the elements in the template that are in the div, and
 // add event listeners to them that call their pages
+
+// I don't like this code block
+// this isn't working
 const getLinks = () => {
   const keywordLinks = document.getElementsByName('keyword_link')
-  keywordLinks.forEach(link => console.log(link.id))
+  const links = []
+  keywordLinks.forEach(link => {
+    console.log(link.id)
+    link.addEventListener('click', () => {
+      getPage(link.id, dataToDiv, keywordDatasets) 
+    })
+  })
 /*
   const refs = keywordLinks.map(link => {
     console.log(link)
@@ -48,11 +57,16 @@ const getLinks = () => {
 }
 
 // data to div with links function
-const dataToDiv = (data, div) => {
-  getLinks(data)
+const dataToDiv= (data, div) => {
   div.innerHTML = data
 }
 
+
+// data to div with links function
+const dataToDivWithLinks = (data, div) => {
+  getLinks(data)
+  div.innerHTML = data
+}
 
 
 // add event listener to input
@@ -63,7 +77,6 @@ keywordQueryInput.addEventListener('input', () => {
 })
 
 getPage(keywordListUrl, dataToDiv, keywordListDiv)
-
 
 
 </script>
