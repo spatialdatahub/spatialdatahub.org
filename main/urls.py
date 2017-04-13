@@ -9,6 +9,36 @@ from main import views
 
 urlpatterns = [
 
+    url(r'^$',
+        views.portal,
+        name='portal'),
+
+    url(r'^about/$',
+        TemplateView.as_view(template_name='about.html'),
+        name='about'),
+
+    url(r'^access_denied/$',
+        TemplateView.as_view(template_name='access_denied.html'),
+        name='access_denied'),
+
+    url(r'^admin/', admin.site.urls),
+
+    url(r'^contact/$',
+        TemplateView.as_view(template_name='contact.html'),
+        name='contact'),
+
+    url(r'^jstests/$',
+        views.jstests,
+        name='jstests'),
+
+    url(r'^url_test/$',
+        TemplateView.as_view(template_name='url_test.html'),
+        name='url_test'),
+
+    url(r'^load_dataset/(?P<pk>[0-9]+)/$', # this one is tricky
+        views.load_dataset,
+        name='load_dataset'),
+
     # should this be part of the accounts app, where I create an account?
     url(r'^register/',
         CreateView.as_view(
@@ -35,50 +65,15 @@ urlpatterns = [
     #
     # I also want to put create update delete user views in this part
 
-    url(r'^admin/', admin.site.urls),
-
-    url(r'^access_denied/$',
-        TemplateView.as_view(template_name='access_denied.html'),
-        name='access_denied'),
-
-    url(r'^about/$',
-        TemplateView.as_view(template_name='about.html'),
-        name='about'),
-
-    url(r'^contact/$',
-        TemplateView.as_view(template_name='contact.html'),
-        name='contact'),
-
-    url(r'^one_time_view/$',
-        views.one_time_view,
-        name="one_time_view"),
-
-    url(r'^jstests/$',
-        views.jstests,
-        name='jstests'),
-
-    url(r'^url_test/$',
-        TemplateView.as_view(template_name='url_test.html'),
-        name='url_test'),
-
-    url(r'^load_dataset/(?P<pk>[0-9]+)/$',
-        views.load_dataset,
-        name='load_dataset'),
-
-    url(r'^$',
-        views.portal,
-        name='portal'),
-
-    url(r'^accounts',
-        include('accounts.urls',
-                namespace='accounts')),
-
     url(r'^keywords/',
         include('keywords.urls',
                 namespace='keywords')),
 
+    url(r'^',
+        include('accounts.urls',
+                namespace='accounts')),
+
     url(r'^(?P<account_slug>[-\w]*)/',
         include('datasets.urls',
                 namespace='datasets')),
-
 ]

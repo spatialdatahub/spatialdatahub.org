@@ -74,8 +74,3 @@ def jstests(request):
     dataset_list = Dataset.objects.all()
     template_name = "jstests.html"
     return render(request, template_name, {"dataset_list": dataset_list})
-
-
-def one_time_view(request):
-    template_name = "one_time_view.html"
-    return render(request, template_name)
