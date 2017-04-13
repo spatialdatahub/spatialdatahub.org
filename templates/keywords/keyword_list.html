@@ -1,14 +1,5 @@
-{% extends 'base.html' %}
-{% load staticfiles %}
-
-{% block title %}Keywords{% endblock title %}
-
-{% block content %}
-
 {% for keyword in keyword_list %}
 
   {{ keyword.keyword }}
 
 {% endfor %}
-
-{% endblock content %}

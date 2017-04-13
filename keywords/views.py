@@ -2,21 +2,23 @@ from django.shortcuts import render
 
 from keywords.models import Keyword
 
-# should this be in the dataset app, or should it be in it's own app?
+
+def keyword_base(request):
+    template_name="keywords/keyword_base.html"
+    return render(request, template_name)
+
 def keyword_list(request):
     """
     This is a view that will show all the keywords.
     """
-    keyword_list = Keyword.objects.all()
-    template_name = "datasets/keyword_list.html"
-
-    # how do I put this into an ajax call?
-    # check the django ajax project
-#    if "q" in request.GET:
-#        q = request.GET["q"]
-#        dataset_list = Keyword.objects.filter().order_by("keyword")
-
+    if "q" in request.GET:
+        q = request.GET["q"]
+        keyword_list = Keyword.objects.filter(keyword__icontains=q).order_by("keyword")
+    else:
+        keyword_list = Keyword.objects.all()
+    template_name = "keywords/keyword_list.html"
     return render(request, template_name, {"keyword_list": keyword_list})
+
 '''
 def keyword_detail(request, keyword_slug):
     """

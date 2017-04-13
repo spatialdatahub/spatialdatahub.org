@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Keywords{% endblock title %}
+
+{% block content %}
+
+<h1>Keywords</h1>
+
+<input type='text' />
+<input type='submit' />
+<div id='keyword_list_div'></div>
+
+
+<script>
+
+const keyword_list_div = document.getElementById('keyword_list_div')
+const keyword_list_url = '/keywords/list'
+
+// data to div function
+const dataToDiv = (data, div) => {
+  div.innerHTML = data
+}
+
+// the XMLHttpRequest function to get the view
+const getPage = ( (url, func, target) => {
+  const xhr = new XMLHttpRequest()
+  xhr.open('GET', url, true)
+  xhr.onload = () => {
+    xhr.readyState === 4 && xhr.status === 200
+      ? func(xhr.responseText, target)
+      : console.log(xhr.statusText)
+  }
+  xhr.onerror = () => console.log('error')
+  xhr.send()
+})
+
+// 
+
+
+getPage(keyword_list_url, dataToDiv, keyword_list_div)
+
+</script>
+{% endblock content %}
