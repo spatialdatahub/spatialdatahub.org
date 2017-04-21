@@ -18,10 +18,3 @@ urlpatterns = [
         views.keyword_datasets,
         name="keyword_datasets"),
 ]
-
-'''
-    url(r'^(?P<keyword_slug>[-\w]*)/$',
-        views.keyword_datasets,
-        name="keyword_datasets"),
-'''
-

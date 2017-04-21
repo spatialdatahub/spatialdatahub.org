@@ -24,18 +24,16 @@ def keyword_list(request):
 
 def keyword_datasets(request):
     """    
-    This checks if there is a GET request with a 'kw' key, and then, if there is, it
-    returns the list of kw items as a list. Once there is the list, it can go filter
+    This checks if there is a GET request with a 'q' key, and then, if there is, it
+    returns the list of q items as a list. Once there is the list, it can go filter
     the datasets by keyword primary key. I don't know if this would work with fields
     other than the primary key field. If there is not a request.GET item, it just
     returns all the datasets.
     """    
     
-    if request.GET.get("kw"):
-        kw = request.GET.getlist("kw")
-        print(kw)
-        dataset_list = Dataset.objects.filter(keyword__in=kw)
-    
+    if request.GET.get("q"):
+        q = request.GET.getlist("q")
+        dataset_list = Dataset.objects.filter(keyword__in=q)
     else:
         dataset_list = Dataset.objects.all().order_by("title")
 

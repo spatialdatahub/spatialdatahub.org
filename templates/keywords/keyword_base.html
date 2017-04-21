@@ -3,20 +3,44 @@
 
 {% block title %}Keywords{% endblock title %}
 
+{% block css %}
+<style>
+
+  #keyword_list_div {
+    height: 50em;
+    float: left;
+    overflow-y: auto;
+  }
+
+  #dataset_list_div {
+    height: 50em;
+    float: right;
+    overflow-y: auto;
+  }
+
+
+</style>
+{% endblock css %}
+
+
+
+
 {% block content %}
 
 <div class='container'>
 
   <h1>Keywords</h1>
-  <p>
-    Warning: if there is a dataset with out any associated keywords, it will not
+  <p style='color:red'>
+    Warning: if there is a dataset without any associated keywords, it will not
     be searchable with this feature
   </p>
 
-  <input id='keyword_query_input' type='text' placeholder='search'/>
-  <!-- <input id='keyword_query_button' type='submit' /> -->
-  <div id='keyword_list_div'></div>
-  <div id='keyword_datasets'></div> <!-- should this just be keyword_datasets -->
+  <input id='keyword_query_input' class='form-control' type='text' placeholder='Search Keywords'/>
+  <hr/>
+  <div id='lists'>
+    <div id='keyword_list_div'></div>
+    <div id='dataset_list_div'></div>
+  </div>
 
 </div>
 <!-- this will be put into it's own js file -->
@@ -48,9 +72,10 @@ take only a single arguement to start with.
 */
 
 const keywordListDiv = document.getElementById('keyword_list_div')
+const datasetListDiv = document.getElementById('dataset_list_div')
 const keywordListUrl = '/keywords/list'
+const datasetListUrl = '/keywords/datasets'
 const keywordQueryInput = document.getElementById('keyword_query_input')
-const keywordDatasets = document.getElementById('keyword_datasets')
 
 // the XMLHttpRequest function to get the view
 const getPage = ( (url, func, target) => {
@@ -68,49 +93,53 @@ const getPage = ( (url, func, target) => {
 // get the elements in the template that are in the div, and
 // add event listeners to them that call their pages
 
-// I don't like this code block
-// this isn't working
-/*
-const getLinks = () => {
-  const keywordLinks = document.getElementsByName('keyword_link')
-  const links = []
-  keywordLinks.forEach(link => {
-    console.log(link.id)
-    link.addEventListener('click', () => {
-      getPage(link.id, dataToDiv, keywordDatasets) 
-    })
+// data to div with links function
+const dataToDiv = (data, div) => {
+  div.innerHTML = data
+}
+
+// function to make datasets search call by going through
+// the keyword links' ids and making the url to call
+const makeDatasetQueryString = () => {
+  // this needs to be fixed, .map won't work on the links
+  // object. It doesn't seem to be an array...
+  const keywordIdList = []
+  let idString = '?'
+  links = document.getElementsByName('keyword_link')
+
+  // here I need to make the string to add to the dataset url
+  links.forEach(link => {
+    idString += `q=${link.id}&`
+    console.log(idString)
   })
 
-//  const refs = keywordLinks.map(link => {
-//    console.log(link)
-//    link.id
-//  })
-//  return refs
-
+  return datasetListUrl + idString
 }
 
-
-// data to div with links function
-const dataToDivWithLinks = (data, div) => {
-  getLinks(data)
-  div.innerHTML = data
+const dataToDivAndQueryString = () => {
+ // dataToDiv(data, div)
+  getPage(makeDatasetQueryString(), dataToDiv, datasetListDiv)
 }
-*/
-// data to div with links function
-const dataToDiv= (data, div) => {
-  div.innerHTML = data
-}
-
-
 
 // add event listener to input
 keywordQueryInput.addEventListener('input', () => {
   const val = keywordQueryInput.value
   const queryUrl = keywordListUrl + '?q=' + val
   getPage(queryUrl, dataToDiv, keywordListDiv)
+  dataToDivAndQueryString()
+//  getPage(queryUrl, dataToDivAndQueryString, keywordListDiv)
+
 })
 
 getPage(keywordListUrl, dataToDiv, keywordListDiv)
+getPage(datasetListUrl, dataToDiv, datasetListDiv)
+
+
+// go through the list of keywords returned by the
+// keyword query input function thing and get the
+// keyword ids. Then make a call to the datasets
+// url with the ids as the query items. They should
+// be appended to the url as such: '?'+'q=${pk1}'+'&'+'q=${pk2}'
 
 
 </script>

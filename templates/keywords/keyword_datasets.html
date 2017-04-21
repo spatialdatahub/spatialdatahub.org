@@ -1,3 +1,7 @@
 {% for dataset in dataset_list %}
-  <p><a href="{{ dataset.get_absolute_url}}">{{ dataset }}</a></p>
+  <p>
+    <a href="{{ dataset.get_absolute_url}}">
+      {{ dataset.title }}
+    </a>
+  </p>
 {% endfor %}
