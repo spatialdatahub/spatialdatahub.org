@@ -33,6 +33,7 @@ def keyword_datasets(request):
     
     if request.GET.get("q"):
         q = request.GET.getlist("q")
+        print(q)
         dataset_list = Dataset.objects.filter(keyword__in=q)
     else:
         dataset_list = Dataset.objects.all().order_by("title")
