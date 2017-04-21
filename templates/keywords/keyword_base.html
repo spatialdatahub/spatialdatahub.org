@@ -47,6 +47,12 @@
 <script>
 
 /*
+This javascript is really ugly, but it works. For a first iteration this is ok, It will be
+refactored. It can bring back a list of keywords, and search the datasets by those keywords,
+using ajax calls
+*/
+
+/*
 The Goal: from a searchable list that does not reload the entire html document (via ajax)
 pull in and display a list of keywords. Then make each of those keywords pull in and
 display a list of associated datasets via ajax. This requires three separate views, the
@@ -110,7 +116,6 @@ const makeDatasetQueryString = () => {
   // here I need to make the string to add to the dataset url
   links.forEach(link => {
     idString += `q=${link.id}&`
-    console.log(idString)
   })
 
   return datasetListUrl + idString
