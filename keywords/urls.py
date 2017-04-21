@@ -17,4 +17,8 @@ urlpatterns = [
     url(r'^datasets/$',
         views.keyword_datasets,
         name="keyword_datasets"),
+
+    url(r'^new_keyword/$',
+        views.new_keyword,
+        name="new_keyword"),
 ]

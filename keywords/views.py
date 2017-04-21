@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
+from keywords.forms import KeywordCreateForm
+
 from datasets.models import Dataset
 from keywords.models import Keyword
 
@@ -40,3 +42,16 @@ def keyword_datasets(request):
 
     template_name = "keywords/keyword_datasets.html"
     return render(request, template_name, {"dataset_list": dataset_list})
+
+def new_keyword(request):
+    """
+    Gotta figure out a good way to make new keywords and associate them with
+    the right datasets.
+    """ 
+    if request.method == "POST":
+        form = KeywordCreateForm(request.POST) 
+        if form.is_valid():
+            form.save()
+    form = KeywordCreateForm()
+    template_name = "keywords/new_keyword.html"
+    return render(request, template_name, {"form": form})
