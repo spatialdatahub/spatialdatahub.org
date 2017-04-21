@@ -14,8 +14,14 @@ urlpatterns = [
         views.keyword_list,
         name="keyword_list"),
 
-    url(r'^(?P<keyword_slug>[-\w]*)/$',
+    url(r'^datasets/$',
         views.keyword_datasets,
         name="keyword_datasets"),
 ]
+
+'''
+    url(r'^(?P<keyword_slug>[-\w]*)/$',
+        views.keyword_datasets,
+        name="keyword_datasets"),
+'''
 

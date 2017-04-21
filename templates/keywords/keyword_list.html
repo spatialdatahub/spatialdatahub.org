@@ -1,7 +1,41 @@
 {% for keyword in keyword_list %}
   <p>
-    <a name="keyword_link" id="{{ keyword.get_absolute_url }}" href="#">
+    <a name="keyword_link" id="{{ keyword.pk }}" href="#">
       {{ keyword.keyword }}
     </a>
   </p>
 {% endfor %}
+
+<script>
+
+// Just getting all the separate parts going. I'm going to be consolidating this code
+// with the code for the keyword_base and keyword_datasets pages and figuring out
+// how to call it. There will hopefully be no script tags on the keyword_list and
+// keyword_datasets pages
+// Also, I think that it will be neccessary to have the code all being pulled from a
+// single page, scoping issues seem to be occuring.
+
+
+const keywordListDiv = document.getElementById('keyword_list_div')
+console.log(keywordListDiv)
+
+const dataToDiv= (data, div) => {
+  div.innerHTML = data
+}
+
+
+const getLinks = () => {
+  const keywordLinks = document.getElementsByName('keyword_link')
+  const links = []
+  keywordLinks.forEach(link => {
+    console.log(link.id)
+    link.addEventListener('click', () => {
+      console.log(link)
+    })
+  })
+}
+
+
+getLinks()
+
+</script>
