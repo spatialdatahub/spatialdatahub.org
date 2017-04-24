@@ -1,3 +1,4 @@
+from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -8,6 +9,8 @@ from keywords.models import Keyword
 import requests
 import owncloud
 import os
+import json
+
 from cryptography.fernet import Fernet
 
 
@@ -16,23 +19,25 @@ def load_dataset(request, pk):
     This needs to be fixed to run asynchronously, incase of a very large
     dataset, actually... would that even matter?
 
-    Also there needs to be a better way to hide the cryptokey
-
-    This needs to be changed so that it only runs if the url requires
-    authentication
+    Maybe there's a better wy to do this whole secret crypto key thing, I
+    still don't feel like it's secure enough
     """
+    with open("secrets.json") as f:
+        secrets = json.loads(f.read())
+
+    def get_secret(setting, secrets=secrets):
+        """Get the secret variable or return the explicit exception."""
+        try:
+            return secrets[setting]
+        except KeyError:
+            error_msg = "Set the {0} environment variable".format(setting)
+            raise ImproperlyConfigured(error_msg)
+
+    CRYPTO_KEY = get_secret("CRYPTO_KEY")
+    cipher_end = Fernet(CRYPTO_KEY)
+
     # bring in the dataset by pk
     dataset = Dataset.objects.get(pk=pk)
-    # the basedir/filepath stuff can probably be done better
-    # set base dir
-    base_dir = os.path.dirname(
-        os.path.dirname(os.path.abspath(__file__)))
-    # get key from file
-    f = base_dir + "/temp_password.txt"
-    g = open(f)
-    key = g.read().encode("utf-8")
-    g.close()
-    cipher_end = Fernet(key)
 
     # this would probably go better with a little loop or something
     bytes_user = dataset.dataset_user.encode("utf-8")
