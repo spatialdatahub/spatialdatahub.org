@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha test/ --require babel-register"
+    "test": "echo 'tests are in the browser'"
   },
   "repository": {
     "type": "git",
@@ -19,26 +19,13 @@
   "author": "Patrick Curry",
   "license": "ISC",
   "devDependencies": {
-    "@mapbox/corslite": "0.0.7",
-    "@mapbox/leaflet-omnivore": "^0.3.4",
-    "@mapbox/polyline": "^0.2.0",
-    "@mapbox/sexagesimal": "^1.0.0",
-    "@mapbox/togeojson": "^0.16.0",
     "babel-cli": "^6.24.0",
     "babel-preset-env": "^1.3.2",
     "babel-register": "^6.24.0",
-    "chai": "^3.5.0",
-    "chai-as-promised": "^6.0.0",
     "eslint": "^3.14.1",
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.4.0",
-    "eslint-plugin-standard": "^2.0.1",
-    "jsdom": "^9.11.0",
-    "leaflet": "^1.0.3",
-    "mocha": "^3.2.0",
-    "sinon": "^2.1.0",
-    "supertest": "^3.0.0",
-    "xmlhttprequest": "^1.8.0"
+    "eslint-plugin-standard": "^2.0.1"
   },
   "dependencies": {
     "requirejs": "^2.3.2"
