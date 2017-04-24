@@ -16,7 +16,9 @@ DEBUG = True
 
 ################################################
 # set this thing up for travis and for gitlab-ci
+# this shouldn't be in here
 ################################################
+'''
 if 'GITLAB' in os.environ:
     DATABASES = {
         'default': {
@@ -50,3 +52,4 @@ else:
             "PORT": "5432",
         }
     }
+'''

@@ -1,3 +1,4 @@
+from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.text import slugify
@@ -6,14 +7,25 @@ from accounts.models import Account
 
 from cryptography.fernet import Fernet
 import os
+import json
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-f = BASE_DIR + "/temp_password.txt"
-g = open(f)
-key = g.read()
-g.close()
-cipher_start = Fernet(key)
+# This is pretty much copied from the two scoops of django 1.8 book
+# It's actually supposed to be for the settings module, but I thought
+# it would be a good place to keep the crypto key as well. We'll see
+# JSON based secrets module
+with open("secrets.json") as f:
+    secrets = json.loads(f.read())
 
+def get_secret(setting, secrets=secrets):
+    """Get the secret variable or return the explicit exception."""
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {0} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+CRYPTO_KEY = get_secret("CRYPTO_KEY")
+cipher_start = Fernet(CRYPTO_KEY)
 
 class Dataset(models.Model):
     """

@@ -4,7 +4,11 @@ THIS PROJECT IS NOW USING DJANGO VERSION 1.11
 """
 
 import os
+import json
 
+# Normally we wouldn't import ANYTHING from Django directly
+# into our settings, but ImproperlyConfigured is an exception.
+from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -13,10 +17,21 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "44mqx*h@f0r6wuyj&zag&mn973p!f+-)=-b+s$g*r6-wezj8ej"
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# This is pretty much copied from the two scoops of django 1.8 book
+# JSON based secrets module
+with open("secrets.json") as f:
+    secrets = json.loads(f.read())
+
+def get_secret(setting, secrets=secrets):
+    """Get the secret variable or return the explicit exception."""
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {0} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+SECRET_KEY = get_secret("SECRET_KEY")
 
 ALLOWED_HOSTS = []
 
@@ -73,19 +88,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "main.wsgi.application"
 
-
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "webgis_db",
-        "USER": "webgis_user",
-        "PASSWORD": "webgis_password",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "NAME": get_secret("DATABASES_NAME"),
+        "USER": get_secret("DATABASES_USER"),
+        "PASSWORD": get_secret("DATABASES_PASSWORD"),
+        "HOST": get_secret("DATABASES_HOST"),
+        "PORT": get_secret("DATABASES_PORT"),
     }
 }
-
 
 
 # Password validation

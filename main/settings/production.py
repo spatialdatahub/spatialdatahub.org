@@ -14,6 +14,7 @@ should probably be a JSON file (per two scoops of django's suggestion).
 with open('/etc/secret_key.txt') as f:
     SECRET_KEY = f.read().strip()
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 

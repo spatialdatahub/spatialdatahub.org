@@ -140,6 +140,8 @@ tests/.coverage
 build/
 tests/report/
 
+###### For Secret Stuff ######
+secrets.json
 
 ###### For Node ######
 # Logs
