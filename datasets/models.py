@@ -80,6 +80,8 @@ class Dataset(models.Model):
     def __str__(self):
         return self.title
 
+    # this needs to be fixed, it forces the model to have a url, even if
+    # it's at an owncloud path
     def save(self, *args, **kwargs):
         if self.url.lower().endswith(".csv"):
             self.ext = "csv"
