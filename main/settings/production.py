@@ -16,7 +16,8 @@ with open('/etc/secret_key.txt') as f:
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://map.leibniz-zmt.de/']
+#ALLOWED_HOSTS = ['https://map.leibniz-zmt.de/']
+ALLOWED_HOSTS = ['map.leibniz-zmt.de/', '127.0.0.1', 'localhost'] # for the time being
 
 # I am not sure why these are important.
 CSRF_COOKIE_SECURE = True
