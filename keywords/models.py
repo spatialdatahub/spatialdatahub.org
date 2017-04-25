@@ -7,7 +7,7 @@ from datasets.models import Dataset
 class Keyword(models.Model):
     # keywords should be unique, and they should not be blank
     keyword = models.CharField(
-        max_length=100, blank=False, null=False, unique=True)
+        max_length=100, blank=True, null=True, unique=True)
     datasets = models.ManyToManyField(Dataset)
     keyword_slug = models.SlugField(max_length=100, unique=False, blank=True, null=True)
 

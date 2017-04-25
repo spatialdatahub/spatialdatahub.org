@@ -13,6 +13,9 @@ import json
 # It's actually supposed to be for the settings module, but I thought
 # it would be a good place to keep the crypto key as well. We'll see
 # JSON based secrets module
+
+# Maybe this could be imported from settings or something? Maybe it
+# could be kept in a different file called 'crypto.json'
 with open("secrets.json") as f:
     secrets = json.loads(f.read())
 
@@ -42,9 +45,9 @@ class Dataset(models.Model):
     # there will be more
 
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
-    author = models.CharField(max_length=200)
-    title = models.CharField(max_length=50)
-    description = models.TextField()
+    author = models.CharField(max_length=200, null=True)
+    title = models.CharField(max_length=50, null=True)
+    description = models.TextField(null=True)
 
     # start with tests... should this many to many be defined in the
     # keywords model itself
@@ -65,7 +68,7 @@ class Dataset(models.Model):
     owncloud_path = models.CharField(max_length=500, null=True,
                                      blank=True, unique=False)
 
-    dataset_slug = models.SlugField(max_length=50, unique=False)
+    dataset_slug = models.SlugField(max_length=50, unique=False, null=True)
     date_added = models.DateTimeField(auto_now=False, auto_now_add=True,
                                       blank=True, null=True)
     ext = models.CharField(max_length=12, default="geojson",

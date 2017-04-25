@@ -9,7 +9,7 @@ from django.utils.text import slugify
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     affiliation = models.CharField(max_length=200, null=True, blank=True)
-    account_slug = models.SlugField(max_length=50, unique=True)
+    account_slug = models.SlugField(max_length=50, unique=True, null=True)
     date_added = models.DateTimeField(auto_now=False, auto_now_add=True,
                                       null=True, blank=True)
 
