@@ -43,13 +43,6 @@ elif 'TRAVIS' in os.environ:
     }
 else:
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": "webgis_db",
-            "USER": "webgis_user",
-            "PASSWORD": "webgis_password",
-            "HOST": "localhost",
-            "PORT": "5432",
-        }
+
     }
 '''
