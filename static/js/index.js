@@ -91,6 +91,7 @@ const addButton = (text, color, container) => {
   return btn
 }
 
+/*
 // make ajax request function here, then move it to the index.js
 //  this should be using the fetch api instead of the xmlhttprequest
 const makeReq = (url, func, div) => {
@@ -103,6 +104,16 @@ const makeReq = (url, func, div) => {
   }
   xhr.onerror = () => console.log('error')
   xhr.send()
+}
+*/
+
+// make the above function with fetch
+const makeReq = (url, func, div) => {
+  fetch(url)
+  .then(response => {
+    func(response, div
+  })
+  .catch(error => console.log('There has been a problem with the fetch operation: ', error)
 }
 
 // export all the functions to node for testing
