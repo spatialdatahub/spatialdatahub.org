@@ -1,26 +1,26 @@
 // These functions are being called and not defined...
 // but they are run in all the map pages
 // Start with a bunch of stuff from other libraries, then add code from my own libraries
-const osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: `&copy; <a href="http://www.openstreetmap.org/copyright">
+const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">
   OpenStreetMap</a>`,
   minZoom: 2,
   maxZoom: 19
 })
 
-const stamenToner = L.tileLayer(`http://stamen-tiles-{s}.a.ssl.fastly.net/
+const stamenToner = L.tileLayer(`https://stamen-tiles-{s}.a.ssl.fastly.net/
 toner/{z}/{x}/{y}.{ext}`, {
-  attribution: `Map tiles by <a href="http://stamen.com">Stamen Design</a>,
-  <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>
+  attribution: `Map tiles by <a href="https://stamen.com">Stamen Design</a>,
+  <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>
   &mdash; Map data &copy;
-  <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>`,
+  <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>`,
   subdomains: 'abcd',
   minZoom: 2,
   maxZoom: 19,
   ext: 'png'
 })
 
-const esriWorldImagery = L.tileLayer(`http://server.arcgisonline.com/ArcGIS/
+const esriWorldImagery = L.tileLayer(`https://server.arcgisonline.com/ArcGIS/
 rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`, {
   attribution: `Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA,
   USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP,
