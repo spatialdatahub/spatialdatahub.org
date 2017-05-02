@@ -92,6 +92,7 @@ const addButton = (text, color, container) => {
 }
 
 // make ajax request function here, then move it to the index.js
+//  this should be using the fetch api instead of the xmlhttprequest
 const makeReq = (url, func, div) => {
   const xhr = new XMLHttpRequest()
   xhr.open('GET', url, true)
