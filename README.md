@@ -7,6 +7,8 @@ We are also writing a scientific paper that describes the tool. The paper's repo
 is at https://github.com/patcurry/WebGISPaper.
 
 
+ACCESSIBILITY!!!!
+
 
 Important Questions
 -------------------
