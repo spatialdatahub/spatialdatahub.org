@@ -111,9 +111,9 @@ const makeReq = (url, func, div) => {
 const makeReq = (url, func, div) => {
   fetch(url)
   .then(response => {
-    func(response, div
+    func(response, div)
   })
-  .catch(error => console.log('There has been a problem with the fetch operation: ', error)
+  .catch(error => console.log('There has been a problem with the fetch operation: ', error))
 }
 
 // export all the functions to node for testing
