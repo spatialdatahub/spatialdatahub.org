@@ -91,22 +91,6 @@ const addButton = (text, color, container) => {
   return btn
 }
 
-/*
-// make ajax request function here, then move it to the index.js
-//  this should be using the fetch api instead of the xmlhttprequest
-const makeReq = (url, func, div) => {
-  const xhr = new XMLHttpRequest()
-  xhr.open('GET', url, true)
-  xhr.onload = () => {
-    xhr.readyState === 4 && xhr.status === 200
-    ? func(xhr.responseText, div)
-    : console.log(xhr.statusText)
-  }
-  xhr.onerror = () => console.log('error')
-  xhr.send()
-}
-*/
-
 // make the above function with fetch
 const makeReq = (url, func, div) => {
   fetch(url)
@@ -114,12 +98,4 @@ const makeReq = (url, func, div) => {
     func(response, div)
   })
   .catch(error => console.log('There has been a problem with the fetch operation: ', error))
-}
-
-// export all the functions to node for testing
-if (typeof exports !== 'undefined') {
-  exports.addDataToContainer = addDataToContainer
-  exports.dataToDiv = dataToDiv
-  exports.classToggle = classToggle
-  exports.classToggleOnDiffLink = classToggleOnDiffLink
 }
