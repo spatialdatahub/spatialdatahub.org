@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
+from keywords.forms import KeywordCreateForm
+
+from datasets.models import Dataset
 from keywords.models import Keyword
 
 
@@ -16,17 +19,39 @@ def keyword_list(request):
         q = request.GET["q"]
         keyword_list = Keyword.objects.filter(keyword__icontains=q).order_by("keyword")
     else:
-        keyword_list = Keyword.objects.all()
+        keyword_list = Keyword.objects.all().order_by("keyword")
+
     template_name = "keywords/keyword_list.html"
     return render(request, template_name, {"keyword_list": keyword_list})
 
+def keyword_datasets(request):
+    """    
+    This checks if there is a GET request with a 'q' key, and then, if there is, it
+    returns the list of q items as a list. Once there is the list, it can go filter
+    the datasets by keyword primary key. I don't know if this would work with fields
+    other than the primary key field. If there is not a request.GET item, it just
+    returns all the datasets.
+    """    
+    
+    if request.GET.get("q"):
+        q = request.GET.getlist("q")
+        print(q)
+        dataset_list = Dataset.objects.filter(keyword__in=q)
+    else:
+        dataset_list = Dataset.objects.all().order_by("title")
 
-def keyword_detail(request, keyword_slug):
-    """
-    This view will show all the datasets and accounts associated with
-    each keyword
-    """
-    keyword = get_object_or_404(Keyword, keyword_slug=keyword_slug) 
-    template_name = "keywords/keyword_detail.html"
-    return render(request, template_name, {"keyword": keyword})
+    template_name = "keywords/keyword_datasets.html"
+    return render(request, template_name, {"dataset_list": dataset_list})
 
+def new_keyword(request):
+    """
+    Gotta figure out a good way to make new keywords and associate them with
+    the right datasets.
+    """ 
+    if request.method == "POST":
+        form = KeywordCreateForm(request.POST) 
+        if form.is_valid():
+            form.save()
+    form = KeywordCreateForm()
+    template_name = "keywords/new_keyword.html"
+    return render(request, template_name, {"form": form})
