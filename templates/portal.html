@@ -39,10 +39,14 @@
 
 <div class='container'>
 
-  <ol class='breadcrumb'>
-    <li><a href='{% url "portal" %}' >*</a></li>
-    <li id='breadcrumbContainer'></li>
-  </ol>
+  <!-- breadcrumbs -->
+    <div class="row">
+      <h5 class="col-xs-12">
+        <a href="{% url 'portal' %}" >Home</a>
+      </h5>
+    </div>
+    <hr class="divider">
+  <!-- end breadcrumbs -->
 
   <div class='row' id='main'>
     <div class='col-xs-12 col-md-8 col-lg-9' id='mapContainer'>
