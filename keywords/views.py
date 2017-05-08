@@ -7,11 +7,6 @@ from datasets.models import Dataset
 from keywords.models import Keyword
 
 
-# This should be removed
-#def keyword_base(request):
-#    template_name="keywords/keyword_base.html"
-#    return render(request, template_name)
-
 def keyword_list(request):
     """
     This is a view that will show all the keywords.

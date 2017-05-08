@@ -45,11 +45,13 @@
     <p><h4><b>Title:</b> {{ dataset.title }}</h4></p>
     <p><b>Author:</b> {{ dataset.author }}</p>
     <p><b>Description:</b> {{ dataset.description }}</p>
-    <p><b>Keywords:</b>
-      {% for keyword in keyword_list %}
-        <a href='{{ keyword.get_absolute_url }}'>{{ keyword.keyword }}</a> |
-      {% endfor %}
-    </p>
+    {% if keyword_list %}
+      <p><b>Keywords:</b>
+        {% for keyword in keyword_list %}
+          <a href='{{ keyword.get_absolute_url }}'>{{ keyword.keyword }}</a> |
+        {% endfor %}
+      </p>
+    {% endif %}
   </div>
   <hr class='divider'>
 </div>
