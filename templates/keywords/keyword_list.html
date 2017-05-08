@@ -26,7 +26,7 @@
   {% for keyword in keyword_list %}
     <p>
       <a name="keyword_link" id="{{ keyword.pk }}" href="{{ keyword.get_absolute_url }}">
-        {{ keyword.keyword }}
+        {{ keyword.keyword }}: {{ keyword.datasets.all|length }}
       </a>
     </p>
   {% endfor %}

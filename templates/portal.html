@@ -79,7 +79,11 @@
             {% endif %}
           {% endfor %}
         {% else %}
-          <li><a href='#'>There are no datasets available</a></li>
+          <li>
+            <a style='color:red' href='{% url "portal" %}'>
+              No datasets available. Clear Search
+            </a>
+          </li>
         {% endif %}
       </ol>
     </div>

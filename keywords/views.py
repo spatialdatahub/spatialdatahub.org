@@ -15,6 +15,8 @@ from keywords.models import Keyword
 def keyword_list(request):
     """
     This is a view that will show all the keywords.
+    This view should also show the number of datasets for each keyword. Maybe that is a
+    template problem.
     """
     if "q" in request.GET:
         q = request.GET["q"]
@@ -35,14 +37,7 @@ def keyword_datasets(request, keyword_slug=None):
     returns all the datasets.
     """    
     keyword = get_object_or_404(Keyword, keyword_slug=keyword_slug)
-    
-    if request.GET.get("q"):
-        q = request.GET.getlist("q")
-        print(q)
-        dataset_list = Dataset.objects.filter(keyword__in=q)
-    else:
-        dataset_list = Dataset.objects.all().order_by("title")
-
+    dataset_list = keyword.datasets.all()
     template_name = "keywords/keyword_datasets.html"
     return render(request, template_name,
                   context={"keyword": keyword, "dataset_list": dataset_list})
