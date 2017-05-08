@@ -64,7 +64,7 @@ def account_remove(request, account_slug=None):
             return redirect('/')
         return render(request, template_name, context)
 
-
+# this can probably be refactored
 def account_detail(request, account_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset_list = Dataset.objects.filter(account=account)

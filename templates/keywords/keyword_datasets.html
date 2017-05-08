@@ -1,7 +1,21 @@
-{% for dataset in dataset_list %}
-  <p>
-    <a href="{{ dataset.get_absolute_url}}">
-      {{ dataset.title }}
-    </a>
-  </p>
-{% endfor %}
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}{{ keyword }} datasets{% endblock title %}
+
+
+{% block content %}
+
+<div class="container">
+  <h1>{{ keyword }} datasets</h1>
+  <hr/>
+  {% for dataset in dataset_list %}
+    <p>
+      <a href="{{ dataset.get_absolute_url}}">
+        {{ dataset.title }}
+      </a>
+    </p>
+  {% endfor %}
+</div>
+
+{% endblock content %}

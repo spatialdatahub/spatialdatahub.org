@@ -7,9 +7,10 @@ from datasets.models import Dataset
 from keywords.models import Keyword
 
 
-def keyword_base(request):
-    template_name="keywords/keyword_base.html"
-    return render(request, template_name)
+# This should be removed
+#def keyword_base(request):
+#    template_name="keywords/keyword_base.html"
+#    return render(request, template_name)
 
 def keyword_list(request):
     """
@@ -24,7 +25,8 @@ def keyword_list(request):
     template_name = "keywords/keyword_list.html"
     return render(request, template_name, {"keyword_list": keyword_list})
 
-def keyword_datasets(request):
+
+def keyword_datasets(request, keyword_slug=None):
     """    
     This checks if there is a GET request with a 'q' key, and then, if there is, it
     returns the list of q items as a list. Once there is the list, it can go filter
@@ -32,6 +34,7 @@ def keyword_datasets(request):
     other than the primary key field. If there is not a request.GET item, it just
     returns all the datasets.
     """    
+    keyword = get_object_or_404(Keyword, keyword_slug=keyword_slug)
     
     if request.GET.get("q"):
         q = request.GET.getlist("q")
@@ -41,7 +44,9 @@ def keyword_datasets(request):
         dataset_list = Dataset.objects.all().order_by("title")
 
     template_name = "keywords/keyword_datasets.html"
-    return render(request, template_name, {"dataset_list": dataset_list})
+    return render(request, template_name,
+                  context={"keyword": keyword, "dataset_list": dataset_list})
+
 
 def new_keyword(request):
     """

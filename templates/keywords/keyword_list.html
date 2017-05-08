@@ -1,7 +1,36 @@
-{% for keyword in keyword_list %}
-  <p>
-    <a name="keyword_link" id="{{ keyword.pk }}" href="#">
-      {{ keyword.keyword }}
-    </a>
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Keywords{% endblock title %}
+
+{% block css %}
+<style>
+
+
+
+</style>
+{% endblock css %}
+
+
+{% block content %}
+
+<div class="container">
+  <h1>Keywords</h1>
+  <p style='color:red'>
+    Warning: if there is a dataset without any associated keywords, it will not
+    be searchable with this feature
   </p>
-{% endfor %}
+
+  <input id='keyword_query_input' class='form-control' type='text' placeholder='Search Keywords'/>
+  <hr/>
+  {% for keyword in keyword_list %}
+    <p>
+      <a name="keyword_link" id="{{ keyword.pk }}" href="{{ keyword.get_absolute_url }}">
+        {{ keyword.keyword }}
+      </a>
+    </p>
+  {% endfor %}
+</div>
+
+
+{% endblock content %}
