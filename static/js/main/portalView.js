@@ -19,7 +19,7 @@ const markerOptions = {
   fillOpacity: 0.4
 }
 
-const breadcrumbContainer = document.getElementById('breadcrumbContainer')
+const breadcrumbContainer = document.getElementById('selected_link')
 
 // After dataset list load
 
@@ -68,7 +68,7 @@ datasetLinks.forEach(link => {
   // sorta hacky... this should be written better
   const dsText = link.textContent
   const dsLink = link.getAttribute('link')
-  const breadcrumb = `<a href="${dsLink}">${dsText}</a>`
+  const breadcrumb = `<a href="${dsLink}">Go to the ${dsText} detail page</a>`
 
   link.addEventListener('click', () => {
     classToggle(linkParent, 'active')

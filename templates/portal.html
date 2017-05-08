@@ -40,12 +40,17 @@
 <div class='container'>
 
   <!-- breadcrumbs -->
-    <div class="row">
-      <h5 class="col-xs-12">
-        <a href="{% url 'portal' %}" >Home</a>
-      </h5>
+  <!-- This one is special, because I only need the 'home' bread crumb. However, I
+    need to have a way for users to get to the dataset's pages, so I will put the
+    links to the pages on this 'row', but not as part of the breadcrumbs.-->
+    <div class='row'>
+      <h4 class='col-xs-12 col-md-4 col-lg-3'>
+        <a href='{% url "portal" %}' >Home</a>
+      </h4>
+      <h4 class='col-xs-12 col-md-8 col-lg-3' id='selected_link'>
+      </h4>
     </div>
-    <hr class="divider">
+    <hr class='divider'>
   <!-- end breadcrumbs -->
 
   <div class='row' id='main'>

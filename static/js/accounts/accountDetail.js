@@ -20,7 +20,6 @@ const markerOptions = {
 
 // stuff
 const breadcrumbContainer = document.getElementById('selected_link')
-console.log(breadcrumbContainer)
 
 // After dataset list load
 const datasetLinks = document.getElementsByName('dataset')
@@ -74,7 +73,7 @@ datasetLinks.forEach(link => {
   // sorta hacky... this should be written better
   const dsText = link.textContent
   const dsLink = link.getAttribute('link')
-  const breadcrumb = `<h3><a href="${dsLink}">Go to the ${dsText} detail page</a></h3>`
+  const breadcrumb = `<h4><a href="${dsLink}">Go to the ${dsText} detail page</a></h4>`
 
   link.addEventListener('click', () => {
     classToggle(linkParent, 'active')

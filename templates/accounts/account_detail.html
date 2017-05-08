@@ -39,21 +39,21 @@
 
   <!-- breadcrumbs -->
     <div class="row">
-      <h5 class="col-xs-12">
+      <h4 class="col-xs-12">
         <a href="{% url 'portal' %}" >Home</a> /
         <a href="{{ account.get_absolute_url }}" >{{ account.user }}</a>
-      </h5>
+      </h4>
     </div>
     <hr class="divider">
   <!-- end breadcrumbs -->
 
   <div class='row' id='crud'> <!-- do I need this id? -->
     <div class='col-xs-12 col-md-4 col-lg-3'>
-      <h3>
+      <h4>
         <a href='{% url "datasets:new_dataset" account.account_slug %}'>
           Add New Dataset
         </a>
-      </h3>
+      </h4>
     </div>
     <div class='col-xs-12 col-md-8 col-lg-9' id='selected_link'><!-- this is where the dataset link will be -->
     </div>
