@@ -9,7 +9,7 @@ class Keyword(models.Model):
     keyword = models.CharField(
         max_length=100, blank=True, null=True, unique=True)
     datasets = models.ManyToManyField(Dataset)
-    keyword_slug = models.SlugField(max_length=100, unique=False, blank=True, null=True)
+    keyword_slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
 
     def __str__(self):
         return self.keyword

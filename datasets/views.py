@@ -8,7 +8,6 @@ from datasets.forms import DatasetUpdateAuthForm
 
 from accounts.models import Account
 
-from keywords.models import Keyword
 
 def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     '''
@@ -23,7 +22,6 @@ def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     keyword_list = dataset.keyword_set.all()
 
     # will this work
-    # if len(dataset.dataset_password) > 0:
     if dataset.dataset_password != 'Nonetype':
         auth = True
         context = {"account": account, "keyword_list": keyword_list, "dataset": dataset, "auth": auth}

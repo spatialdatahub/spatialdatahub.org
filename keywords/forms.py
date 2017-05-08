@@ -11,7 +11,7 @@ class KeywordCreateForm(forms.ModelForm):
     class Meta:
         model = Keyword 
 
-        fields = ["keyword", "datasets"]
+        fields = ["keyword"]
 
         basic_input_class = {"class": "form-control"}
 
