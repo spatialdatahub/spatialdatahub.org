@@ -4,18 +4,31 @@
 
 {% block content %}
 
-</p>
-  <form action='.' method='post'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type='submit' value='Update {{ account.user }}'>
-  </form>
-</p>
+<div class='container'>
 
-<p>
-  <a href='{{ account.get_absolute_url }}'>
+  <!-- breadcrumbs -->
+    <div class="row">
+      <h5 class="col-xs-12">
+        <a href="{% url 'portal' %}" >Home</a> /
+        <a href="{% url 'accounts:account_update' account.account_slug %}" >update {{ account.user }}'s account</a>
+      </h5>
+    </div>
+    <hr class="divider">
+  <!-- end breadcrumbs -->
+
+  </p>
+    <form action='.' method='post'>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type='submit' value='Update {{ account.user }}'>
+    </form>
+  </p>
+
+  <p>
+    <a href='{{ account.get_absolute_url }}'>
       No, take me back to {{ account.user }}'s page
-  </a>
-</p>
+    </a>
+  </p>
 
+</div>
 {% endblock content %}
