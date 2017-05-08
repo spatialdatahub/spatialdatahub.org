@@ -18,12 +18,11 @@ const markerOptions = {
   fillOpacity: 0.4
 }
 
-// ajax stuff
-const breadcrumbContainer = document.getElementById('breadcrumbContainer')
-const datasetDetail = document.getElementById('dataset_detail')
+// stuff
+const breadcrumbContainer = document.getElementById('selected_link')
+console.log(breadcrumbContainer)
 
 // After dataset list load
-
 const datasetLinks = document.getElementsByName('dataset')
 const datasets = {}
 
@@ -43,7 +42,7 @@ datasetLinks.forEach(link => {
   : url = `/load_dataset/${pk}`
 
   // this is getting out of hand
-//  const dsAjax = `${accountSlug}/dataset_ajax/${pk}`
+  // const dsAjax = `${accountSlug}/dataset_ajax/${pk}`
   const dsAjax = `dataset_ajax/${pk}`
 
   // deal with colors
@@ -75,7 +74,7 @@ datasetLinks.forEach(link => {
   // sorta hacky... this should be written better
   const dsText = link.textContent
   const dsLink = link.getAttribute('link')
-  const breadcrumb = `<a href="${dsLink}">${dsText}</a>`
+  const breadcrumb = `<h3><a href="${dsLink}">Go to the ${dsText} detail page</a></h3>`
 
   link.addEventListener('click', () => {
     classToggle(linkParent, 'active')
@@ -97,10 +96,5 @@ datasetLinks.forEach(link => {
 
     // append breadcrumbs links to breadcrumbs thing on click
     breadcrumbContainer.innerHTML = breadcrumb
-
-    // append info from datasetDetail
-    // this should be handled in the same way as the datasets. If the data are
-    // already on the page, then we don't need to make a call to the server again
-    makeReq(dsAjax, dataToDiv, datasetDetail)
   })
 })

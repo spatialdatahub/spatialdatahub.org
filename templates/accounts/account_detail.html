@@ -16,10 +16,6 @@
     height: 41em;
   }
 
-  .breadcrumb {
-    background-color: white;
-  }
-
   #mainContainer {
     overflow-y: auto;
     overflow-x: hidden;
@@ -59,9 +55,10 @@
         </a>
       </h3>
     </div>
-    <div class='col-xs-23 col-md-8 col-lg-9' id='selected_link'><!-- this is where the dataset link will be -->
+    <div class='col-xs-12 col-md-8 col-lg-9' id='selected_link'><!-- this is where the dataset link will be -->
     </div>
   </div>
+  <hr class="divider">
 
   <div class='row' id='filters'>
     <div class='col-xs-12'>
@@ -71,7 +68,6 @@
   <div class='row' id='main'>
     <div class='col-xs-12 col-md-8 col-lg-9' id='mainContainer'> <!-- how do i make this container scrollable -->
       <div id='mapid'></div>
-      <div id='dataset_detail'></div>
     </div>
 
     <!-- I need to set this up so it loads by ajax -->
@@ -111,7 +107,7 @@
   </div>
 
 
-    </div>
+  </div>
 
 
 {% endblock content %}
