@@ -93,9 +93,13 @@ const addButton = (text, color, container) => {
 
 // make the above function with fetch
 const makeReq = (url, func, div) => {
-  fetch(url)
+  return fetch(url)
   .then(response => {
-    func(response, div)
+    if (!response.ok) {
+      console.log('Looks like there has been a problem. Status code:', response.status)
+    }
+    return response.text()
   })
+  .then(data => func(data, div))
   .catch(error => console.log('There has been a problem with the fetch operation: ', error))
 }
