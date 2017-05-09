@@ -28,9 +28,11 @@
 
   <!-- breadcrumbs -->
   <div class="row">
-    <h4 class="col-xs-12">
+    <h4 class="col-xs-12 col-md-4 col-lg-3">
       <a href="{% url 'portal' %}" >Home</a> /
       <a href="{% url 'accounts:account_list' %}" >accounts</a>
+    </h4>
+    <h4 class="col-xs-12 col-md-8 col-lg-9" id='selected_link_container'>
     </h4>
   </div>
   <hr class="divider">
@@ -53,7 +55,7 @@
       <ol id='account_list' class='nav nav-pills nav-stacked'>
         {% if account_list %}
           {% for account in account_list %}
-            <li id={{ account.account_slug }} name='account'><a href='#'>{{ account }}</a></li>
+            <li id='{{ account.account_slug }}' name='account' link='{{ account.get_absolute_url }}'><a href='#'>{{ account }}</a></li>
           {% endfor %}
         {% else %}
           <li>There are no accounts yet</li>

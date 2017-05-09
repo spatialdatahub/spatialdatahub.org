@@ -1,3 +1,7 @@
+// I need to make the code for lists consistent. That will be another day
+
+const selectedLinkContainer = document.getElementById('selected_link_container')
+
 // Start with a bunch of stuff from other libraries, then add code from my own libraries
 const accountLinks = document.getElementsByName('account')
 const accountInfo = document.getElementById('account_info')
@@ -7,10 +11,14 @@ const accountInfo = document.getElementById('account_info')
 accountLinks.forEach(link => {
   const account = link.getAttribute('id')
   const url = `/account_ajax/${account}`
+  const absoluteUrl = link.getAttribute('link')
+  const text = link.children[0].text
+  const selectedLink = `<a href='${absoluteUrl}'>Go to ${text}'s account</a>`
 
   link.addEventListener('click', () => {
     classToggleOnDiffLink(link, accountLinks, 'active') // this is from index.js
     makeReq(url, dataToDiv, accountInfo)
+    selectedLinkContainer.innerHTML = selectedLink
   })
 })
 
