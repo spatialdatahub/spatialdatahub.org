@@ -15,6 +15,15 @@ def account_list(request):
     and other account terms.
     """
     account_list = Account.objects.all()
+
+    # It should work fine to query by the slug. Everything will be lowercase
+    # and it will remove any crazy characters... Also I think usernames can be
+    # only one word long. Better check that.
+    if "q" in request.GET:
+        q = request.GET["q"]
+        account_list = Account.objects.filter(
+            account_slug__contains=q).order_by("account_slug")
+
     context = {"account_list": account_list}
     template_name = "accounts/account_list.html"
     return render(request, template_name, context)

@@ -73,15 +73,15 @@
           {% for dataset in dataset_list %}
             {% if dataset.dataset_password %}
               <li class=''>
-                <a name='dataset' id={{ dataset.ext }} value={{ dataset.pk }} href='#'
+                <a name='dataset' id='{{ dataset.ext }}' value='{{ dataset.pk }}' href='#'
                   link='{{ dataset.get_absolute_url }}'>
                   {{ dataset.title }}
                 </a>
               </li>
             {% else %}
               <li class=''>
-                <a name='dataset' id={{ dataset.ext }} value={{ dataset.pk }} href='#'
-                  link='{{ dataset.get_absolute_url }}' url={{ dataset.url }}>
+                <a name='dataset' id='{{ dataset.ext }}' value='{{ dataset.pk }}' href='#'
+                  link='{{ dataset.get_absolute_url }}' url='{{ dataset.url }}'>
                   {{ dataset.title }}
                 </a>
               </li>

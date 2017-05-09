@@ -27,22 +27,30 @@
 <div class='container'>
 
   <!-- breadcrumbs -->
-    <div class="row">
-      <h4 class="col-xs-12">
-        <a href="{% url 'portal' %}" >Home</a> /
-        <a href="{% url 'accounts:account_list' %}" >accounts</a>
-      </h4>
-    </div>
-    <hr class="divider">
+  <div class="row">
+    <h4 class="col-xs-12">
+      <a href="{% url 'portal' %}" >Home</a> /
+      <a href="{% url 'accounts:account_list' %}" >accounts</a>
+    </h4>
+  </div>
+  <hr class="divider">
   <!-- end breadcrumbs -->
 
   <div class='row' id='main'>
+
     <div class='col-xs-12 col-md-8 col-lg-9' id='dataContainer'>
       <div id='account_info'></div>
     </div>
 
     <div class='col-xs-12 col-md-4 col-lg-3' id='datasetsContainer'>
-      <ul>
+      <ol class='nav nav-pils nav-stacked'>
+        <li>
+          <form action='.' method='GET'>
+            <input class='form-control' name='q' type='text' placeholder='Search Accounts'>
+          </form>
+        </li>
+      </ol>
+      <ol id='account_list' class='nav nav-pills nav-stacked'>
         {% if account_list %}
           {% for account in account_list %}
             <li id={{ account.account_slug }} name='account'><a href='#'>{{ account }}</a></li>
@@ -50,47 +58,12 @@
         {% else %}
           <li>There are no accounts yet</li>
         {% endif %}
-      </ul>
+      </ol>
     </div>
-  
+
   </div>
+
 </div>
-
-
-
-
-<!--
-<div class='container'>
-  <div class='row' id='breadcrumbs'>
-    <h4 class='col-xs-12'>
-      <a href='{% url "portal" %}' >*</a> /
-      <a href='{% url "accounts:account_list" %}' >accounts</a>
-      <span id='account-dataset-breadcrumbs'></span>
-    </h4>
-  </div>
-  <hr class="divider">
-</div>
-
-<div class='container-fluid'>
-  <div class='row'>
-    <div class='col-sm-3 sidebar'>
-      <ul class='nav nav-sidebar'>
-        {% if account_list %}
-          {% for account in account_list %}
-            <li id={{ account.account_slug }} name='account'><a href='#'>{{ account }}</a></li>
-          {% endfor %}
-        {% else %}
-          <li>There are no accounts yet</li>
-        {% endif %}
-      </ul>
-    </div>
-    <div class='col-sm-9 col-sm-offset-3 main'>
-      <div id='account_info'>
-      </div>
-    </div>
-  </div>
-</div>
--->
 
 {% endblock content %}
 
