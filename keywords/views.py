@@ -6,6 +6,7 @@ from keywords.forms import KeywordCreateForm
 from datasets.models import Dataset
 from keywords.models import Keyword
 
+import functools
 
 def keyword_list(request):
     """
@@ -19,8 +20,18 @@ def keyword_list(request):
     else:
         keyword_list = Keyword.objects.all().order_by("keyword")
 
+    total_keywords = len(keyword_list)
+    total_datasets = 0
+
+    for kw in keyword_list:
+        total_datasets += len(kw.datasets.all())
+
     template_name = "keywords/keyword_list.html"
-    return render(request, template_name, {"keyword_list": keyword_list})
+    return render(request, template_name,
+#                  {"keyword_list": keyword_list})
+                  {"keyword_list": keyword_list,
+                   "total_keywords": total_keywords,
+                   "total_datasets": total_datasets})
 
 
 def keyword_datasets(request, keyword_slug=None):

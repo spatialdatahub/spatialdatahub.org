@@ -18,11 +18,11 @@
 
   <h1>Keywords</h1>
   <p style='color:red'>
-    Warning: if there is a dataset without any associated keywords, it will not
-    be searchable with this feature
-  </p>
-
-  <input id='keyword_query_input' class='form-control' type='text' placeholder='Search Keywords'/>
+    Warning: if there is a dataset without any associated keywords, it will not be searchable with this feature</p>
+  <form action='.' method='GET'>
+    <input id='keyword_query_input' class='form-control' type='text' placeholder='Search Keywords' name='q'/>
+  </form>
+  <h5>Keywords: {{ total_keywords }}, Datasets: {{ total_datasets }}</h5>
   <hr/>
   {% for keyword in keyword_list %}
     <p>
