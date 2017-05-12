@@ -138,10 +138,6 @@ The majority of the code for this site is written in Python 3, JavaScript, HTML,
 The site uses the very popular Django web framework with a PostgreSQL database as the backend, the CSS framework
 Bootstrap for aesthetics, and the JavaScript mapping library Leaflet to display datasets.
 
-If you wish to run the functional tests this site has you will need the browser automation tool Selenium with python
-bindings and a google chrome webdriver.
-
-
 Contribute
 ----------
 
@@ -158,15 +154,10 @@ patrick.curry@leibniz-zmt.de
 IDEAS
 -----
 
-npm with nominatim
-babeljs
-Vue instead of React...
+npm with nominatim - NO
+babeljs - Maybe
+Vue instead of React... - Not important to use either of these yet
 
-Ajax for search functions
-
-
-Maybe Keywords should just be it's own app
+Ajax for search functions - possibly
 
 Maybe all the tests should just stay in their own apps as well. That way each app is a separate module.
-Whatever
-
