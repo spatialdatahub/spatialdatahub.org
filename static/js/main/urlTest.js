@@ -214,11 +214,7 @@ placeToggle.addEventListener('click', () => {
 
 // Get the combined dataset, make into geojson instead of a layer, then create a new Blob
 // and save the geojson to the blob.
-//const urlInput = document.getElementById('url_input')
-//const saveComboButton = document.getElementById('save_combo_button')
 const saveComboButton = document.getElementById('save_combo_button')
-//const saveComboButton = document.getElementById('save_combo_button')
-console.log(saveComboButton)
 
 saveComboButton.addEventListener('click', function saveCombo() {
   const filename = 'yeah'
