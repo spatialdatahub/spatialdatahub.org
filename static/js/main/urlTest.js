@@ -50,8 +50,7 @@ const makeSelectorOptions = array => {
   })
 }
 
-placeButton.addEventListener('click', () => {
-  const callback = data => console.log(data)
+placeButton.addEventListener('click', function getPlaces() {
   const val = placeInput.value
   const data = en.getPlaceData(val, makeSelectorOptions)
 })
@@ -60,7 +59,7 @@ placeButton.addEventListener('click', () => {
 // i can't just keep geojson in the possiblePlaces object, it must be layers, that way
 // i can use the 'map.hasLayer()' function
 
-selectButton.addEventListener('click', () => {
+selectButton.addEventListener('click', function selectPlace() {
 
   Object.values(possiblePlaceLayers).forEach(n => {
     myMap.removeLayer(n)
@@ -92,7 +91,7 @@ const markerOptions = {
 }
 
 // add event listener to the button
-urlButton.addEventListener('click', () => {
+urlButton.addEventListener('click', function getDataFromUrl() {
   const ext = getExt(urlInput.value)
   const url = urlInput.value
 
@@ -122,6 +121,7 @@ urlButton.addEventListener('click', () => {
       })
 
       // if response is good, add a button for it
+      // Ugh, I'm using the 'this' keyword. Not cool.
       addButton(count, color, buttons).addEventListener('click', function () {
         classToggle(this, 'active')
         const val = this.getAttribute('value')
@@ -185,6 +185,8 @@ Also, the nominatim stuff should be saved as an npm package that I can bring in 
 page I want. That will be for after I show the functionality off at the next meeting.
 */
 
+// make container for saved file data
+const fileContainer = []
 
 // map and datasets should be arguements for a predefined function
 filterButton.addEventListener('click', () => {
@@ -197,6 +199,9 @@ filterButton.addEventListener('click', () => {
     const jds = ds.toGeoJSON()
     const fds = turf.within(jds, poly)
     L.geoJSON(fds).addTo(myMap)
+
+    fileContainer.length !== 0 ? fileContainer.pop() : fileContainer.push(fds)
+    console.log(fileContainer)
   })
 })
 
@@ -206,5 +211,23 @@ placeToggle.addEventListener('click', () => {
   ? myMap.removeLayer(selectedPlace[0])
   : myMap.addLayer(selectedPlace[0])
 })
+
+// Get the combined dataset, make into geojson instead of a layer, then create a new Blob
+// and save the geojson to the blob.
+//const urlInput = document.getElementById('url_input')
+//const saveComboButton = document.getElementById('save_combo_button')
+const saveComboButton = document.getElementById('save_combo_button')
+//const saveComboButton = document.getElementById('save_combo_button')
+console.log(saveComboButton)
+
+saveComboButton.addEventListener('click', function saveCombo() {
+  var filename = 'yeah'
+  var data = fileContainer[0]
+  var blob = new Blob([data], {type: "text/plain; charset=utf-8"})
+  saveAs(blob, filename + ".json")
+})
+
+
+
 
 
