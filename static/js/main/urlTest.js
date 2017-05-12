@@ -221,10 +221,10 @@ const saveComboButton = document.getElementById('save_combo_button')
 console.log(saveComboButton)
 
 saveComboButton.addEventListener('click', function saveCombo() {
-  var filename = 'yeah'
-  var data = fileContainer[0]
-  var blob = new Blob([data], {type: "text/plain; charset=utf-8"})
-  saveAs(blob, filename + ".json")
+  const filename = 'yeah'
+  const data = JSON.stringify(fileContainer[0])
+  const blob = new Blob([data], {type: "text/plain; charset=utf-8"})
+  saveAs(blob, filename + ".geojson")
 })
 
 
