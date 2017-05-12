@@ -8,14 +8,14 @@ const accountInfo = document.getElementById('account_info')
 
 // this is just calling the functions, nothing new here
 // add event that toggles the link's class from active to not active
-accountLinks.forEach(link => {
+accountLinks.forEach(function handleLink(link) => {
   const account = link.getAttribute('id')
   const url = `/account_ajax/${account}`
   const absoluteUrl = link.getAttribute('link')
   const text = link.children[0].text
   const selectedLink = `<a href='${absoluteUrl}'>Go to ${text}'s account</a>`
 
-  link.addEventListener('click', () => {
+  link.addEventListener('click', function linkEvent() {
     classToggleOnDiffLink(link, accountLinks, 'active') // this is from index.js
     makeReq(url, dataToDiv, accountInfo)
     selectedLinkContainer.innerHTML = selectedLink

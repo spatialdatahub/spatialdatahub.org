@@ -11,24 +11,24 @@
 
 // 1) promisified omnivore functions
 // these should probably be refactored
-const getGeoJSON = url => {
-  return new Promise((resolve, reject) => {
+function getGeoJSON(url) {
+  return new Promise(function handlePromise(resolve, reject) {
     const dataLayer = omnivore.geojson(url)
       .on('ready', () => resolve(dataLayer))
       .on('error', () => reject(Error('Url problem...')))
   })
 }
 
-const getKML = url => {
-  return new Promise((resolve, reject) => {
+function getKML(url) {
+  return new Promise(function handlePromise(resolve, reject) {
     const dataLayer = omnivore.kml(url)
       .on('ready', () => resolve(dataLayer))
       .on('error', () => reject(Error('Url problem...')))
   })
 }
 
-const getCSV = url => {
-  return new Promise((resolve, reject) => {
+function getCSV(url) {
+  return new Promise(function handlePromise(resolve, reject) {
     const dataLayer = omnivore.csv(url)
       .on('ready', () => resolve(dataLayer))
       .on('error', () => reject(Error('Url problem...')))
@@ -36,7 +36,7 @@ const getCSV = url => {
 }
 
 // 2) function to choose which omnivore function to run
-const extSelect = (ext, url) => {
+function extSelect(ext, url) {
   return ext === 'kml'
     ? getKML(url)
     : ext === 'csv'
@@ -51,7 +51,7 @@ const popupHtml = '<dl id="popup-content"></dl>'
 // add popups to the data points
 // should this function be called every time a layer is added to a map?
 // or will the layer still have the popups after it's toggled off and on?
-const addPopups = (feature, layer) => {
+function addPopups(feature, layer) {
   const popupContent = []
 
   // first check if there are properties
@@ -150,8 +150,3 @@ L.Control.ToggleScrollButton = L.Control.extend({
   }
 })
 
-// export all the functions to node for testing
-if (typeof exports !== 'undefined') {
-  exports.extSelect = extSelect
-  exports.getGeoJSON = getGeoJSON
-}

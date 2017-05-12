@@ -6,15 +6,19 @@
 
 // function to add data to a container
 // is this function completely unnecessary?
-const addDataToContainer = (data, obj, key) => obj[key] = data
+function addDataToContainer(data, obj, key) {
+  return obj[key] = data;
+}
 
 // this should probably be in the index of helper functions
 // makeReq function
-const dataToDiv = (data, div) => div.innerHTML = data
+function dataToDiv(data, div) {
+    return div.innerHTML = data;
+}
 
 // toggle active / inactive links in list
 // almost exactly copied from 'youmightnotneedjquery.com'
-const classToggle = (el, className) => {
+function classToggle(el, className) {
   /*
     Toggle class on element. Click element once to turn it on,
     and again to turn it off, or vis versa.
@@ -33,7 +37,7 @@ const classToggle = (el, className) => {
   }
 }
 
-const classToggleOnDiffLink = (el, elList, className) => {
+function classToggleOnDiffLink(el, elList, className) {
   /*
     Toggle class on element, but with multiple elements.
     Click element 1 once to turn class on, and click element 2
@@ -59,7 +63,7 @@ const classToggleOnDiffLink = (el, elList, className) => {
 
 // make function that gets the ext of the url
 // it can handle csv, kml, json, and geojson
-const getExt = string => {
+function getExt(string) {
   const ext = {}
   const stringLower = string.toLowerCase()
   stringLower.endsWith('kml')
@@ -73,7 +77,7 @@ const getExt = string => {
 }
 
 // make function for adding buttons
-const addButton = (text, color, container) => {
+function addButton(text, color, container) {
   const btn = document.createElement('button')
   const value = document.createTextNode(text)
   btn.setAttribute('class', 'btn btn-default active')
@@ -92,7 +96,7 @@ const addButton = (text, color, container) => {
 }
 
 // make the above function with fetch
-const makeReq = (url, func, div) => {
+function makeReq(url, func, div) {
   return fetch(url)
   .then(response => {
     if (!response.ok) {

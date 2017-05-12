@@ -30,7 +30,7 @@ const datasets = {}
 // console.log(accountSlug)
 
 // add event that toggles the link's class from active to not active
-datasetLinks.forEach(link => {
+datasetLinks.forEach(function handleLink(link) {
   const ext = link.getAttribute('id')
   const pk = link.getAttribute('value')
 
@@ -85,11 +85,11 @@ datasetLinks.forEach(link => {
       // if there is no datasets[pk] then go through the process of selecting
       // the right omnivore function and getting the data and stuff
       : extSelect(ext, url) // the promise
-        .then(response => {
+        .then(function handleResponse(response) {
           layerMod.addData(response.toGeoJSON()) // modify the layer
           myMap.addLayer(layerMod).fitBounds(layerMod.getBounds())
           addDataToContainer(layerMod, datasets, pk)
-        }, error => {
+        }, function handleError(error) {
           console.log(error)
         })
 
