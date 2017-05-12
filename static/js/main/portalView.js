@@ -30,7 +30,7 @@ const datasetLinks = document.getElementsByName('dataset')
 const datasets = {}
 
 // add event that toggles the link's class from active to not active
-datasetLinks.forEach(link => {
+datasetLinks.forEach(function handleLink(link) {
   const ext = link.getAttribute('id')
   const pk = link.getAttribute('value')
 
@@ -71,7 +71,7 @@ datasetLinks.forEach(link => {
   const dsLink = link.getAttribute('link')
   const breadcrumb = `<a href="${dsLink}">Go to the ${dsText} detail page</a>`
 
-  link.addEventListener('click', () => {
+  link.addEventListener('click', function linkEvent() {
     classToggle(linkParent, 'active')
 
     datasets[pk]
@@ -81,11 +81,11 @@ datasetLinks.forEach(link => {
       // if there is no datasets[pk] then go through the process of selecting
       // the right omnivore function and getting the data and stuff
       : extSelect(ext, url) // the promise
-        .then(response => {
+        .then(function handleResponse(response) {
           layerMod.addData(response.toGeoJSON()) // modify the layer
           myMap.addLayer(layerMod).fitBounds(layerMod.getBounds())
           addDataToContainer(layerMod, datasets, pk)
-        }, error => {
+        }, function handleError(error) {
           console.log(error)
         })
 
