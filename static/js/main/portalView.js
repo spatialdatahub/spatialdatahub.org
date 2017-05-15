@@ -93,3 +93,38 @@ datasetLinks.forEach(function handleLink(link) {
     breadcrumbContainer.innerHTML = breadcrumb
   })
 })
+
+//////// NEW FILTER STUFF ////////
+
+const findPlaceButton = document.getElementById('find_place_button')
+const testUrlButton = document.getElementById('test_url_button')
+const drawPolygonButton = document.getElementById('draw_polygon_button')
+
+const findPlaceContainer = document.getElementById('find_place_container')
+
+
+findPlaceButton.addEventListener('click', function findPlaceButtonEvent() {
+  // switch button from inactive to active on click
+  classToggle(findPlaceButton, 'active')
+
+  // make stuff to be added to container
+  // would it be better for me to make a separate view or somthing to bring in?
+  // start with making it all here, then go from there
+  const findPlaceHtml = '/static/html/find_place.html'  
+
+  // add stuff to container div
+  // dataToDiv('yeah, this is data', findPlaceContainer)
+
+  makeReq(findPlaceHtml, dataToDiv, findPlaceContainer)
+
+})
+
+testUrlButton.addEventListener('click', function testUrlButtonEvent() {
+  // switch button from inactive to active on click
+  classToggle(testUrlButton, 'active')
+})
+
+drawPolygonButton.addEventListener('click', function drawPolygonButtonEvent() {
+  // switch button from inactive to active on click
+  classToggle(drawPolygonButton, 'active')
+})

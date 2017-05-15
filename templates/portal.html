@@ -25,73 +25,127 @@
     margin-bottom: 10px;
   }
 
+  #find_place_container {
+    display: none;
+  }
+
+  #test_url_container {
+    display: none;
+  }
+
+  #draw_polygon_container {
+    display: none;
+  }
+
 </style>
 
-<link rel='stylesheet' href='https://unpkg.com/leaflet@1.0.3/dist/leaflet.css' />
+<link rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 
 {% endblock css %}
 
 {% block content %}
 
-<div class='container'>
+<div class="container">
 
   <!-- breadcrumbs -->
-  <!-- This one is special, because I only need the 'home' bread crumb. However, I
-    need to have a way for users to get to the dataset's pages, so I will put the
-    links to the pages on this 'row', but not as part of the breadcrumbs.-->
-    <div class='row'>
-      <h4 class='col-xs-12 col-md-4 col-lg-3'>
-        <a href='{% url "portal" %}' >Home</a>
+  <!-- This one is special, because I only need the "home" bread crumb. However, I
+    need to have a way for users to get to the dataset"s pages, so I will put the
+    links to the pages on this "row", but not as part of the breadcrumbs.-->
+    <div class="row">
+      <h4 class="col-xs-12 col-md-4 col-lg-3">
+        <a href="{% url 'portal' %}" >Home</a>
       </h4>
-      <h4 class='col-xs-12 col-md-8 col-lg-9' id='selected_link'>
+      <h4 class="col-xs-12 col-md-8 col-lg-9" id="selected_link">
       </h4>
     </div>
     <hr />
   <!-- end breadcrumbs -->
 
   <!-- add extras -->
-  <div class='row' id='extras'>
-    <div class='col-xs-12' id='add_extras'>
-      <div class='btn-group' role='group'>
-        <button id='find_place' class='btn btn-default'>Search for a location</button>
-        <button id='test_url' class='btn btn-default'>Test dataset at an open URL</button>
-        <button id='test_url' class='btn btn-default'>Draw a polygon (NOT YET)</button>
+  <div class="row" id="extras_buttons">
+    <div class="col-xs-12" id="add_extras">
+      <div class="btn-group" role="group">
+        <button id="find_place_button" class="btn btn-default">
+          Search for a location
+        </button>
+        <button id="test_url_button" class="btn btn-default">
+          Test dataset at an open URL
+        </button>
+        <button id="draw_polygon_button" class="btn btn-default">
+          Draw a polygon (NOT YET)
+        </button>
       </div>
     </div>
   </div>
-  <hr />
-  <!-- end add extras buttons -->
 
-  <div class='row' id='main'>
-    <div class='col-xs-12 col-md-8 col-lg-9' id='mapContainer'>
-      <div id='mapid'></div>
+  <div class="col-xs-12" id="extras_containers">
+
+    <div class="row" id="find_place_container">
+      <div id="nominatim">
+        <h3>Find a place</h3>
+        <div class="input-group">
+          <input id="place_input" class="form-control" type="text"
+           placeholder="Enter Place Here">
+          <span class="input-group-btn">
+            <input id="place_button" class="btn btn-default" type="submit"
+              value="Submit">
+          </span>
+        </div>
+        <div class="btn-group" role="group">
+          <input id="select_button" class="btn btn-default" type="submit"
+            value="Submit">
+          <input id="place_toggle" class="btn btn-default" type="submit"
+            value="Toggle">
+        </div>
+        <select id="selector"></select>
+      </div>
+    </div>
+
+    <div class="row" id="test_url_container"></div>
+    <div class="row" id="draw_polygon_container"></div>
+
+  </div>
+  <hr />
+  <!-- end add extras -->
+
+  <div class="row" id="main">
+    <div class="col-xs-12 col-md-8 col-lg-9" id="mapContainer">
+      <div id="mapid"></div>
     </div>
 
     <!-- I need to set this up so it loads by ajax -->
-    <div class='col-xs-12 col-md-4 col-lg-3' id='datasetsContainer'>
-      <ol class='nav nav-pills nav-stacked'>
+    <div class="col-xs-12 col-md-4 col-lg-3" id="datasetsContainer">
+      <ol class="nav nav-pills nav-stacked">
         <li>
-          <form action='.' method='GET'>
-            <input class='form-control' name='q' type='text' title='Search Datasets' placeholder='Search Datasets'>
+          <form action="." method="GET">
+            <input class="form-control" name="q" type="text"
+            title="Search Datasets" placeholder="Search Datasets">
           </form>
+        </li>
         <li>
-        <li><button class='btn btn-default btn-block' id='clear_map'>Clear Map</button></li>
+          <button class="btn btn-default btn-block" id="clear_map">
+            Clear Map
+          </button>
+        </li>
       </ol>
-      <ol id='datasets-list' class='nav nav-pills nav-stacked'>
+      <ol id="datasets-list" class="nav nav-pills nav-stacked">
         <!-- about to get real hacky here -->
         {% if dataset_list %}
           {% for dataset in dataset_list %}
             {% if dataset.dataset_password %}
-              <li class=''>
-                <a name='dataset' id='{{ dataset.ext }}' value='{{ dataset.pk }}' href='#'
-                  link='{{ dataset.get_absolute_url }}'>
+              <li class="">
+                <a name="dataset" id="{{ dataset.ext }}"
+                  value="{{ dataset.pk }}" href="#"
+                  link="{{ dataset.get_absolute_url }}">
                   {{ dataset.title }}
                 </a>
               </li>
             {% else %}
-              <li class=''>
-                <a name='dataset' id='{{ dataset.ext }}' value='{{ dataset.pk }}' href='#'
-                  link='{{ dataset.get_absolute_url }}' url='{{ dataset.url }}'>
+              <li class="">
+                <a name="dataset" id="{{ dataset.ext }}"
+                  value="{{ dataset.pk }}" href="#"
+                  link="{{ dataset.get_absolute_url }}" url="{{ dataset.url }}">
                   {{ dataset.title }}
                 </a>
               </li>
@@ -99,7 +153,7 @@
           {% endfor %}
         {% else %}
           <li>
-            <a style='color:red' href='{% url "portal" %}'>
+            <a style="color:red" href="{% url 'portal' %}">
               No datasets available. Clear Search
             </a>
           </li>
@@ -113,11 +167,11 @@
 {% endblock content %}
 
 {% block js %}
-<script src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js'></script>
-<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+<script src="//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js"></script>
 
-<script src='{% static "js/index.js" %}'></script>
-<script src='{% static "js/indexMap.js" %}'></script>
-<script src='{% static "js/initMap.js" %}'></script>
-<script src='{% static "js/main/portalView.js" %}'></script>
+<script src="{% static 'js/index.js' %}"></script>
+<script src="{% static 'js/indexMap.js' %}"></script>
+<script src="{% static 'js/initMap.js' %}"></script>
+<script src="{% static 'js/main/portalView.js' %}"></script>
 {% endblock js %}
