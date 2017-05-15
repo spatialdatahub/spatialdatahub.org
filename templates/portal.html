@@ -51,10 +51,12 @@
 
   <!-- add extras -->
   <div class='row' id='extras'>
-    <div class='col-xs-12' id='add_extra'>
-      <b>
-        <a href='#'>+</a>
-      </b>
+    <div class='col-xs-12' id='add_extras'>
+      <div class='btn-group' role='group'>
+        <button id='find_place' class='btn btn-default'>Search for a location</button>
+        <button id='test_url' class='btn btn-default'>Test dataset at an open URL</button>
+        <button id='test_url' class='btn btn-default'>Draw a polygon (NOT YET)</button>
+      </div>
     </div>
   </div>
   <hr />
@@ -68,11 +70,12 @@
     <!-- I need to set this up so it loads by ajax -->
     <div class='col-xs-12 col-md-4 col-lg-3' id='datasetsContainer'>
       <ol class='nav nav-pills nav-stacked'>
-          <li>
-            <form action='.' method='GET'>
-              <input class='form-control' name='q' type='text' title='Search Datasets' placeholder='Search Datasets'>
-            </form>
-          <li>
+        <li>
+          <form action='.' method='GET'>
+            <input class='form-control' name='q' type='text' title='Search Datasets' placeholder='Search Datasets'>
+          </form>
+        <li>
+        <li><button class='btn btn-default btn-block' id='clear_map'>Clear Map</button></li>
       </ol>
       <ol id='datasets-list' class='nav nav-pills nav-stacked'>
         <!-- about to get real hacky here -->
