@@ -54,3 +54,16 @@ L.control.homebutton({position: 'topleft'}).addTo(myMap)
 // toggle scroll button leaflet control
 L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(options)
 L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
+
+// Trying to add 'alt' to tile layers
+osm.on('tileload', function (tileEvent) {
+    tileEvent.tile.setAttribute('alt', 'Open Street Map Tile Layer');
+});
+
+stamenToner.on('tileload', function (tileEvent) {
+    tileEvent.tile.setAttribute('alt', 'Stamen Toner black and white tile layers');
+});
+
+esriWorldImagery.on('tileload', function (tileEvent) {
+    tileEvent.tile.setAttribute('alt', 'ESRI World Imagery Tile');
+});
