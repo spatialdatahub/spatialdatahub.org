@@ -186,6 +186,75 @@ testUrlButton.addEventListener('click', function hideTestUrlContainer() {
 })
 
 // (2) get elements
+const testUrlInput = document.getElementById('test_url_input')
+const getTestUrl = document.getElementById('get_test_url')
+const toggleTestUrlsButton = document.getElementById('toggle_test_urls')
+const testUrls = document.getElementById('test_urls')
+
+testDatasets = {}
+let testDatasetCount = 0
+
+// pointMarkerOptions
+const testUrlMarkerOptions = {
+  radius: 6,
+  color: 'white',
+  weight: 1.5,
+  opacity: 1,
+  fillOpacity: 0.4
+}
+
+getTestUrl.addEventListener('click', function getDataFromTestUrl() {
+  // get ext and url
+  const ext = getExt(testUrlInput.value)
+  const url = testUrlInput.value
+
+  // increment the color counter
+  testDatasetCount++
+  const testDatasetColor = colors[testDatasetCount % colors.length]
+
+  // get the data with the correct ext, why is this stuff different than
+  // the  functions we already have? I'll refactor later
+  extSelect(ext, url)
+    .then(function handleResponse(response) {
+      // make this into a layer
+      const layerMod = L.geoJson(null, {
+        // set the points to little circles
+        pointToLayer: (feature, latlng) => {
+          return L.circleMarker(latlng, markerOptions)
+        },
+        onEachFeature: (feature, layer) => {
+          // make sure the fill is the color
+          layer.options.fillColor = testDatasetColor 
+          // and make sure the perimiter is black (if it's a point) and the color otherwise
+          feature.geometry.type === 'Point'
+            ? layer.options.color = 'white'
+            : layer.options.color = testDatasetColor
+          // add those popups
+          addPopups(feature, layer) // this comes from the index_maps.js file
+        }
+      })
+
+      // if the response is good then add abutton for it
+      // Ugh, I'm using the 'this' keyword. Not cool.
+      // refactor later
+      addButton(testDatasetCount, testDatasetColor, testUrls).addEventListener('click', function () {
+        classToggle(this, 'active')
+        const val = this.getAttribute('value')
+        myMap.hasLayer(testDatasets[val])
+        ? myMap.removeLayer(testDatasets[val])
+        : myMap.addLayer(testDatasets[val])
+      })
+
+      // modify data here
+      layerMod.addData(response.toGeoJSON())
+
+      testDatasets[testDatasetCount] = layerMod
+      myMap.addLayer(layerMod)
+        .fitBounds(layerMod.getBounds())
+    }, function handleError(error) {
+      console.log(error)
+    })
+})
 
 
 
