@@ -25,6 +25,7 @@
     margin-bottom: 10px;
   }
 
+  /*
   #find_place_container {
     display: none;
   }
@@ -36,6 +37,7 @@
   #draw_polygon_container {
     display: none;
   }
+  */
 
 </style>
 
@@ -104,9 +106,8 @@
 
     <div class="row" id="test_url_container"></div>
     <div class="row" id="draw_polygon_container"></div>
-
+  <hr /> <!-- having trouble with the horizontal rule gaps -->
   </div>
-  <hr />
   <!-- end add extras -->
 
   <div class="row" id="main">
@@ -169,6 +170,7 @@
 {% block js %}
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 <script src="//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js"></script>
+<script src='https://unpkg.com/easy-nominatim@1.0.3'></script>
 
 <script src="{% static 'js/index.js' %}"></script>
 <script src="{% static 'js/indexMap.js' %}"></script>

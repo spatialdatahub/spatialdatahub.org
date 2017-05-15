@@ -96,35 +96,71 @@ datasetLinks.forEach(function handleLink(link) {
 
 //////// NEW FILTER STUFF ////////
 
-const findPlaceButton = document.getElementById('find_place_button')
-const testUrlButton = document.getElementById('test_url_button')
-const drawPolygonButton = document.getElementById('draw_polygon_button')
 
+// nominatim stuff
+
+// (1) hide and show nominatim stuff (do this after I've gotten it working)
+const findPlaceButton = document.getElementById('find_place_button')
 const findPlaceContainer = document.getElementById('find_place_container')
 
+// (2) get elements
+const placeInput = document.getElementById('place_input')
+const placeButton = document.getElementById('place_button')
+const placeToggle = document.getElementById('place_toggle')
+const selector = document.getElementById('selector')
+const selectButton = document.getElementById('select_button')
+const possiblePlaceLayers = {} // this is where i keep the layers to query the map with
+const selectedPlace = [] 
 
-findPlaceButton.addEventListener('click', function findPlaceButtonEvent() {
-  // switch button from inactive to active on click
-  classToggle(findPlaceButton, 'active')
+function makeSelectorOptions(array) {
+  selector.innerHTML = ''
+  array.forEach(place => {
+    const obj = {}
+    obj.display_name = place.display_name
+    obj.geojson = place.geojson
 
-  // make stuff to be added to container
-  // would it be better for me to make a separate view or somthing to bring in?
-  // start with making it all here, then go from there
-  const findPlaceHtml = '/static/html/find_place.html'  
+    const display_name = obj.display_name
 
-  // add stuff to container div
-  // dataToDiv('yeah, this is data', findPlaceContainer)
+    const option = document.createElement('option')
+    option.value = obj.display_name
+    const text = document.createTextNode(obj.display_name)
+    option.appendChild(text)
+    selector.appendChild(option)
 
-  makeReq(findPlaceHtml, dataToDiv, findPlaceContainer)
+    const lyr = L.geoJson(obj.geojson)
+    possiblePlaceLayers[display_name] = lyr
+  })
+}
 
+// add place(s) to the selector
+placeButton.addEventListener('click', function findPlace() {
+  const val = placeInput.value
+  const data = en.getPlaceData(val, makeSelectorOptions)
 })
 
-testUrlButton.addEventListener('click', function testUrlButtonEvent() {
-  // switch button from inactive to active on click
-  classToggle(testUrlButton, 'active')
+// select place to display
+selectButton.addEventListener('click', function selectPlace() {
+  Object.values(possiblePlaceLayers).forEach(n => {
+    myMap.removeLayer(n)
+  })
+
+  selectedPlace.length !== 0
+  ? (selectedPlace.pop(), selectedPlace.push(possiblePlaceLayers[selector.value]))
+  : selectedPlace.push(possiblePlaceLayers[selector.value])
+
+  const lyr = selectedPlace[0]
+  lyr.addTo(myMap)
+  myMap.fitBounds(lyr.getBounds()) 
 })
 
-drawPolygonButton.addEventListener('click', function drawPolygonButtonEvent() {
-  // switch button from inactive to active on click
-  classToggle(drawPolygonButton, 'active')
+// map and layer should be arguements for a predefined function
+placeToggle.addEventListener('click', () => {
+  myMap.hasLayer(selectedPlace[0])
+  ? myMap.removeLayer(selectedPlace[0])
+  : myMap.addLayer(selectedPlace[0])
 })
+
+
+
+
+
