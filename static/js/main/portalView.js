@@ -103,6 +103,15 @@ datasetLinks.forEach(function handleLink(link) {
 const findPlaceButton = document.getElementById('find_place_button')
 const findPlaceContainer = document.getElementById('find_place_container')
 
+findPlaceButton.addEventListener('click', function hidePlaceContainer() {
+
+  classToggle(findPlaceButton, 'active')
+
+  findPlaceContainer.style.display === 'none' || findPlaceContainer.style.display === ''
+  ? findPlaceContainer.style.display = 'block'
+  : findPlaceContainer.style.display = 'none'
+})
+
 // (2) get elements
 const placeInput = document.getElementById('place_input')
 const placeButton = document.getElementById('place_button')
@@ -161,6 +170,22 @@ placeToggle.addEventListener('click', () => {
 })
 
 
+// test URL stuff
+
+// (1) hide and show nominatim stuff (do this after I've gotten it working)
+const testUrlButton = document.getElementById('test_url_button')
+const testUrlContainer = document.getElementById('test_url_container')
+
+testUrlButton.addEventListener('click', function hideTestUrlContainer() {
+
+  classToggle(testUrlButton, 'active')
+
+  testUrlContainer.style.display === 'none' || testUrlContainer.style.display === ''
+  ? testUrlContainer.style.display = 'block'
+  : testUrlContainer.style.display = 'none'
+})
+
+// (2) get elements
 
 
 
