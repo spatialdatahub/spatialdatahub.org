@@ -26,7 +26,7 @@
   }
 
 </style>
-<link rel='stylesheet' href='{% static "css/dashboard.css" %}'/>
+
 <link rel='stylesheet' href='https://unpkg.com/leaflet@1.0.3/dist/leaflet.css' />
 
 {% endblock css %}
@@ -46,8 +46,19 @@
       <h4 class='col-xs-12 col-md-8 col-lg-9' id='selected_link'>
       </h4>
     </div>
-    <hr class='divider'>
+    <hr />
   <!-- end breadcrumbs -->
+
+  <!-- add extras -->
+  <div class='row' id='extras'>
+    <div class='col-xs-12' id='add_extra'>
+      <b>
+        <a href='#'>+</a>
+      </b>
+    </div>
+  </div>
+  <hr />
+  <!-- end add extras buttons -->
 
   <div class='row' id='main'>
     <div class='col-xs-12 col-md-8 col-lg-9' id='mapContainer'>
