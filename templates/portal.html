@@ -105,7 +105,21 @@
       <br/>
     </div>
 
-    <div class="row" id="test_url_container"><h3>SUPER!!!</h3><br/></div>
+    <div class="row" id="test_url_container">
+      <h3>Test a URL</h3>
+      <label for='test_url_input'>For example copy and paste this into the input box then hit enter: https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson</label>
+      <div class='input-group'>
+        <input id='test_url_input' class='form-control' type='text' placeholder='Enter URL Here'>
+        <span class='input-group-btn'>
+          <input id='get_test_url' class='btn btn-default' type='submit' value='Submit'>
+        </span>
+      </div>
+      <div id='test_urls' class='btn-group' role='group'>
+        <button id='toggle_test_urls' class='btn btn-default'>Toggle test datasets</button>
+      </div>
+      <br/>
+    </div>
+
     <div class="row" id="draw_polygon_container"></div>
   <hr /> <!-- having trouble with the horizontal rule gaps -->
   </div>
