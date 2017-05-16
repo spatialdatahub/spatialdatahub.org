@@ -259,14 +259,12 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
       layerMod.addData(response.toGeoJSON())
 
       testDatasets[testDatasetCount] = layerMod
-      myMap.addLayer(layerMod)
-        .fitBounds(layerMod.getBounds())
+
+      myMap.addLayer(layerMod).fitBounds(layerMod.getBounds())
     }, function handleError(error) {
       console.log(error)
     })
 })
-
-
 
 // clear map
 // get button and add click event
@@ -275,7 +273,9 @@ const clearMapButton = document.getElementById('clear_map')
 clearMapButton.addEventListener('click', function clearMap() {
 
   // toggle 'active' class off
-  allLinks.forEach(link => link.classList.remove('active'))
+  allLinks.forEach(function deactivate(link) {
+    link.classList.remove('active')
+  })
   
   // get all layers from map
   myMap.eachLayer(function clearLayers(layer) {
@@ -287,4 +287,3 @@ clearMapButton.addEventListener('click', function clearMap() {
   })
 })
 
-console.log(allLinks)
