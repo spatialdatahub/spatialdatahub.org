@@ -39,6 +39,10 @@
   }
   */
 
+  #within_polygon_container {
+    display: none;
+  }
+
 </style>
 
 <link rel="stylesheet"
@@ -79,6 +83,10 @@
           Draw a polygon (NOT YET)
         </button>
         -->
+        <button id="within_polygon_button" class="btn btn-default">
+          Get data within a polygon
+        </button>
+
       </div>
     </div>
   </div>
@@ -123,6 +131,7 @@
     </div>
 
     <div class="row" id="draw_polygon_container"></div>
+    <div class="row" id="within_polygon_container"></div>
   <hr /> <!-- having trouble with the horizontal rule gaps -->
   </div>
   <!-- end add extras -->

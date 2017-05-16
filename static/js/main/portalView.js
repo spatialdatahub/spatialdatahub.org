@@ -2,7 +2,17 @@
 /*
 // PORTAL SPECIFIC FUNCTIONS
 */
+/*
+// I need a better way to keep track of stuff. This whole document is getting
+// bigger and bigger, with more and more variables and they are difficult to
+// key track of. Further more, many of them refer to dom elements, whether they
+// create dom elements, or they just call them. In the mean time I can make a
+// list of the elements somewhere, and then a list of the functions. Then maybe
+// it will be easier to maintain this page.
+*/
 // ////////////////////////////////////////////////////////////////////////////
+
+
 
 // Before dataset list load
 
@@ -108,7 +118,7 @@ const findPlaceContainer = document.getElementById('find_place_container')
 
 allLinks.push(findPlaceButton)
 
-findPlaceButton.addEventListener('click', function hidePlaceContainer() {
+findPlaceButton.addEventListener('click', function showPlaceContainer() {
   classToggle(findPlaceButton, 'active')
 
   findPlaceContainer.style.display === 'none' || findPlaceContainer.style.display === ''
@@ -163,6 +173,11 @@ selectButton.addEventListener('click', function selectPlace() {
   ? (selectedPlace.pop(), selectedPlace.push(possiblePlaceLayers[selector.value]))
   : selectedPlace.push(possiblePlaceLayers[selector.value])
 
+  const selectedPlaceType = selectedPlace[0].toGeoJSON().features[0].geometry.type
+  if (selectedPlaceType === 'Polygon' || selectedPlaceType === 'MultiPolygon') {
+    saidPolygon.push(selectedPlace)
+  }
+
   const lyr = selectedPlace[0]
   lyr.addTo(myMap)
   myMap.fitBounds(lyr.getBounds()) 
@@ -182,7 +197,7 @@ placeToggle.addEventListener('click', () => {
 const testUrlButton = document.getElementById('test_url_button')
 const testUrlContainer = document.getElementById('test_url_container')
 
-testUrlButton.addEventListener('click', function hideTestUrlContainer() {
+testUrlButton.addEventListener('click', function showTestUrlContainer() {
 
   classToggle(testUrlButton, 'active')
 
@@ -266,6 +281,50 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
     })
 })
 
+// within polygon stuff
+const saidPolygon = []
+
+// (1) hide and show nominatim stuff (do this after I've gotten it working)
+const withinPolygonButton = document.getElementById('within_polygon_button')
+const withinPolygonContainer = document.getElementById('within_polygon_container')
+
+// (2) make buttons that will get the data 
+const getDataWithinPolygonButton = addButton('Get data within polygon', 'black', withinPolygonContainer)
+getDataWithinPolygonButton.setAttribute('class', 'btn btn-default')
+
+withinPolygonButton.addEventListener('click', function showWithinPolygonContainer() {
+  classToggle(withinPolygonButton, 'active')
+
+  // how do i do this with a ternary statement? I've done it before...
+  if (saidPolygon[0]) {
+    withinPolygonContainer.innerHTML = ''
+    withinPolygonContainer.appendChild(getDataWithinPolygonButton)
+  } else {
+    withinPolygonContainer.innerHTML = '<h4>You need a polygon first, get one with the' +
+    ' place selector or draw one.</h4>'
+  }
+
+  withinPolygonContainer.style.display === 'none' || withinPolygonContainer.style.display === ''
+  ? withinPolygonContainer.style.display = 'block'
+  : withinPolygonContainer.style.display = 'none'
+})
+
+
+// (3) add event listener to button that gets the data
+
+// should this function be defined separately, and have arguements?
+getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolygon() {
+  // make sure that the polygon is in geojson format
+  console.log(saidPolygon[0].toGeoJSON())
+
+  // get data from the map
+
+  // then if the data is of type 'points' do a turf.within call to get the data within
+
+  // make sure that the data are added to the map as a nice looking layer with popups
+})
+
+
 // clear map
 // get button and add click event
 const clearMapButton = document.getElementById('clear_map')
@@ -286,4 +345,5 @@ clearMapButton.addEventListener('click', function clearMap() {
     }
   })
 })
+
 
