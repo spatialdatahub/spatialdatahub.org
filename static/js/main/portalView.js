@@ -26,6 +26,7 @@ const breadcrumbContainer = document.getElementById('selected_link')
 
 // to toggle active datasets on the map, and otherwise I need the list
 // of datasets should this be a const?
+const allLinks = []
 const datasetLinks = document.getElementsByName('dataset')
 const datasets = {}
 
@@ -33,6 +34,7 @@ const datasets = {}
 datasetLinks.forEach(function handleLink(link) {
   const ext = link.getAttribute('id')
   const pk = link.getAttribute('value')
+
 
   // this should be done better
   let url
@@ -65,6 +67,8 @@ datasetLinks.forEach(function handleLink(link) {
 
   const linkParent = link.parentElement
 
+  allLinks.push(linkParent)
+
   // one more thing I have to do is append the dataset to the bread crumbs on click
   // sorta hacky... this should be written better
   const dsText = link.textContent
@@ -96,15 +100,15 @@ datasetLinks.forEach(function handleLink(link) {
 
 //////// NEW FILTER STUFF ////////
 
-
 // nominatim stuff
 
 // (1) hide and show nominatim stuff (do this after I've gotten it working)
 const findPlaceButton = document.getElementById('find_place_button')
 const findPlaceContainer = document.getElementById('find_place_container')
 
-findPlaceButton.addEventListener('click', function hidePlaceContainer() {
+allLinks.push(findPlaceButton)
 
+findPlaceButton.addEventListener('click', function hidePlaceContainer() {
   classToggle(findPlaceButton, 'active')
 
   findPlaceContainer.style.display === 'none' || findPlaceContainer.style.display === ''
@@ -120,6 +124,8 @@ const selector = document.getElementById('selector')
 const selectButton = document.getElementById('select_button')
 const possiblePlaceLayers = {} // this is where i keep the layers to query the map with
 const selectedPlace = [] 
+
+allLinks.push(placeButton, placeToggle, selectButton)
 
 function makeSelectorOptions(array) {
   selector.innerHTML = ''
@@ -237,9 +243,13 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
       // if the response is good then add abutton for it
       // Ugh, I'm using the 'this' keyword. Not cool.
       // refactor later
-      addButton(testDatasetCount, testDatasetColor, testUrls).addEventListener('click', function () {
-        classToggle(this, 'active')
-        const val = this.getAttribute('value')
+      const btn = addButton(testDatasetCount, testDatasetColor, testUrls)
+
+      allLinks.push(btn)
+
+      btn.addEventListener('click', function () {
+        classToggle(btn, 'active')
+        const val = btn.getAttribute('value')
         myMap.hasLayer(testDatasets[val])
         ? myMap.removeLayer(testDatasets[val])
         : myMap.addLayer(testDatasets[val])
@@ -258,3 +268,23 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
 
 
 
+// clear map
+// get button and add click event
+const clearMapButton = document.getElementById('clear_map')
+
+clearMapButton.addEventListener('click', function clearMap() {
+
+  // toggle 'active' class off
+  allLinks.forEach(link => link.classList.remove('active'))
+  
+  // get all layers from map
+  myMap.eachLayer(function clearLayers(layer) {
+    // make sure not to remove tile layers
+    if (layer !== osm && layer !== stamenToner && layer !== esriWorldImagery) {
+      // remove layers
+      myMap.removeLayer(layer)
+    }
+  })
+})
+
+console.log(allLinks)

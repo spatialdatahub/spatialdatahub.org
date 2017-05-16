@@ -82,6 +82,7 @@ function addButton(text, color, container) {
   const value = document.createTextNode(text)
   btn.setAttribute('class', 'btn btn-default active')
   btn.setAttribute('value', text)
+  btn.setAttribute('id', `newbutton${btn.value}`)
 
   // make the color of the number correspond
   // to the color of the dataset on the map
