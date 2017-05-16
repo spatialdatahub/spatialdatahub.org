@@ -200,7 +200,16 @@ filterButton.addEventListener('click', () => {
     const fds = turf.within(jds, poly)
     L.geoJSON(fds).addTo(myMap)
 
-    fileContainer.length !== 0 ? fileContainer.pop() : fileContainer.push(fds)
+    // this only lets one dataset be in the file container at a time.
+    // what should be here is a way to avoid duplicatio
+    // or a way to just get all the active datasets on the map, and add
+    // them to the file container
+    if (fileContainer.length !== 0) {
+      fileContainer.pop()
+      fileContainer.push(fds)
+    } else {
+      fileContainer.push(fds)
+    }
     console.log(fileContainer)
   })
 })
@@ -219,8 +228,9 @@ const saveComboButton = document.getElementById('save_combo_button')
 saveComboButton.addEventListener('click', function saveCombo() {
   const filename = 'yeah'
   const data = JSON.stringify(fileContainer[0])
-  const blob = new Blob([data], {type: "text/plain; charset=utf-8"})
-  saveAs(blob, filename + ".geojson")
+  console.log(data)
+//  const blob = new Blob([data], {type: "text/plain; charset=utf-8"})
+//  saveAs(blob, filename + ".geojson")
 })
 
 
