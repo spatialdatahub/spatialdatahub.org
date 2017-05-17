@@ -368,19 +368,26 @@ getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolyg
   })
 
   // make save data button
+  const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
+  saveButton.classList.remove('active')
 
+  // make file name input
+  const fileNameInput = document.createElement('input')
+  fileNameInput.setAttribute('class', 'form-control') 
+  fileNameInput.setAttribute('placeholder', 'Enter the file name here')
+  fileNameInput.setAttribute('type', 'text')
+  withinPolygonContainer.append(fileNameInput)
+
+  saveButton.addEventListener('click', function saveFile() {
+    const filename = fileNameInput.value 
+    const data = JSON.stringify(fileContainer[0])
+    const blob = new Blob([data], {type: "text/plain; charset=utf-8"})
+    saveAs(blob, filename + ".geojson")
+  })
 
 })
 
-const saveComboButton = document.getElementById('save_combo_button')
 
-saveComboButton.addEventListener('click', function saveCombo() {
-  const filename = 'yeah'
-  const data = JSON.stringify(fileContainer[0])
-  console.log(data)
-//  const blob = new Blob([data], {type: "text/plain; charset=utf-8"})
-//  saveAs(blob, filename + ".geojson")
-})
 
 
 // clear map
