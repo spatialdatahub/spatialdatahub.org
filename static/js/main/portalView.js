@@ -13,7 +13,8 @@
 // ////////////////////////////////////////////////////////////////////////////
 
 
-// Refactoring Plans, not rewriting ////
+// ////////////////////////////////////////////////////////////////////////////
+// Refactoring Plans, not rewriting ///////////////////////////////////////////
 /*
 // Make container for all layers on the map. The map keep layers as unnamed
 // objects, which makes them difficult to find. So, if I want a reference to a
@@ -22,7 +23,7 @@
 // question, but if I want to pull all active layers, and maintain their references
 // then I need to have them in an array, or at least their names in an array.
 */
-// //////////
+// ////////////////////////////////////////////////////////////////////////////
 
 
 // Before dataset list load
@@ -49,9 +50,9 @@ const selectedLinkContainer = document.getElementById('selected_link')
 
 // to toggle active datasets on the map, and otherwise I need the list
 // of datasets should this be a const?
-const allLinks = []
+const activeDatasetButtons = [] 
 const datasetLinks = document.getElementsByName('dataset')
-const datasets = {}
+const datasets = {} // is this redundant?
 
 // add event that toggles the link's class from active to not active
 datasetLinks.forEach(function handleLink(link) {
@@ -62,8 +63,8 @@ datasetLinks.forEach(function handleLink(link) {
   // this should be done better
   let url
   link.getAttribute('url')
-  ? url = link.getAttribute('url')
-  : url = `/load_dataset/${pk}`
+    ? url = link.getAttribute('url')
+    : url = `/load_dataset/${pk}`
 
   // deal with colors
   linkDatasetColorCounter++
@@ -90,7 +91,7 @@ datasetLinks.forEach(function handleLink(link) {
 
   const linkParent = link.parentElement
 
-  allLinks.push(linkParent)
+  activeDatasetButtons.push(linkParent)
 
   // one more thing I have to do is append the dataset to the bread crumbs on click
   // sorta hacky... this should be written better
@@ -129,8 +130,6 @@ datasetLinks.forEach(function handleLink(link) {
 const findPlaceButton = document.getElementById('find_place_button')
 const findPlaceContainer = document.getElementById('find_place_container')
 
-allLinks.push(findPlaceButton)
-
 findPlaceButton.addEventListener('click', function showPlaceContainer() {
   classToggle(findPlaceButton, 'active')
 
@@ -148,7 +147,7 @@ const selectButton = document.getElementById('select_button')
 const possiblePlaceLayers = {} // this is where i keep the layers to query the map with
 const selectedPlace = [] 
 
-allLinks.push(placeButton, placeToggle, selectButton)
+activeDatasetButtons.push(placeButton, placeToggle, selectButton)
 
 function makeSelectorOptions(array) {
   selector.innerHTML = ''
@@ -274,14 +273,14 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
       // refactor later
       const btn = addButton(testDatasetCount, testDatasetColor, testUrls)
 
-      allLinks.push(btn)
+      activeDatasetButtons.push(btn)
 
       btn.addEventListener('click', function () {
         classToggle(btn, 'active')
         const val = btn.getAttribute('value')
         myMap.hasLayer(testDatasets[val])
-        ? myMap.removeLayer(testDatasets[val])
-        : myMap.addLayer(testDatasets[val])
+          ? myMap.removeLayer(testDatasets[val])
+          : myMap.addLayer(testDatasets[val])
       })
 
       // modify data here
@@ -337,26 +336,60 @@ getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolyg
   // polygon
   const poly = saidPolygon[0].toGeoJSON()
 
+  // get active datasets from dataset links
+  Object.values(datasets).forEach(v => {
+    if (myMap.hasLayer(v)) {
+      const l = v.toGeoJSON().features[0].geometry.type
+      if (l === 'Point' || l === 'MultiPoint') {
+        pointsLayers.push(v.toGeoJSON())
+      }
+    }
+  })
+
+  // get active datasets from test urls
+  Object.values(testDatasets).forEach(v => {
+    if (myMap.hasLayer(v)) {
+      const l = v.toGeoJSON().features[0].geometry.type
+      if (l === 'Point' || l === 'MultiPoint') {
+        pointsLayers.push(v.toGeoJSON())
+      }
+    }
+  })
+
   // get data from the map
-  myMap.eachLayer(function getPointsLayers(layer) {
+  // myMap.eachLayer(function getPointsLayers(layer) {
     // get layer feature type
-    console.log(layer)
+//    console.log(layer)
 //    const l = layer.toGeoJSON().features[0].geometry.type
 
     // make sure the layer type is correct, and if it is, push it to the array
   //  if (l === 'Point' || l === 'Point') {
   //    pointsLayers.push(l)
   //  }
-  })
+//  })
 
   // then if the data is of type 'points' do a turf.within call to get the data within
-  const pointsWithin = pointsLayers.map( function pointsWithin(l) {
-    console.log(turf.within(l, poly))
+  //const pointsWithin = pointsLayers.map( function pointsWithin(l) {
+  //  console.log(turf.within(l, poly))
+  //})
+
+  //function isWithin(points) {
+  //  return turf.within(points, poly)
+  //}
+
+//  const pointsWithin = []
+
+  const pointsWithinLayer = L.geoJSON(null).addTo(myMap)
+
+  pointsLayers.forEach(l => {
+    const n = turf.within(l, poly) 
+    //pointsWithin.push(n)
+    pointsWithinLayer.addData(n)
   })
+//  console.log(pointsWithin)
 
-  // them combine them into a feature collection
+  // refactor to have popups and looks nice and be workable
 
-  // make sure that the data are added to the map as a nice looking layer with popups
 })
 
 
@@ -367,7 +400,7 @@ const clearMapButton = document.getElementById('clear_map')
 clearMapButton.addEventListener('click', function clearMap() {
 
   // toggle 'active' class off
-  allLinks.forEach(function deactivate(link) {
+  activeDatasetButtons.forEach(function deactivate(link) {
     link.classList.remove('active')
   })
   
