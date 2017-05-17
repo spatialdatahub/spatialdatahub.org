@@ -13,12 +13,25 @@
 // ////////////////////////////////////////////////////////////////////////////
 
 
+// Refactoring Plans, not rewriting ////
+/*
+// Make container for all layers on the map. The map keep layers as unnamed
+// objects, which makes them difficult to find. So, if I want a reference to a
+// layer that has been added it needs to be kept in an array. There should also
+// be an 'activeLayers' array. This would usually just be the map with a .hasLayer
+// question, but if I want to pull all active layers, and maintain their references
+// then I need to have them in an array, or at least their names in an array.
+*/
+// //////////
+
 
 // Before dataset list load
+const allLayers = []
+const activeLayers = []
 
 // colors
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
-let colorCounter = 0
+let linkDatasetColorCounter = 0 // this is for the datasets from the links
 
 // pointMarkerOptions
 const markerOptions = {
@@ -30,7 +43,7 @@ const markerOptions = {
 }
 
 // change this to selected link container
-const breadcrumbContainer = document.getElementById('selected_link')
+const selectedLinkContainer = document.getElementById('selected_link')
 
 // After dataset list load
 
@@ -53,8 +66,8 @@ datasetLinks.forEach(function handleLink(link) {
   : url = `/load_dataset/${pk}`
 
   // deal with colors
-  colorCounter++
-  const color = colors[colorCounter % colors.length]
+  linkDatasetColorCounter++
+  const color = colors[linkDatasetColorCounter % colors.length]
 
   // Every time I call the 'getDataset' function there needs to be a new modJson called
   // there should probably also be a marker cluster function called
@@ -104,7 +117,7 @@ datasetLinks.forEach(function handleLink(link) {
         })
 
     // append breadcrumbs links to breadcrumbs thing on click
-    breadcrumbContainer.innerHTML = breadcrumb
+    selectedLinkContainer.innerHTML = breadcrumb
   })
 })
 
@@ -175,7 +188,8 @@ selectButton.addEventListener('click', function selectPlace() {
 
   const selectedPlaceType = selectedPlace[0].toGeoJSON().features[0].geometry.type
   if (selectedPlaceType === 'Polygon' || selectedPlaceType === 'MultiPolygon') {
-    saidPolygon.push(selectedPlace)
+    const p = selectedPlace[0]
+    saidPolygon.push(p)
   }
 
   const lyr = selectedPlace[0]
@@ -315,11 +329,32 @@ withinPolygonButton.addEventListener('click', function showWithinPolygonContaine
 // should this function be defined separately, and have arguements?
 getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolygon() {
   // make sure that the polygon is in geojson format
-  console.log(saidPolygon[0].toGeoJSON())
+  // console.log(saidPolygon[0].toGeoJSON())
+
+  // container for points layers
+  const pointsLayers = []
+
+  // polygon
+  const poly = saidPolygon[0].toGeoJSON()
 
   // get data from the map
+  myMap.eachLayer(function getPointsLayers(layer) {
+    // get layer feature type
+    console.log(layer)
+//    const l = layer.toGeoJSON().features[0].geometry.type
+
+    // make sure the layer type is correct, and if it is, push it to the array
+  //  if (l === 'Point' || l === 'Point') {
+  //    pointsLayers.push(l)
+  //  }
+  })
 
   // then if the data is of type 'points' do a turf.within call to get the data within
+  const pointsWithin = pointsLayers.map( function pointsWithin(l) {
+    console.log(turf.within(l, poly))
+  })
+
+  // them combine them into a feature collection
 
   // make sure that the data are added to the map as a nice looking layer with popups
 })
