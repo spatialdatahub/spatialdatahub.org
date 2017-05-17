@@ -296,6 +296,7 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
 
 // within polygon stuff
 const saidPolygon = []
+const fileContainer = []
 
 // (1) hide and show nominatim stuff (do this after I've gotten it working)
 const withinPolygonButton = document.getElementById('within_polygon_button')
@@ -356,40 +357,29 @@ getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolyg
     }
   })
 
-  // get data from the map
-  // myMap.eachLayer(function getPointsLayers(layer) {
-    // get layer feature type
-//    console.log(layer)
-//    const l = layer.toGeoJSON().features[0].geometry.type
-
-    // make sure the layer type is correct, and if it is, push it to the array
-  //  if (l === 'Point' || l === 'Point') {
-  //    pointsLayers.push(l)
-  //  }
-//  })
-
-  // then if the data is of type 'points' do a turf.within call to get the data within
-  //const pointsWithin = pointsLayers.map( function pointsWithin(l) {
-  //  console.log(turf.within(l, poly))
-  //})
-
-  //function isWithin(points) {
-  //  return turf.within(points, poly)
-  //}
-
-//  const pointsWithin = []
-
   const pointsWithinLayer = L.geoJSON(null).addTo(myMap)
+
+  // refactor this stuff soon. too many layer to geojson to layer things
 
   pointsLayers.forEach(l => {
     const n = turf.within(l, poly) 
-    //pointsWithin.push(n)
     pointsWithinLayer.addData(n)
+    fileContainer.push(pointsWithinLayer.toGeoJSON())    
   })
-//  console.log(pointsWithin)
 
-  // refactor to have popups and looks nice and be workable
+  // make save data button
 
+
+})
+
+const saveComboButton = document.getElementById('save_combo_button')
+
+saveComboButton.addEventListener('click', function saveCombo() {
+  const filename = 'yeah'
+  const data = JSON.stringify(fileContainer[0])
+  console.log(data)
+//  const blob = new Blob([data], {type: "text/plain; charset=utf-8"})
+//  saveAs(blob, filename + ".geojson")
 })
 
 
