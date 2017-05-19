@@ -42,7 +42,7 @@ datasetLinks.forEach(function handleLink(link) {
 
   // this is getting out of hand
   // const dsAjax = `${accountSlug}/dataset_ajax/${pk}`
-  const dsAjax = `dataset_ajax/${pk}`
+  // const dsAjax = `dataset_ajax/${pk}`
 
   // deal with colors
   colorCounter++
@@ -85,11 +85,11 @@ datasetLinks.forEach(function handleLink(link) {
       // if there is no datasets[pk] then go through the process of selecting
       // the right omnivore function and getting the data and stuff
       : extSelect(ext, url) // the promise
-        .then(function handleResponse(response) {
+        .then(function handleResponse (response) {
           layerMod.addData(response.toGeoJSON()) // modify the layer
           myMap.addLayer(layerMod).fitBounds(layerMod.getBounds())
           addDataToContainer(layerMod, datasets, pk)
-        }, function handleError(error) {
+        }, function handleError (error) {
           console.log(error)
         })
 

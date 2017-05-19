@@ -12,7 +12,6 @@
 */
 // ////////////////////////////////////////////////////////////////////////////
 
-
 // ////////////////////////////////////////////////////////////////////////////
 // Refactoring Plans, not rewriting ///////////////////////////////////////////
 /*
@@ -25,10 +24,9 @@
 */
 // ////////////////////////////////////////////////////////////////////////////
 
-
 // Before dataset list load
-const allLayers = []
-const activeLayers = []
+// const allLayers = []
+// const activeLayers = []
 
 // colors
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
@@ -50,15 +48,14 @@ const selectedLinkContainer = document.getElementById('selected_link')
 
 // to toggle active datasets on the map, and otherwise I need the list
 // of datasets should this be a const?
-const activeDatasetButtons = [] 
+const activeDatasetButtons = []
 const datasetLinks = document.getElementsByName('dataset')
 const datasets = {} // is this redundant?
 
 // add event that toggles the link's class from active to not active
-datasetLinks.forEach(function handleLink(link) {
+datasetLinks.forEach(function handleLink (link) {
   const ext = link.getAttribute('id')
   const pk = link.getAttribute('value')
-
 
   // this should be done better
   let url
@@ -99,7 +96,7 @@ datasetLinks.forEach(function handleLink(link) {
   const dsLink = link.getAttribute('link')
   const breadcrumb = `<a href="${dsLink}">Go to the ${dsText} detail page</a>`
 
-  link.addEventListener('click', function linkEvent() {
+  link.addEventListener('click', function linkEvent () {
     classToggle(linkParent, 'active')
 
     datasets[pk]
@@ -109,11 +106,11 @@ datasetLinks.forEach(function handleLink(link) {
       // if there is no datasets[pk] then go through the process of selecting
       // the right omnivore function and getting the data and stuff
       : extSelect(ext, url) // the promise
-        .then(function handleResponse(response) {
+        .then(function handleResponse (response) {
           layerMod.addData(response.toGeoJSON()) // modify the layer
           myMap.addLayer(layerMod).fitBounds(layerMod.getBounds())
           addDataToContainer(layerMod, datasets, pk)
-        }, function handleError(error) {
+        }, function handleError (error) {
           console.log(error)
         })
 
@@ -122,7 +119,7 @@ datasetLinks.forEach(function handleLink(link) {
   })
 })
 
-//////// NEW FILTER STUFF ////////
+// ///// NEW FILTER STUFF ////////
 
 // nominatim stuff
 
@@ -130,7 +127,7 @@ datasetLinks.forEach(function handleLink(link) {
 const findPlaceButton = document.getElementById('find_place_button')
 const findPlaceContainer = document.getElementById('find_place_container')
 
-findPlaceButton.addEventListener('click', function showPlaceContainer() {
+findPlaceButton.addEventListener('click', function showPlaceContainer () {
   classToggle(findPlaceButton, 'active')
 
   findPlaceContainer.style.display === 'none' || findPlaceContainer.style.display === ''
@@ -145,18 +142,18 @@ const placeToggle = document.getElementById('place_toggle')
 const selector = document.getElementById('selector')
 const selectButton = document.getElementById('select_button')
 const possiblePlaceLayers = {} // this is where i keep the layers to query the map with
-const selectedPlace = [] 
+const selectedPlace = []
 
 activeDatasetButtons.push(placeButton, placeToggle, selectButton)
 
-function makeSelectorOptions(array) {
+function makeSelectorOptions (array) {
   selector.innerHTML = ''
   array.forEach(place => {
     const obj = {}
     obj.display_name = place.display_name
     obj.geojson = place.geojson
 
-    const display_name = obj.display_name
+//    const displayName = obj.display_name
 
     const option = document.createElement('option')
     option.value = obj.display_name
@@ -165,18 +162,18 @@ function makeSelectorOptions(array) {
     selector.appendChild(option)
 
     const lyr = L.geoJson(obj.geojson)
-    possiblePlaceLayers[display_name] = lyr
+    possiblePlaceLayers.display_name = lyr
   })
 }
 
 // add place(s) to the selector
-placeButton.addEventListener('click', function findPlace() {
+placeButton.addEventListener('click', function findPlace () {
   const val = placeInput.value
-  const data = en.getPlaceData(val, makeSelectorOptions)
+  en.getPlaceData(val, makeSelectorOptions)
 })
 
 // select place to display
-selectButton.addEventListener('click', function selectPlace() {
+selectButton.addEventListener('click', function selectPlace () {
   Object.values(possiblePlaceLayers).forEach(n => {
     myMap.removeLayer(n)
   })
@@ -193,7 +190,7 @@ selectButton.addEventListener('click', function selectPlace() {
 
   const lyr = selectedPlace[0]
   lyr.addTo(myMap)
-  myMap.fitBounds(lyr.getBounds()) 
+  myMap.fitBounds(lyr.getBounds())
 })
 
 // map and layer should be arguements for a predefined function
@@ -203,14 +200,13 @@ placeToggle.addEventListener('click', () => {
   : myMap.addLayer(selectedPlace[0])
 })
 
-
 // test URL stuff
 
 // (1) hide and show nominatim stuff (do this after I've gotten it working)
 const testUrlButton = document.getElementById('test_url_button')
 const testUrlContainer = document.getElementById('test_url_container')
 
-testUrlButton.addEventListener('click', function showTestUrlContainer() {
+testUrlButton.addEventListener('click', function showTestUrlContainer () {
 
   classToggle(testUrlButton, 'active')
 
@@ -225,7 +221,7 @@ const getTestUrl = document.getElementById('get_test_url')
 const toggleTestUrlsButton = document.getElementById('toggle_test_urls')
 const testUrls = document.getElementById('test_urls')
 
-testDatasets = {}
+const testDatasets = {}
 let testDatasetCount = 0
 
 // pointMarkerOptions
@@ -237,7 +233,7 @@ const testUrlMarkerOptions = {
   fillOpacity: 0.4
 }
 
-getTestUrl.addEventListener('click', function getDataFromTestUrl() {
+getTestUrl.addEventListener('click', function getDataFromTestUrl () {
   // get ext and url
   const ext = getExt(testUrlInput.value)
   const url = testUrlInput.value
@@ -249,7 +245,7 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
   // get the data with the correct ext, why is this stuff different than
   // the  functions we already have? I'll refactor later
   extSelect(ext, url)
-    .then(function handleResponse(response) {
+    .then(function handleResponse (response) {
       // make this into a layer
       const layerMod = L.geoJson(null, {
         // set the points to little circles
@@ -258,7 +254,7 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
         },
         onEachFeature: (feature, layer) => {
           // make sure the fill is the color
-          layer.options.fillColor = testDatasetColor 
+          layer.options.fillColor = testDatasetColor
           // and make sure the perimiter is black (if it's a point) and the color otherwise
           feature.geometry.type === 'Point'
             ? layer.options.color = 'white'
@@ -289,7 +285,7 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
       testDatasets[testDatasetCount] = layerMod
 
       myMap.addLayer(layerMod).fitBounds(layerMod.getBounds())
-    }, function handleError(error) {
+    }, function handleError (error) {
       console.log(error)
     })
 })
@@ -302,11 +298,11 @@ const fileContainer = []
 const withinPolygonButton = document.getElementById('within_polygon_button')
 const withinPolygonContainer = document.getElementById('within_polygon_container')
 
-// (2) make buttons that will get the data 
+// (2) make buttons that will get the data
 const getDataWithinPolygonButton = addButton('Get data within polygon', 'black', withinPolygonContainer)
 getDataWithinPolygonButton.setAttribute('class', 'btn btn-default')
 
-withinPolygonButton.addEventListener('click', function showWithinPolygonContainer() {
+withinPolygonButton.addEventListener('click', function showWithinPolygonContainer () {
   classToggle(withinPolygonButton, 'active')
 
   // how do i do this with a ternary statement? I've done it before...
@@ -323,11 +319,10 @@ withinPolygonButton.addEventListener('click', function showWithinPolygonContaine
   : withinPolygonContainer.style.display = 'none'
 })
 
-
 // (3) add event listener to button that gets the data
 
 // should this function be defined separately, and have arguements?
-getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolygon() {
+getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolygon () {
   // make sure that the polygon is in geojson format
   // console.log(saidPolygon[0].toGeoJSON())
 
@@ -362,9 +357,9 @@ getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolyg
   // refactor this stuff soon. too many layer to geojson to layer things
 
   pointsLayers.forEach(l => {
-    const n = turf.within(l, poly) 
+    const n = turf.within(l, poly)
     pointsWithinLayer.addData(n)
-    fileContainer.push(pointsWithinLayer.toGeoJSON())    
+    fileContainer.push(pointsWithinLayer.toGeoJSON())
   })
 
   // make save data button
@@ -373,36 +368,31 @@ getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolyg
 
   // make file name input
   const fileNameInput = document.createElement('input')
-  fileNameInput.setAttribute('class', 'form-control') 
+  fileNameInput.setAttribute('class', 'form-control')
   fileNameInput.setAttribute('placeholder', 'Enter the file name here')
   fileNameInput.setAttribute('type', 'text')
   withinPolygonContainer.append(fileNameInput)
 
-  saveButton.addEventListener('click', function saveFile() {
-    const filename = fileNameInput.value 
+  saveButton.addEventListener('click', function saveFile () {
+    const filename = fileNameInput.value
     const data = JSON.stringify(fileContainer[0])
-    const blob = new Blob([data], {type: "text/plain; charset=utf-8"})
-    saveAs(blob, filename + ".geojson")
+    const blob = new Blob([data], {type: 'text/plain; charset=utf-8'})
+    saveAs(blob, filename + '.geojson')
   })
-
 })
-
-
-
 
 // clear map
 // get button and add click event
 const clearMapButton = document.getElementById('clear_map')
 
-clearMapButton.addEventListener('click', function clearMap() {
-
+clearMapButton.addEventListener('click', function clearMap () {
   // toggle 'active' class off
-  activeDatasetButtons.forEach(function deactivate(link) {
+  activeDatasetButtons.forEach(function deactivate (link) {
     link.classList.remove('active')
   })
-  
+
   // get all layers from map
-  myMap.eachLayer(function clearLayers(layer) {
+  myMap.eachLayer(function clearLayers (layer) {
     // make sure not to remove tile layers
     if (layer !== osm && layer !== stamenToner && layer !== esriWorldImagery) {
       // remove layers
@@ -410,5 +400,3 @@ clearMapButton.addEventListener('click', function clearMap() {
     }
   })
 })
-
-
