@@ -42,7 +42,6 @@ class Dataset(models.Model):
     a model field.
     """
     # EXTCHOICES = {"csv": "csv", "kml": "kml", "geojson": "geojson"}
-    # there will be more
 
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     author = models.CharField(max_length=200, null=True)
@@ -82,10 +81,17 @@ class Dataset(models.Model):
 
     # this needs to be fixed, it forces the model to have a url, even if
     # it's at an owncloud path
+    # FIX THIS
     def save(self, *args, **kwargs):
-        if self.url.lower().endswith(".csv"):
+        # this could be done with a loop
+        if self.owncloud == True:
+            base = self.owncloud_path
+        else:
+            base = self.url
+
+        if base.lower().endswith("csv"):
             self.ext = "csv"
-        elif self.url.lower().endswith(".kml"):
+        elif base.lower().endswith("kml"):
             self.ext = "kml"
         else:
             self.ext = "geojson"
