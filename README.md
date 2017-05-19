@@ -161,3 +161,5 @@ Vue instead of React... - Not important to use either of these yet
 Ajax for search functions - possibly
 
 Maybe all the tests should just stay in their own apps as well. That way each app is a separate module.
+
+What about consuming a rest api, and having a rest api??? Hmmm
