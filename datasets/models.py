@@ -6,7 +6,7 @@ from django.utils.text import slugify
 from accounts.models import Account
 
 from cryptography.fernet import Fernet
-import os
+
 import json
 
 # This is pretty much copied from the two scoops of django 1.8 book
@@ -19,6 +19,7 @@ import json
 with open("secrets.json") as f:
     secrets = json.loads(f.read())
 
+
 def get_secret(setting, secrets=secrets):
     """Get the secret variable or return the explicit exception."""
     try:
@@ -27,8 +28,10 @@ def get_secret(setting, secrets=secrets):
         error_msg = "Set the {0} environment variable".format(setting)
         raise ImproperlyConfigured(error_msg)
 
+
 CRYPTO_KEY = get_secret("CRYPTO_KEY")
 cipher_start = Fernet(CRYPTO_KEY)
+
 
 class Dataset(models.Model):
     """
@@ -81,7 +84,7 @@ class Dataset(models.Model):
     def save(self, *args, **kwargs):
         # could this could be done with a loop, would it be necessary? or
         # more readable?
-        if self.owncloud == True:
+        if self.owncloud == True:  # flake8 doesn't like this statement
             base = self.owncloud_path.lower()
         else:
             base = self.url.lower()

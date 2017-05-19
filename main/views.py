@@ -4,11 +4,9 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from datasets.models import Dataset
-from keywords.models import Keyword
 
 import requests
 import owncloud
-import os
 import json
 
 from cryptography.fernet import Fernet
@@ -56,6 +54,7 @@ def load_dataset(request, pk):
                             auth=(decrypted_user, decrypted_password)).content
 
     return HttpResponse(data)
+
 
 # the search function on this page should be controlled by another view
 # and called with ajax

@@ -26,13 +26,18 @@ class DatasetCreateForm(forms.ModelForm):
                        "placeholder": "For example: https://dataset.geojson"}),
             "owncloud_instance": forms.TextInput(
                 attrs={"class": basic_input_class,
-                       "placeholder": "For example: https://zmtcloud.leibniz-zmt.de/"}),
+                       "placeholder":
+                       "For example: https://zmtcloud.leibniz-zmt.de/"}),
             "owncloud_path": forms.TextInput(
                 attrs={"class": basic_input_class,
-                       "placeholder": "For example: TestFolder/ownCloudPoint.kml"}),
-            "description": forms.Textarea(attrs={"class": basic_input_class, "rows": 4}),
-            "dataset_user": forms.PasswordInput(attrs={"class": basic_input_class}),
-            "dataset_password": forms.PasswordInput(attrs={"class": basic_input_class})
+                       "placeholder":
+                       "For example: TestFolder/ownCloudPoint.kml"}),
+            "description": forms.Textarea(attrs={"class": basic_input_class,
+                                                 "rows": 4}),
+            "dataset_user": forms.PasswordInput(attrs={
+                                                "class": basic_input_class}),
+            "dataset_password": forms.PasswordInput(
+                attrs={"class": basic_input_class})
         }
 
 
@@ -74,8 +79,12 @@ class DatasetUpdateAuthForm(forms.ModelForm):
         basic_input_class = "form-control"
 
         widgets = {
-            "dataset_user": forms.PasswordInput(attrs={"class": basic_input_class}),
-            "dataset_password": forms.PasswordInput(attrs={"class": basic_input_class}),
-            "owncloud_instance": forms.TextInput(attrs={"class": basic_input_class}),
-            "owncloud_path": forms.TextInput(attrs={"class": basic_input_class})
+            "dataset_user": forms.PasswordInput(
+                attrs={"class": basic_input_class}),
+            "dataset_password": forms.PasswordInput(
+                attrs={"class": basic_input_class}),
+            "owncloud_instance": forms.TextInput(
+                attrs={"class": basic_input_class}),
+            "owncloud_path": forms.TextInput(
+                attrs={"class": basic_input_class})
         }

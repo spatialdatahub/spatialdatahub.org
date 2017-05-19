@@ -9,7 +9,7 @@ class KeywordCreateForm(forms.ModelForm):
     with keywords... maybe
     """
     class Meta:
-        model = Keyword 
+        model = Keyword
 
         fields = ["keyword"]
 
@@ -18,4 +18,3 @@ class KeywordCreateForm(forms.ModelForm):
         widgets = {
             "keyword": forms.TextInput(attrs=basic_input_class),
         }
-

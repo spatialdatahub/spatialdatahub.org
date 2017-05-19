@@ -35,7 +35,7 @@ urlpatterns = [
         TemplateView.as_view(template_name='url_test.html'),
         name='url_test'),
 
-    url(r'^load_dataset/(?P<pk>[0-9]+)/$', # this one is tricky
+    url(r'^load_dataset/(?P<pk>[0-9]+)/$',  # this one is tricky
         views.load_dataset,
         name='load_dataset'),
 

@@ -4,18 +4,20 @@ from django.utils.text import slugify
 
 from datasets.models import Dataset
 
+
 class Keyword(models.Model):
     # keywords should be unique, and they should not be blank
     keyword = models.CharField(
         max_length=100, blank=True, null=True, unique=True)
     datasets = models.ManyToManyField(Dataset)
-    keyword_slug = models.SlugField(max_length=100, unique=True, blank=True, null=True)
+    keyword_slug = models.SlugField(max_length=100, unique=True,
+                                    blank=True, null=True)
 
     def __str__(self):
         return self.keyword
 
     def save(self, *args, **kwargs):
-        self.keyword_slug = slugify(self.keyword) 
+        self.keyword_slug = slugify(self.keyword)
         super(Keyword, self).save(*args, **kwargs)
 
     def get_absolute_url(self):

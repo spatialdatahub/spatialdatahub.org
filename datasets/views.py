@@ -91,7 +91,8 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
 
 
 @login_required
-def dataset_update_auth(request, account_slug=None, dataset_slug=None, pk=None):
+def dataset_update_auth(request, account_slug=None,
+                        dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
     if request.user.id != account.user.id:
@@ -131,4 +132,3 @@ def dataset_remove(request, account_slug=None, dataset_slug=None, pk=None):
             return redirect("accounts:account_detail",
                             account_slug=account.account_slug)
         return render(request, template_name, context)
-
