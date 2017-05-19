@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class='container'>
+<div class="container">
 
   <!-- breadcrumbs -->
     <div class="row">
@@ -16,16 +16,16 @@
     <hr class="divider">
   <!-- end breadcrumbs -->
 
-  </p>
-    <form action='.' method='post'>
+  <p>
+    <form action="." method="post">
       {% csrf_token %}
       {{ form.as_p }}
-      <input type='submit' value='Update {{ account.user }}'>
+      <input type="submit" value="Update {{ account.user }}">
     </form>
   </p>
 
   <p>
-    <a href='{{ account.get_absolute_url }}'>
+    <a href="{{ account.get_absolute_url }}">
       No, take me back to {{ account.user }}'s page
     </a>
   </p>

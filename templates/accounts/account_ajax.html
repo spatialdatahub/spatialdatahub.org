@@ -1,12 +1,12 @@
-<div class='container-fluid'>
-  <h2><a href='{{ account.get_absolute_url }}'>{{ account }}</a></h2>
+<div class="container-fluid">
+  <h2><a href="{{ account.get_absolute_url }}">{{ account }}</a></h2>
   <h3>{{ account.affiliation }}</h3>
   <p>There should be some extra information here, perhaps a description of the account</p>
-  <ul id="dataset_list">  
+  <ul id="dataset_list">
     {% if dataset_list %}
       {% for dataset in dataset_list %}
         <li>
-          <a href='{{ dataset.get_absolute_url }}'>{{ dataset.title }}</a>
+          <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a>
         </li>
       {% endfor %}
     {% else %}

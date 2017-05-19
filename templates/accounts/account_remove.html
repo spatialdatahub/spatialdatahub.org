@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class='container'>
+<div class="container">
 
   <!-- breadcrumbs -->
     <div class="row">
@@ -17,14 +17,14 @@
   <!-- end breadcrumbs -->
 
   <p>
-    <form action='' method='post'>
+    <form action="" method="post">
       {% csrf_token %}
-      <input type='submit' value='Yes, please remove {{ account.user }}'/>
+      <input type="submit" value="Yes, please remove {{ account.user }}"/>
     </form>
   </p>
 
   <p>
-    <a href='{{ account.get_absolute_url }}'>
+    <a href="{{ account.get_absolute_url }}">
       No, take me back to {{ account.user }}'s page
     </a>
   </p>
