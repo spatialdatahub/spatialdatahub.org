@@ -158,12 +158,13 @@
       </ol>
       <ol id="datasets-list" class="nav nav-pills nav-stacked">
         <!-- about to get real hacky here -->
+        <!-- This needs to be refactored -->
         {% if dataset_list %}
           {% for dataset in dataset_list %}
             {% if dataset.dataset_password %}
               <li class="">
                 <a name="dataset" id="{{ dataset.ext }}"
-                  value="{{ dataset.pk }}" href="#"
+                  value="{{ dataset.pk }}" 
                   link="{{ dataset.get_absolute_url }}">
                   {{ dataset.title }}
                 </a>
@@ -171,7 +172,7 @@
             {% else %}
               <li class="">
                 <a name="dataset" id="{{ dataset.ext }}"
-                  value="{{ dataset.pk }}" href="#"
+                  value="{{ dataset.pk }}"
                   link="{{ dataset.get_absolute_url }}" url="{{ dataset.url }}">
                   {{ dataset.title }}
                 </a>
