@@ -41,7 +41,6 @@ class Dataset(models.Model):
     I am going to create a method to save the dataset's extension as
     a model field.
     """
-    # EXTCHOICES = {"csv": "csv", "kml": "kml", "geojson": "geojson"}
 
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     author = models.CharField(max_length=200, null=True)
@@ -49,7 +48,7 @@ class Dataset(models.Model):
     description = models.TextField(null=True)
 
     # start with tests... should this many to many be defined in the
-    # keywords model itself
+    # keywords model itself, or in the datasets model?
     # keywords = models.ManyToMany(KeyWord, null=True, blank=True)
 
     # there should be an if/else for this or owncloud
@@ -79,19 +78,17 @@ class Dataset(models.Model):
     def __str__(self):
         return self.title
 
-    # this needs to be fixed, it forces the model to have a url, even if
-    # it's at an owncloud path
-    # FIX THIS
     def save(self, *args, **kwargs):
-        # this could be done with a loop
+        # could this could be done with a loop, would it be necessary? or
+        # more readable?
         if self.owncloud == True:
-            base = self.owncloud_path
+            base = self.owncloud_path.lower()
         else:
-            base = self.url
+            base = self.url.lower()
 
-        if base.lower().endswith("csv"):
+        if base.endswith("csv"):
             self.ext = "csv"
-        elif base.lower().endswith("kml"):
+        elif base.endswith("kml"):
             self.ext = "kml"
         else:
             self.ext = "geojson"
