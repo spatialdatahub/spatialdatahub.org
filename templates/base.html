@@ -1,18 +1,18 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-<meta charset='UTF-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>ZMT | {% block title %}{% endblock title%}</title>
 
 
 <!-- Latest compiled and minified CSS -->
-<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<link rel='stylesheet' href='{% static "css/dashboard.css" %}'/>
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 {% block css %}
 
 
@@ -23,36 +23,36 @@
 <body>
 
 <!-- NAVBAR -->
-<nav class='navbar navbar-default' role='navigation'>
-  <div class='container'>
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container">
 
-    <div class='navbar-header'>
-      <button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar'>
-        <span class='sr-only'>Toggle navigation</span>
-        <span class='icon-bar'></span>
-        <span class='icon-bar'></span>
-        <span class='icon-bar'></span>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
       </button>
-      <a class='navbar-brand' href='http://www.zmt-bremen.de/en/zmt.html' target='_blank'>
-        <img src='{% static "images/zmt_logo_white.png" %}' height=32 alt='ZMT Logo' />
+      <a class="navbar-brand" href="http://www.zmt-bremen.de/en/zmt.html" target="_blank">
+        <img src="{% static 'images/zmt_logo_white.png' %}" height="32" alt="ZMT Logo" />
       </a>
     </div>
 
-    <div id='navbar' class='collapse navbar-collapse' id='navbarsExampleDefault'>
-      <ul class='nav navbar-nav'>
-        <li><a href='{% url "portal" %}'>Home</a></li>
-        <li><a href='{% url "accounts:account_list" %}'>Accounts</a></li>
-        <li><a href='{% url "keywords:keyword_list" %}'>Keywords</a></li>
+    <div id="navbar" class="collapse navbar-collapse"> <!--  id="navbarsExampleDefault" -->
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'portal' %}">Home</a></li>
+        <li><a href="{% url 'accounts:account_list' %}">Accounts</a></li>
+        <li><a href="{% url 'keywords:keyword_list' %}">Keywords</a></li>
 
         {% if user.is_authenticated %}
-          <li><a href='{{ user.account.get_absolute_url }}'>{{ user.account }}</a></li>
-          <li><a href='{% url "logout" %}?next=/'>Logout</a></li>
+          <li><a href="{{ user.account.get_absolute_url }}">{{ user.account }}</a></li>
+          <li><a href="{% url 'logout' %}?next=/">Logout</a></li>
         {% else %}
-          <li><a href='{%url "register" %}'>Register</a></li>
-          <li><a href='{% url "login" %}'>Login</a></li>
+          <li><a href="{%url 'register' %}">Register</a></li>
+          <li><a href="{% url 'login' %}">Login</a></li>
         {% endif %}
 
-        <li><a href='{% url "url_test" %}'>Test a URL</a></li>
+        <li><a href="{% url 'url_test' %}">Test a URL</a></li>
 
       </ul>
     </div>
@@ -62,7 +62,7 @@
 <!-- END NAVBAR -->
 
 <!-- NOSCRIPT -->
-<div class='container'>
+<div class="container">
   <noscript>
     <h2>Warning: without javascript enabled this site will not show maps or retreive data</h2>
   </noscript>
@@ -75,13 +75,13 @@
 <!-- CONTENT -->
 
 <!-- FOOTER -->
-<hr class='divider'>
-<footer class='bs-docs-footer'>
-  <div class='container text-center'>
-    <ul class='list-inline'>
-      <li><a href='{% url "about" %}'>About</a></li>
-      <li><a href='{% url "contact" %}'>Contact</a></li>
-      <li><a href='https://github.com/patcurry/WebGIS' target='_blank'>GitHub</a></li>
+<hr class="divider">
+<footer class="bs-docs-footer">
+  <div class="container text-center">
+    <ul class="list-inline">
+      <li><a href="{% url 'about' %}">About</a></li>
+      <li><a href="{% url 'contact' %}">Contact</a></li>
+      <li><a href="https://github.com/patcurry/WebGIS" target="_blank">GitHub</a></li>
     </ul>
   </div>
 </footer>
