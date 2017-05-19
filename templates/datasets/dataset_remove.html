@@ -21,7 +21,7 @@
   <p>
     <form action='' method='post'>
       {% csrf_token %}
-      <input type='submit' value='Yes, please remove {{ dataset.title }}'/>
+      <input class='btn btn-danger' type='submit' value='Yes, please remove {{ dataset.title }}'/>
     </form>
   </p>
 

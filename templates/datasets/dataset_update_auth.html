@@ -19,7 +19,7 @@
     <form action='.' method='post'>
       {% csrf_token %}
       {{ form.as_p }}
-      <input type='submit' value='Update {{ dataset.title }}'>
+      <input class='btn btn-default' type='submit' value='Update {{ dataset.title }}'>
     </form>
   </p>
 
