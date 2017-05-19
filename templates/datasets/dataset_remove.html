@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class='container'>
+<div class="container">
 
   <!-- breadcrumbs -->
     <div class="row">
@@ -19,14 +19,14 @@
   <!-- end breadcrumbs -->
 
   <p>
-    <form action='' method='post'>
+    <form action="" method="post">
       {% csrf_token %}
-      <input class='btn btn-danger' type='submit' value='Yes, please remove {{ dataset.title }}'/>
+      <input class="btn btn-danger" type="submit" value="Yes, please remove {{ dataset.title }}"/>
     </form>
   </p>
 
   <p>
-    <a href='{{ dataset.get_absolute_url }}'>
+    <a href="{{ dataset.get_absolute_url }}">
       No, take me back to the {{ dataset.title }} page
     </a>
   </p>

@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load staticfiles %}
 
 {% block title %}{{ dataset.title }}{% endblock title %}
 
 {% block css %}
 
-<link rel='stylesheet' href='https://unpkg.com/leaflet@1.0.3/dist/leaflet.css' />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 
 <style>
 
@@ -28,73 +28,73 @@
 
 {% block content %}
 
-<div class='container'>
+<div class="container">
 
-  <div class='row' id='breadcrumbs'>
-    <h4 class='col-xs-12'>
-      <a href='{% url "portal" %}' >Home</a> /
-      <a href='{{ account.get_absolute_url }}'>{{ account.user }}</a> /
-      <a href='{{ dataset.get_absolute_url }}'>{{ dataset.title }}</a>
+  <div class="row" id="breadcrumbs">
+    <h4 class="col-xs-12">
+      <a href="{% url 'portal' %}" >Home</a> /
+      <a href="{{ account.get_absolute_url }}">{{ account.user }}</a> /
+      <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a>
     </h4>
   </div>
-  <hr class='divider'>
+  <hr class="divider">
 </div>
 
 
-<div class='container'>
-  <div class='row'>
+<div class="container">
+  <div class="row">
     <p><h4><b>Title:</b> {{ dataset.title }}</h4></p>
     <p><b>Author:</b> {{ dataset.author }}</p>
     <p><b>Description:</b> {{ dataset.description }}</p>
     {% if keyword_list %}
       <p><b>Keywords:</b>
         {% for keyword in keyword_list %}
-          <a href='{{ keyword.get_absolute_url }}'>{{ keyword.keyword }}</a> |
+          <a href="{{ keyword.get_absolute_url }}">{{ keyword.keyword }}</a> |
         {% endfor %}
       </p>
     {% endif %}
   </div>
-  <hr class='divider'>
+  <hr class="divider">
 </div>
 
     <!-- info divs -->
     <!-- There must be a better way to do this-->
 
-    <div id='dataset_pk' value='{{ dataset.pk }}'></div>
-    <div id='dataset_ext' value='{{ dataset.ext }}'></div>
+    <div id="dataset_pk" value="{{ dataset.pk }}"></div>
+    <div id="dataset_ext" value="{{ dataset.ext }}"></div>
     {% if not dataset.dataset_password %}
-      <div id='dataset_url' url='{{ dataset.url }}'></div>
+      <div id="dataset_url" url="{{ dataset.url }}"></div>
     {% else %}
-      <div id='dataset_url'></div>
+      <div id="dataset_url"></div>
     {% endif %}
 
     <!-- info divs -->
 
 <!-- These should be inline links -->
-<div class='container'>
-  <div class='row'>
+<div class="container">
+  <div class="row">
     <p>
-      <a href='{% url "datasets:dataset_update" account.account_slug dataset.dataset_slug dataset.pk %}'>
+      <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}">
         Update {{ dataset.title }}
       </a>
     </p>
     <p>
-      <a href='{% url "datasets:dataset_update_auth" account.account_slug dataset.dataset_slug dataset.pk %}'>
+      <a href="{% url 'datasets:dataset_update_auth' account.account_slug dataset.dataset_slug dataset.pk %}">
         Update {{ dataset.title }} authentication details
       </a>
     </p>
     <p>
-      <a href='{% url "datasets:dataset_remove" account.account_slug dataset.dataset_slug dataset.pk %}'>
+      <a href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}">
         Remove {{ dataset.title }}
       </a>
     </p>
   </div>
-  <hr class='divider'>
+  <hr class="divider">
 </div>
 
-<div class='container'>
-  <div class='row'>
-    <p><b>Number of dataset features: </b><span id='feature_count'></span></p>
+<div class="container">
+  <div class="row">
+    <p><b>Number of dataset features: </b><span id="feature_count"></span></p>
 
     <!-- button that adds the lat lng html to the page
     <input id='latlng' type='button' value='Latitude Longitude Filter' />
@@ -103,27 +103,27 @@
 
     <p><b>Latitude and Longitude inputs:</b></p>
     <p>
-      <input id='min_lat_input' type='text' placeholder='minimum latitude' />
-      <input id='max_lat_input' type='text' placeholder='maximum latitude' />
-      <input id='min_lng_input' type='text' placeholder='minimum longitude' />
-      <input id='max_lng_input' type='text' placeholder='maximum longitude' />
+      <input id="min_lat_input" type="text" placeholder="minimum latitude" />
+      <input id="max_lat_input" type="text" placeholder="maximum latitude" />
+      <input id="min_lng_input" type="text" placeholder="minimum longitude" />
+      <input id="max_lng_input" type="text" placeholder="maximum longitude" />
     </p>
   	<p>
-  		<input id='submit_values_button' type='submit' value='Submit' />
-  		<input id='reset_values_button' type='submit' value='Reset Points' />
+  		<input id="submit_values_button" type="submit" value="Submit" />
+  		<input id="reset_values_button" type="submit" value="Reset Points" />
   	</p>
 
-    <div id='if_features'></div>
+    <div id="if_features"></div>
 
   </div>
-  <hr class='divider'>
+  <hr>
 </div>
 
 
 
 <!-- MAP -->
-<div class='container'>
-  <div id='mapid'></div>
+<div class="container">
+  <div id="mapid"></div>
 </div>
 <!-- END MAP -->
 
@@ -131,12 +131,12 @@
 
 {% block js %}
 
-<script src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js'></script>
-<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
-<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+<script src="//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js"></script>
+<script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
 
-<script src='{% static "js/indexMap.js" %}'></script>
-<script src='{% static "js/initMap.js" %}'></script>
-<script src='{% static "js/datasets/detailView.js" %}'></script>
+<script src="{% static 'js/indexMap.js' %}"></script>
+<script src="{% static 'js/initMap.js' %}"></script>
+<script src="{% static 'js/datasets/detailView.js' %}"></script>
 
 {% endblock js %}

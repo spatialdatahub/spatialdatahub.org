@@ -46,8 +46,8 @@
   <!-- <script src="../node_modules/chai-as-promised/lib/chai-as-promised.js"></script> -->
 
   <script>
-    mocha.setup('bdd')
-    mocha.reporter('html')
+    mocha.setup("bdd")
+    mocha.reporter("html")
     var assert = chai.assert
     var should = chai.should
     var expect = chai.expect
@@ -65,7 +65,7 @@
 
   <script>
     mocha.checkLeaks()
-    mocha.globals(['L'])
+    mocha.globals(["L"])
     mocha.run()
   </script>
 {% endblock js %}
