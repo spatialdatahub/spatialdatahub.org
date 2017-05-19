@@ -11,9 +11,9 @@ const ext = document.getElementById('dataset_ext').getAttribute('value')
 // there must be a better way to do this... but for now it works
 // it should be turned into a function and used here and in the portalView
 let url
-document.getElementById('auth')
-  ? url = `/load_dataset/${pk}`
-  : url = document.getElementById('dataset_url').getAttribute('value')
+document.getElementById('dataset_url').getAttribute('url')
+  ? url = document.getElementById('dataset_url').getAttribute('url')
+  : url = `load_dataset/${pk}`
 
 const color = 'red' // I'm going to make a color selector element, and take the value
 
@@ -62,6 +62,7 @@ const fc = obj => {
 // then add the modified layer to the map and get its bounds
 // then call any other functions that should be run when the page is loaded
 
+// It seems that I hvae problems here
 extSelect(ext, url)
   .then(response => {
     dataset.push(response.toGeoJSON()) // add data to empty dataset array

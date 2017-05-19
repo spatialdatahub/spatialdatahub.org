@@ -158,6 +158,12 @@
       </ol>
       <ol id="datasets-list" class="nav nav-pills nav-stacked">
         <!-- about to get real hacky here -->
+<!--
+From stack overflow:
+As far as semantics and styling is concerned, the <a> element isn't a link (:link) unless it has an  [href] attribute. A side-effect of this is that an <a> element without [href] won't be in the tabbing order by default.
+
+The real question is whether the <a> element alone is an appropriate representation of a <button>. On a semantic level, there is a distinct difference between a link and a button.
+-->
         <!-- This needs to be refactored -->
         {% if dataset_list %}
           {% for dataset in dataset_list %}

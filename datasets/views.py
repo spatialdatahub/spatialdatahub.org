@@ -21,13 +21,9 @@ def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
     keyword_list = dataset.keyword_set.all()
 
-    # will this work
-    if dataset.dataset_password != 'Nonetype':
-        auth = True
-        context = {"account": account, "keyword_list": keyword_list, "dataset": dataset, "auth": auth}
-    else:
-        context = {"account": account, "keyword_list": keyword_list, "dataset": dataset}
-
+    context = {"account": account,
+               "keyword_list": keyword_list,
+               "dataset": dataset}
     template_name = "datasets/dataset_detail.html"
     return render(request, template_name, context)
 

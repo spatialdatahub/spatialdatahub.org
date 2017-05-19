@@ -59,14 +59,14 @@
 
     <!-- info divs -->
     <!-- There must be a better way to do this-->
-    <div id='dataset_pk' value={{ dataset.pk }}></div>
-    <div id='dataset_ext' value={{ dataset.ext }}></div>
 
-      {% if auth %}
-        <div id='auth' value={{ auth }}></div> 
-      {% else %}
-        <div id='dataset_url' value={{ dataset.url }}></div>
-      {% endif %}
+    <div id='dataset_pk' value='{{ dataset.pk }}'></div>
+    <div id='dataset_ext' value='{{ dataset.ext }}'></div>
+    {% if not dataset.dataset_password %}
+      <div id='dataset_url' url='{{ dataset.url }}'></div>
+    {% else %}
+      <div id='dataset_url'></div>
+    {% endif %}
 
     <!-- info divs -->
 
