@@ -50,8 +50,11 @@ def new_dataset(request, account_slug):
                 dataset = form.save(commit=False)
                 dataset.account = account
                 dataset.save()
-                return redirect("accounts:account_detail",
-                                account_slug=account.account_slug)
+                return redirect("datasets:dataset_detail",
+                                account_slug=account.account_slug,
+                                dataset_slug=dataset.dataset_slug,
+                                pk=dataset.pk)
+
         else:
             form = DatasetCreateForm()
         template_name = "datasets/new_dataset.html"
