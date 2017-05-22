@@ -27,6 +27,25 @@
     margin-bottom: 10px;
   }
 
+  #find_place_container {
+    display: none;
+  }
+
+  #test_url_container {
+    display: none;
+  }
+
+  /*
+  #draw_polygon_container {
+    display: none;
+  }
+  */
+
+  #within_polygon_container {
+    display: none;
+  }
+
+
 </style>
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
@@ -78,6 +97,75 @@
     </div>
   </div>
   <hr>
+
+
+  <!-- add extras -->
+  <div class="row" id="extras_buttons">
+    <div class="col-xs-12" id="add_extras">
+      <div class="btn-group" role="group">
+        <button id="find_place_button" class="btn btn-default">
+          Search for a location
+        </button>
+        <button id="test_url_button" class="btn btn-default">
+          Test dataset at an open URL
+        </button>
+        <!--
+        <button id="draw_polygon_button" class="btn btn-default">
+          Draw a polygon (NOT YET)
+        </button>
+        -->
+        <button id="within_polygon_button" class="btn btn-default">
+          Get data within a polygon
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12" id="extras_containers">
+
+    <div class="row" id="find_place_container">
+      <div id="nominatim">
+        <h3>Find a place</h3>
+        <div class="input-group">
+          <input id="place_input" class="form-control" type="text"
+           placeholder="Enter place name here">
+          <span class="input-group-btn">
+            <input id="place_button" class="btn btn-default" type="submit"
+              value="Submit">
+          </span>
+        </div>
+        <div class="btn-group" role="group">
+          <input id="select_button" class="btn btn-default" type="submit"
+            value="Submit">
+          <input id="place_toggle" class="btn btn-default" type="submit"
+            value="Toggle">
+        </div>
+        <select id="selector"></select>
+      </div>
+      <br/>
+    </div>
+
+    <div class="row" id="test_url_container">
+      <h3>Test a URL</h3>
+      <label for="test_url_input">For example copy and paste this into the input box then hit enter: https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson</label>
+      <div class="input-group">
+        <input id="test_url_input" class="form-control" type="text" placeholder="Enter URL Here">
+        <span class="input-group-btn">
+          <input id="get_test_url" class="btn btn-default" type="submit" value="Submit">
+        </span>
+      </div>
+      <div id="test_urls" class="btn-group" role="group">
+        <button id="toggle_test_urls" class="btn btn-default">Toggle test datasets</button>
+      </div>
+      <br/>
+    </div>
+
+    <div class="row" id="draw_polygon_container"></div>
+    <div class="row" id="within_polygon_container"></div>
+  <hr /> <!-- having trouble with the horizontal rule gaps -->
+  </div>
+  <!-- end add extras -->
 
 
 
@@ -136,6 +224,8 @@
 {% block js %}
 <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 <script src="//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js"></script>
+<script src="https://npmcdn.com/@turf/turf@4.0.0/turf.min.js"></script>
+<script src="https://unpkg.com/easy-nominatim@1.0.3"></script>
 
 <script src="{% static 'js/index.js' %}"></script>
 <script src="{% static 'js/indexMap.js' %}"></script>
