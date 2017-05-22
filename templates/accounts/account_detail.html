@@ -47,18 +47,39 @@
     <hr class="divider">
   <!-- end breadcrumbs -->
 
-  <div class="row" id="crud"> <!-- do I need this id? -->
+  {% if account.affiliation %}
+  <div class="row" id="account_info">
+    <div class="col-xs-12">
+      <p><b>{{ account.user }}'s affiliation:</b> {{ account.affiliation }}</p>
+    </div>
+  </div>
+  <hr>
+  {% endif %}
+
+  <div class="row"> <!-- do I need this id? -->
     <div class="col-xs-12 col-md-4 col-lg-3">
-      <h4>
-        <a href="{% url 'datasets:new_dataset' account.account_slug %}">
+        <p>
+          <a href="{% url 'datasets:new_dataset' account.account_slug %}">
           Add New Dataset
         </a>
-      </h4>
+        </p>
+        <p>
+        <a href="{% url 'accounts:account_update' account.account_slug %}">
+          Update Account
+        </a>
+        </p>
+        <p>
+        <a href="{% url 'accounts:account_remove' account.account_slug %}">
+          Remove Account
+        </a>
+        </p>
     </div>
     <div class="col-xs-12 col-md-8 col-lg-9" id="selected_link"><!-- this is where the dataset link will be -->
     </div>
   </div>
-  <hr class="divider">
+  <hr>
+
+
 
   <div class="row" id="filters">
     <div class="col-xs-12">
@@ -70,7 +91,7 @@
       <div id="mapid"></div>
     </div>
 
-    <!-- I need to set this up so it loads by ajax -->
+    <!-- I need to set this up so it loads by ajax, maybe -->
     <div class="col-xs-12 col-md-4 col-lg-3" id="datasetsContainer">
       <ol class="nav nav-pills nav-stacked">
           <li>

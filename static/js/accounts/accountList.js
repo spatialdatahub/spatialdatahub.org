@@ -1,5 +1,4 @@
 // I need to make the code for lists consistent. That will be another day
-
 const selectedLinkContainer = document.getElementById('selected_link_container')
 
 // Start with a bunch of stuff from other libraries, then add code from my own libraries
@@ -26,9 +25,13 @@ accountLinks.forEach(function handleLink (link) {
 // call the classToggle and the makeReq functions on the first
 // of the dataset links
 
-const a = accountLinks[0]
-const l = a.getAttribute('id')
-const u = `/account_ajax/${l}`
+if (accountLinks[0]) {
+  const a = accountLinks[0]
+  const l = a.getAttribute('id')
+  const u = `/account_ajax/${l}`
 
-classToggleOnDiffLink(a, accountLinks, 'active')
-makeReq(u, dataToDiv, accountInfo)
+  classToggleOnDiffLink(a, accountLinks, 'active')
+  makeReq(u, dataToDiv, accountInfo)
+  selectedLinkContainer.innerHTML = selectedLink
+}
+
