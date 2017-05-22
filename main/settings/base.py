@@ -51,8 +51,9 @@ INSTALLED_APPS = [
     # THIRD PARTY
 
     # LOCAL
-    "datasets",
+    "core",
     "accounts",
+    "datasets",
     "keywords",
 ]
 
@@ -98,6 +99,9 @@ DATABASES = {
         "PORT": get_secret("DATABASES_PORT"),
     }
 }
+
+
+AUTH_USER_MODEL = "core.CustomUser"
 
 
 # Password validation
