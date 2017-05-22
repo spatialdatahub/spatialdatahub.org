@@ -1,12 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
+from accounts.models import Account
+
 from datasets.models import Dataset
 from datasets.forms import DatasetCreateForm
 from datasets.forms import DatasetUpdateForm
 from datasets.forms import DatasetUpdateAuthForm
 
-from accounts.models import Account
+#from keywords.models import Keyword
 
 
 def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
@@ -60,12 +62,16 @@ def new_dataset(request, account_slug):
                        "account": account})
 
 
+@login_required
 def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=None):
+    """This works. It associates a keyword with a dataset, and if the keyword
+       already exists, it simply gets that keyword and associates it with the
+       datset"""
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
     if "kw" in request.POST:
         kw = request.POST["kw"]
-        dataset.keyword_set.create(keyword=kw)
+        dataset.keyword_set.get_or_create(keyword=kw)
         return redirect("datasets:dataset_detail",
                         account_slug=account.account_slug,
                         dataset_slug=dataset.dataset_slug,
