@@ -60,6 +60,22 @@ def new_dataset(request, account_slug):
                        "account": account})
 
 
+def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=None):
+    account = get_object_or_404(Account, account_slug=account_slug)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    if "kw" in request.POST:
+        kw = request.POST["kw"]
+        dataset.keyword_set.create(keyword=kw)
+        return redirect("datasets:dataset_detail",
+                        account_slug=account.account_slug,
+                        dataset_slug=dataset.dataset_slug,
+                        pk=dataset.pk)
+        
+    context = {"account": account, "dataset": dataset}
+    template_name = "datasets/add_keyword_to_dataset.html"
+    return render(request, template_name, context)
+
+
 @login_required
 def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
     account = get_object_or_404(Account, account_slug=account_slug)

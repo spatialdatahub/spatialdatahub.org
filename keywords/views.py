@@ -61,3 +61,6 @@ def new_keyword(request):
     form = KeywordCreateForm()
     template_name = "keywords/new_keyword.html"
     return render(request, template_name, {"form": form})
+
+
+
