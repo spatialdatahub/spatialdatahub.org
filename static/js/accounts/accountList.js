@@ -29,9 +29,12 @@ if (accountLinks[0]) {
   const a = accountLinks[0]
   const l = a.getAttribute('id')
   const u = `/account_ajax/${l}`
+  const t = a.children[0].text
+  const aU = a.getAttribute('link')
 
   classToggleOnDiffLink(a, accountLinks, 'active')
   makeReq(u, dataToDiv, accountInfo)
-  selectedLinkContainer.innerHTML = selectedLink
+  selectedLinkContainer.innerHTML = `<a href='${aU}'>Go to ${t}'s account</a>`
+
 }
 
