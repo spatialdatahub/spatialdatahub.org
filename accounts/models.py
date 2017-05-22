@@ -8,7 +8,8 @@ from django.conf import settings
 
 
 class Account(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE)
     affiliation = models.CharField(max_length=200, null=True, blank=True)
     account_slug = models.SlugField(max_length=50, unique=True, null=True)
     date_added = models.DateTimeField(auto_now=False, auto_now_add=True,
