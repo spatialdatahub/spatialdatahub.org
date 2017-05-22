@@ -57,13 +57,13 @@ L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 
 // Trying to add 'alt' to tile layers
 osm.on('tileload', function (tileEvent) {
-    tileEvent.tile.setAttribute('alt', 'Open Street Map Tile Layer');
-});
+  tileEvent.tile.setAttribute('alt', 'Open Street Map Tile Layer')
+})
 
 stamenToner.on('tileload', function (tileEvent) {
-    tileEvent.tile.setAttribute('alt', 'Stamen Toner black and white tile layers');
-});
+  tileEvent.tile.setAttribute('alt', 'Stamen Toner black and white tile layers')
+})
 
 esriWorldImagery.on('tileload', function (tileEvent) {
-    tileEvent.tile.setAttribute('alt', 'ESRI World Imagery Tile');
-});
+  tileEvent.tile.setAttribute('alt', 'ESRI World Imagery Tile')
+})

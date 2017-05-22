@@ -11,24 +11,24 @@
 
 // 1) promisified omnivore functions
 // these should probably be refactored
-function getGeoJSON(url) {
-  return new Promise(function handlePromise(resolve, reject) {
+function getGeoJSON (url) {
+  return new Promise(function handlePromise (resolve, reject) {
     const dataLayer = omnivore.geojson(url)
       .on('ready', () => resolve(dataLayer))
       .on('error', () => reject(Error('Url problem...')))
   })
 }
 
-function getKML(url) {
-  return new Promise(function handlePromise(resolve, reject) {
+function getKML (url) {
+  return new Promise(function handlePromise (resolve, reject) {
     const dataLayer = omnivore.kml(url)
       .on('ready', () => resolve(dataLayer))
       .on('error', () => reject(Error('Url problem...')))
   })
 }
 
-function getCSV(url) {
-  return new Promise(function handlePromise(resolve, reject) {
+function getCSV (url) {
+  return new Promise(function handlePromise (resolve, reject) {
     const dataLayer = omnivore.csv(url)
       .on('ready', () => resolve(dataLayer))
       .on('error', () => reject(Error('Url problem...')))
@@ -36,7 +36,7 @@ function getCSV(url) {
 }
 
 // 2) function to choose which omnivore function to run
-function extSelect(ext, url) {
+function extSelect (ext, url) {
   return ext === 'kml'
     ? getKML(url)
     : ext === 'csv'
@@ -51,7 +51,7 @@ const popupHtml = '<dl id="popup-content"></dl>'
 // add popups to the data points
 // should this function be called every time a layer is added to a map?
 // or will the layer still have the popups after it's toggled off and on?
-function addPopups(feature, layer) {
+function addPopups (feature, layer) {
   const popupContent = []
 
   // first check if there are properties
@@ -132,7 +132,7 @@ L.Control.ToggleScrollButton = L.Control.extend({
   onAdd: (map) => {
     const container = L.DomUtil.create('div',
       'leaflet-bar leaflet-control leaflet-control-custom')
-    //container.style.backgroundImage = 'url("http://localhost:8000/static/images/mouse.png")'
+    // container.style.backgroundImage = 'url("http://localhost:8000/static/images/mouse.png")'
     container.style.backgroundImage = 'url("/static/images/mouse.png")'
     container.style.backgroundRepeat = 'no-repeat'
     container.style.backgroundColor = 'white'
@@ -149,4 +149,3 @@ L.Control.ToggleScrollButton = L.Control.extend({
     // Nothing to do here
   }
 })
-
