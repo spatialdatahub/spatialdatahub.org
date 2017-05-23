@@ -4,13 +4,19 @@
 
 {% block content %}
 
+
 <div class="container">
+
+<h2>Add a keyword to {{ dataset.title }}</h2>
+<hr>
+
   <p>
     <form action="." method="POST">
       {% csrf_token %}
       <input class="form-control" type="text"
-       placeholder="Enter new keyword here" name="kw">
+       placeholder="The new keyword goes here" name="kw">
     </form>
   </p>
+
 </div>
 {% endblock content %}

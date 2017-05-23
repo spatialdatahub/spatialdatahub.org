@@ -71,7 +71,7 @@ def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=Non
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
     if "kw" in request.POST:
         kw = request.POST["kw"]
-        dataset.keyword_set.get_or_create(keyword=kw)
+        dataset.keyword_set.get_or_create(keyword=kw.lower())
         return redirect("datasets:dataset_detail",
                         account_slug=account.account_slug,
                         dataset_slug=dataset.dataset_slug,

@@ -24,10 +24,6 @@
 */
 // ////////////////////////////////////////////////////////////////////////////
 
-// Before dataset list load
-// const allLayers = []
-// const activeLayers = []
-
 // colors
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 let linkDatasetColorCounter = 0 // this is for the datasets from the links
@@ -149,21 +145,14 @@ activeDatasetButtons.push(placeButton, placeToggle, selectButton)
 function makeSelectorOptions (array) {
   selector.innerHTML = ''
   array.forEach(place => {
-    const obj = {}
-    obj.display_name = place.display_name
-    obj.geojson = place.geojson
-
-//    const displayName = obj.display_name
-
     const option = document.createElement('option')
-    option.value = obj.display_name
-    const text = document.createTextNode(obj.display_name)
+    option.value = place.display_name
+    const text = document.createTextNode(place.display_name)
     option.appendChild(text)
     selector.appendChild(option)
 
-    const lyr = L.geoJson(obj.geojson)
-//    possiblePlaceLayers.display_name = lyr
-    possiblePlaceLayers[obj.display_name] = lyr
+    const lyr = L.geoJson(place.geojson)
+    possiblePlaceLayers[place.display_name] = lyr
   })
 }
 
@@ -358,12 +347,19 @@ getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolyg
 
   const pointsWithinLayer = L.geoJSON(null).addTo(myMap)
 
+  /*
   // refactor this stuff soon. too many layer to geojson to layer things
-
   pointsLayers.forEach(l => {
     const n = turf.within(l, poly)
     pointsWithinLayer.addData(n)
     fileContainer.push(pointsWithinLayer.toGeoJSON())
+  })
+  */
+
+  // How about using map
+  pointsLayers.forEach(l => {
+    const n = turf.within(l, poly)
+    pointsWithinLayer.addData(n)
   })
 
   // make save data button
@@ -379,7 +375,7 @@ getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolyg
 
   saveButton.addEventListener('click', function saveFile () {
     const filename = fileNameInput.value
-    const data = JSON.stringify(fileContainer[0])
+    const data = JSON.stringify(pointsWithinLayer.toGeoJSON())
     const blob = new Blob([data], {type: 'text/plain; charset=utf-8'})
     saveAs(blob, filename + '.geojson')
   })
