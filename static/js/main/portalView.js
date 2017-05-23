@@ -162,7 +162,8 @@ function makeSelectorOptions (array) {
     selector.appendChild(option)
 
     const lyr = L.geoJson(obj.geojson)
-    possiblePlaceLayers.display_name = lyr
+//    possiblePlaceLayers.display_name = lyr
+    possiblePlaceLayers[obj.display_name] = lyr
   })
 }
 
@@ -181,7 +182,9 @@ selectButton.addEventListener('click', function selectPlace () {
   selectedPlace.length !== 0
   ? (selectedPlace.pop(), selectedPlace.push(possiblePlaceLayers[selector.value]))
   : selectedPlace.push(possiblePlaceLayers[selector.value])
+  console.log(possiblePlaceLayers)
 
+  
   const selectedPlaceType = selectedPlace[0].toGeoJSON().features[0].geometry.type
   if (selectedPlaceType === 'Polygon' || selectedPlaceType === 'MultiPolygon') {
     const p = selectedPlace[0]
@@ -191,6 +194,7 @@ selectButton.addEventListener('click', function selectPlace () {
   const lyr = selectedPlace[0]
   lyr.addTo(myMap)
   myMap.fitBounds(lyr.getBounds())
+  
 })
 
 // map and layer should be arguements for a predefined function
