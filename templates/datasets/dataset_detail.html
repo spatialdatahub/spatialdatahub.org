@@ -57,7 +57,12 @@
       <a href="{% url 'datasets:add_keyword_to_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
         Add a keyword to {{ dataset.title }}
       </a>
+    {% if keyword_list %}
+      or <a href="{% url 'datasets:remove_keyword_from_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
+        Remove a keyword from {{ dataset.title }}
+      </a>
     </h4>
+    {% endif %}
   </div>
   <hr class="divider">
 </div>

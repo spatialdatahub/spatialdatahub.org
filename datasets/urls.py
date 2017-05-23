@@ -21,6 +21,10 @@ urlpatterns = [
         views.add_keyword_to_dataset,
         name="add_keyword_to_dataset"),
 
+    url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/remove_keyword/$',
+        views.remove_keyword_from_dataset,
+        name="remove_keyword_from_dataset"),
+
     url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>[0-9]+)/update/$',
         views.dataset_update,
         name="dataset_update"),

@@ -8,7 +8,7 @@ from datasets.forms import DatasetCreateForm
 from datasets.forms import DatasetUpdateForm
 from datasets.forms import DatasetUpdateAuthForm
 
-#from keywords.models import Keyword
+from keywords.models import Keyword
 
 
 def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
@@ -62,24 +62,76 @@ def new_dataset(request, account_slug):
                        "account": account})
 
 
+'''
+should the add keyword to dataset and remove keyword from dataset views be
+in the keywords app?
+'''
+
 @login_required
 def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=None):
-    """This works. It associates a keyword with a dataset, and if the keyword
-       already exists, it simply gets that keyword and associates it with the
-       datset"""
+    """ This works. It associates a keyword with a dataset, and if the keyword
+        already exists, it simply gets that keyword and associates it with the
+        dataset.
+
+        Should this be in the keywords app? I now have to add a remove keywords from
+        dataset page as well.
+    """
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
     if "kw" in request.POST:
         kw = request.POST["kw"]
-        dataset.keyword_set.get_or_create(keyword=kw.lower())
+        # this isn't working. I think that get or create is not meant for many to many
+        # stuff. What is happening is if the keyword already exists in the database,
+        # the get or create is failing, becaues it's checking against the keywords
+        # associated with the datset, and not the database. So it tries to make the
+        # keyword, but then the process fails because of unique keyword constraints.
+
+        # This needs an if statement that checks if the keyword already exists, and
+        # if it doesn't, create it and associate it with the dataset
+        # if it does just associate it with the dataset
+        keyword_lower = kw.lower()
+
+        if Keyword.objects.get(keyword=keyword_lower):
+            n = Keyword.objects.get(keyword=keyword_lower)
+            dataset.keyword_set.add(n)
+        else:
+            dataset.keyword_set.create(keyword=keyword_lower)
+
+        return redirect("datasets:dataset_detail",
+                    account_slug=account.account_slug,
+                    dataset_slug=dataset.dataset_slug,
+                    pk=dataset.pk)
+        
+    context = {"account": account, "dataset": dataset}
+    template_name = "datasets/add_keyword_to_dataset.html"
+    return render(request, template_name, context)
+
+@login_required
+def remove_keyword_from_dataset(request, account_slug=None, dataset_slug=None, pk=None):
+    """ This works. It associates a keyword with a dataset, and if the keyword
+        already exists, it simply gets that keyword and associates it with the
+        dataset.
+
+        Should this be in the keywords app? I now have to add a remove keywords from
+        dataset page as well.
+    """
+    account = get_object_or_404(Account, account_slug=account_slug)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    keyword_list = dataset.keyword_set.all()
+    # I don't like this... how can I do it better?
+    if "kw" in request.POST:
+        kw = request.POST["kw"]
+        dataset.keyword_set.remove(kw)
         return redirect("datasets:dataset_detail",
                         account_slug=account.account_slug,
                         dataset_slug=dataset.dataset_slug,
                         pk=dataset.pk)
         
-    context = {"account": account, "dataset": dataset}
-    template_name = "datasets/add_keyword_to_dataset.html"
+    context = {"account": account, "dataset": dataset, "keyword_list": keyword_list}
+    template_name = "datasets/remove_keyword_from_dataset.html"
     return render(request, template_name, context)
+
+
 
 
 @login_required

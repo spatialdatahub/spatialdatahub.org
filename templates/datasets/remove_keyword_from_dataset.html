@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}New Keyword{% endblock title %}
+
+{% block content %}
+
+
+<div class="container">
+
+<h2>Remove a keyword from {{ dataset.title }}</h2>
+<hr>
+
+      <p><b>Keywords:</b>
+
+      <form action="." id="remove_keyword_form" method="post">
+        <select name="kw">
+          {% for keyword in keyword_list %}
+            <option value="{{ keyword.pk }}">{{ keyword }}</option>
+          {% endfor %}
+        </select>
+        {% csrf_token %}
+        <input type="submit" value="submit">
+      </form>
+      </p>
+
+</div>
+{% endblock content %}
