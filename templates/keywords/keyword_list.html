@@ -3,32 +3,11 @@
 
 {% block title %}Keywords{% endblock title %}
 
-{% block css %}
-<style>
-
-
-
-</style>
-{% endblock css %}
-
+{% block breadcrumbs %}
+  / <a href="{% url 'keywords:keyword_list' %}" >keywords</a>
+{% endblock breadcrumbs %}
 
 {% block content %}
-
-<div class="container">
-
-  <!-- breadcrumbs -->
-  <div class="row">
-    <h4 class="col-xs-12 col-md-4 col-lg-3">
-      <a href="{% url 'portal' %}" >Home</a> /
-      <a href="{% url 'keywords:keyword_list' %}" >keywords</a>
-    </h4>
-    <h4 class="col-xs-12 col-md-8 col-lg-9" id="selected_link_container">
-    </h4>
-  </div>
-  <hr class="divider">
-  <!-- end breadcrumbs -->
-
-
 
   <h1>Keywords</h1>
   <form action="." method="GET">
@@ -39,11 +18,9 @@
   {% for keyword in keyword_list %}
     <p>
       <a name="keyword_link" id="{{ keyword.pk }}" href="{{ keyword.get_absolute_url }}">
-        {{ keyword.keyword }}: {{ keyword.datasets.all|length }}
+        {{ keyword.keyword }}: {{ keyword.datasets.all|length }} datasets
       </a>
     </p>
   {% endfor %}
-
-</div>
 
 {% endblock content %}

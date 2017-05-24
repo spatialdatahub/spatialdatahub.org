@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base_portal.html" %}
 {% load staticfiles %}
 
 {% block title %}Portal{% endblock title %}
@@ -50,23 +50,7 @@
 
 {% endblock css %}
 
-{% block content %}
-
-<div class="container">
-
-  <!-- breadcrumbs -->
-  <!-- This one is special, because I only need the "home" bread crumb. However, I
-    need to have a way for users to get to the dataset"s pages, so I will put the
-    links to the pages on this "row", but not as part of the breadcrumbs.-->
-    <div class="row">
-      <h4 class="col-xs-12 col-md-4 col-lg-3">
-        <a href="{% url 'portal' %}" >Home</a>
-      </h4>
-      <h4 class="col-xs-12 col-md-8 col-lg-9" id="selected_link">
-      </h4>
-    </div>
-    <hr />
-  <!-- end breadcrumbs -->
+{% block portal_content %}
 
   <!-- add extras -->
   <div class="row" id="extras_buttons">
@@ -196,19 +180,9 @@ The real question is whether the <a> element alone is an appropriate representat
     </div>
   </div>
 
-</div>
 
-{% endblock content %}
+{% endblock portal_content %}
 
-{% block js %}
-<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-<script src="//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js"></script>
-<script src="https://npmcdn.com/@turf/turf@4.0.0/turf.min.js"></script>
-<script src="https://unpkg.com/easy-nominatim@1.0.3"></script>
-
-<script src="{% static 'js/index.js' %}"></script>
-<script src="{% static 'js/indexMap.js' %}"></script>
-<script src="{% static 'js/initMap.js' %}"></script>
-<script src="{% static 'js/filesaver.js' %}"></script>
+{% block portal_js %}
 <script src="{% static 'js/main/portalView.js' %}"></script>
-{% endblock js %}
+{% endblock portal_js %}

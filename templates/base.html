@@ -67,9 +67,24 @@
 </div>
 <!-- END NOSCRIPT -->
 
-<!-- CONTENT -->
+
+<div class="container">
+
+<!-- All the pages should have breadcrumbs -->
+    <div class="row">
+      <h4 class="col-xs-12 col-md-4 col-lg-3">
+        <a href="{% url 'portal' %}" >Home</a>
+        {% block breadcrumbs %}{% endblock breadcrumbs %}
+      </h4>
+      <h4 class="col-xs-12 col-md-8 col-lg-9" id="selected_link">
+      </h4>
+    </div>
+    <hr />
+
+
 {% block content %}
 {% endblock content %}
+</div>
 <!-- CONTENT -->
 
 <!-- FOOTER -->
@@ -87,7 +102,7 @@
 <!-- or cdnjs repo -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.10/bootstrap-native.min.js"></script>
 
-<!-- JS -->
+<!-- JS-->
 {% block js %}
 {% endblock js %}
 <!-- JS -->

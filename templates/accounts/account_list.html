@@ -3,41 +3,11 @@
 
 {% block title %}Accounts{% endblock title %}
 
-{% block css %}
-
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-
-<style>
-
-  #datasetsContainer {
-    overflow-y: auto;
-    float: left;
-  }
-
-  #dataContainer {
-    float: right;
-  }
-
-</style>
-
-{% endblock css %}
+{% block breadcrumbs %}
+  / <a href="{% url 'accounts:account_list' %}" >accounts</a>
+{% endblock breadcrumbs %}
 
 {% block content %}
-
-<div class="container">
-
-  <!-- breadcrumbs -->
-  <div class="row">
-    <h4 class="col-xs-12 col-md-4 col-lg-3">
-      <a href="{% url 'portal' %}" >Home</a> /
-      <a href="{% url 'accounts:account_list' %}" >accounts</a>
-    </h4>
-    <h4 class="col-xs-12 col-md-8 col-lg-9" id="selected_link_container">
-    </h4>
-  </div>
-  <hr class="divider">
-  <!-- end breadcrumbs -->
-
 
   <h1>Accounts</h1>
   <form action="." method="GET">
@@ -48,53 +18,9 @@
   {% for account in account_list %}
     <p>
       <a name="account_link" id="{{ account.pk }}" href="{{ account.get_absolute_url }}">
-        {{ account.user }}: {{ account.dataset_set.all|length }}
+        {{ account.user }}: {{ account.dataset_set.all|length }} datasets
       </a>
     </p>
   {% endfor %}
 
-</div>
-
-
-
-
-
-<!--
-  <div class="row" id="main">
-
-    <div class="col-xs-12 col-md-8 col-lg-9" id="dataContainer">
-      <div id="account_info"></div>
-    </div>
-
-    <div class="col-xs-12 col-md-4 col-lg-3" id="datasetsContainer">
-      <ol class="nav nav-pils nav-stacked">
-        <li>
-          <form action="." method="GET">
-            <input class="form-control" name="q" type="text" placeholder="Search Accounts">
-          </form>
-        </li>
-      </ol>
-      <ol id="account_list" class="nav nav-pills nav-stacked">
-        {% if account_list %}
-          {% for account in account_list %}
-            <li id="{{ account.account_slug }}" name="account" link="{{ account.get_absolute_url }}"><a href="#">{{ account }}</a></li>
-          {% endfor %}
-        {% else %}
-          <li>There are no accounts yet</li>
-        {% endif %}
-      </ol>
-    </div>
-
-  </div>
-
-</div>
--->
-
 {% endblock content %}
-
-{% block js %}
-
-<script src="{% static 'js/index.js' %}"></script>
-<script src="{% static 'js/accounts/accountList.js' %}"></script>
-
-{% endblock js %}
