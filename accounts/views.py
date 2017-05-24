@@ -14,17 +14,16 @@ def account_list(request):
     This view will need to be searchable by account name, account affiliation,
     and other account terms.
     """
-    account_list = Account.objects.all()
+    account_list = Account.objects.all().order_by("account_slug")
 
-    # It should work fine to query by the slug. Everything will be lowercase
-    # and it will remove any crazy characters... Also I think usernames can be
-    # only one word long. Better check that.
     if "q" in request.GET:
         q = request.GET["q"]
         account_list = Account.objects.filter(
             account_slug__contains=q).order_by("account_slug")
 
-    context = {"account_list": account_list}
+    total_accounts = len(account_list)
+
+    context = {"account_list": account_list, "total_accounts": total_accounts}
     template_name = "accounts/account_list.html"
     return render(request, template_name, context)
 

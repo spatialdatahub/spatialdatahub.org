@@ -1,3 +1,9 @@
+// SIMPLIFY!!! Don't worry about ajax right now, it's only going to
+// cause the project to move more slowly. The most important point
+// of this project is making the maps work.
+
+
+/*
 // I need to make the code for lists consistent. That will be another day
 const selectedLinkContainer = document.getElementById('selected_link_container')
 
@@ -37,4 +43,4 @@ if (accountLinks[0]) {
   selectedLinkContainer.innerHTML = `<a href='${aU}'>Go to ${t}'s account</a>`
 
 }
-
+*/
