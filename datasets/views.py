@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -91,10 +92,10 @@ def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=Non
         # if it does just associate it with the dataset
         keyword_lower = kw.lower()
 
-        if Keyword.objects.get(keyword=keyword_lower):
+        try:
             n = Keyword.objects.get(keyword=keyword_lower)
             dataset.keyword_set.add(n)
-        else:
+        except ObjectDoesNotExist:
             dataset.keyword_set.create(keyword=keyword_lower)
 
         return redirect("datasets:dataset_detail",
