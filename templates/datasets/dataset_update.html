@@ -2,21 +2,13 @@
 
 {% block title %}Update {{ dataset.title }}{% endblock title %}
 
+{% block breadcrumbs %}
+  / <a href="{{ account.get_absolute_url }}">{{ account.user }}</a>
+  / <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a>
+  / <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}">update</a>
+{% endblock breadcrumbs %}
+
 {% block content %}
-
-<div class="container">
-
-  <!-- breadcrumbs -->
-    <div class="row">
-      <h4 class="col-xs-12">
-        <a href="{% url 'portal' %}" >Home</a> /
-        <a href="{{ account.get_absolute_url }}">{{ account.user }}</a> /
-        <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a> /
-        <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}">update</a>
-      </h4>
-    </div>
-    <hr class="divider">
-  <!-- end breadcrumbs -->
 
   <p>
     <form action="." method="post">
@@ -38,5 +30,4 @@
     </a>
   </p>
 
-</div>
 {% endblock content %}

@@ -22,4 +22,4 @@ class Keyword(models.Model):
 
     def get_absolute_url(self):
         kwargs = {"keyword_slug": self.keyword_slug}
-        return reverse("keywords:keyword_datasets", kwargs=kwargs)
+        return reverse("keywords:keyword_detail", kwargs=kwargs)

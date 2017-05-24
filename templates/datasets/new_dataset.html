@@ -2,20 +2,12 @@
 
 {% block title %}New Dataset{% endblock title %}
 
+{% block breadcrumbs %}
+  / <a href="{{ account.get_absolute_url }}">{{ account.user }}</a>
+  / <a href="{% url 'datasets:new_dataset' account.account_slug %}">new dataset</a>
+{% endblock breadcrumbs %}
+
 {% block content %}
-
-<div class="container">
-
-  <!-- breadcrumbs -->
-    <div class="row">
-      <h4 class="col-xs-12">
-        <a href="{% url 'portal' %}" >Home</a> /
-        <a href="{{ account.get_absolute_url }}">{{ account.user }}</a> /
-        <a href="{% url 'datasets:new_dataset' account.account_slug %}">new dataset</a>
-      </h4>
-    </div>
-    <hr class="divider">
-  <!-- end breadcrumbs -->
 
   <p>
     <form action="." method="post">
@@ -30,7 +22,5 @@
       No, take me back to {{ account.user }}'s page
     </a>
   </p>
-
-</div>
 
 {% endblock content %}

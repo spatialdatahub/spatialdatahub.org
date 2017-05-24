@@ -2,24 +2,18 @@
 
 {% block title %}Remove Account{% endblock title %}
 
+{% block breadcrumbs %}
+/ <a href="{{ account.get_absolute_url }}">{{ account.user }}</a>
+/ <a href="{% url 'accounts:account_remove' account.account_slug %}" >remove {{ account.user }}'s account</a>
+{% endblock breadcrumbs %}
+
+
 {% block content %}
-
-<div class="container">
-
-  <!-- breadcrumbs -->
-    <div class="row">
-      <h4 class="col-xs-12">
-        <a href="{% url 'portal' %}" >Home</a> /
-        <a href="{% url 'accounts:account_remove' account.account_slug %}" >remove {{ account.user }}'s account</a>
-      </h4>
-    </div>
-    <hr class="divider">
-  <!-- end breadcrumbs -->
 
   <p>
     <form action="." method="POST">
       {% csrf_token %}
-      <input type="submit" value="Yes, please remove {{ account.user }}"/>
+      <input class="btn btn-danger" type="submit" value="Yes, please remove {{ account.user }}"/>
     </form>
   </p>
 
@@ -28,6 +22,5 @@
       No, take me back to {{ account.user }}'s page
     </a>
   </p>
-</div>
 
 {% endblock content %}

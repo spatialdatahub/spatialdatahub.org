@@ -25,10 +25,10 @@ def keyword_list(request):
     template_name = "keywords/keyword_list.html"
     return render(request, template_name, context)
 
-def keyword_datasets(request, keyword_slug=None):
+def keyword_detail(request, keyword_slug=None):
     keyword = get_object_or_404(Keyword, keyword_slug=keyword_slug)
     dataset_list = keyword.datasets.all()
-    template_name = "keywords/keyword_datasets.html"
+    template_name = "keywords/keyword_detail.html"
     return render(request, template_name,
                   context={"keyword": keyword, "dataset_list": dataset_list})
 
