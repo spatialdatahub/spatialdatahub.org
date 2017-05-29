@@ -2,10 +2,13 @@
 
 {% block title %}New Keyword{% endblock title %}
 
+{% block breadcrumbs %}
+/ <a href="{{ account.get_absolute_url }}">{{ account.user }}</a>
+/ <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a>
+/ <a href="{% url 'datasets:remove_keyword_from_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">remove keyword</a>
+{% endblock breadcrumbs %}
+
 {% block content %}
-
-
-<div class="container">
 
 <h2>Remove a keyword from {{ dataset.title }}</h2>
 <hr>
@@ -23,5 +26,4 @@
       </form>
       </p>
 
-</div>
 {% endblock content %}

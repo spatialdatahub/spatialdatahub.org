@@ -2,19 +2,11 @@
 
 {% block title %}About{% endblock title %}
 
+{% block breadcrumbs %}
+  / <a href="{% url 'about' %}" >about</a>
+{% endblock breadcrumbs %}
+
 {% block content %}
-
-<div class="container-fluid">
-
-<!-- breadcrumbs -->
-  <div class="row">
-    <h4 class="col-xs-12">
-      <a href="{% url 'portal' %}" >Home</a> /
-      <a href="{% url 'about' %}" >about</a>
-    </h4>
-  </div>
-  <hr class="divider">
-<!-- end breadcrumbs -->
 
     <p>
       The goal of the Web GIS Portal is to be the world's top tropical Geographic Information Systems
@@ -53,6 +45,5 @@
       and <a href="http://turfjs.org/" target="_blank">Turf</a>.
     </p>
 
-</div>
 
 {% endblock content %}

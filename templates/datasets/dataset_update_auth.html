@@ -1,19 +1,14 @@
 {% extends "base.html" %}
+
+{% block title %}Update {{ dataset.title }}{% endblock title %}
+
+{% block breadcrumbs %}
+  / <a href="{{ account.get_absolute_url }}">{{ account.user }}</a>
+  / <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a>
+  / <a href="{% url 'datasets:dataset_update_auth' account.account_slug dataset.dataset_slug dataset.pk %}">update authentication details</a>
+{% endblock breadcrumbs %}
+
 {% block content %}
-
-<div class="container">
-
-  <!-- breadcrumbs -->
-    <div class="row">
-      <h4 class="col-xs-12">
-        <a href="{% url 'portal' %}" >Home</a> /
-        <a href="{{ account.get_absolute_url }}">{{ account.user }}</a> /
-        <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a> /
-        <a href="{% url 'datasets:dataset_update_auth' account.account_slug dataset.dataset_slug dataset.pk %}">update authentication details</a>
-      </h4>
-    </div>
-    <hr class="divider">
-  <!-- end breadcrumbs -->
 
   <p>
     <form action="." method="post">
@@ -34,6 +29,5 @@
       No, take me back to {{ dataset.title }}'s page
     </a>
   </p>
-</div>
 
 {% endblock content %}

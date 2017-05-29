@@ -2,25 +2,15 @@
 
 {% block title %}Contact{% endblock title %}
 
+{% block breadcrumbs %}
+  / <a href="{% url 'contact' %}" >contact</a>
+{% endblock breadcrumbs %}
+
 {% block content %}
-
-<div class="container-fluid">
-
-<!-- breadcrumbs -->
-  <div class="row">
-    <h4 class="col-xs-12">
-      <a href="{% url 'portal' %}" >Home</a> /
-      <a href="{% url 'contact' %}" >contact</a>
-    </h4>
-  </div>
-  <hr class="divider">
-<!-- end breadcrumbs -->
 
     <p>
       If you have any questions about the website, please email Patrick Curry
       at patrick.curry@leibniz-zmt.de.
     </p>
-
-</div>
 
 {% endblock content %}

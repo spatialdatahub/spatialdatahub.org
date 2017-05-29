@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+<!--
+
+there is something wrong with this page's divs. I think that there is an unpaired closing div somewhere.
+
+
+-->
+
 {% block title %}{{ dataset.title }}{% endblock title %}
 
 {% block css %}
@@ -26,22 +33,13 @@
 
 {% endblock css %}
 
+{% block breadcrumbs %}
+/ <a href="{{ account.get_absolute_url }}">{{ account.user }}</a>
+/ <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a>
+{% endblock breadcrumbs %}
+
 {% block content %}
 
-<div class="container">
-
-  <div class="row" id="breadcrumbs">
-    <h4 class="col-xs-12">
-      <a href="{% url 'portal' %}" >Home</a> /
-      <a href="{{ account.get_absolute_url }}">{{ account.user }}</a> /
-      <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a>
-    </h4>
-  </div>
-  <hr class="divider">
-</div>
-
-
-<div class="container">
   <div class="row">
     <p><h4><b>Title:</b> {{ dataset.title }}</h4></p>
     <p><b>Author:</b> {{ dataset.author }}</p>
@@ -65,7 +63,6 @@
     {% endif %}
   </div>
   <hr class="divider">
-</div>
 
     <!-- info divs -->
     <!-- There must be a better way to do this-->
@@ -82,9 +79,7 @@
 
 <!-- These should be inline links -->
 <!-- These should only be seen by the person who created the dataset -->
-<div class="container">
   <div class="row">
-
     <p>
       <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}">
         Update {{ dataset.title }}
@@ -102,22 +97,16 @@
     </p>
   </div>
   <hr>
-</div>
 
-<div class="container">
   <div class="row">
     <p><b>Number of dataset features: </b><span id="feature_count"></span></p>
-
   </div>
   <hr>
-</div>
 
 
 
 <!-- MAP -->
-<div class="container">
   <div id="mapid"></div>
-</div>
 <!-- END MAP -->
 
 {% endblock content %}

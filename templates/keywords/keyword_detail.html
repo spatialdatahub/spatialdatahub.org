@@ -3,10 +3,15 @@
 
 {% block title %}{{ keyword }} datasets{% endblock title %}
 
+{% block breadcrumbs %}
+/ <a href="{% url 'keywords:keyword_list' %}">keywords</a>
+/ <a href="{{ keyword.get_absolute_url }}" >{{ keyword.keyword }}</a>
+{% endblock breadcrumbs %}
+
+<!-- THIS NEEDS TO BE A PORTAL PAGE -->
 
 {% block content %}
 
-<div class="container">
   <h1>{{ keyword }} datasets</h1>
   <hr/>
   {% for dataset in dataset_list %}
@@ -16,6 +21,5 @@
       </a>
     </p>
   {% endfor %}
-</div>
 
 {% endblock content %}
