@@ -24,7 +24,6 @@
 */
 // ////////////////////////////////////////////////////////////////////////////
 
-
 // colors
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 let linkDatasetColorCounter = 0 // this is for the datasets from the links
@@ -316,9 +315,8 @@ getDataWithinPolygonButton.setAttribute('class', 'btn btn-default')
 withinPolygonButton.addEventListener('click', function showWithinPolygonContainer () {
   classToggle(withinPolygonButton, 'active')
 
-  // how do i do this with a ternary statement? I've done it before...
   if (saidPolygon[0]) {
-    withinPolygonContainer.innerHTML = ''
+    withinPolygonContainer.innerHTML = '' // why doesn't this clear everything in the container?
     withinPolygonContainer.appendChild(getDataWithinPolygonButton)
   } else {
     withinPolygonContainer.innerHTML = '<h4>You need a polygon first, get one with the' +
@@ -333,56 +331,55 @@ withinPolygonButton.addEventListener('click', function showWithinPolygonContaine
 // (3) add event listener to button that gets the data
 
 // should this function be defined separately, and have arguements?
-getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolygon () {
-  // make sure that the polygon is in geojson format
-  // console.log(saidPolygon[0].toGeoJSON())
 
-  // container for points layers
-  const pointsLayers = []
+////////////////////////////////////////////////////////////////////////
+// This button/function converts the polygon stored in the 'saidPolygon'
+// container and coverts it to geojson. It then gets all the active points
+// layers from the map and checks if they fall within a polygon. If they
+// are in the polygon, then they are added to a leaflet geojson layer
+// which is added to the map. This layer can then be saved to a file
+// using the 'filesaver' javascript script functionality. The function
+// creates buttons that save the data to a file, and clears the data
+// from the saved 
+////////////////////////////////////////////////////////////////////////
+
+getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolygon () {
+  // check if the buttons and containers are already here, and if they are clear them,
+  // if they are not then create them for the first time, or something. Don't make them
+  // twice.
+
 
   // polygon
   const poly = saidPolygon[0].toGeoJSON()
 
-  // get active datasets from dataset links
-  Object.values(datasets).forEach(v => {
+  const pointsLayers = Object.values(testDatasets).map(v => {
     if (myMap.hasLayer(v)) {
       const l = v.toGeoJSON().features[0].geometry.type
       if (l === 'Point' || l === 'MultiPoint') {
-        pointsLayers.push(v.toGeoJSON())
-      }
-    }
-  })
-
-  // get active datasets from test urls
-  Object.values(testDatasets).forEach(v => {
-    if (myMap.hasLayer(v)) {
-      const l = v.toGeoJSON().features[0].geometry.type
-      if (l === 'Point' || l === 'MultiPoint') {
-        pointsLayers.push(v.toGeoJSON())
+        return v.toGeoJSON()
       }
     }
   })
 
   const pointsWithinLayer = L.geoJSON(null).addTo(myMap)
 
-  /*
-  // refactor this stuff soon. too many layer to geojson to layer things
-  pointsLayers.forEach(l => {
-    const n = turf.within(l, poly)
-    pointsWithinLayer.addData(n)
-    fileContainer.push(pointsWithinLayer.toGeoJSON())
-  })
-  */
-
-  // How about using map
+  // run the turf.within function, and add the data to the layer that will
+  // be added to the map, and also converted to geojson and saved.
   pointsLayers.forEach(l => {
     const n = turf.within(l, poly)
     pointsWithinLayer.addData(n)
   })
 
+  // there should be a better way to do this. I don't want to create a bunch of
+  // HTML elements with plain javascript. It's too messy.
   // make save data button
-  const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
-  saveButton.classList.remove('active')
+  // This stuff can be chained, and can be put into an if statement
+//  const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
+//  saveButton.classList.remove('active')
+
+  // I will also make a button to remove the data from the pointsLayers and 
+  // the pointsWithingLayer containers/layers.
+
 
   // make file name input
   const fileNameInput = document.createElement('input')
@@ -391,12 +388,17 @@ getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolyg
   fileNameInput.setAttribute('type', 'text')
   withinPolygonContainer.append(fileNameInput)
 
+  var saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
+
+  saveButton.classList.remove('active')
+
   saveButton.addEventListener('click', function saveFile () {
-    const filename = fileNameInput.value
-    const data = JSON.stringify(pointsWithinLayer.toGeoJSON())
-    const blob = new Blob([data], {type: 'text/plain; charset=utf-8'})
-    saveAs(blob, filename + '.geojson')
-  })
+      const filename = fileNameInput.value
+      const data = JSON.stringify(pointsWithinLayer.toGeoJSON())
+      const blob = new Blob([data], {type: 'text/plain; charset=utf-8'})
+      saveAs(blob, filename + '.geojson')
+    })
+  
 })
 
 // clear map
