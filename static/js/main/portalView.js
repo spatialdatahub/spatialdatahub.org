@@ -24,6 +24,7 @@
 */
 // ////////////////////////////////////////////////////////////////////////////
 
+
 // colors
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 let linkDatasetColorCounter = 0 // this is for the datasets from the links
@@ -37,7 +38,6 @@ const markerOptions = {
   fillOpacity: 0.4
 }
 
-// change this to selected link container
 const selectedLinkContainer = document.getElementById('selected_link')
 
 // After dataset list load
@@ -48,8 +48,25 @@ const activeDatasetButtons = []
 const datasetLinks = document.getElementsByName('dataset')
 const datasets = {} // is this redundant?
 
-// add event that toggles the link's class from active to not active
-datasetLinks.forEach(function handleLink (link) {
+////////////////////////////////////////////////////////////////////////
+// This is the loop that gets data from the dataset list
+// It gets each dataset's exension, primary key and url.
+// The loop creates a leaflet geojson layer with preset properties (such
+// as point size, color of points, etc) and adds the data to that leaflet layer.
+// The loop also toggle's the html element's class from not active to active,
+// which allows the bootstrap css to change the way the button looks. The
+// loop also adds an event listener to the links that takes click events. The
+// button click gets the dataset with a fetch event either straight from the url
+// or by calling the server and making python get the data, then it adds the
+// data to the map. If the data have already been fetched it simply calls
+// the data from where they are stored locally. This loop also adds a breadcrumb
+// to the html page.
+//
+// If this loop breaks, everything else breaks. How do I prevent that?
+// Should the loop be broken into smaller loops? Should it just remain a monster
+// that calls functions?
+////////////////////////////////////////////////////////////////////////
+datasetLinks.forEach(function handleDatasetLink (link) {
   const ext = link.getAttribute('id')
   const pk = link.getAttribute('value')
 
@@ -116,6 +133,7 @@ datasetLinks.forEach(function handleLink (link) {
 })
 
 // ///// NEW FILTER STUFF ////////
+// Should this stuff be put into a different file? 
 
 // nominatim stuff
 
@@ -127,8 +145,8 @@ findPlaceButton.addEventListener('click', function showPlaceContainer () {
   classToggle(findPlaceButton, 'active')
 
   findPlaceContainer.style.display === 'none' || findPlaceContainer.style.display === ''
-  ? findPlaceContainer.style.display = 'block'
-  : findPlaceContainer.style.display = 'none'
+    ? findPlaceContainer.style.display = 'block'
+    : findPlaceContainer.style.display = 'none'
 })
 
 // (2) get elements
@@ -189,8 +207,8 @@ selectButton.addEventListener('click', function selectPlace () {
 // map and layer should be arguements for a predefined function
 placeToggle.addEventListener('click', () => {
   myMap.hasLayer(selectedPlace[0])
-  ? myMap.removeLayer(selectedPlace[0])
-  : myMap.addLayer(selectedPlace[0])
+    ? myMap.removeLayer(selectedPlace[0])
+    : myMap.addLayer(selectedPlace[0])
 })
 
 // test URL stuff
@@ -204,8 +222,8 @@ testUrlButton.addEventListener('click', function showTestUrlContainer () {
   classToggle(testUrlButton, 'active')
 
   testUrlContainer.style.display === 'none' || testUrlContainer.style.display === ''
-  ? testUrlContainer.style.display = 'block'
-  : testUrlContainer.style.display = 'none'
+    ? testUrlContainer.style.display = 'block'
+    : testUrlContainer.style.display = 'none'
 })
 
 // (2) get elements
