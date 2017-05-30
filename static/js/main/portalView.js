@@ -186,8 +186,8 @@ selectButton.addEventListener('click', function selectPlace () {
   })
 
   selectedPlace.length !== 0
-  ? (selectedPlace.pop(), selectedPlace.push(possiblePlaceLayers[selector.value]))
-  : selectedPlace.push(possiblePlaceLayers[selector.value])
+    ? (selectedPlace.pop(), selectedPlace.push(possiblePlaceLayers[selector.value]))
+    : selectedPlace.push(possiblePlaceLayers[selector.value])
   console.log(possiblePlaceLayers)
 
   
@@ -312,7 +312,7 @@ const withinPolygonContainer = document.getElementById('within_polygon_container
 const getDataWithinPolygonButton = addButton('Get data within polygon', 'black', withinPolygonContainer)
 getDataWithinPolygonButton.setAttribute('class', 'btn btn-default')
 
-withinPolygonButton.addEventListener('click', function showWithinPolygonContainer () {
+function showWithinPolygonContainer () {
   classToggle(withinPolygonButton, 'active')
 
   if (saidPolygon[0]) {
@@ -324,30 +324,27 @@ withinPolygonButton.addEventListener('click', function showWithinPolygonContaine
   }
 
   withinPolygonContainer.style.display === 'none' || withinPolygonContainer.style.display === ''
-  ? withinPolygonContainer.style.display = 'block'
-  : withinPolygonContainer.style.display = 'none'
-})
+    ? withinPolygonContainer.style.display = 'block'
+    : withinPolygonContainer.style.display = 'none'
+}
 
-// (3) add event listener to button that gets the data
+function saveFile (layer, fileNameInput) {
+  const filename = fileNameInput.value
+  const data = JSON.stringify(layer.toGeoJSON())
+  const blob = new Blob([data], {type: 'text/plain; charset=utf-8'})
+  saveAs(blob, filename + '.geojson')
+}
 
-// should this function be defined separately, and have arguements?
+function getDataWithinPolygon () {
+// check if the buttons and containers are already here, and if they are clear them,
+// if they are not then create them for the first time, or something. Don't make them
+// twice.
 
-////////////////////////////////////////////////////////////////////////
-// This button/function converts the polygon stored in the 'saidPolygon'
-// container and coverts it to geojson. It then gets all the active points
-// layers from the map and checks if they fall within a polygon. If they
-// are in the polygon, then they are added to a leaflet geojson layer
-// which is added to the map. This layer can then be saved to a file
-// using the 'filesaver' javascript script functionality. The function
-// creates buttons that save the data to a file, and clears the data
-// from the saved 
-////////////////////////////////////////////////////////////////////////
-
-getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolygon () {
-  // check if the buttons and containers are already here, and if they are clear them,
-  // if they are not then create them for the first time, or something. Don't make them
-  // twice.
-
+// this doesn't work
+//  if (withinPolygonContainer.childElementCount > 1) {
+//    console.log(withinPolygonContainer.childElementCount)
+//    showWithinPolygonContainer()
+//  }
 
   // polygon
   const poly = saidPolygon[0].toGeoJSON()
@@ -370,17 +367,6 @@ getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolyg
     pointsWithinLayer.addData(n)
   })
 
-  // there should be a better way to do this. I don't want to create a bunch of
-  // HTML elements with plain javascript. It's too messy.
-  // make save data button
-  // This stuff can be chained, and can be put into an if statement
-//  const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
-//  saveButton.classList.remove('active')
-
-  // I will also make a button to remove the data from the pointsLayers and 
-  // the pointsWithingLayer containers/layers.
-
-
   // make file name input
   const fileNameInput = document.createElement('input')
   fileNameInput.setAttribute('class', 'form-control')
@@ -388,18 +374,31 @@ getDataWithinPolygonButton.addEventListener('click', function getDataWithinPolyg
   fileNameInput.setAttribute('type', 'text')
   withinPolygonContainer.append(fileNameInput)
 
-  var saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
+  const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
 
   saveButton.classList.remove('active')
 
-  saveButton.addEventListener('click', function saveFile () {
-      const filename = fileNameInput.value
-      const data = JSON.stringify(pointsWithinLayer.toGeoJSON())
-      const blob = new Blob([data], {type: 'text/plain; charset=utf-8'})
-      saveAs(blob, filename + '.geojson')
-    })
-  
-})
+  saveButton.addEventListener('click', () => saveFile(pointsWithinLayer, fileNameInput))
+}
+
+withinPolygonButton.addEventListener('click', showWithinPolygonContainer)
+getDataWithinPolygonButton.addEventListener('click', getDataWithinPolygon)
+
+// (3) add event listener to button that gets the data
+
+// should this function be defined separately, and have arguements?
+
+////////////////////////////////////////////////////////////////////////
+// This button/function converts the polygon stored in the 'saidPolygon'
+// container and coverts it to geojson. It then gets all the active points
+// layers from the map and checks if they fall within a polygon. If they
+// are in the polygon, then they are added to a leaflet geojson layer
+// which is added to the map. This layer can then be saved to a file
+// using the 'filesaver' javascript script functionality. The function
+// creates buttons that save the data to a file, and clears the data
+// from the saved 
+////////////////////////////////////////////////////////////////////////
+
 
 // clear map
 // get button and add click event
