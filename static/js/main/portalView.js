@@ -24,6 +24,9 @@
 */
 // ////////////////////////////////////////////////////////////////////////////
 
+// this makes sure that all html and stuff is loaded before running this javascript
+if (document.readyState === 'complete') {
+
 // colors
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 let linkDatasetColorCounter = 0 // this is for the datasets from the links
@@ -44,7 +47,8 @@ const selectedLinkContainer = document.getElementById('selected_link')
 // to toggle active datasets on the map, and otherwise I need the list
 // of datasets should this be a const?
 const activeDatasetButtons = []
-const datasetLinks = document.getElementsByName('dataset')
+const datasetLinksNodeList = document.getElementsByName('dataset')
+const datasetLinks = Array.prototype.slice.call(document.datasetLinksNodeList)
 const datasets = {} // is this redundant?
 
 ////////////////////////////////////////////////////////////////////////
@@ -419,3 +423,5 @@ clearMapButton.addEventListener('click', function clearMap () {
     }
   })
 })
+
+}
