@@ -79,7 +79,6 @@ function addPopups(feature, layer) {
   };
 
   var content = '<dl id="popup-content">' + popupContent.join('') + '</dl>';
-  console.log(content);
 
   var popup = L.popup(popupOptions).setContent(content);
 

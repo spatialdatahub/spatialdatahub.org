@@ -82,7 +82,6 @@ function addPopups (feature, layer) {
 
 
   const content = `<dl id="popup-content">${popupContent.join('')}</dl>`
-  console.log(content)
 
   const popup = L.popup(popupOptions).setContent(content)
 
