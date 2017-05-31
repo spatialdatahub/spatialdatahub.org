@@ -44,4 +44,3 @@ if (accountLinks[0]) {
 
 }
 */
-"use strict";

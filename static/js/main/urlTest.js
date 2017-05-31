@@ -1,3 +1,5 @@
+'use strict';
+
 // ////////////////////////////////////////////////////////////////////////////
 /*
 // URLTEST SPECIFIC FUNCTIONS
@@ -5,55 +7,55 @@
 // ////////////////////////////////////////////////////////////////////////////
 
 // get input text element and submit button
-const urlInput = document.getElementById('url_input')
-const urlButton = document.getElementById('url_button')
-const toggleAllButton = document.getElementById('toggle_all')
-const buttons = document.getElementById('buttons')
-const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
+var urlInput = document.getElementById('url_input');
+var urlButton = document.getElementById('url_button');
+var toggleAllButton = document.getElementById('toggle_all');
+var buttons = document.getElementById('buttons');
+var colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red'];
 
 // nominatim stuff
-const placeInput = document.getElementById('place_input')
-const placeButton = document.getElementById('place_button')
-const placeToggle = document.getElementById('place_toggle')
-const selector = document.getElementById('selector')
-const selectButton = document.getElementById('select_button')
+var placeInput = document.getElementById('place_input');
+var placeButton = document.getElementById('place_button');
+var placeToggle = document.getElementById('place_toggle');
+var selector = document.getElementById('selector');
+var selectButton = document.getElementById('select_button');
 // const possiblePlaces = {}
 // const possiblePlaces = en.possiblePlaces
-const possiblePlaceLayers = {} // this is where i keep the layers to query the map with
-const selectedPlace = [] 
+var possiblePlaceLayers = {}; // this is where i keep the layers to query the map with
+var selectedPlace = [];
 
 // filter button
-const filterButton = document.getElementById('filter_button')
+var filterButton = document.getElementById('filter_button');
 
 // make selector options
 // hardcoding this
 //const makeSelectorOptions = (array, selector) => {
-const makeSelectorOptions = array => {
+var makeSelectorOptions = function makeSelectorOptions(array) {
   // clear selector options
-  selector.innerHTML = ''
+  selector.innerHTML = '';
 
-  array.forEach(p => {
-    const obj = {}
-    obj.display_name = p.display_name
-    obj.geojson = p.geojson
+  array.forEach(function (p) {
+    var obj = {};
+    obj.display_name = p.display_name;
+    obj.geojson = p.geojson;
 
-    const display_name = obj.display_name
+    var display_name = obj.display_name;
 
-    const option = document.createElement('option')
-    option.value = obj.display_name
-    const text = document.createTextNode(obj.display_name)
-    option.appendChild(text)
-    selector.appendChild(option)
+    var option = document.createElement('option');
+    option.value = obj.display_name;
+    var text = document.createTextNode(obj.display_name);
+    option.appendChild(text);
+    selector.appendChild(option);
 
-    const lyr = L.geoJson(obj.geojson) 
-    possiblePlaceLayers[display_name] = lyr
-  })
-}
+    var lyr = L.geoJson(obj.geojson);
+    possiblePlaceLayers[display_name] = lyr;
+  });
+};
 
 placeButton.addEventListener('click', function getPlaces() {
-  const val = placeInput.value
-  const data = en.getPlaceData(val, makeSelectorOptions)
-})
+  var val = placeInput.value;
+  var data = en.getPlaceData(val, makeSelectorOptions);
+});
 
 // tightly coupled with the selector options thing
 // i can't just keep geojson in the possiblePlaces object, it must be layers, that way
@@ -61,112 +63,107 @@ placeButton.addEventListener('click', function getPlaces() {
 
 selectButton.addEventListener('click', function selectPlace() {
 
-  Object.values(possiblePlaceLayers).forEach(n => {
-    myMap.removeLayer(n)
-  })
+  Object.values(possiblePlaceLayers).forEach(function (n) {
+    myMap.removeLayer(n);
+  });
 
-  selectedPlace.length !== 0
-  ? (selectedPlace.pop(), selectedPlace.push(possiblePlaceLayers[selector.value]))
-  : selectedPlace.push(possiblePlaceLayers[selector.value])
+  selectedPlace.length !== 0 ? (selectedPlace.pop(), selectedPlace.push(possiblePlaceLayers[selector.value])) : selectedPlace.push(possiblePlaceLayers[selector.value]);
 
-  const lyr = selectedPlace[0]
-  lyr.addTo(myMap)
-  myMap.fitBounds(lyr.getBounds()) 
-})
-
+  var lyr = selectedPlace[0];
+  lyr.addTo(myMap);
+  myMap.fitBounds(lyr.getBounds());
+});
 
 // test url js
 
 // make container for the datasets
-const datasets = {}
-let count = 0
+var datasets = {};
+var count = 0;
 
 // pointMarkerOptions
-const markerOptions = {
+var markerOptions = {
   radius: 6,
   color: 'black',
   weight: 1.5,
   opacity: 1,
   fillOpacity: 0.4
-}
+};
 
 // add event listener to the button
 urlButton.addEventListener('click', function getDataFromUrl() {
-  const ext = getExt(urlInput.value)
-  const url = urlInput.value
+  var ext = getExt(urlInput.value);
+  var url = urlInput.value;
 
   // increment count and color
-  count++
-  const color = colors[count % colors.length]
+  count++;
+  var color = colors[count % colors.length];
 
   // should these things be in the extSelect call?
   // get dataset, save it to datasets container, and add it to map
-  extSelect(ext, url)
-    .then(response => {
-      const layerMod = L.geoJson(null, {
+  extSelect(ext, url).then(function (response) {
+    var layerMod = L.geoJson(null, {
       // set the points to little circles
-        pointToLayer: (feature, latlng) => {
-          return L.circleMarker(latlng, markerOptions)
-        },
-        onEachFeature: (feature, layer) => {
-          // make sure the fill is the color
-          layer.options.fillColor = color
-          // and make sure the perimiter is black (if it's a point) and the color otherwise
-          feature.geometry.type === 'Point'
-            ? layer.options.color = 'black'
-            : layer.options.color = color
-          // add those popups
-          addPopups(feature, layer) // this comes from the index_maps.js file
-        }
-      })
+      pointToLayer: function pointToLayer(feature, latlng) {
+        return L.circleMarker(latlng, markerOptions);
+      },
+      onEachFeature: function onEachFeature(feature, layer) {
+        // make sure the fill is the color
+        layer.options.fillColor = color;
+        // and make sure the perimiter is black (if it's a point) and the color otherwise
+        feature.geometry.type === 'Point' ? layer.options.color = 'black' : layer.options.color = color;
+        // add those popups
+        addPopups(feature, layer); // this comes from the index_maps.js file
+      }
+    });
 
-      // if response is good, add a button for it
-      // Ugh, I'm using the 'this' keyword. Not cool.
-      addButton(count, color, buttons).addEventListener('click', function () {
-        classToggle(this, 'active')
-        const val = this.getAttribute('value')
-        myMap.hasLayer(datasets[val])
-        ? myMap.removeLayer(datasets[val])
-        : myMap.addLayer(datasets[val])
-      })
+    // if response is good, add a button for it
+    // Ugh, I'm using the 'this' keyword. Not cool.
+    addButton(count, color, buttons).addEventListener('click', function () {
+      classToggle(this, 'active');
+      var val = this.getAttribute('value');
+      myMap.hasLayer(datasets[val]) ? myMap.removeLayer(datasets[val]) : myMap.addLayer(datasets[val]);
+    });
 
-      // modify data here
-      layerMod.addData(response.toGeoJSON())
+    // modify data here
+    layerMod.addData(response.toGeoJSON());
 
-      datasets[count] = layerMod
-      myMap.addLayer(layerMod)
-        .fitBounds(layerMod.getBounds())
-    }, error => console.log(error))
-})
+    datasets[count] = layerMod;
+    myMap.addLayer(layerMod).fitBounds(layerMod.getBounds());
+  }, function (error) {
+    return console.log(error);
+  });
+});
 
 // this needs to be added to indexMap.js, and tested
 // this also needs to turn the other buttons from active to inactive and vise versa
-const toggleAll = (obj, map) => {
+var toggleAll = function toggleAll(obj, map) {
   // make array
-  const array = []
+  var array = [];
 
   // push values to array
-  Object.values(obj).forEach(val => array.push(val))
+  Object.values(obj).forEach(function (val) {
+    return array.push(val);
+  });
 
   // check if map has any of the layers
-    // if true, remove layers
-    // if false, add all layers
-  const tf = []
-  array.forEach(ds => {
-    map.hasLayer(ds)
-    ? tf[0] = true
-    : console.log('nope')
-  })
+  // if true, remove layers
+  // if false, add all layers
+  var tf = [];
+  array.forEach(function (ds) {
+    map.hasLayer(ds) ? tf[0] = true : console.log('nope');
+  });
 
   // if tf is true, remove all layers, otherwise add them all
-  tf[0] === true
-  ? array.forEach(ds => map.removeLayer(ds))
-  : array.forEach(ds => map.addLayer(ds))
-}
+  tf[0] === true ? array.forEach(function (ds) {
+    return map.removeLayer(ds);
+  }) : array.forEach(function (ds) {
+    return map.addLayer(ds);
+  });
+};
 
-toggleAllButton.addEventListener('click', () => {
-  toggleAll(datasets, myMap)
-})
+toggleAllButton.addEventListener('click', function () {
+  toggleAll(datasets, myMap);
+});
 
 /*
 What I need to do is write a bunch of stuff for turf
@@ -186,54 +183,47 @@ page I want. That will be for after I show the functionality off at the next mee
 */
 
 // make container for saved file data
-const fileContainer = []
+var fileContainer = [];
 
 // map and datasets should be arguements for a predefined function
-filterButton.addEventListener('click', () => {
-  const pointsDatasets = []
-  Object.values(datasets).forEach(ds => {
-    myMap.hasLayer(ds) ? pointsDatasets.push(ds) : console.log('no')
-  })
-  const poly = selectedPlace[0].toGeoJSON()  
-  pointsDatasets.forEach(ds => {
-    const jds = ds.toGeoJSON()
-    const fds = turf.within(jds, poly)
-    L.geoJSON(fds).addTo(myMap)
+filterButton.addEventListener('click', function () {
+  var pointsDatasets = [];
+  Object.values(datasets).forEach(function (ds) {
+    myMap.hasLayer(ds) ? pointsDatasets.push(ds) : console.log('no');
+  });
+  var poly = selectedPlace[0].toGeoJSON();
+  pointsDatasets.forEach(function (ds) {
+    var jds = ds.toGeoJSON();
+    var fds = turf.within(jds, poly);
+    L.geoJSON(fds).addTo(myMap);
 
     // this only lets one dataset be in the file container at a time.
     // what should be here is a way to avoid duplicatio
     // or a way to just get all the active datasets on the map, and add
     // them to the file container
     if (fileContainer.length !== 0) {
-      fileContainer.pop()
-      fileContainer.push(fds)
+      fileContainer.pop();
+      fileContainer.push(fds);
     } else {
-      fileContainer.push(fds)
+      fileContainer.push(fds);
     }
-    console.log(fileContainer)
-  })
-})
+    console.log(fileContainer);
+  });
+});
 
 // map and layer should be arguements for a predefined function
-placeToggle.addEventListener('click', () => {
-  myMap.hasLayer(selectedPlace[0])
-  ? myMap.removeLayer(selectedPlace[0])
-  : myMap.addLayer(selectedPlace[0])
-})
+placeToggle.addEventListener('click', function () {
+  myMap.hasLayer(selectedPlace[0]) ? myMap.removeLayer(selectedPlace[0]) : myMap.addLayer(selectedPlace[0]);
+});
 
 // Get the combined dataset, make into geojson instead of a layer, then create a new Blob
 // and save the geojson to the blob.
-const saveComboButton = document.getElementById('save_combo_button')
+var saveComboButton = document.getElementById('save_combo_button');
 
 saveComboButton.addEventListener('click', function saveCombo() {
-  const filename = 'yeah'
-  const data = JSON.stringify(fileContainer[0])
-  console.log(data)
-//  const blob = new Blob([data], {type: "text/plain; charset=utf-8"})
-//  saveAs(blob, filename + ".geojson")
-})
-
-
-
-
-
+  var filename = 'yeah';
+  var data = JSON.stringify(fileContainer[0]);
+  console.log(data);
+  //  const blob = new Blob([data], {type: "text/plain; charset=utf-8"})
+  //  saveAs(blob, filename + ".geojson")
+});

@@ -1,5 +1,3 @@
-'use strict';
-
 /*
 This javascript is really ugly, but it works. For a first iteration this is ok, It will be
 refactored. It can bring back a list of keywords, and search the datasets by those keywords,
@@ -31,11 +29,12 @@ take only a single arguement to start with.
   
 */
 
-var keywordListDiv = document.getElementById('keyword_list_div');
-var datasetListDiv = document.getElementById('dataset_list_div');
-var keywordListUrl = '/keywords/list';
-var datasetListUrl = '/keywords/datasets';
-var keywordQueryInput = document.getElementById('keyword_query_input');
+const keywordListDiv = document.getElementById('keyword_list_div')
+const datasetListDiv = document.getElementById('dataset_list_div')
+const keywordListUrl = '/keywords/list'
+const datasetListUrl = '/keywords/datasets'
+const keywordQueryInput = document.getElementById('keyword_query_input')
+
 
 /*
 // function to make datasets search call by going through
@@ -72,8 +71,10 @@ keywordQueryInput.addEventListener('input', () => {
 })
 */
 
+
+
 //makeReq(keywordListUrl, dataToDiv, keywordListDiv)
-makeReq(keywordListUrl, console.log, keywordListDiv);
+makeReq(keywordListUrl,console.log, keywordListDiv)
 
 //makeReq(datasetListUrl, dataToDiv, datasetListDiv)
 
@@ -83,3 +84,6 @@ makeReq(keywordListUrl, console.log, keywordListDiv);
 // keyword ids. Then make a call to the datasets
 // url with the ids as the query items. They should
 // be appended to the url as such: '?'+'q=${pk1}'+'&'+'q=${pk2}'
+
+
+
