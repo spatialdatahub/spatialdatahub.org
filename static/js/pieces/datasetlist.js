@@ -1,15 +1,21 @@
 'use strict';
 
+// colors
 var colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red'];
 var linkDatasetColorCounter = 0; // this is for the datasets from the links
 
+// pointMarkerOptions
+var markerOptions = {
+  radius: 6,
+  color: 'black',
+  weight: 1.5,
+  opacity: 1,
+  fillOpacity: 0.4
+};
 
 var datasetLinksNodeList = document.getElementsByName('dataset');
 var datasetLinks = Array.prototype.slice.call(datasetLinksNodeList);
 var datasets = {};
-
-// link event
-
 
 datasetLinks.forEach(function handleDatasetLink(link) {
   var pk = link.id;

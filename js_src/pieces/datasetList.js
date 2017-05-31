@@ -1,16 +1,21 @@
-
+// colors
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 let linkDatasetColorCounter = 0 // this is for the datasets from the links
+
+// pointMarkerOptions
+const markerOptions = {
+  radius: 6,
+  color: 'black',
+  weight: 1.5,
+  opacity: 1,
+  fillOpacity: 0.4
+}
+
 
 
 const datasetLinksNodeList = document.getElementsByName('dataset')
 const datasetLinks = Array.prototype.slice.call(datasetLinksNodeList)
 const datasets = {}
-
-
-
-// link event
-
 
 datasetLinks.forEach(function handleDatasetLink (link) {
   const pk = link.id

@@ -61,6 +61,10 @@
   <hr/>
 
   <div class="row" id="main">
+    <div class="col-xs-12" id="editmap">
+      {% include "pieces/editmap.html" %}
+    </div>
+
     <div class="col-xs-12 col-md-8 col-lg-9" id="mapContainer">
       {% include "pieces/mymap.html" %}
     </div>
@@ -75,5 +79,6 @@
 
 {% block portal_js %}
 <script src="{% static 'js/pieces/datasetList.js' %}"></script>
+<script src="{% static 'js/pieces/editMap.js' %}"></script>
 <!--<script src="{% static 'js/keywords/keywordDetail.js' %}"></script>-->
 {% endblock portal_js %}
