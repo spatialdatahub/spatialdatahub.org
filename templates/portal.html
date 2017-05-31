@@ -154,7 +154,7 @@ The real question is whether the <a> element alone is an appropriate representat
             {% if dataset.dataset_password %}
               <li class="">
                 <a name="dataset" id="{{ dataset.ext }}"
-                  value="{{ dataset.pk }}"
+                  value="{{ dataset.pk }}" href="#"
                   link="{{ dataset.get_absolute_url }}">
                   {{ dataset.title }}
                 </a>
@@ -162,7 +162,7 @@ The real question is whether the <a> element alone is an appropriate representat
             {% else %}
               <li class="">
                 <a name="dataset" id="{{ dataset.ext }}"
-                  value="{{ dataset.pk }}"
+                  value="{{ dataset.pk }}" href="#"
                   link="{{ dataset.get_absolute_url }}" url="{{ dataset.url }}">
                   {{ dataset.title }}
                 </a>
