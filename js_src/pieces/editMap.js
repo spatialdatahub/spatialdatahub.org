@@ -22,7 +22,7 @@ const possiblePlaceLayers = {} // this is where i keep the layers to query the m
 const selectedPlace = []
 const saidPolygon = []
 
-//activeDatasetButtons.push(placeButton, placeToggle, selectButton)
+activeDatasetButtons.push(placeButton, placeToggle, selectButton)
 
 function makeSelectorOptions (array) {
   selector.innerHTML = ''
@@ -46,15 +46,15 @@ placeButton.addEventListener('click', function findPlace () {
 
 // select place to display
 selectButton.addEventListener('click', function selectPlace () {
-  Object.values(possiblePlaceLayers).forEach(n => {
-    myMap.removeLayer(n)
+
+  Object.keys(possiblePlaceLayers).forEach(n => {
+    const p = possiblePlaceLayers[n]
+    myMap.removeLayer(p)
   })
 
   selectedPlace.length !== 0
     ? (selectedPlace.pop(), selectedPlace.push(possiblePlaceLayers[selector.value]))
     : selectedPlace.push(possiblePlaceLayers[selector.value])
-  console.log(possiblePlaceLayers)
-
   
   const selectedPlaceType = selectedPlace[0].toGeoJSON().features[0].geometry.type
   if (selectedPlaceType === 'Polygon' || selectedPlaceType === 'MultiPolygon') {
@@ -166,7 +166,7 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
 })
 
 // within polygon stuff
-const saidPolygon = []
+//const saidPolygon = []
 const fileContainer = []
 
 // (1) hide and show nominatim stuff (do this after I've gotten it working)
@@ -214,7 +214,9 @@ function getDataWithinPolygon () {
   // polygon
   const poly = saidPolygon[0].toGeoJSON()
 
-  const pointsLayers = Object.values(testDatasets).map(v => {
+
+  const pointsLayers = Object.keys(testDatasets).map(k => {
+    const v = testDatasets[k]
     if (myMap.hasLayer(v)) {
       const l = v.toGeoJSON().features[0].geometry.type
       if (l === 'Point' || l === 'MultiPoint') {
@@ -237,7 +239,7 @@ function getDataWithinPolygon () {
   fileNameInput.setAttribute('class', 'form-control')
   fileNameInput.setAttribute('placeholder', 'Enter the file name here')
   fileNameInput.setAttribute('type', 'text')
-  withinPolygonContainer.append(fileNameInput)
+  withinPolygonContainer.appendChild(fileNameInput)
 
   const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
 
@@ -267,6 +269,7 @@ getDataWithinPolygonButton.addEventListener('click', getDataWithinPolygon)
 
 // clear map
 // get button and add click event
+/*
 const clearMapButton = document.getElementById('clear_map')
 
 clearMapButton.addEventListener('click', function clearMap () {
@@ -284,5 +287,5 @@ clearMapButton.addEventListener('click', function clearMap () {
     }
   })
 })
-
+*/
 //}

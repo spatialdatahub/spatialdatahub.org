@@ -16,6 +16,7 @@ var markerOptions = {
 var datasetLinksNodeList = document.getElementsByName('dataset');
 var datasetLinks = Array.prototype.slice.call(datasetLinksNodeList);
 var datasets = {};
+var activeDatasetButtons = [];
 
 datasetLinks.forEach(function handleDatasetLink(link) {
   var pk = link.id;
@@ -60,6 +61,8 @@ datasetLinks.forEach(function handleDatasetLink(link) {
     }, function handleError(error) {
       console.log(error);
     });
+
+    activeDatasetButtons.push(link);
   }
 
   link.addEventListener('click', function () {

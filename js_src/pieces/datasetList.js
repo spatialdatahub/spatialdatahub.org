@@ -16,6 +16,7 @@ const markerOptions = {
 const datasetLinksNodeList = document.getElementsByName('dataset')
 const datasetLinks = Array.prototype.slice.call(datasetLinksNodeList)
 const datasets = {}
+const activeDatasetButtons = []
 
 datasetLinks.forEach(function handleDatasetLink (link) {
   const pk = link.id
@@ -68,6 +69,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
           console.log(error)
         })
 
+    activeDatasetButtons.push(link)
   }
 
   link.addEventListener('click', () => linkEvent(link))
