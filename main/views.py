@@ -71,13 +71,47 @@ def portal(request):
             Q(title__icontains=q) |
             Q(account__user__username__icontains=q) |
             Q(author__icontains=q) |
-            Q(keyword__keyword__startswith=q)
+            Q(keyword__keyword__icontains=q)
             ).order_by("title").distinct()
     else:
         dataset_list = D.order_by("title")
 
     template_name = "portal.html"
     return render(request, template_name, {"dataset_list": dataset_list})
+
+# this would work, but it's pretty ugly, and if there are search terms the Dataset.objects.all() list goes:
+# Dataset.objects.all() -> t_list -> a_list -> k_list -> dataset_list
+# unfortunately This doesn't seem to be taking more than one of the inputs, maybe if I include them
+# in the same form
+"""
+def portal2(request):
+
+    D = Dataset.objects.all()
+
+    # title should actually be last
+    if "t" in request.GET:
+        t = request.GET["t"]
+        t_list = D.filter(title__icontains=t)
+    else:
+        t_list = D.order_by("title")
+
+    if "a" in request.GET:
+        a = request.GET["a"]
+        a_list = t_list.filter(account__user__username__icontains=a)
+    else:
+        a_list = t_list
+
+    if "k" in request.GET:
+        k = request.GET["k"]
+        k_list = a_list.filter(keyword__keyword__icontains=k)
+    else:
+        k_list = a_list
+
+    dataset_list = k_list.order_by("title").distinct()
+
+    template_name = "portal2.html"
+    return render(request, template_name, {"dataset_list": dataset_list})
+"""
 
 
 def jstests(request):

@@ -1,0 +1,83 @@
+{% extends "base_portal.html" %}
+{% load staticfiles %}
+
+{% block title %}Portal{% endblock title %}
+
+{% block css %}
+<style>
+
+  #datasetsContainer {
+    height: 50em;
+    float: left;
+  }
+
+  #datasets-list {
+    overflow-y: auto;
+    height: 41em;
+  }
+
+  #mapContainer {
+    float: right;
+  }
+
+  #mapid {
+    height: 50em;
+    margin-bottom: 10px;
+  }
+
+  #find_place_container {
+    display: none;
+  }
+
+  #test_url_container {
+    display: none;
+  }
+
+  /*
+  #draw_polygon_container {
+    display: none;
+  }
+  */
+
+  #within_polygon_container {
+    display: none;
+  }
+
+</style>
+
+{% endblock css %}
+
+{% block portal_content %}
+
+  {% include "pieces/editmap.html" %}
+
+  <div class="row" id="main">
+    <div class="col-xs-12 col-md-8 col-lg-9" id="mapContainer">
+      {% include "pieces/mymap.html" %}
+    </div>
+
+    <form action="." method="GET">
+      <input class="form-control" name="t" type="text"
+             title="Search Title" placeholder="Search Datasets by Title">
+
+      <input class="form-control" name="a" type="text"
+             title="Search Account" placeholder="Search Datasets by Account">
+
+      <input class="form-control" name="k" type="text"
+             title="Search Keyword" placeholder="Search Datasets by Keyword">
+    </form>
+
+    <!-- I need to set this up so it loads by ajax -->
+    <div class="col-xs-12 col-md-4 col-lg-3" id="datasetsContainer">
+      {% include "pieces/datasetlist.html" %}
+    </div>
+  </div>
+
+
+{% endblock portal_content %}
+
+{% block portal_js %}
+<script src="{% static 'js/pieces/datasetList.js' %}"></script>
+<script src="{% static 'js/pieces/editMap.js' %}"></script>
+<!-- <script src="{% static 'js/main/portalView.js' %}"></script> -->
+{% endblock portal_js %}

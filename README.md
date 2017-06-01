@@ -189,3 +189,34 @@ def portal(request):
     return render(request, template_name, {"dataset_list": dataset_list})
 
 Unfortunately this doesn't let the client filter datasets with multiple terms sequentially for instance all of a particular account's datasets that contain a particular word.
+
+What if I did this:
+
+# this would work, but it's pretty ugly, and if there are search terms the Dataset.objects.all() list goes:
+# Dataset.objects.all() -> t_list -> a_list -> k_list -> dataset_list
+def portal(request):
+    D = Dataset.objects.all()
+
+    if "q" in request.GET:
+        q = request.GET["q"]
+        t_list = D.filter(title__icontains=q)
+    else:
+        t_list = D.order_by("title")
+
+    if "a" in request.GET:
+        a = request.GET["a"]
+        a_list = t_list.filter(account__user__username__icontains=a)
+    else:
+        a_list = t_list
+
+    if "k" in request.GET:
+        k = request.GET["k"]
+        k_list = a_list.filter(keyword__keyword__icontains=q)
+    else:
+        k_list = a_list
+
+    dataset_list = k_list.order_by("title")
+ 
+    template_name = "portal.html"
+    return render(request, template_name, {"dataset_list": dataset_list})
+
