@@ -225,8 +225,8 @@ function getDataWithinPolygon() {
   fileNameInput.setAttribute('type', 'text');
   withinPolygonContainer.appendChild(fileNameInput);
 
+  // make save button
   var saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer);
-
   saveButton.classList.remove('active');
 
   saveButton.addEventListener('click', function () {

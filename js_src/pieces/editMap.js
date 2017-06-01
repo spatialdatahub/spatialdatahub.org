@@ -214,7 +214,6 @@ function getDataWithinPolygon () {
   // polygon
   const poly = saidPolygon[0].toGeoJSON()
 
-
   const pointsLayers = Object.keys(testDatasets).map(k => {
     const v = testDatasets[k]
     if (myMap.hasLayer(v)) {
@@ -225,6 +224,7 @@ function getDataWithinPolygon () {
     }
   })
 
+
   const pointsWithinLayer = L.geoJSON(null).addTo(myMap)
 
   // run the turf.within function, and add the data to the layer that will
@@ -234,6 +234,7 @@ function getDataWithinPolygon () {
     pointsWithinLayer.addData(n)
   })
 
+
   // make file name input
   const fileNameInput = document.createElement('input')
   fileNameInput.setAttribute('class', 'form-control')
@@ -241,8 +242,8 @@ function getDataWithinPolygon () {
   fileNameInput.setAttribute('type', 'text')
   withinPolygonContainer.appendChild(fileNameInput)
 
+  // make save button
   const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
-
   saveButton.classList.remove('active')
 
   saveButton.addEventListener('click', () => saveFile(pointsWithinLayer, fileNameInput))
