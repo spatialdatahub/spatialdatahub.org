@@ -63,14 +63,20 @@ def portal(request):
     I'm not ready to try and make this filter function ajax yet. That will
     have to wait a bit longer.
     """
-    dataset_list = Dataset.objects.all()
-    template_name = "portal.html"
+    D = Dataset.objects.all()
 
     if "q" in request.GET:
         q = request.GET["q"]
-        dataset_list = Dataset.objects.filter(
-            Q(title__icontains=q) | Q(author__icontains=q)).order_by("title")
+        dataset_list = D.filter(
+            Q(title__icontains=q) |
+            Q(account__user__username__icontains=q) |
+            Q(author__icontains=q) |
+            Q(keyword__keyword__startswith=q)
+            ).order_by("title").distinct()
+    else:
+        dataset_list = D.order_by("title")
 
+    template_name = "portal.html"
     return render(request, template_name, {"dataset_list": dataset_list})
 
 

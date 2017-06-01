@@ -154,12 +154,38 @@ patrick.curry@leibniz-zmt.de
 IDEAS
 -----
 
-npm with nominatim - NO
-babeljs - Maybe
+npm with nominatim - yes
+babeljs - Definitely
 Vue instead of React... - Not important to use either of these yet
 
-Ajax for search functions - possibly
+cyclejs
+
+Ajax for search functions - possibly - possibly not
 
 Maybe all the tests should just stay in their own apps as well. That way each app is a separate module.
 
 What about consuming a rest api, and having a rest api??? Hmmm
+
+
+Many of the pages are essentially the same (portal.js, keywordDetail.js, accountDetail.js, even datasetDetail.js).
+They just need to have different dataset lists given to them, which means that they can probably be run by a single django view
+that has a bunch of filter options. The view would be like this:
+
+def portal(request):
+    D = Dataset.objects.all()
+
+    if "q" in request.GET:
+        q = request.GET["q"]
+        dataset_list = D.filter(
+            Q(title__icontains=q) |
+            Q(account__user__username__icontains=q) |
+            Q(author__icontains=q) |
+            Q(keyword__keyword__startswith=q)
+            ).order_by("title").distinct()
+    else:
+        dataset_list = D.order_by("title")
+
+    template_name = "portal.html"
+    return render(request, template_name, {"dataset_list": dataset_list})
+
+Unfortunately this doesn't let the client filter datasets with multiple terms sequentially for instance all of a particular account's datasets that contain a particular word.
