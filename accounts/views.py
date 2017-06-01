@@ -76,13 +76,15 @@ def account_remove(request, account_slug=None):
 # this can probably be refactored
 def account_detail(request, account_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset_list = Dataset.objects.filter(account=account)
-    template_name = "accounts/account_detail.html"
+    d = Dataset.objects.filter(account=account)
 
     if "q" in request.GET:
         q = request.GET["q"]
-        dataset_list = Dataset.objects.filter(
+        dataset_list = d.filter(
             Q(title__icontains=q) | Q(author__icontains=q)).order_by("title")
+    else:
+        dataset_list = d.order_by("title")
 
+    template_name = "accounts/account_detail.html"
     return render(request, template_name,
                   context={"account": account, "dataset_list": dataset_list})

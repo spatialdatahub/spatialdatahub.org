@@ -11,13 +11,14 @@ def keyword_list(request):
     This view should also show the number of datasets for each keyword.
     Maybe that is a template problem.
     """
-
-    keyword_list = Keyword.objects.all().order_by("keyword")
+    k = Keyword.objects.all()
 
     if "q" in request.GET:
         q = request.GET["q"]
-        keyword_list = Keyword.objects.filter(
+        keyword_list = k.filter(
             keyword__icontains=q).order_by("keyword")
+    else:
+        keyword_list = k.order_by("keyword")
 
     total_keywords = len(keyword_list)
 
@@ -26,9 +27,16 @@ def keyword_list(request):
     return render(request, template_name, context)
 
 def keyword_detail(request, keyword_slug=None):
+    """I making sure that dataset list is only defined once"""
     keyword = get_object_or_404(Keyword, keyword_slug=keyword_slug)
-    dataset_list = keyword.datasets.all()
+    d = keyword.datasets.all()
+
+    if "q" in request.GET:
+        q = request.GET["q"]
+        dataset_list = d.filter(title__icontains=q).order_by("title")
+    else:
+        dataset_list = d
+
     template_name = "keywords/keyword_detail.html"
     return render(request, template_name,
                   context={"keyword": keyword, "dataset_list": dataset_list})
-

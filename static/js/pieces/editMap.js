@@ -255,23 +255,23 @@ getDataWithinPolygonButton.addEventListener('click', getDataWithinPolygon);
 
 // clear map
 // get button and add click event
-/*
-const clearMapButton = document.getElementById('clear_map')
 
-clearMapButton.addEventListener('click', function clearMap () {
+var clearMapButton = document.getElementById('clear_map');
+
+clearMapButton.addEventListener('click', function clearMap() {
   // toggle 'active' class off
-  activeDatasetButtons.forEach(function deactivate (link) {
-    link.classList.remove('active')
-  })
+  activeDatasetButtons.forEach(function deactivate(link) {
+    link.classList.remove('active');
+  });
 
   // get all layers from map
-  myMap.eachLayer(function clearLayers (layer) {
+  myMap.eachLayer(function clearLayers(layer) {
     // make sure not to remove tile layers
     if (layer !== osm && layer !== stamenToner && layer !== esriWorldImagery) {
       // remove layers
-      myMap.removeLayer(layer)
+      myMap.removeLayer(layer);
     }
-  })
-})
-*/
+  });
+});
+
 //}

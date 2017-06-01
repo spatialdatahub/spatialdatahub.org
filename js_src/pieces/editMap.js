@@ -269,7 +269,7 @@ getDataWithinPolygonButton.addEventListener('click', getDataWithinPolygon)
 
 // clear map
 // get button and add click event
-/*
+
 const clearMapButton = document.getElementById('clear_map')
 
 clearMapButton.addEventListener('click', function clearMap () {
@@ -287,5 +287,5 @@ clearMapButton.addEventListener('click', function clearMap () {
     }
   })
 })
-*/
+
 //}
