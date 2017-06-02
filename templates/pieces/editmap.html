@@ -2,20 +2,26 @@
   <div class="row" id="extras_buttons">
     <div class="col-xs-12" id="add_extras">
       <div class="btn-group" role="group">
-        <button id="find_place_button" class="btn btn-default">
+
+        <button id="show_find_place_container_button" class="btn btn-default">
           Search for a location
         </button>
-        <button id="test_url_button" class="btn btn-default">
+
+        <button id="show_test_url_container_button" class="btn btn-default">
           Test dataset at an open URL
         </button>
+
         <!--
         <button id="draw_polygon_button" class="btn btn-default">
           Draw a polygon (NOT YET)
         </button>
         -->
-        <button id="within_polygon_button" class="btn btn-default">
+
+        <!-- show within polygon container -->
+        <button id="show_within_polygon_container_button" class="btn btn-default">
           Get data within a polygon
         </button>
+        <!-- show within polygon container -->
 
       </div>
     </div>
@@ -61,7 +67,14 @@
     </div>
 
     <div class="row" id="draw_polygon_container"></div>
-    <div class="row" id="within_polygon_container"></div>
+
+    <!-- Give this a different name -->
+    <div class="row" id="within_polygon_container">
+      <input id="file_name_input" class="form-control" type="text"
+             placeholder="Enter the file name here">
+      <button id="save_button" class="btn btn-default">Save to geojson file</button>
+    </div>
+
   </div>
-  <hr /> <!-- having trouble with the horizontal rule gaps -->
+  <hr />
   <!-- end add extras -->

@@ -3,11 +3,11 @@
 // nominatim stuff
 
 // (1) hide and show nominatim stuff (do this after I've gotten it working)
-var findPlaceButton = document.getElementById('find_place_button');
+var showFindPlaceContainerButton = document.getElementById('show_find_place_container_button');
 var findPlaceContainer = document.getElementById('find_place_container');
 
-findPlaceButton.addEventListener('click', function showPlaceContainer() {
-  classToggle(findPlaceButton, 'active');
+showFindPlaceContainerButton.addEventListener('click', function showPlaceContainer() {
+  classToggle(showFindPlaceContainerButton, 'active');
 
   findPlaceContainer.style.display === 'none' || findPlaceContainer.style.display === '' ? findPlaceContainer.style.display = 'block' : findPlaceContainer.style.display = 'none';
 });
@@ -73,12 +73,12 @@ placeToggle.addEventListener('click', function () {
 // test URL stuff
 
 // (1) hide and show nominatim stuff (do this after I've gotten it working)
-var testUrlButton = document.getElementById('test_url_button');
+var showTestUrlContainerButton = document.getElementById('show_test_url_container_button');
 var testUrlContainer = document.getElementById('test_url_container');
 
-testUrlButton.addEventListener('click', function showTestUrlContainer() {
+showTestUrlContainerButton.addEventListener('click', function showTestUrlContainer() {
 
-  classToggle(testUrlButton, 'active');
+  classToggle(showTestUrlContainerButton, 'active');
 
   testUrlContainer.style.display === 'none' || testUrlContainer.style.display === '' ? testUrlContainer.style.display = 'block' : testUrlContainer.style.display = 'none';
 });
@@ -158,15 +158,16 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
 var fileContainer = [];
 
 // (1) hide and show nominatim stuff (do this after I've gotten it working)
-var withinPolygonButton = document.getElementById('within_polygon_button');
+// rename this to showWithinPolygonContainer
+var showWithinPolygonContainerButton = document.getElementById('show_within_polygon_container_button');
 var withinPolygonContainer = document.getElementById('within_polygon_container');
 
 // (2) make buttons that will get the data
 var getDataWithinPolygonButton = addButton('Get data within polygon', 'black', withinPolygonContainer);
 getDataWithinPolygonButton.setAttribute('class', 'btn btn-default');
 
-function showWithinPolygonContainer() {
-  classToggle(withinPolygonButton, 'active');
+function showWithinPolygonContainerFunc() {
+  classToggle(showWithinPolygonContainerButton, 'active');
 
   if (saidPolygon[0]) {
     withinPolygonContainer.innerHTML = ''; // why doesn't this clear everything in the container?
@@ -193,7 +194,7 @@ function getDataWithinPolygon() {
   // this doesn't work
   //  if (withinPolygonContainer.childElementCount > 1) {
   //    console.log(withinPolygonContainer.childElementCount)
-  //    showWithinPolygonContainer()
+  //    showWithinPolygonContainerFunc()
   //  }
 
   // polygon
@@ -218,23 +219,22 @@ function getDataWithinPolygon() {
     pointsWithinLayer.addData(n);
   });
 
+  /*
   // make file name input
-  var fileNameInput = document.createElement('input');
-  fileNameInput.setAttribute('class', 'form-control');
-  fileNameInput.setAttribute('placeholder', 'Enter the file name here');
-  fileNameInput.setAttribute('type', 'text');
-  withinPolygonContainer.appendChild(fileNameInput);
-
+  const fileNameInput = document.createElement('input')
+  fileNameInput.setAttribute('class', 'form-control')
+  fileNameInput.setAttribute('placeholder', 'Enter the file name here')
+  fileNameInput.setAttribute('type', 'text')
+  withinPolygonContainer.appendChild(fileNameInput)
+   // Instead of having a save button, I should just have the html in the template
   // make save button
-  var saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer);
-  saveButton.classList.remove('active');
-
-  saveButton.addEventListener('click', function () {
-    return saveFile(pointsWithinLayer, fileNameInput);
-  });
+  const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
+  saveButton.classList.remove('active')
+   saveButton.addEventListener('click', () => saveFile(pointsWithinLayer, fileNameInput))
+  */
 }
 
-withinPolygonButton.addEventListener('click', showWithinPolygonContainer);
+showWithinPolygonContainerButton.addEventListener('click', showWithinPolygonContainerFunc);
 getDataWithinPolygonButton.addEventListener('click', getDataWithinPolygon);
 
 // (3) add event listener to button that gets the data

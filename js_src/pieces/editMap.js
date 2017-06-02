@@ -1,11 +1,11 @@
 // nominatim stuff
 
 // (1) hide and show nominatim stuff (do this after I've gotten it working)
-const findPlaceButton = document.getElementById('find_place_button')
+const showFindPlaceContainerButton = document.getElementById('show_find_place_container_button')
 const findPlaceContainer = document.getElementById('find_place_container')
 
-findPlaceButton.addEventListener('click', function showPlaceContainer () {
-  classToggle(findPlaceButton, 'active')
+showFindPlaceContainerButton.addEventListener('click', function showPlaceContainer () {
+  classToggle(showFindPlaceContainerButton, 'active')
 
   findPlaceContainer.style.display === 'none' || findPlaceContainer.style.display === ''
     ? findPlaceContainer.style.display = 'block'
@@ -78,12 +78,12 @@ placeToggle.addEventListener('click', () => {
 // test URL stuff
 
 // (1) hide and show nominatim stuff (do this after I've gotten it working)
-const testUrlButton = document.getElementById('test_url_button')
+const showTestUrlContainerButton = document.getElementById('show_test_url_container_button')
 const testUrlContainer = document.getElementById('test_url_container')
 
-testUrlButton.addEventListener('click', function showTestUrlContainer () {
+showTestUrlContainerButton.addEventListener('click', function showTestUrlContainer () {
 
-  classToggle(testUrlButton, 'active')
+  classToggle(showTestUrlContainerButton, 'active')
 
   testUrlContainer.style.display === 'none' || testUrlContainer.style.display === ''
     ? testUrlContainer.style.display = 'block'
@@ -170,15 +170,16 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
 const fileContainer = []
 
 // (1) hide and show nominatim stuff (do this after I've gotten it working)
-const withinPolygonButton = document.getElementById('within_polygon_button')
+// rename this to showWithinPolygonContainer
+const showWithinPolygonContainerButton = document.getElementById('show_within_polygon_container_button')
 const withinPolygonContainer = document.getElementById('within_polygon_container')
 
 // (2) make buttons that will get the data
 const getDataWithinPolygonButton = addButton('Get data within polygon', 'black', withinPolygonContainer)
 getDataWithinPolygonButton.setAttribute('class', 'btn btn-default')
 
-function showWithinPolygonContainer () {
-  classToggle(withinPolygonButton, 'active')
+function showWithinPolygonContainerFunc () {
+  classToggle(showWithinPolygonContainerButton, 'active')
 
   if (saidPolygon[0]) {
     withinPolygonContainer.innerHTML = '' // why doesn't this clear everything in the container?
@@ -208,7 +209,7 @@ function getDataWithinPolygon () {
 // this doesn't work
 //  if (withinPolygonContainer.childElementCount > 1) {
 //    console.log(withinPolygonContainer.childElementCount)
-//    showWithinPolygonContainer()
+//    showWithinPolygonContainerFunc()
 //  }
 
   // polygon
@@ -224,7 +225,6 @@ function getDataWithinPolygon () {
     }
   })
 
-
   const pointsWithinLayer = L.geoJSON(null).addTo(myMap)
 
   // run the turf.within function, and add the data to the layer that will
@@ -234,7 +234,7 @@ function getDataWithinPolygon () {
     pointsWithinLayer.addData(n)
   })
 
-
+  /*
   // make file name input
   const fileNameInput = document.createElement('input')
   fileNameInput.setAttribute('class', 'form-control')
@@ -242,14 +242,16 @@ function getDataWithinPolygon () {
   fileNameInput.setAttribute('type', 'text')
   withinPolygonContainer.appendChild(fileNameInput)
 
+  // Instead of having a save button, I should just have the html in the template
   // make save button
   const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
   saveButton.classList.remove('active')
 
   saveButton.addEventListener('click', () => saveFile(pointsWithinLayer, fileNameInput))
+  */
 }
 
-withinPolygonButton.addEventListener('click', showWithinPolygonContainer)
+showWithinPolygonContainerButton.addEventListener('click', showWithinPolygonContainerFunc)
 getDataWithinPolygonButton.addEventListener('click', getDataWithinPolygon)
 
 // (3) add event listener to button that gets the data
