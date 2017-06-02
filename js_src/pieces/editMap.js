@@ -1,4 +1,6 @@
-// nominatim stuff
+// /////////////////////////////////////////////////////////////////////////
+// nominatim
+// /////////////////////////////////////////////////////////////////////////
 
 // (1) hide and show nominatim stuff (do this after I've gotten it working)
 const showFindPlaceContainerButton = document.getElementById('show_find_place_container_button')
@@ -18,9 +20,10 @@ const placeButton = document.getElementById('place_button')
 const placeToggle = document.getElementById('place_toggle')
 const selector = document.getElementById('selector')
 const selectButton = document.getElementById('select_button')
+
+// define containers
 const possiblePlaceLayers = {} // this is where i keep the layers to query the map with
 const selectedPlace = []
-const saidPolygon = []
 
 activeDatasetButtons.push(placeButton, placeToggle, selectButton)
 
@@ -44,6 +47,17 @@ placeButton.addEventListener('click', function findPlace () {
   en.getPlaceData(val, makeSelectorOptions)
 })
 
+function getSelectedPlacePolygon (sp) {
+  // maybe this should just be a function that returns the polygon if it's there
+  const selectedPlaceType = sp[0].toGeoJSON().features[0].geometry.type
+  if (selectedPlaceType === 'Polygon' || selectedPlaceType === 'MultiPolygon') {
+    const p = sp[0]
+    return p
+  } else {
+    return 'not a polygon'
+  }
+}
+
 // select place to display
 selectButton.addEventListener('click', function selectPlace () {
 
@@ -55,17 +69,10 @@ selectButton.addEventListener('click', function selectPlace () {
   selectedPlace.length !== 0
     ? (selectedPlace.pop(), selectedPlace.push(possiblePlaceLayers[selector.value]))
     : selectedPlace.push(possiblePlaceLayers[selector.value])
-  
-  const selectedPlaceType = selectedPlace[0].toGeoJSON().features[0].geometry.type
-  if (selectedPlaceType === 'Polygon' || selectedPlaceType === 'MultiPolygon') {
-    const p = selectedPlace[0]
-    saidPolygon.push(p)
-  }
 
   const lyr = selectedPlace[0]
   lyr.addTo(myMap)
   myMap.fitBounds(lyr.getBounds())
-  
 })
 
 // map and layer should be arguements for a predefined function
@@ -75,7 +82,13 @@ placeToggle.addEventListener('click', () => {
     : myMap.addLayer(selectedPlace[0])
 })
 
-// test URL stuff
+// /////////////////////////////////////////////////////////////////////////
+// end nominatim
+// /////////////////////////////////////////////////////////////////////////
+
+// /////////////////////////////////////////////////////////////////////////
+// test url
+// /////////////////////////////////////////////////////////////////////////
 
 // (1) hide and show nominatim stuff (do this after I've gotten it working)
 const showTestUrlContainerButton = document.getElementById('show_test_url_container_button')
@@ -165,8 +178,14 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
     })
 })
 
-// within polygon stuff
-//const saidPolygon = []
+// /////////////////////////////////////////////////////////////////////////
+// end test url
+// /////////////////////////////////////////////////////////////////////////
+
+// /////////////////////////////////////////////////////////////////////////
+// within polygon
+// /////////////////////////////////////////////////////////////////////////
+
 const fileContainer = []
 
 // (1) hide and show nominatim stuff (do this after I've gotten it working)
@@ -174,6 +193,7 @@ const fileContainer = []
 const showWithinPolygonContainerButton = document.getElementById('show_within_polygon_container_button')
 const withinPolygonContainer = document.getElementById('within_polygon_container')
 
+// Instead of making a button here makeit in the html, and display/hide it here
 // (2) make buttons that will get the data
 const getDataWithinPolygonButton = addButton('Get data within polygon', 'black', withinPolygonContainer)
 getDataWithinPolygonButton.setAttribute('class', 'btn btn-default')
@@ -181,7 +201,7 @@ getDataWithinPolygonButton.setAttribute('class', 'btn btn-default')
 function showWithinPolygonContainerFunc () {
   classToggle(showWithinPolygonContainerButton, 'active')
 
-  if (saidPolygon[0]) {
+  if (getSelectedPlacePolygon(selectedPlace) !== 'not a polygon') {
     withinPolygonContainer.innerHTML = '' // why doesn't this clear everything in the container?
     withinPolygonContainer.appendChild(getDataWithinPolygonButton)
   } else {
@@ -201,20 +221,7 @@ function saveFile (layer, fileNameInput) {
   saveAs(blob, filename + '.geojson')
 }
 
-function getDataWithinPolygon () {
-// check if the buttons and containers are already here, and if they are clear them,
-// if they are not then create them for the first time, or something. Don't make them
-// twice.
-
-// this doesn't work
-//  if (withinPolygonContainer.childElementCount > 1) {
-//    console.log(withinPolygonContainer.childElementCount)
-//    showWithinPolygonContainerFunc()
-//  }
-
-  // polygon
-  const poly = saidPolygon[0].toGeoJSON()
-
+function getDataWithinPolygon (poly) {
   const pointsLayers = Object.keys(testDatasets).map(k => {
     const v = testDatasets[k]
     if (myMap.hasLayer(v)) {
@@ -252,14 +259,23 @@ function getDataWithinPolygon () {
 }
 
 showWithinPolygonContainerButton.addEventListener('click', showWithinPolygonContainerFunc)
-getDataWithinPolygonButton.addEventListener('click', getDataWithinPolygon)
+getDataWithinPolygonButton.addEventListener('click', () => {
+
+  const selectedPlaceType = selectedPlace[0].toGeoJSON().features[0].geometry.type
+  if (selectedPlaceType === 'Polygon' || selectedPlaceType === 'MultiPolygon') {
+    const p = selectedPlace[0]
+    getDataWithinPolygon(p)
+  } else {
+    console.log('gotta hava polygon')
+  }
+})
 
 // (3) add event listener to button that gets the data
 
 // should this function be defined separately, and have arguements?
 
 ////////////////////////////////////////////////////////////////////////
-// This button/function converts the polygon stored in the 'saidPolygon'
+// This button/function converts the polygon stored in the selectedPlace
 // container and coverts it to geojson. It then gets all the active points
 // layers from the map and checks if they fall within a polygon. If they
 // are in the polygon, then they are added to a leaflet geojson layer
@@ -291,4 +307,3 @@ clearMapButton.addEventListener('click', function clearMap () {
   })
 })
 
-//}
