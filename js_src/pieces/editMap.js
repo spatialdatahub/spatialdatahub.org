@@ -226,8 +226,8 @@ function saveFile (layer, fileNameInput) {
   saveAs(blob, filename + '.geojson')
 }
 
-function getDataWithinPolygonFunc (poly) {
-  const pointsLayers = Object.keys(testDatasets).map(function yeah (k)  {
+function getDataWithinPolygonFunc (poly, layer) {
+  const pointsLayers = Object.keys(testDatasets).map(k => {
     const v = testDatasets[k]
     if (myMap.hasLayer(v)) {
       const l = v.toGeoJSON().features[0].geometry.type
@@ -237,17 +237,25 @@ function getDataWithinPolygonFunc (poly) {
     }
   })
 
-  const pointsWithinLayer = L.geoJSON(null).addTo(myMap)
-
   // run the turf.within function, and add the data to the layer that will
   // be added to the map, and also converted to geojson and saved.
   
   pointsLayers.forEach(l => {
     const n = turf.within(l, poly)
-    pointsWithinLayer.addData(n)
+    layer.addData(n)
   })
 
-  /*
+  // return a layer with the points
+  return layer
+}
+
+showWithinPolygonContainerButton.addEventListener('click', showWithinPolygonContainerFunc)
+
+getDataWithinPolygonButton.addEventListener('click', () => {
+
+  const pointsWithinLayer = L.geoJSON(null).addTo(myMap)
+  getDataWithinPolygonFunc(getSelectedPlacePolygon(selectedPlace), pointsWithinLayer)
+
   // make file name input
   const fileNameInput = document.createElement('input')
   fileNameInput.setAttribute('class', 'form-control')
@@ -259,14 +267,8 @@ function getDataWithinPolygonFunc (poly) {
   // make save button
   const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
   saveButton.classList.remove('active')
-
   saveButton.addEventListener('click', () => saveFile(pointsWithinLayer, fileNameInput))
-  */
-}
 
-showWithinPolygonContainerButton.addEventListener('click', showWithinPolygonContainerFunc)
-getDataWithinPolygonButton.addEventListener('click', () => {
-  getDataWithinPolygonFunc(getSelectedPlacePolygon(selectedPlace))
 })
 
 // (3) add event listener to button that gets the data

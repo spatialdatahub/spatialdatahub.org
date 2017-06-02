@@ -212,8 +212,8 @@ function saveFile(layer, fileNameInput) {
   saveAs(blob, filename + '.geojson');
 }
 
-function getDataWithinPolygonFunc(poly) {
-  var pointsLayers = Object.keys(testDatasets).map(function yeah(k) {
+function getDataWithinPolygonFunc(poly, layer) {
+  var pointsLayers = Object.keys(testDatasets).map(function (k) {
     var v = testDatasets[k];
     if (myMap.hasLayer(v)) {
       var l = v.toGeoJSON().features[0].geometry.type;
@@ -223,34 +223,39 @@ function getDataWithinPolygonFunc(poly) {
     }
   });
 
-  var pointsWithinLayer = L.geoJSON(null).addTo(myMap);
-
   // run the turf.within function, and add the data to the layer that will
   // be added to the map, and also converted to geojson and saved.
 
   pointsLayers.forEach(function (l) {
     var n = turf.within(l, poly);
-    pointsWithinLayer.addData(n);
+    layer.addData(n);
   });
 
-  /*
-  // make file name input
-  const fileNameInput = document.createElement('input')
-  fileNameInput.setAttribute('class', 'form-control')
-  fileNameInput.setAttribute('placeholder', 'Enter the file name here')
-  fileNameInput.setAttribute('type', 'text')
-  withinPolygonContainer.appendChild(fileNameInput)
-   // Instead of having a save button, I should just have the html in the template
-  // make save button
-  const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
-  saveButton.classList.remove('active')
-   saveButton.addEventListener('click', () => saveFile(pointsWithinLayer, fileNameInput))
-  */
+  // return a layer with the points
+  return layer;
 }
 
 showWithinPolygonContainerButton.addEventListener('click', showWithinPolygonContainerFunc);
+
 getDataWithinPolygonButton.addEventListener('click', function () {
-  getDataWithinPolygonFunc(getSelectedPlacePolygon(selectedPlace));
+
+  var pointsWithinLayer = L.geoJSON(null).addTo(myMap);
+  getDataWithinPolygonFunc(getSelectedPlacePolygon(selectedPlace), pointsWithinLayer);
+
+  // make file name input
+  var fileNameInput = document.createElement('input');
+  fileNameInput.setAttribute('class', 'form-control');
+  fileNameInput.setAttribute('placeholder', 'Enter the file name here');
+  fileNameInput.setAttribute('type', 'text');
+  withinPolygonContainer.appendChild(fileNameInput);
+
+  // Instead of having a save button, I should just have the html in the template
+  // make save button
+  var saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer);
+  saveButton.classList.remove('active');
+  saveButton.addEventListener('click', function () {
+    return saveFile(pointsWithinLayer, fileNameInput);
+  });
 });
 
 // (3) add event listener to button that gets the data
