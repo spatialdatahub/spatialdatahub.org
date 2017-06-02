@@ -252,12 +252,23 @@ function getDataWithinPolygonFunc (poly, layer) {
 showWithinPolygonContainerButton.addEventListener('click', showWithinPolygonContainerFunc)
 
 getDataWithinPolygonButton.addEventListener('click', () => {
+  // This is pretty ugly, but right now it works, it will be
+  // refactored
 
   const pointsWithinLayer = L.geoJSON(null).addTo(myMap)
   getDataWithinPolygonFunc(getSelectedPlacePolygon(selectedPlace), pointsWithinLayer)
 
+  if (document.getElementById('file_name_input')) {
+    var fni = document.getElementById('file_name_input')
+    var fsb = document.getElementById('file_save_button')
+    fni.parentNode.removeChild(fni)
+    fsb.parentNode.removeChild(fsb)
+  }
+
+  // How do I delete this input and save button and re create them on every button press
   // make file name input
   const fileNameInput = document.createElement('input')
+  fileNameInput.id = 'file_name_input'
   fileNameInput.setAttribute('class', 'form-control')
   fileNameInput.setAttribute('placeholder', 'Enter the file name here')
   fileNameInput.setAttribute('type', 'text')
@@ -266,6 +277,7 @@ getDataWithinPolygonButton.addEventListener('click', () => {
   // Instead of having a save button, I should just have the html in the template
   // make save button
   const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
+  saveButton.id = 'file_save_button'
   saveButton.classList.remove('active')
   saveButton.addEventListener('click', () => saveFile(pointsWithinLayer, fileNameInput))
 
