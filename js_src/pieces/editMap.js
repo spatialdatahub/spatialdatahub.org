@@ -48,14 +48,19 @@ placeButton.addEventListener('click', function findPlace () {
 })
 
 function getSelectedPlacePolygon (sp) {
-  // maybe this should just be a function that returns the polygon if it's there
-  const selectedPlaceType = sp[0].toGeoJSON().features[0].geometry.type
-  if (selectedPlaceType === 'Polygon' || selectedPlaceType === 'MultiPolygon') {
-    const p = sp[0]
-    return p
+  // first make sure that sp has something
+  if (sp[0]) {
+    // maybe this should just be a function that returns the polygon if it's there
+    const selectedPlaceType = sp[0].toGeoJSON().features[0].geometry.type
+    if (selectedPlaceType === 'Polygon' || selectedPlaceType === 'MultiPolygon') {
+      const p = sp[0]
+      return p.toGeoJSON()
+    } else {
+      return 'not a polygon'
+    }
   } else {
     return 'not a polygon'
-  }
+  }  
 }
 
 // select place to display
@@ -221,8 +226,8 @@ function saveFile (layer, fileNameInput) {
   saveAs(blob, filename + '.geojson')
 }
 
-function getDataWithinPolygon (poly) {
-  const pointsLayers = Object.keys(testDatasets).map(k => {
+function getDataWithinPolygonFunc (poly) {
+  const pointsLayers = Object.keys(testDatasets).map(function yeah (k)  {
     const v = testDatasets[k]
     if (myMap.hasLayer(v)) {
       const l = v.toGeoJSON().features[0].geometry.type
@@ -236,6 +241,7 @@ function getDataWithinPolygon (poly) {
 
   // run the turf.within function, and add the data to the layer that will
   // be added to the map, and also converted to geojson and saved.
+  
   pointsLayers.forEach(l => {
     const n = turf.within(l, poly)
     pointsWithinLayer.addData(n)
@@ -260,14 +266,7 @@ function getDataWithinPolygon (poly) {
 
 showWithinPolygonContainerButton.addEventListener('click', showWithinPolygonContainerFunc)
 getDataWithinPolygonButton.addEventListener('click', () => {
-
-  const selectedPlaceType = selectedPlace[0].toGeoJSON().features[0].geometry.type
-  if (selectedPlaceType === 'Polygon' || selectedPlaceType === 'MultiPolygon') {
-    const p = selectedPlace[0]
-    getDataWithinPolygon(p)
-  } else {
-    console.log('gotta hava polygon')
-  }
+  getDataWithinPolygonFunc(getSelectedPlacePolygon(selectedPlace))
 })
 
 // (3) add event listener to button that gets the data
