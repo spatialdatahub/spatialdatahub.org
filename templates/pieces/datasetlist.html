@@ -1,27 +1,20 @@
-<!--
+<!-- search bar and clear map button -->
 <ul class="nav nav-pills nav-stacked">
-  {% if dataset_list %}
-    {% for dataset in dataset_list %}
-      <li>
-        <a href="">{{ dataset }}</a>
-      </li>
-    {% endfor %}
-  {% endif %}
+  <li>
+    <form action="." method="GET">
+      <input class="form-control" name="q" type="text"
+             title="Search Datasets" placeholder="Search by title, account, author or keyword">
+    </form>
+  </li>
+  <li>
+    <button class="btn btn-default btn-block" id="clear_map">
+      Clear Map
+    </button>
+  </li>
 </ul>
--->
-      <ol class="nav nav-pills nav-stacked">
-        <li>
-          <form action="." method="GET">
-            <input class="form-control" name="q" type="text"
-            title="Search Datasets" placeholder="Search Datasets">
-          </form>
-        </li>
-        <li>
-          <button class="btn btn-default btn-block" id="clear_map">
-            Clear Map
-          </button>
-        </li>
-      </ol>
+<!-- end search bar and clear map button -->
+
+<!-- list logic -->
 {% if dataset_list %}
   {% for dataset in dataset_list %}
     {% if dataset.dataset_password %}
@@ -61,50 +54,4 @@
     No datasets available. Clear Search
   </a>
 {% endif %}
-
-
-<!--
-      <ol class="nav nav-pills nav-stacked">
-        <li>
-          <form action="." method="GET">
-            <input class="form-control" name="q" type="text"
-            title="Search Datasets" placeholder="Search Datasets">
-          </form>
-        </li>
-        <li>
-          <button class="btn btn-default btn-block" id="clear_map">
-            Clear Map
-          </button>
-        </li>
-      </ol>
-      <ol id="datasets-list" class="nav nav-pills nav-stacked">
-
-        {% if dataset_list %}
-          {% for dataset in dataset_list %}
-            {% if dataset.dataset_password %}
-              <li class="">
-                <a name="dataset" id="{{ dataset.ext }}"
-                  value="{{ dataset.pk }}" href="#"
-                  link="{{ dataset.get_absolute_url }}">
-                  {{ dataset.title }}
-                </a>
-              </li>
-            {% else %}
-              <li class="">
-                <a name="dataset" id="{{ dataset.ext }}"
-                  value="{{ dataset.pk }}" href="#"
-                  link="{{ dataset.get_absolute_url }}" url="{{ dataset.url }}">
-                  {{ dataset.title }}
-                </a>
-              </li>
-            {% endif %}
-          {% endfor %}
-        {% else %}
-          <li>
-            <a style="color:red" href="{% url 'portal' %}">
-              No datasets available. Clear Search
-            </a>
-          </li>
-        {% endif %}
-      </ol>
--->
+<!-- end list logic -->
