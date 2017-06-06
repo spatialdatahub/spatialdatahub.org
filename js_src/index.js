@@ -18,7 +18,7 @@ function dataToDiv(data, div) {
 
 // toggle active / inactive links in list
 // almost exactly copied from 'youmightnotneedjquery.com'
-function classToggle(el, className) {
+function classToggle (el, className) {
   /*
     Toggle class on element. Click element once to turn it on,
     and again to turn it off, or vis versa.
@@ -80,7 +80,7 @@ function getExt(string) {
 function addButton(text, color, container) {
   const btn = document.createElement('button')
   const value = document.createTextNode(text)
-  btn.setAttribute('class', 'btn btn-default active')
+  btn.setAttribute('class', 'btn btn-default active') // this should be changed to not active, and the active thing should be added on the specific function
   btn.setAttribute('value', text)
   btn.setAttribute('id', `newbutton${btn.value}`)
 
@@ -107,4 +107,14 @@ function makeReq(url, func, div) {
   })
   .then(data => func(data, div))
   .catch(error => console.log('There has been a problem with the fetch operation: ', error))
+}
+
+module.exports = {
+  addDataToContainer: addDataToContainer,
+  dataToDiv: dataToDiv,
+  classToggle: classToggle,
+  classToggleOnDiffLink: classToggleOnDiffLink,
+  getExt: getExt,
+  addButton: addButton,
+  makeReq: makeReq
 }
