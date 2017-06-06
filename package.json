@@ -9,7 +9,9 @@
   "scripts": {
     "test": "echo 'tests are in the browser'",
     "build": "babel js_src -d static/js",
-    "dev": "babel js_src --watch -d static/js"
+    "dev": "babel js_src --watch -d static/js",
+    "dev-portal": "echo 'this will be a browserify command'",
+    "dev-detail": "echo 'this will be a browserify command'"
   },
   "repository": {
     "type": "git",
