@@ -35,6 +35,7 @@
     "watchify": "^3.9.0"
   },
   "dependencies": {
+    "leaflet": "^1.0.3",
     "requirejs": "^2.3.2"
   }
 }
