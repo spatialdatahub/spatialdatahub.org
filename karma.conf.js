@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Wed Jun 07 2017 15:02:48 GMT+0200 (CEST)
+// Generated on Wed Jun 07 2017 15:30:21 GMT+0200 (CEST)
 
 module.exports = function(config) {
   config.set({
@@ -10,12 +10,13 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'requirejs', 'chai'],
+    frameworks: ['mocha', 'chai'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      {pattern: 'static/js/test/*.spec.js', included: false}
+      './static/js/new/portal.js',
+      './static/js/test/*.spec.js'
     ],
 
 
@@ -50,12 +51,12 @@ module.exports = function(config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['Chrome', 'Firefox', 'Safari'],
 
 
     // Continuous Integration mode
