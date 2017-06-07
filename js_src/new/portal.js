@@ -1,10 +1,13 @@
-const L = require('leaflet')
-const omnivore = require('@mapbox/leaflet-omnivore')
-const turf = require('@turf/turf')
+const L = require('leaflet') // do i need everything?
+const omnivore = require('@mapbox/leaflet-omnivore') // how can i only import part of this
+
+// how do I do this with the above files? Which functions do I need?
+import within from '@turf/within'
+
 const en = require('easy-nominatim').en // this doesn't work because I haven't gotten require and export statments working correctly in easy-nominatim
 const filesaver = require('file-saver')
 
-// easy-nominatim/
+// easy-nominatim
 // console.log(en)
 
 // If I am only planning on having a single js file to deal with portal stuff, then why don't I
@@ -699,7 +702,8 @@ function getDataWithinPolygonFunc (poly, layer) {
   // be added to the map, and also converted to geojson and saved.
   
   pointsLayers.forEach(l => {
-    const n = turf.within(l, poly)
+    //const n = turf.within(l, poly)
+    const n = within(l, poly)
     layer.addData(n)
   })
 
