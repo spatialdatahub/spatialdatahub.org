@@ -4,7 +4,10 @@ const omnivore = require('@mapbox/leaflet-omnivore') // how can i only import pa
 // how do I do this with the above files? Which functions do I need?
 import within from '@turf/within'
 
-const en = require('easy-nominatim').en // this doesn't work because I haven't gotten require and export statments working correctly in easy-nominatim
+// which is better?
+//const en = require('easy-nominatim').en // this doesn't work because I haven't gotten require and export statments working correctly in easy-nominatim
+import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
+
 const filesaver = require('file-saver')
 
 // easy-nominatim
