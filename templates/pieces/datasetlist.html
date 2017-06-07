@@ -1,3 +1,23 @@
+<!--
+  for the non list dataset page I believe this can be done better, but
+  this is a first test
+-->
+{% if dataset %}
+  {% if dataset.dataset_password %}
+    <div name="dataset" id="{{ dataset.pk }}" detail="yeah"
+         value="{{ dataset.ext }}">
+    </div>
+  {% else %}
+    <div name="dataset" id="{{ dataset.pk }}" detail="yeah"
+         value="{{ dataset.ext }}" url="{{ dataset.url }}">
+    </div>
+  {% endif %}
+    <div id="clear_map"></div>
+{% else %}
+
+<!-- list logic -->
+{% if dataset_list %}
+
 <!-- search bar and clear map button -->
 <ul class="nav nav-pills nav-stacked">
   <li>
@@ -14,8 +34,6 @@
 </ul>
 <!-- end search bar and clear map button -->
 
-<!-- list logic -->
-{% if dataset_list %}
   {% for dataset in dataset_list %}
     {% if dataset.dataset_password %}
       <div class="btn-group btn-group-justified" role="group">
@@ -55,3 +73,5 @@
   </a>
 {% endif %}
 <!-- end list logic -->
+
+{% endif %}

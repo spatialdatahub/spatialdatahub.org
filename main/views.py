@@ -83,6 +83,7 @@ def portal(request):
 # Dataset.objects.all() -> t_list -> a_list -> k_list -> dataset_list
 # unfortunately This doesn't seem to be taking more than one of the inputs, maybe if I include them
 # in the same form
+# let python handle this with different views
 """
 def portal2(request):
 
@@ -112,9 +113,3 @@ def portal2(request):
     template_name = "portal2.html"
     return render(request, template_name, {"dataset_list": dataset_list})
 """
-
-
-def jstests(request):
-    dataset_list = Dataset.objects.all()
-    template_name = "jstests.html"
-    return render(request, template_name, {"dataset_list": dataset_list})

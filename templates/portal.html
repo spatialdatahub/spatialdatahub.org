@@ -56,20 +56,12 @@
       {% include "pieces/mymap.html" %}
     </div>
 
-    <!-- I need to set this up so it loads by ajax -->
     <div class="col-xs-12 col-md-4 col-lg-3" id="datasetsContainer">
       {% include "pieces/datasetlist.html" %}
     </div>
   </div>
 
-
 {% endblock portal_content %}
 
 {% block portal_js %}
-<!--
-<script src="{% static 'js/new/portalMany.js' %}"></script>
-
-<script src="{% static 'js/pieces/datasetList.js' %}"></script>
-<script src="{% static 'js/pieces/editMap.js' %}"></script>
--->
 {% endblock portal_js %}

@@ -1,24 +1,47 @@
-{% extends "base.html" %}
+{% extends "base_portal.html" %}
 {% load staticfiles %}
-
-<!--
-
-there is something wrong with this page's divs. I think that there is an unpaired closing div somewhere.
-
-
--->
 
 {% block title %}{{ dataset.title }}{% endblock title %}
 
 {% block css %}
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-
 <style>
 
+  #datasetsContainer {
+    height: 50em;
+    float: left;
+  }
+
+  #datasets-list {
+    overflow-y: auto;
+    height: 41em;
+  }
+
+  #mapContainer {
+    float: right;
+  }
+
   #mapid {
-    height: 45em;
-    margin-bottom: 1em;
+    height: 50em;
+    margin-bottom: 10px;
+  }
+
+  #find_place_container {
+    display: none;
+  }
+
+  #test_url_container {
+    display: none;
+  }
+
+  /*
+  #draw_polygon_container {
+    display: none;
+  }
+  */
+
+  #within_polygon_container {
+    display: none;
   }
 
 </style>
@@ -38,8 +61,52 @@ there is something wrong with this page's divs. I think that there is an unpaire
 / <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a>
 {% endblock breadcrumbs %}
 
-{% block content %}
+{% block portal_content %}
 
+  <h1>{{ dataset.title }} page</h1>
+  <hr/>
+
+  <div class="row" id="main">
+    <div class="col-xs-12">
+    <p><b>Author:</b> {{ dataset.author }}</p>
+    <p><b>Description:</b> {{ dataset.description }}</p>
+    {% if keyword_list %}
+      <p><b>Keywords:</b>
+        {% for keyword in keyword_list %}
+          <a href="{{ keyword.get_absolute_url }}">{{ keyword.keyword }}</a>
+        {% endfor %}
+      </p>
+    {% endif %}
+    <h4>
+      <a href="{% url 'datasets:add_keyword_to_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
+        Add a keyword to {{ dataset.title }}
+      </a>
+    {% if keyword_list %}
+      or <a href="{% url 'datasets:remove_keyword_from_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
+        Remove a keyword from {{ dataset.title }}
+      </a>
+    </h4>
+    {% endif %}
+    <hr/>
+    </div>
+
+    <div class="col-xs-12" id="editmap">
+      {% include "pieces/editmap.html" %}
+    </div>
+
+    <div class="col-xs-12" id="mapContainer">
+      {% include "pieces/mymap.html" %}
+    </div>
+
+    <!-- I need to set this up so it loads by ajax -->
+    <div class="col-xs-12" id="datasetsContainer">
+      {% include "pieces/datasetlist.html" %}
+    </div>
+  </div>
+
+
+
+<!--
   <div class="row">
     <p><h4><b>Title:</b> {{ dataset.title }}</h4></p>
     <p><b>Author:</b> {{ dataset.author }}</p>
@@ -64,8 +131,6 @@ there is something wrong with this page's divs. I think that there is an unpaire
   </div>
   <hr class="divider">
 
-    <!-- info divs -->
-    <!-- There must be a better way to do this-->
 
     <div id="dataset_pk" value="{{ dataset.pk }}"></div>
     <div id="dataset_ext" value="{{ dataset.ext }}"></div>
@@ -75,10 +140,7 @@ there is something wrong with this page's divs. I think that there is an unpaire
       <div id="dataset_url"></div>
     {% endif %}
 
-    <!-- info divs -->
 
-<!-- These should be inline links -->
-<!-- These should only be seen by the person who created the dataset -->
   <div class="row">
     <p>
       <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}">
@@ -105,20 +167,9 @@ there is something wrong with this page's divs. I think that there is an unpaire
 
 
 
-<!-- MAP -->
   <div class"custom-popup" id="mapid"></div>
-<!-- END MAP -->
-
-{% endblock content %}
-
-{% block js %}
-<!-- this stuff should be covered in the base_portal page
-<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-<script src="//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js"></script>
-<script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
-
-<script src="{% static 'js/indexMap.js' %}"></script>
-<script src="{% static 'js/initMap.js' %}"></script>
-<script src="{% static 'js/datasets/detailView.js' %}"></script>
 -->
-{% endblock js %}
+
+{% endblock portal_content %}
+
+

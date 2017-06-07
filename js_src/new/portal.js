@@ -379,6 +379,8 @@ esriWorldImagery.on('tileload', function (tileEvent) {
 // ////////////// //
 // datasetList.js //
 // ////////////// //
+// I have an idea, I will just make the dataset specific page work like a 
+// dataset list page
 // colors
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 let linkDatasetColorCounter = 0 // this is for the datasets from the links
@@ -391,8 +393,6 @@ const markerOptions = {
   opacity: 1,
   fillOpacity: 0.4
 }
-
-
 
 const datasetLinksNodeList = document.getElementsByName('dataset')
 const datasetLinks = Array.prototype.slice.call(datasetLinksNodeList)
@@ -453,7 +453,12 @@ datasetLinks.forEach(function handleDatasetLink (link) {
     activeDatasetButtons.push(link)
   }
 
-  link.addEventListener('click', () => linkEvent(link))
+//  link.addEventListener('click', () => linkEvent(link))
+
+  link.getAttribute('detail')
+    ? linkEvent(link)
+    : link.addEventListener('click', () => linkEvent(link))
+
 })
 
 // ////////// // 
