@@ -75,7 +75,7 @@ function getExt(string) {
 function addButton(text, color, container) {
   var btn = document.createElement('button');
   var value = document.createTextNode(text);
-  btn.setAttribute('class', 'btn btn-default active');
+  btn.setAttribute('class', 'btn btn-default active'); // this should be changed to not active, and the active thing should be added on the specific function
   btn.setAttribute('value', text);
   btn.setAttribute('id', 'newbutton' + btn.value);
 
@@ -104,3 +104,13 @@ function makeReq(url, func, div) {
     return console.log('There has been a problem with the fetch operation: ', error);
   });
 }
+
+module.exports = {
+  addDataToContainer: addDataToContainer,
+  dataToDiv: dataToDiv,
+  classToggle: classToggle,
+  classToggleOnDiffLink: classToggleOnDiffLink,
+  getExt: getExt,
+  addButton: addButton,
+  makeReq: makeReq
+};
