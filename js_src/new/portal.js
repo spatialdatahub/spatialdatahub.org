@@ -2,6 +2,7 @@ const L = require('leaflet')
 const omnivore = require('@mapbox/leaflet-omnivore')
 const turf = require('@turf/turf')
 const en = require('easy-nominatim').en // this doesn't work because I haven't gotten require and export statments working correctly in easy-nominatim
+const filesaver = require('file-saver')
 
 // easy-nominatim/
 // console.log(en)
@@ -680,7 +681,7 @@ function saveFile (layer, fileNameInput) {
   const filename = fileNameInput.value
   const data = JSON.stringify(layer.toGeoJSON())
   const blob = new Blob([data], {type: 'text/plain; charset=utf-8'})
-  saveAs(blob, filename + '.geojson')
+  filesaver.saveAs(blob, filename + '.geojson')
 }
 
 function getDataWithinPolygonFunc (poly, layer) {
