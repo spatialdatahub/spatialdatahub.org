@@ -4,6 +4,11 @@
 /*
 // CUSTOM FUNCTIONS
 */
+// A few of these functions are pretty much implemented by jQuery,
+// I have an almost jQuery replacement that is already being used
+// with bootstrap. It only implements the functions needed by bootstrap.
+// maybe, instead of writing my own stuff, I should search through there
+// and see if there are any functions available for me to use here.
 // ////////////////////////////////////////////////////////////////////////////
 
 // function to add data to a container
