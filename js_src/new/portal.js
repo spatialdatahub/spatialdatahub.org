@@ -403,6 +403,7 @@ const markerOptions = {
 const datasetLinksNodeList = document.getElementsByName('dataset')
 const datasetLinks = Array.prototype.slice.call(datasetLinksNodeList)
 const datasets = {}
+const datasetClusters = {}
 const activeDatasetButtons = []
 
 datasetLinks.forEach(function handleDatasetLink (link) {
@@ -438,8 +439,6 @@ datasetLinks.forEach(function handleDatasetLink (link) {
     }
   })
 
-
-// const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
   // How do I get markercluster in here?
   // I would like to be able to turn it on and off
   // is there a way to add data to both the layer and the marker cluster group at the same time
@@ -459,6 +458,8 @@ datasetLinks.forEach(function handleDatasetLink (link) {
     // this stuff is all pretty dense. Maybe I should just make it into if statements
     // would that make it easier to deal with? would it make easier to add markercluster logic to it?
 
+    // this is going to be screwy with the clusters
+
     datasets[pk]
       ? myMap.hasLayer(datasets[pk])
         ? myMap.removeLayer(datasets[pk])
@@ -473,7 +474,12 @@ datasetLinks.forEach(function handleDatasetLink (link) {
           layerCluster.addLayer(layerMod)
           // use layerCluster instead of layerMod
           myMap.addLayer(layerCluster)//.fitBounds(layerMod.getBounds())
-          addDataToContainer(layerCluster, datasets, pk)
+
+          // add cluster to cluster container and layer to layer container
+          // use this for toggling between clusters and layers
+          addDataToContainer(layerMod, datasets, pk)
+          addDataToContainer(layerCluster, datasetClusters, pk)
+
         }, function handleError (error) {
           console.log(error)
         })
@@ -814,4 +820,38 @@ clearMapButton.addEventListener('click', function clearMap () {
     }
   })
 })
+
+// /////////////////////////////////////////////////////////////////////////
+// toggle marker clusters
+// Now I need to make the data addition thing work with this
+// /////////////////////////////////////////////////////////////////////////
+
+const toggleMarkerClustersButton = document.getElementById('toggle_marker_clusters')
+
+let layerClusterState = 1 // 0 is layers, 1 is clusters
+
+function toggleMarkeClusters (map, layers, clusters) {
+
+  if (layerClusterState === 0) {
+    Object.keys(layers).forEach( key => {
+      map.removeLayer(layers[key])
+      map.addLayer(clusters[key])
+    })
+    layerClusterState++
+  } else {
+    Object.keys(clusters).forEach( key => {
+      map.removeLayer(clusters[key])
+      map.addLayer(layers[key])
+    } )
+    layerClusterState--
+  }
+
+}
+
+toggleMarkerClustersButton.addEventListener("click", function clusterToLayer () {
+  toggleMarkeClusters(myMap, datasets, datasetClusters)
+})
+
+
+
 
