@@ -1,5 +1,8 @@
 const L = require('leaflet') // do i need everything?
 const omnivore = require('@mapbox/leaflet-omnivore') // how can i only import part of this
+const markercluster = require('leaflet.markercluster')
+
+//console.log(L.markerClusterGroup)
 
 // how do I do this with the above files? Which functions do I need?
 import within from '@turf/within'
@@ -435,20 +438,42 @@ datasetLinks.forEach(function handleDatasetLink (link) {
     }
   })
 
+
+// const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
+  // How do I get markercluster in here?
+  // I would like to be able to turn it on and off
+  // is there a way to add data to both the layer and the marker cluster group at the same time
+  const layerCluster = L.markerClusterGroup({
+    iconCreateFunction: function(cluster) {
+      const textColor = color === 'blue' || color === 'purple' || color === 'green' ? 'white' : 'black'
+      return L.divIcon({ html: `<div style="text-align: center; background-color: ${color}; color: ${textColor}"><b>${cluster.getChildCount()}</b></div>`,
+                         iconSize: new L.Point(40, 20)
+      })
+    }
+  })
+
+  // how do I control markercluster with this
   function linkEvent (link) {
     classToggle(link, 'active')
+
+    // this stuff is all pretty dense. Maybe I should just make it into if statements
+    // would that make it easier to deal with? would it make easier to add markercluster logic to it?
 
     datasets[pk]
       ? myMap.hasLayer(datasets[pk])
         ? myMap.removeLayer(datasets[pk])
-        : myMap.addLayer(datasets[pk]).fitBounds(datasets[pk].getBounds())
+        : myMap.addLayer(datasets[pk]) //.fitBounds(datasets[pk].getBounds())
+
       // if there is no datasets[pk] then go through the process of selecting
       // the right omnivore function and getting the data and stuff
+      // this is where i deal with the markercluster stuff
       : extSelect(ext, url) // the promise
-        .then(function handleResponse (response) {
+        .then( function handleResponse (response) {
           layerMod.addData(response.toGeoJSON()) // modify the layer
-          myMap.addLayer(layerMod).fitBounds(layerMod.getBounds())
-          addDataToContainer(layerMod, datasets, pk)
+          layerCluster.addLayer(layerMod)
+          // use layerCluster instead of layerMod
+          myMap.addLayer(layerCluster)//.fitBounds(layerMod.getBounds())
+          addDataToContainer(layerCluster, datasets, pk)
         }, function handleError (error) {
           console.log(error)
         })
