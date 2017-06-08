@@ -1,20 +1,13 @@
-const L = require('leaflet') // do i need everything?
-const omnivore = require('@mapbox/leaflet-omnivore') // how can i only import part of this
+const L = require('leaflet')
+const omnivore = require('@mapbox/leaflet-omnivore')
 const markercluster = require('leaflet.markercluster')
-
-//console.log(L.markerClusterGroup)
 
 // how do I do this with the above files? Which functions do I need?
 import within from '@turf/within'
 
-// which is better?
-//const en = require('easy-nominatim').en // this doesn't work because I haven't gotten require and export statments working correctly in easy-nominatim
 import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
 
 const filesaver = require('file-saver')
-
-// easy-nominatim
-// console.log(en)
 
 // If I am only planning on having a single js file to deal with portal stuff, then why don't I
 // just make it here. I guess I could just require it...
@@ -97,12 +90,12 @@ function getExt(string) {
   const ext = {}
   const stringLower = string.toLowerCase()
   stringLower.endsWith('kml')
-  ? ext[0] = 'kml'
-  : stringLower.endsWith('csv')
-  ? ext[0] = 'csv'
-  : stringLower.endsWith('json')
-  ? ext[0] = 'geojson'
-  : console.log(stringLower)
+    ? ext[0] = 'kml'
+    : stringLower.endsWith('csv')
+      ? ext[0] = 'csv'
+      : stringLower.endsWith('json')
+        ? ext[0] = 'geojson'
+        : console.log(stringLower)
   return ext[0]
 }
 
@@ -139,19 +132,6 @@ function makeReq(url, func, div) {
   .catch(error => console.log('There has been a problem with the fetch operation: ', error))
 }
 
-
-
-
-
-module.exports = {
-  addDataToContainer: addDataToContainer,
-  dataToDiv: dataToDiv,
-  classToggle: classToggle,
-  classToggleOnDiffLink: classToggleOnDiffLink,
-  getExt: getExt,
-  addButton: addButton,
-  makeReq: makeReq
-}
 
 // ////////////////////////// //
 // indexMap.js and initMap.js //
@@ -406,7 +386,8 @@ const datasets = {}
 const datasetClusters = {}
 const activeDatasetButtons = []
 
-let layerClusterState = 1 // 0 is layers, 1 is clusters
+// The initial value will start the page with either layers or clusters. 
+let layerClusterState = 1 // 0 is layers, 1 is clusters. // something is wrong
 
 datasetLinks.forEach(function handleDatasetLink (link) {
   const pk = link.id
@@ -447,20 +428,51 @@ datasetLinks.forEach(function handleDatasetLink (link) {
   const layerCluster = L.markerClusterGroup({
     iconCreateFunction: function(cluster) {
       const textColor = color === 'blue' || color === 'purple' || color === 'green' ? 'white' : 'black'
-      return L.divIcon({ html: `<div style="text-align: center; background-color: ${color}; color: ${textColor}"><b>${cluster.getChildCount()}</b></div>`,
-                         iconSize: new L.Point(40, 20)
+      return L.divIcon({ 
+        html: `<div style="text-align: center; background-color: ${color}; color: ${textColor}"><b>${cluster.getChildCount()}</b></div>`,
+        iconSize: new L.Point(40, 20)
       })
     }
   })
+
+
+  // bring big switcher function out here
+  // should this be two functions?
+  // the points and clusters are being added to the wrong containers
+
+//  function pointsToPointsClustersToClusters (data, layer, cluster, layers, clusters) {
+//    layer.addData(data)
+//    cluster.addLayer(layer)
+//  }
+
+  function getDatasetAndAddItToMap(map, primary, secondary, key) {
+    primary[key]
+      ? map.hasLayer(primary[key])
+        ? map.removeLayer(primary[key])
+        : map.addLayer(primary[key])
+
+      : extSelect(ext, url)
+        .then( function handleResponse(response) {
+          layerMod.addData(response.toGeoJSON())
+          layerCluster.addLayer(layerMod)
+          map.addLayer(layerMod) // here is the problem
+
+          addDataToContainer(layerMod, primary, key) // there is a problem here, on the initial data addition the points go into the datasetCusters with out being converted to clusters
+          addDataToContainer(layerCluster, secondary, key)
+        }, function handleError (error) {
+          console.log(error)
+        })
+  }
 
   // how do I control markercluster with this
   // use layer state
   function linkEvent (link) {
     classToggle(link, 'active')
 
-
     // start simple, then make it into nice functions. It'll be ugly and hacky, then refactored to something good
     if (layerClusterState === 0) {
+      getDatasetAndAddItToMap(myMap, datasets, datasetClusters, pk)
+    /*
      // do all this stuff, but use layers 
      datasets[pk]
       ? myMap.hasLayer(datasets[pk])
@@ -485,9 +497,13 @@ datasetLinks.forEach(function handleDatasetLink (link) {
         }, function handleError (error) {
           console.log(error)
         })
+    */
      
     } else {
+      getDatasetAndAddItToMap(myMap, datasetClusters, datasets, pk)
       // do all this stuff, but use clusters
+     
+    /*
      datasets[pk]
       ? myMap.hasLayer(datasetClusters[pk])
         ? myMap.removeLayer(datasetClusters[pk])
@@ -511,7 +527,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
         }, function handleError (error) {
           console.log(error)
         })
-     
+      */      
     }
 
     activeDatasetButtons.push(link)
