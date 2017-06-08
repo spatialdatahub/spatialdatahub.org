@@ -406,6 +406,8 @@ const datasets = {}
 const datasetClusters = {}
 const activeDatasetButtons = []
 
+let layerClusterState = 1 // 0 is layers, 1 is clusters
+
 datasetLinks.forEach(function handleDatasetLink (link) {
   const pk = link.id
   const ext = link.value
@@ -452,18 +454,44 @@ datasetLinks.forEach(function handleDatasetLink (link) {
   })
 
   // how do I control markercluster with this
+  // use layer state
   function linkEvent (link) {
     classToggle(link, 'active')
 
-    // this stuff is all pretty dense. Maybe I should just make it into if statements
-    // would that make it easier to deal with? would it make easier to add markercluster logic to it?
 
-    // this is going to be screwy with the clusters
-
-    datasets[pk]
+    // start simple, then make it into nice functions. It'll be ugly and hacky, then refactored to something good
+    if (layerClusterState === 0) {
+     // do all this stuff, but use layers 
+     datasets[pk]
       ? myMap.hasLayer(datasets[pk])
         ? myMap.removeLayer(datasets[pk])
         : myMap.addLayer(datasets[pk]) //.fitBounds(datasets[pk].getBounds())
+
+      // if there is no datasets[pk] then go through the process of selecting
+      // the right omnivore function and getting the data and stuff
+      // this is where i deal with the markercluster stuff
+      : extSelect(ext, url) // the promise
+        .then( function handleResponse (response) {
+          layerMod.addData(response.toGeoJSON()) // modify the layer
+          layerCluster.addLayer(layerMod)
+          // use layerCluster instead of layerMod
+          myMap.addLayer(layerMod)//.fitBounds(layerMod.getBounds())
+
+          // add cluster to cluster container and layer to layer container
+          // use this for toggling between clusters and layers
+          addDataToContainer(layerMod, datasets, pk)
+          addDataToContainer(layerCluster, datasetClusters, pk)
+
+        }, function handleError (error) {
+          console.log(error)
+        })
+     
+    } else {
+      // do all this stuff, but use clusters
+     datasets[pk]
+      ? myMap.hasLayer(datasetClusters[pk])
+        ? myMap.removeLayer(datasetClusters[pk])
+        : myMap.addLayer(datasetClusters[pk]) //.fitBounds(datasets[pk].getBounds())
 
       // if there is no datasets[pk] then go through the process of selecting
       // the right omnivore function and getting the data and stuff
@@ -483,6 +511,8 @@ datasetLinks.forEach(function handleDatasetLink (link) {
         }, function handleError (error) {
           console.log(error)
         })
+     
+    }
 
     activeDatasetButtons.push(link)
   }
@@ -492,7 +522,6 @@ datasetLinks.forEach(function handleDatasetLink (link) {
   link.getAttribute('detail')
     ? linkEvent(link)
     : link.addEventListener('click', () => linkEvent(link))
-
 })
 
 // ////////// // 
@@ -828,20 +857,27 @@ clearMapButton.addEventListener('click', function clearMap () {
 
 const toggleMarkerClustersButton = document.getElementById('toggle_marker_clusters')
 
-let layerClusterState = 1 // 0 is layers, 1 is clusters
-
 function toggleMarkeClusters (map, layers, clusters) {
+  /*
+  // If the layer cluster state is 0, which means layers and not clusters, then the
+  // function will 
+  */
+
 
   if (layerClusterState === 0) {
     Object.keys(layers).forEach( key => {
-      map.removeLayer(layers[key])
-      map.addLayer(clusters[key])
+      if (map.hasLayer(layers[key])) {
+        map.removeLayer(layers[key])
+        map.addLayer(clusters[key])
+      } 
     })
     layerClusterState++
   } else {
     Object.keys(clusters).forEach( key => {
-      map.removeLayer(clusters[key])
-      map.addLayer(layers[key])
+      if (map.hasLayer(clusters[key])) {
+        map.removeLayer(clusters[key])
+        map.addLayer(layers[key])
+      } 
     } )
     layerClusterState--
   }
