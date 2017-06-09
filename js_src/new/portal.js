@@ -9,9 +9,18 @@ import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-
 
 const filesaver = require('file-saver')
 
+
+// Things I need to fix
+// - filesaver doesn't save data from all sources, only the test urls
+// - csv files (and possibly other non-geojson files) do not load on dataset detail page
+// - the load data to page or get data function is loading clusters into the wrong containers
+// - the toggle test datasets button is not toggling the datasets on and off
+
+
 // If I am only planning on having a single js file to deal with portal stuff, then why don't I
 // just make it here. I guess I could just require it...
 // I am going to start by putting it all in here
+
 
 // //////// //
 // index.js //
@@ -440,11 +449,8 @@ datasetLinks.forEach(function handleDatasetLink (link) {
   // should this be two functions?
   // the points and clusters are being added to the wrong containers
 
-//  function pointsToPointsClustersToClusters (data, layer, cluster, layers, clusters) {
-//    layer.addData(data)
-//    cluster.addLayer(layer)
-//  }
-
+  
+  /*
   function getDatasetAndAddItToMap(map, primary, secondary, key) {
     primary[key]
       ? map.hasLayer(primary[key])
@@ -453,8 +459,10 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
       : extSelect(ext, url)
         .then( function handleResponse(response) {
+
           layerMod.addData(response.toGeoJSON())
           layerCluster.addLayer(layerMod)
+
           map.addLayer(layerMod) // here is the problem
 
           addDataToContainer(layerMod, primary, key) // there is a problem here, on the initial data addition the points go into the datasetCusters with out being converted to clusters
@@ -463,6 +471,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
           console.log(error)
         })
   }
+  */
 
   // how do I control markercluster with this
   // use layer state
@@ -471,8 +480,8 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
     // start simple, then make it into nice functions. It'll be ugly and hacky, then refactored to something good
     if (layerClusterState === 0) {
-      getDatasetAndAddItToMap(myMap, datasets, datasetClusters, pk)
-    /*
+    //  getDatasetAndAddItToMap(myMap, datasets, datasetClusters, pk)
+    
      // do all this stuff, but use layers 
      datasets[pk]
       ? myMap.hasLayer(datasets[pk])
@@ -497,13 +506,13 @@ datasetLinks.forEach(function handleDatasetLink (link) {
         }, function handleError (error) {
           console.log(error)
         })
-    */
+    
      
     } else {
-      getDatasetAndAddItToMap(myMap, datasetClusters, datasets, pk)
+      //getDatasetAndAddItToMap(myMap, datasetClusters, datasets, pk)
       // do all this stuff, but use clusters
      
-    /*
+    
      datasets[pk]
       ? myMap.hasLayer(datasetClusters[pk])
         ? myMap.removeLayer(datasetClusters[pk])
@@ -527,7 +536,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
         }, function handleError (error) {
           console.log(error)
         })
-      */      
+            
     }
 
     activeDatasetButtons.push(link)
