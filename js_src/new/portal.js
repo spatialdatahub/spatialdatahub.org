@@ -602,19 +602,19 @@ placeButton.addEventListener('click', function findPlace () {
 })
 
 function getSelectedPlacePolygon (sp) {
-  // first make sure that sp has something
   if (sp[0]) {
-    // maybe this should just be a function that returns the polygon if it's there
-    const selectedPlaceType = sp[0].toGeoJSON().features[0].geometry.type
-    if (selectedPlaceType === 'Polygon' || selectedPlaceType === 'MultiPolygon') {
-      const p = sp[0]
-      return p.toGeoJSON()
+    const p = sp[0].toGeoJSON()
+    const spt = p.features[0].geometry.type // spt = selected place type
+
+    if (spt === 'Polygon' || spt === 'MultiPolygon') {
+      return p
     } else {
-      return 'not a polygon'
+      return 'not a polygon' 
     }
+
   } else {
     return 'not a polygon'
-  }  
+  } 
 }
 
 // select place to display
@@ -814,8 +814,8 @@ getDataWithinPolygonButton.addEventListener('click', () => {
   getDataWithinPolygonFunc(getSelectedPlacePolygon(selectedPlace), pointsWithinLayer)
 
   if (document.getElementById('file_name_input')) {
-    var fni = document.getElementById('file_name_input')
-    var fsb = document.getElementById('file_save_button')
+    const fni = document.getElementById('file_name_input')
+    const fsb = document.getElementById('file_save_button')
     fni.parentNode.removeChild(fni)
     fsb.parentNode.removeChild(fsb)
   }
@@ -882,35 +882,34 @@ clearMapButton.addEventListener('click', function clearMap () {
 
 const toggleMarkerClustersButton = document.getElementById('toggle_marker_clusters')
 
-function toggleMarkeClusters (map, layers, clusters) {
+
+function pctoggler (map, obj1, obj2) {
+  Object.keys(obj1).forEach( key => {
+    if (map.hasLayer(obj1[key])) {
+      map.removeLayer(obj1[key])
+      map.addLayer(obj2[key])
+    } 
+  })
+}
+
+function toggleMarkerClusters (map, layers, clusters) {
   /*
   // If the layer cluster state is 0, which means layers and not clusters, then the
   // function will 
   */
 
-
   if (layerClusterState === 0) {
-    Object.keys(layers).forEach( key => {
-      if (map.hasLayer(layers[key])) {
-        map.removeLayer(layers[key])
-        map.addLayer(clusters[key])
-      } 
-    })
+    pctoggler(map, layers, clusters)
     layerClusterState++
   } else {
-    Object.keys(clusters).forEach( key => {
-      if (map.hasLayer(clusters[key])) {
-        map.removeLayer(clusters[key])
-        map.addLayer(layers[key])
-      } 
-    } )
+    pctoggler(map, clusters, layers)
     layerClusterState--
   }
 
 }
 
 toggleMarkerClustersButton.addEventListener("click", function clusterToLayer () {
-  toggleMarkeClusters(myMap, datasets, datasetClusters)
+  toggleMarkerClusters(myMap, datasets, datasetClusters)
 })
 
 
