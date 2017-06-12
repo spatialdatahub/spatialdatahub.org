@@ -9,137 +9,13 @@ import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-
 
 const filesaver = require('file-saver')
 
+const basic = require('../pieces/basic.js')
 
 // Things I need to fix
 // - filesaver doesn't save data from all sources, only the test urls
 // - csv files (and possibly other non-geojson files) do not load on dataset detail page
 // - the load data to page or get data function is loading clusters into the wrong containers
 // - the toggle test datasets button is not toggling the datasets on and off
-
-
-// If I am only planning on having a single js file to deal with portal stuff, then why don't I
-// just make it here. I guess I could just require it...
-// I am going to start by putting it all in here
-
-
-// //////// //
-// index.js //
-// //////// //
-// ////////////////////////////////////////////////////////////////////////////
-/*
-// CUSTOM FUNCTIONS
-*/
-// A few of these functions are pretty much implemented by jQuery,
-// I have an almost jQuery replacement that is already being used
-// with bootstrap. It only implements the functions needed by bootstrap.
-// maybe, instead of writing my own stuff, I should search through there
-// and see if there are any functions available for me to use here.
-// ////////////////////////////////////////////////////////////////////////////
-
-// function to add data to a container
-// is this function completely unnecessary?
-function addDataToContainer(data, obj, key) {
-  return obj[key] = data;
-}
-
-// this should probably be in the index of helper functions
-// makeReq function
-function dataToDiv(data, div) {
-    return div.innerHTML = data;
-}
-
-// toggle active / inactive links in list
-// almost exactly copied from 'youmightnotneedjquery.com'
-function classToggle (el, className) {
-  /*
-    Toggle class on element. Click element once to turn it on,
-    and again to turn it off, or vis versa.
-  */
-  if (el.classList) {
-    el.classList.toggle(className)
-  } else {
-    const classes = el.className.split(' ')
-    const existingIndex = classes.indexOf(className)
-    if (existingIndex >= 0) {
-      classes.splice(existingIndex, 1)
-    } else {
-      classes.push(className)
-    }
-    el.className = classes.join(' ')
-  }
-}
-
-function classToggleOnDiffLink(el, elList, className) {
-  /*
-    Toggle class on element, but with multiple elements.
-    Click element 1 once to turn class on, and click element 2
-    to turn class off for element 1, and to turn class on
-    for element 2.
-
-    Just turn class off for everything in element list,
-    and then add class to element that was clicked.
-  */
-
-  // first remove className from all elements
-  elList.forEach(e => {
-    if (e.classList) {
-      e.classList.remove(className)
-    }
-  })
-
-  // then add className to element that was clicked
-  const classes = el.className.split(' ')
-  classes.push(className)
-  el.className = classes.join(' ')
-}
-
-// make function that gets the ext of the url
-// it can handle csv, kml, json, and geojson
-function getExt(string) {
-  const ext = {}
-  const stringLower = string.toLowerCase()
-  stringLower.endsWith('kml')
-    ? ext[0] = 'kml'
-    : stringLower.endsWith('csv')
-      ? ext[0] = 'csv'
-      : stringLower.endsWith('json')
-        ? ext[0] = 'geojson'
-        : console.log(stringLower)
-  return ext[0]
-}
-
-// make function for adding buttons
-function addButton(text, color, container) {
-  const btn = document.createElement('button')
-  const value = document.createTextNode(text)
-  btn.setAttribute('class', 'btn btn-default active') // this should be changed to not active, and the active thing should be added on the specific function
-  btn.setAttribute('value', text)
-  btn.setAttribute('id', `newbutton${btn.value}`)
-
-  // make the color of the number correspond
-  // to the color of the dataset on the map
-  btn.style.color = color
-  btn.style.fontWeight = 'bold'
-
-  // add text to button and button to div
-  btn.appendChild(value)
-  container.appendChild(btn)
-
-  return btn
-}
-
-// make the above function with fetch
-function makeReq(url, func, div) {
-  return fetch(url)
-  .then(response => {
-    if (!response.ok) {
-      console.log('Looks like there has been a problem. Status code:', response.status)
-    }
-    return response.text()
-  })
-  .then(data => func(data, div))
-  .catch(error => console.log('There has been a problem with the fetch operation: ', error))
-}
 
 
 // ////////////////////////// //
@@ -476,7 +352,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
   // how do I control markercluster with this
   // use layer state
   function linkEvent (link) {
-    classToggle(link, 'active')
+    basic.classToggle(link, 'active')
 
     // start simple, then make it into nice functions. It'll be ugly and hacky, then refactored to something good
     if (layerClusterState === 0) {
@@ -500,8 +376,8 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
           // add cluster to cluster container and layer to layer container
           // use this for toggling between clusters and layers
-          addDataToContainer(layerMod, datasets, pk)
-          addDataToContainer(layerCluster, datasetClusters, pk)
+          basic.addDataToContainer(layerMod, datasets, pk)
+          basic.addDataToContainer(layerCluster, datasetClusters, pk)
 
         }, function handleError (error) {
           console.log(error)
@@ -530,8 +406,8 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
           // add cluster to cluster container and layer to layer container
           // use this for toggling between clusters and layers
-          addDataToContainer(layerMod, datasets, pk)
-          addDataToContainer(layerCluster, datasetClusters, pk)
+          basic.addDataToContainer(layerMod, datasets, pk)
+          basic.addDataToContainer(layerCluster, datasetClusters, pk)
 
         }, function handleError (error) {
           console.log(error)
@@ -561,7 +437,7 @@ const showFindPlaceContainerButton = document.getElementById('show_find_place_co
 const findPlaceContainer = document.getElementById('find_place_container')
 
 showFindPlaceContainerButton.addEventListener('click', function showPlaceContainer () {
-  classToggle(showFindPlaceContainerButton, 'active')
+  basic.classToggle(showFindPlaceContainerButton, 'active')
 
   findPlaceContainer.style.display === 'none' || findPlaceContainer.style.display === ''
     ? findPlaceContainer.style.display = 'block'
@@ -655,7 +531,7 @@ const testUrlContainer = document.getElementById('test_url_container')
 
 showTestUrlContainerButton.addEventListener('click', function showTestUrlContainer () {
 
-  classToggle(showTestUrlContainerButton, 'active')
+  basic.classToggle(showTestUrlContainerButton, 'active')
 
   testUrlContainer.style.display === 'none' || testUrlContainer.style.display === ''
     ? testUrlContainer.style.display = 'block'
@@ -682,7 +558,7 @@ const testUrlMarkerOptions = {
 
 getTestUrl.addEventListener('click', function getDataFromTestUrl () {
   // get ext and url
-  const ext = getExt(testUrlInput.value)
+  const ext = basic.getExt(testUrlInput.value)
   const url = testUrlInput.value
 
   // increment the color counter
@@ -714,12 +590,12 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
       // if the response is good then add abutton for it
       // Ugh, I'm using the 'this' keyword. Not cool.
       // refactor later
-      const btn = addButton(testDatasetCount, testDatasetColor, testUrls)
+      const btn = basic.addButton(testDatasetCount, testDatasetColor, testUrls)
 
       activeDatasetButtons.push(btn)
 
       btn.addEventListener('click', function () {
-        classToggle(btn, 'active')
+        basic.classToggle(btn, 'active')
         const val = btn.getAttribute('value')
         myMap.hasLayer(testDatasets[val])
           ? myMap.removeLayer(testDatasets[val])
@@ -754,11 +630,11 @@ const withinPolygonContainer = document.getElementById('within_polygon_container
 
 // Instead of making a button here makeit in the html, and display/hide it here
 // (2) make buttons that will get the data
-const getDataWithinPolygonButton = addButton('Get data within polygon', 'black', withinPolygonContainer)
+const getDataWithinPolygonButton = basic.addButton('Get data within polygon', 'black', withinPolygonContainer)
 getDataWithinPolygonButton.setAttribute('class', 'btn btn-default')
 
 function showWithinPolygonContainerFunc () {
-  classToggle(showWithinPolygonContainerButton, 'active')
+  basic.classToggle(showWithinPolygonContainerButton, 'active')
 
   if (getSelectedPlacePolygon(selectedPlace) !== 'not a polygon') {
     withinPolygonContainer.innerHTML = '' // why doesn't this clear everything in the container?
@@ -831,7 +707,7 @@ getDataWithinPolygonButton.addEventListener('click', () => {
 
   // Instead of having a save button, I should just have the html in the template
   // make save button
-  const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
+  const saveButton = basic.addButton('Save to geojson file', 'black', withinPolygonContainer)
   saveButton.id = 'file_save_button'
   saveButton.classList.remove('active')
   saveButton.addEventListener('click', () => saveFile(pointsWithinLayer, fileNameInput))
