@@ -1,5 +1,5 @@
 const L = require('leaflet')
-const omnivore = require('@mapbox/leaflet-omnivore')
+// const omnivore = require('@mapbox/leaflet-omnivore')
 const markercluster = require('leaflet.markercluster')
 
 // how do I do this with the above files? Which functions do I need?
@@ -10,6 +10,7 @@ import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-
 const filesaver = require('file-saver')
 
 const basic = require('../pieces/basic.js')
+const mapFunctions = require('../pieces/mapFunctions.js')
 
 // Things I need to fix
 // - filesaver doesn't save data from all sources, only the test urls
@@ -19,7 +20,7 @@ const basic = require('../pieces/basic.js')
 
 
 // ////////////////////////// //
-// indexMap.js and initMap.js //
+// initMap.js //
 // ////////////////////////// //
 // ////////////////////////////////////////////////////////////////////////////
 /*
@@ -32,91 +33,6 @@ const basic = require('../pieces/basic.js')
 */
 // ////////////////////////////////////////////////////////////////////////////
 
-// 1) promisified omnivore functions
-// these should probably be refactored
-function getGeoJSON (url) {
-  return new Promise(function handlePromise (resolve, reject) {
-    const dataLayer = omnivore.geojson(url)
-      .on('ready', () => resolve(dataLayer))
-      .on('error', () => reject(Error('Url problem...')))
-  })
-}
-
-function getKML (url) {
-  return new Promise(function handlePromise (resolve, reject) {
-    const dataLayer = omnivore.kml(url)
-      .on('ready', () => resolve(dataLayer))
-      .on('error', () => reject(Error('Url problem...')))
-  })
-}
-
-function getCSV (url) {
-  return new Promise(function handlePromise (resolve, reject) {
-    const dataLayer = omnivore.csv(url)
-      .on('ready', () => resolve(dataLayer))
-      .on('error', () => reject(Error('Url problem...')))
-  })
-}
-
-// 2) function to choose which omnivore function to run
-function extSelect (ext, url) {
-  return ext === 'kml'
-    ? getKML(url)
-    : ext === 'csv'
-    ? getCSV(url)
-    : getGeoJSON(url)
-}
-
-// I need to make a nice looking popup background that scrolls
-// why isn't this in the add popups function?
-// innerHTML doesn't work on this, because it's still a string in this document
-// just make it part of the set content thing
-//const popupHtml = '<dl id="popup-content"></dl>'
-
-// add popups to the data points
-// should this function be called every time a layer is added to a map?
-// or will the layer still have the popups after it's toggled off and on?
-function addPopups (feature, layer) {
-  const popupContent = []
-
-  // first check if there are properties
-  feature.properties.length !== undefined || feature.properties.length !== 0
-    // push data from the dataset to the array
-    ? Object.keys(feature.properties).forEach(key => {
-      popupContent.push(`<dt>${key}</dt> <dd>${feature.properties[key]}</dd>`)
-    })
-    : console.log('No feature properties')
-
-  // push feature cordinates to the popupContent array, if it's a point dataset
-  feature.geometry.type === 'Point'
-    ? popupContent.push(
-        `<dt>Latitude:</dt> <dd>${feature.geometry.coordinates[1]}</dd>`,
-        `<dt>Longitude:</dt> <dd>${feature.geometry.coordinates[0]}</dd>`
-      )
-    : console.log(feature.geometry.type)
-
-  // set max height and width so popup will scroll up and down, and side to side
-  const popupOptions = {
-//    maxHeight: 300,
-//    maxWidth: 300,
-//    autoPanPaddingTopLeft: [50, 50],
-//    autoPanPaddingTopRight: [50, 50]
-  }
-
-
-  const content = `<dl id="popup-content">${popupContent.join('')}</dl>`
-
-  const popup = L.popup(popupOptions).setContent(content)
-
-  layer.bindPopup(popup)
-
-  // make array to add content to
-  /*
-
-  // bind the popupContent array to the layer's layers
-  layer.bindPopup(popupHtml.innerHTML=popupContent.join('')) // this is where the popup html will be implemented
-*/
-}
 
 // THESE THREE CONTROL FUNCTIONS ARE TIGHTLY COUPLED WITH DIFFERENT THINGS
 // THEY WILL HAVE TO BE CHANGED EVENTUALLY
@@ -303,7 +219,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
         ? layer.options.color = 'black'
         : layer.options.color = color
       // add those popups
-      addPopups(feature, layer) // this comes from the index_maps.js file
+      mapFunctions.addPopups(feature, layer) // this comes from the index_maps.js file
     }
   })
 
@@ -333,7 +249,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
         ? map.removeLayer(primary[key])
         : map.addLayer(primary[key])
 
-      : extSelect(ext, url)
+      : mapFunctions.extSelect(ext, url)
         .then( function handleResponse(response) {
 
           layerMod.addData(response.toGeoJSON())
@@ -367,7 +283,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
       // if there is no datasets[pk] then go through the process of selecting
       // the right omnivore function and getting the data and stuff
       // this is where i deal with the markercluster stuff
-      : extSelect(ext, url) // the promise
+      : mapFunctions.extSelect(ext, url) // the promise
         .then( function handleResponse (response) {
           layerMod.addData(response.toGeoJSON()) // modify the layer
           layerCluster.addLayer(layerMod)
@@ -397,7 +313,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
       // if there is no datasets[pk] then go through the process of selecting
       // the right omnivore function and getting the data and stuff
       // this is where i deal with the markercluster stuff
-      : extSelect(ext, url) // the promise
+      : mapFunctions.extSelect(ext, url) // the promise
         .then( function handleResponse (response) {
           layerMod.addData(response.toGeoJSON()) // modify the layer
           layerCluster.addLayer(layerMod)
@@ -567,7 +483,7 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
 
   // get the data with the correct ext, why is this stuff different than
   // the  functions we already have? I'll refactor later
-  extSelect(ext, url)
+  mapFunctions.extSelect(ext, url)
     .then(function handleResponse (response) {
       // make this into a layer
       const layerMod = L.geoJson(null, {
@@ -583,7 +499,7 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
             ? layer.options.color = 'white'
             : layer.options.color = testDatasetColor
           // add those popups
-          addPopups(feature, layer) // this comes from the index_maps.js file
+          mapFunctions.addPopups(feature, layer) // this comes from the index_maps.js file
         }
       })
 
