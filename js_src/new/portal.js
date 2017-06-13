@@ -1,5 +1,5 @@
 const L = require('leaflet')
-const omnivore = require('@mapbox/leaflet-omnivore')
+// const omnivore = require('@mapbox/leaflet-omnivore')
 const markercluster = require('leaflet.markercluster')
 
 // how do I do this with the above files? Which functions do I need?
@@ -9,6 +9,8 @@ import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-
 
 const filesaver = require('file-saver')
 
+const basic = require('../pieces/basic.js')
+const mapFunctions = require('../pieces/mapFunctions.js')
 
 // Things I need to fix
 // - filesaver doesn't save data from all sources, only the test urls
@@ -16,134 +18,12 @@ const filesaver = require('file-saver')
 // - the load data to page or get data function is loading clusters into the wrong containers
 // - the toggle test datasets button is not toggling the datasets on and off
 
-
-// If I am only planning on having a single js file to deal with portal stuff, then why don't I
-// just make it here. I guess I could just require it...
-// I am going to start by putting it all in here
-
-
-// //////// //
-// index.js //
-// //////// //
-// ////////////////////////////////////////////////////////////////////////////
-/*
-// CUSTOM FUNCTIONS
-*/
-// A few of these functions are pretty much implemented by jQuery,
-// I have an almost jQuery replacement that is already being used
-// with bootstrap. It only implements the functions needed by bootstrap.
-// maybe, instead of writing my own stuff, I should search through there
-// and see if there are any functions available for me to use here.
-// ////////////////////////////////////////////////////////////////////////////
-
-// function to add data to a container
-// is this function completely unnecessary?
-function addDataToContainer(data, obj, key) {
-  return obj[key] = data;
-}
-
-// this should probably be in the index of helper functions
-// makeReq function
-function dataToDiv(data, div) {
-    return div.innerHTML = data;
-}
-
-// toggle active / inactive links in list
-// almost exactly copied from 'youmightnotneedjquery.com'
-function classToggle (el, className) {
-  /*
-    Toggle class on element. Click element once to turn it on,
-    and again to turn it off, or vis versa.
-  */
-  if (el.classList) {
-    el.classList.toggle(className)
-  } else {
-    const classes = el.className.split(' ')
-    const existingIndex = classes.indexOf(className)
-    if (existingIndex >= 0) {
-      classes.splice(existingIndex, 1)
-    } else {
-      classes.push(className)
-    }
-    el.className = classes.join(' ')
-  }
-}
-
-function classToggleOnDiffLink(el, elList, className) {
-  /*
-    Toggle class on element, but with multiple elements.
-    Click element 1 once to turn class on, and click element 2
-    to turn class off for element 1, and to turn class on
-    for element 2.
-
-    Just turn class off for everything in element list,
-    and then add class to element that was clicked.
-  */
-
-  // first remove className from all elements
-  elList.forEach(e => {
-    if (e.classList) {
-      e.classList.remove(className)
-    }
-  })
-
-  // then add className to element that was clicked
-  const classes = el.className.split(' ')
-  classes.push(className)
-  el.className = classes.join(' ')
-}
-
-// make function that gets the ext of the url
-// it can handle csv, kml, json, and geojson
-function getExt(string) {
-  const ext = {}
-  const stringLower = string.toLowerCase()
-  stringLower.endsWith('kml')
-    ? ext[0] = 'kml'
-    : stringLower.endsWith('csv')
-      ? ext[0] = 'csv'
-      : stringLower.endsWith('json')
-        ? ext[0] = 'geojson'
-        : console.log(stringLower)
-  return ext[0]
-}
-
-// make function for adding buttons
-function addButton(text, color, container) {
-  const btn = document.createElement('button')
-  const value = document.createTextNode(text)
-  btn.setAttribute('class', 'btn btn-default active') // this should be changed to not active, and the active thing should be added on the specific function
-  btn.setAttribute('value', text)
-  btn.setAttribute('id', `newbutton${btn.value}`)
-
-  // make the color of the number correspond
-  // to the color of the dataset on the map
-  btn.style.color = color
-  btn.style.fontWeight = 'bold'
-
-  // add text to button and button to div
-  btn.appendChild(value)
-  container.appendChild(btn)
-
-  return btn
-}
-
-// make the above function with fetch
-function makeReq(url, func, div) {
-  return fetch(url)
-  .then(response => {
-    if (!response.ok) {
-      console.log('Looks like there has been a problem. Status code:', response.status)
-    }
-    return response.text()
-  })
-  .then(data => func(data, div))
-  .catch(error => console.log('There has been a problem with the fetch operation: ', error))
-}
+// Maybe I should just do all the function calling here, and all the function
+// defining in the other files
 
 
 // ////////////////////////// //
-// indexMap.js and initMap.js //
+// initMap.js //
 // ////////////////////////// //
 // ////////////////////////////////////////////////////////////////////////////
 /*
@@ -156,154 +36,6 @@ function makeReq(url, func, div) {
 */
 // ////////////////////////////////////////////////////////////////////////////
 
-// 1) promisified omnivore functions
-// these should probably be refactored
-function getGeoJSON (url) {
-  return new Promise(function handlePromise (resolve, reject) {
-    const dataLayer = omnivore.geojson(url)
-      .on('ready', () => resolve(dataLayer))
-      .on('error', () => reject(Error('Url problem...')))
-  })
-}
-
-function getKML (url) {
-  return new Promise(function handlePromise (resolve, reject) {
-    const dataLayer = omnivore.kml(url)
-      .on('ready', () => resolve(dataLayer))
-      .on('error', () => reject(Error('Url problem...')))
-  })
-}
-
-function getCSV (url) {
-  return new Promise(function handlePromise (resolve, reject) {
-    const dataLayer = omnivore.csv(url)
-      .on('ready', () => resolve(dataLayer))
-      .on('error', () => reject(Error('Url problem...')))
-  })
-}
-
-// 2) function to choose which omnivore function to run
-function extSelect (ext, url) {
-  return ext === 'kml'
-    ? getKML(url)
-    : ext === 'csv'
-    ? getCSV(url)
-    : getGeoJSON(url)
-}
-
-// I need to make a nice looking popup background that scrolls
-// why isn't this in the add popups function?
-// innerHTML doesn't work on this, because it's still a string in this document
-// just make it part of the set content thing
-//const popupHtml = '<dl id="popup-content"></dl>'
-
-// add popups to the data points
-// should this function be called every time a layer is added to a map?
-// or will the layer still have the popups after it's toggled off and on?
-function addPopups (feature, layer) {
-  const popupContent = []
-
-  // first check if there are properties
-  feature.properties.length !== undefined || feature.properties.length !== 0
-    // push data from the dataset to the array
-    ? Object.keys(feature.properties).forEach(key => {
-      popupContent.push(`<dt>${key}</dt> <dd>${feature.properties[key]}</dd>`)
-    })
-    : console.log('No feature properties')
-
-  // push feature cordinates to the popupContent array, if it's a point dataset
-  feature.geometry.type === 'Point'
-    ? popupContent.push(
-        `<dt>Latitude:</dt> <dd>${feature.geometry.coordinates[1]}</dd>`,
-        `<dt>Longitude:</dt> <dd>${feature.geometry.coordinates[0]}</dd>`
-      )
-    : console.log(feature.geometry.type)
-
-  // set max height and width so popup will scroll up and down, and side to side
-  const popupOptions = {
-//    maxHeight: 300,
-//    maxWidth: 300,
-//    autoPanPaddingTopLeft: [50, 50],
-//    autoPanPaddingTopRight: [50, 50]
-  }
-
-
-  const content = `<dl id="popup-content">${popupContent.join('')}</dl>`
-
-  const popup = L.popup(popupOptions).setContent(content)
-
-  layer.bindPopup(popup)
-
-  // make array to add content to
-  /*
-
-  // bind the popupContent array to the layer's layers
-  layer.bindPopup(popupHtml.innerHTML=popupContent.join('')) // this is where the popup html will be implemented
-*/
-}
-
-// THESE THREE CONTROL FUNCTIONS ARE TIGHTLY COUPLED WITH DIFFERENT THINGS
-// THEY WILL HAVE TO BE CHANGED EVENTUALLY
-// ZMT watermark by extending Leaflet Control
-L.Control.Watermark = L.Control.extend({
-  onAdd: (map) => {
-    const img = L.DomUtil.create('img')
-    // this will have to be changed relative to the site for production
-    img.src = '/static/images/zmt_logo_blue_black_100px.png'
-    // img.src = imgSrc
-    img.style.width = '100px'
-    return img
-  },
-  onRemove: (map) => {
-    // Nothing to do here
-  }
-})
-
-// Home button by extending Leaflet Control
-L.Control.HomeButton = L.Control.extend({
-  onAdd: (map) => {
-    const container = L.DomUtil.create('div',
-      'leaflet-bar leaflet-control leaflet-control-custom')
-    //  container.innerHTML = '<i class="fa fa-home fa-2x" aria-hidden="true"></i>'
-    container.style.backgroundImage = 'url("/static/images/home_icon.png")'
-    container.style.backgroundRepeat = 'no-repeat'
-    container.style.backgroundColor = 'white'
-    container.style.width = '34px'
-    container.style.height = '34px'
-    container.addEventListener('click', () => map.setView({lat: 0, lng: 0}, 2))
-    return container
-  },
-  onRemove: (map) => {
-    // Nothing to do here
-  }
-})
-
-// scroll wheel toggle button
-L.Control.ToggleScrollButton = L.Control.extend({
-  onAdd: (map) => {
-    const container = L.DomUtil.create('div',
-      'leaflet-bar leaflet-control leaflet-control-custom')
-    // container.style.backgroundImage = 'url("http://localhost:8000/static/images/mouse.png")'
-    container.style.backgroundImage = 'url("/static/images/mouse.png")'
-    container.style.backgroundRepeat = 'no-repeat'
-    container.style.backgroundColor = 'white'
-    container.style.width = '34px'
-    container.style.height = '34px'
-    container.addEventListener('click', () => {
-      map.scrollWheelZoom.enabled()
-        ? map.scrollWheelZoom.disable()
-        : map.scrollWheelZoom.enable()
-    })
-    return container
-  },
-  onRemove: (map) => {
-    // Nothing to do here
-  }
-})
-
-// These functions are being called and not defined...
-// but they are run in all the map pages
-// Start with a bunch of stuff from other libraries, then add code from my own libraries
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">
   OpenStreetMap</a>`,
@@ -330,12 +62,15 @@ rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`, {
   and the GIS User Community`
 })
 
+
+
 const myMap = L.map('mapid', {
   center: {lat: 0, lng: 8.8460},
   zoom: 2,
   layers: osm,
   scrollWheelZoom: false
 })
+
 
 const baseLayers = {
   'Open Street Maps': osm,
@@ -344,6 +79,8 @@ const baseLayers = {
 }
 
 const baseLayerControl = L.control.layers(baseLayers)
+
+
 baseLayerControl.addTo(myMap)
 
 // watermark leaflet control
@@ -371,9 +108,23 @@ esriWorldImagery.on('tileload', function (tileEvent) {
   tileEvent.tile.setAttribute('alt', 'ESRI World Imagery Tile')
 })
 
+/*
+Example of image overlay, going to use this type of stuff to add lines at tropics and
+sub tropics
+
+var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg'
+var imageBounds = [[40.712216, -74.22655], [40.773941, -74.12544]];
+
+L.imageOverlay(imageUrl, imageBounds).addTo(myMap);
+*/
+
+
+
 // ////////////// //
 // datasetList.js //
 // ////////////// //
+// A lot of this stuff doesn't need to be in the datasetList file. It could be put
+// into something else
 // I have an idea, I will just make the dataset specific page work like a 
 // dataset list page
 // colors
@@ -427,7 +178,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
         ? layer.options.color = 'black'
         : layer.options.color = color
       // add those popups
-      addPopups(feature, layer) // this comes from the index_maps.js file
+      mapFunctions.addPopups(feature, layer) // this comes from the index_maps.js file
     }
   })
 
@@ -457,7 +208,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
         ? map.removeLayer(primary[key])
         : map.addLayer(primary[key])
 
-      : extSelect(ext, url)
+      : mapFunctions.extSelect(ext, url)
         .then( function handleResponse(response) {
 
           layerMod.addData(response.toGeoJSON())
@@ -476,7 +227,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
   // how do I control markercluster with this
   // use layer state
   function linkEvent (link) {
-    classToggle(link, 'active')
+    basic.classToggle(link, 'active')
 
     // start simple, then make it into nice functions. It'll be ugly and hacky, then refactored to something good
     if (layerClusterState === 0) {
@@ -491,7 +242,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
       // if there is no datasets[pk] then go through the process of selecting
       // the right omnivore function and getting the data and stuff
       // this is where i deal with the markercluster stuff
-      : extSelect(ext, url) // the promise
+      : mapFunctions.extSelect(ext, url) // the promise
         .then( function handleResponse (response) {
           layerMod.addData(response.toGeoJSON()) // modify the layer
           layerCluster.addLayer(layerMod)
@@ -500,8 +251,8 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
           // add cluster to cluster container and layer to layer container
           // use this for toggling between clusters and layers
-          addDataToContainer(layerMod, datasets, pk)
-          addDataToContainer(layerCluster, datasetClusters, pk)
+          basic.addDataToContainer(layerMod, datasets, pk)
+          basic.addDataToContainer(layerCluster, datasetClusters, pk)
 
         }, function handleError (error) {
           console.log(error)
@@ -521,7 +272,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
       // if there is no datasets[pk] then go through the process of selecting
       // the right omnivore function and getting the data and stuff
       // this is where i deal with the markercluster stuff
-      : extSelect(ext, url) // the promise
+      : mapFunctions.extSelect(ext, url) // the promise
         .then( function handleResponse (response) {
           layerMod.addData(response.toGeoJSON()) // modify the layer
           layerCluster.addLayer(layerMod)
@@ -530,8 +281,8 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
           // add cluster to cluster container and layer to layer container
           // use this for toggling between clusters and layers
-          addDataToContainer(layerMod, datasets, pk)
-          addDataToContainer(layerCluster, datasetClusters, pk)
+          basic.addDataToContainer(layerMod, datasets, pk)
+          basic.addDataToContainer(layerCluster, datasetClusters, pk)
 
         }, function handleError (error) {
           console.log(error)
@@ -561,7 +312,7 @@ const showFindPlaceContainerButton = document.getElementById('show_find_place_co
 const findPlaceContainer = document.getElementById('find_place_container')
 
 showFindPlaceContainerButton.addEventListener('click', function showPlaceContainer () {
-  classToggle(showFindPlaceContainerButton, 'active')
+  basic.classToggle(showFindPlaceContainerButton, 'active')
 
   findPlaceContainer.style.display === 'none' || findPlaceContainer.style.display === ''
     ? findPlaceContainer.style.display = 'block'
@@ -655,7 +406,7 @@ const testUrlContainer = document.getElementById('test_url_container')
 
 showTestUrlContainerButton.addEventListener('click', function showTestUrlContainer () {
 
-  classToggle(showTestUrlContainerButton, 'active')
+  basic.classToggle(showTestUrlContainerButton, 'active')
 
   testUrlContainer.style.display === 'none' || testUrlContainer.style.display === ''
     ? testUrlContainer.style.display = 'block'
@@ -682,7 +433,7 @@ const testUrlMarkerOptions = {
 
 getTestUrl.addEventListener('click', function getDataFromTestUrl () {
   // get ext and url
-  const ext = getExt(testUrlInput.value)
+  const ext = basic.getExt(testUrlInput.value)
   const url = testUrlInput.value
 
   // increment the color counter
@@ -691,7 +442,7 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
 
   // get the data with the correct ext, why is this stuff different than
   // the  functions we already have? I'll refactor later
-  extSelect(ext, url)
+  mapFunctions.extSelect(ext, url)
     .then(function handleResponse (response) {
       // make this into a layer
       const layerMod = L.geoJson(null, {
@@ -707,19 +458,19 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
             ? layer.options.color = 'white'
             : layer.options.color = testDatasetColor
           // add those popups
-          addPopups(feature, layer) // this comes from the index_maps.js file
+          mapFunctions.addPopups(feature, layer) // this comes from the index_maps.js file
         }
       })
 
       // if the response is good then add abutton for it
       // Ugh, I'm using the 'this' keyword. Not cool.
       // refactor later
-      const btn = addButton(testDatasetCount, testDatasetColor, testUrls)
+      const btn = basic.addButton(testDatasetCount, testDatasetColor, testUrls)
 
       activeDatasetButtons.push(btn)
 
       btn.addEventListener('click', function () {
-        classToggle(btn, 'active')
+        basic.classToggle(btn, 'active')
         const val = btn.getAttribute('value')
         myMap.hasLayer(testDatasets[val])
           ? myMap.removeLayer(testDatasets[val])
@@ -754,11 +505,11 @@ const withinPolygonContainer = document.getElementById('within_polygon_container
 
 // Instead of making a button here makeit in the html, and display/hide it here
 // (2) make buttons that will get the data
-const getDataWithinPolygonButton = addButton('Get data within polygon', 'black', withinPolygonContainer)
+const getDataWithinPolygonButton = basic.addButton('Get data within polygon', 'black', withinPolygonContainer)
 getDataWithinPolygonButton.setAttribute('class', 'btn btn-default')
 
 function showWithinPolygonContainerFunc () {
-  classToggle(showWithinPolygonContainerButton, 'active')
+  basic.classToggle(showWithinPolygonContainerButton, 'active')
 
   if (getSelectedPlacePolygon(selectedPlace) !== 'not a polygon') {
     withinPolygonContainer.innerHTML = '' // why doesn't this clear everything in the container?
@@ -831,7 +582,7 @@ getDataWithinPolygonButton.addEventListener('click', () => {
 
   // Instead of having a save button, I should just have the html in the template
   // make save button
-  const saveButton = addButton('Save to geojson file', 'black', withinPolygonContainer)
+  const saveButton = basic.addButton('Save to geojson file', 'black', withinPolygonContainer)
   saveButton.id = 'file_save_button'
   saveButton.classList.remove('active')
   saveButton.addEventListener('click', () => saveFile(pointsWithinLayer, fileNameInput))
