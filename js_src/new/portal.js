@@ -18,6 +18,9 @@ const mapFunctions = require('../pieces/mapFunctions.js')
 // - the load data to page or get data function is loading clusters into the wrong containers
 // - the toggle test datasets button is not toggling the datasets on and off
 
+// Maybe I should just do all the function calling here, and all the function
+// defining in the other files
+
 
 // ////////////////////////// //
 // initMap.js //
@@ -33,69 +36,6 @@ const mapFunctions = require('../pieces/mapFunctions.js')
 */
 // ////////////////////////////////////////////////////////////////////////////
 
-
-// THESE THREE CONTROL FUNCTIONS ARE TIGHTLY COUPLED WITH DIFFERENT THINGS
-// THEY WILL HAVE TO BE CHANGED EVENTUALLY
-// ZMT watermark by extending Leaflet Control
-L.Control.Watermark = L.Control.extend({
-  onAdd: (map) => {
-    const img = L.DomUtil.create('img')
-    // this will have to be changed relative to the site for production
-    img.src = '/static/images/zmt_logo_blue_black_100px.png'
-    // img.src = imgSrc
-    img.style.width = '100px'
-    return img
-  },
-  onRemove: (map) => {
-    // Nothing to do here
-  }
-})
-
-// Home button by extending Leaflet Control
-L.Control.HomeButton = L.Control.extend({
-  onAdd: (map) => {
-    const container = L.DomUtil.create('div',
-      'leaflet-bar leaflet-control leaflet-control-custom')
-    //  container.innerHTML = '<i class="fa fa-home fa-2x" aria-hidden="true"></i>'
-    container.style.backgroundImage = 'url("/static/images/home_icon.png")'
-    container.style.backgroundRepeat = 'no-repeat'
-    container.style.backgroundColor = 'white'
-    container.style.width = '34px'
-    container.style.height = '34px'
-    container.addEventListener('click', () => map.setView({lat: 0, lng: 0}, 2))
-    return container
-  },
-  onRemove: (map) => {
-    // Nothing to do here
-  }
-})
-
-// scroll wheel toggle button
-L.Control.ToggleScrollButton = L.Control.extend({
-  onAdd: (map) => {
-    const container = L.DomUtil.create('div',
-      'leaflet-bar leaflet-control leaflet-control-custom')
-    // container.style.backgroundImage = 'url("http://localhost:8000/static/images/mouse.png")'
-    container.style.backgroundImage = 'url("/static/images/mouse.png")'
-    container.style.backgroundRepeat = 'no-repeat'
-    container.style.backgroundColor = 'white'
-    container.style.width = '34px'
-    container.style.height = '34px'
-    container.addEventListener('click', () => {
-      map.scrollWheelZoom.enabled()
-        ? map.scrollWheelZoom.disable()
-        : map.scrollWheelZoom.enable()
-    })
-    return container
-  },
-  onRemove: (map) => {
-    // Nothing to do here
-  }
-})
-
-// These functions are being called and not defined...
-// but they are run in all the map pages
-// Start with a bunch of stuff from other libraries, then add code from my own libraries
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">
   OpenStreetMap</a>`,
@@ -122,12 +62,15 @@ rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`, {
   and the GIS User Community`
 })
 
+
+
 const myMap = L.map('mapid', {
   center: {lat: 0, lng: 8.8460},
   zoom: 2,
   layers: osm,
   scrollWheelZoom: false
 })
+
 
 const baseLayers = {
   'Open Street Maps': osm,
@@ -136,6 +79,8 @@ const baseLayers = {
 }
 
 const baseLayerControl = L.control.layers(baseLayers)
+
+
 baseLayerControl.addTo(myMap)
 
 // watermark leaflet control
@@ -163,9 +108,23 @@ esriWorldImagery.on('tileload', function (tileEvent) {
   tileEvent.tile.setAttribute('alt', 'ESRI World Imagery Tile')
 })
 
+/*
+Example of image overlay, going to use this type of stuff to add lines at tropics and
+sub tropics
+
+var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg'
+var imageBounds = [[40.712216, -74.22655], [40.773941, -74.12544]];
+
+L.imageOverlay(imageUrl, imageBounds).addTo(myMap);
+*/
+
+
+
 // ////////////// //
 // datasetList.js //
 // ////////////// //
+// A lot of this stuff doesn't need to be in the datasetList file. It could be put
+// into something else
 // I have an idea, I will just make the dataset specific page work like a 
 // dataset list page
 // colors

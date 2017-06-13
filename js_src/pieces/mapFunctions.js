@@ -94,4 +94,63 @@ exports.addPopups = function (feature, layer) {
 }
 
 
+// THESE THREE CONTROL FUNCTIONS ARE TIGHTLY COUPLED WITH DIFFERENT THINGS
+// THEY WILL HAVE TO BE CHANGED EVENTUALLY
+// ZMT watermark by extending Leaflet Control
+L.Control.Watermark = L.Control.extend({
+  onAdd: (map) => {
+    const img = L.DomUtil.create('img')
+    // this will have to be changed relative to the site for production
+    img.src = '/static/images/zmt_logo_blue_black_100px.png'
+    // img.src = imgSrc
+    img.style.width = '100px'
+    return img
+  },
+  onRemove: (map) => {
+    // Nothing to do here
+  }
+})
+
+// Home button by extending Leaflet Control
+L.Control.HomeButton = L.Control.extend({
+  onAdd: (map) => {
+    const container = L.DomUtil.create('div',
+      'leaflet-bar leaflet-control leaflet-control-custom')
+    //  container.innerHTML = '<i class="fa fa-home fa-2x" aria-hidden="true"></i>'
+    container.style.backgroundImage = 'url("/static/images/home_icon.png")'
+    container.style.backgroundRepeat = 'no-repeat'
+    container.style.backgroundColor = 'white'
+    container.style.width = '34px'
+    container.style.height = '34px'
+    container.addEventListener('click', () => map.setView({lat: 0, lng: 0}, 2))
+    return container
+  },
+  onRemove: (map) => {
+    // Nothing to do here
+  }
+})
+
+// scroll wheel toggle button
+L.Control.ToggleScrollButton = L.Control.extend({
+  onAdd: (map) => {
+    const container = L.DomUtil.create('div',
+      'leaflet-bar leaflet-control leaflet-control-custom')
+    // container.style.backgroundImage = 'url("http://localhost:8000/static/images/mouse.png")'
+    container.style.backgroundImage = 'url("/static/images/mouse.png")'
+    container.style.backgroundRepeat = 'no-repeat'
+    container.style.backgroundColor = 'white'
+    container.style.width = '34px'
+    container.style.height = '34px'
+    container.addEventListener('click', () => {
+      map.scrollWheelZoom.enabled()
+        ? map.scrollWheelZoom.disable()
+        : map.scrollWheelZoom.enable()
+    })
+    return container
+  },
+  onRemove: (map) => {
+    // Nothing to do here
+  }
+})
+
 
