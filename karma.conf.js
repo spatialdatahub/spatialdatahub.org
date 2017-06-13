@@ -15,9 +15,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'static/js/new/*.js',
-      'static/js/test/*.spec.js',
-      'static/js/fixtures/*.fixture.html'
+      'js_src/new/*.js',
+      'js_src/test/*.spec.js',
+      'js_src/fixtures/*.fixture.html'
       /*
       // fixtures
       {pattern: './static/js/fixtures/*.fixture.html', included: true},
@@ -40,9 +40,9 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      './static/js/new/*.js': [ 'browserify' ],
-      './static/js/test/*.spec.js': [ 'browserify' ],
-      './static/js/fixtures/*.fixture.html': [ 'html2js' ]
+      './js_src/new/*.js': [ 'browserify' ],
+      './js_src/test/*.spec.js': [ 'browserify' ],
+      './js_src/fixtures/*.fixture.html': [ 'html2js' ]
     },
 
     browserify: {
