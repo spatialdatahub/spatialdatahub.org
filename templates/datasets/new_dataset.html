@@ -2,6 +2,13 @@
 
 {% block title %}New Dataset{% endblock title %}
 
+{% block css %}
+  <style>
+    #format_directions {
+    }
+  </style>
+{% endblock css %}
+
 {% block breadcrumbs %}
   / <a href="{{ account.get_absolute_url }}">{{ account.user }}</a>
   / <a href="{% url 'datasets:new_dataset' account.account_slug %}">new dataset</a>
@@ -9,6 +16,15 @@
 
 {% block content %}
 
+  <div id="format_directions">
+    <p>
+      If you are adding a <b>csv dataset</b> please make sure that the <b>longitude and latitude columns are named "longitude" and "latitude" and spelled with lowercase letters</b>. Additionally the coordinates need to be written as <b>decimal degrees; e.g. 53.108, 8.845</b>. The degrees, minutes, seconds coordinate style, or any variations thereof, will not work with this website.
+    </p>
+    <p>
+      If you are adding a dataset that is saved on Owncloud you will not need to enter anything in the <b>"Url" field</b>, and vis versa. Also, Owncloud path is case sensitive. 
+    </p>
+  </div>
+  <hr/>
   <p>
     <form action="." method="post">
       {% csrf_token %}
