@@ -7,10 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start karma.conf.js",
-    "build": "babel js_src -d static/js",
-    "dev": "babel js_src --watch -d static/js",
-    "dev-portal": "watchify js_src/new/portal.js -o static/js/new/portal.js -v -d -t [ babelify ]"
+    "build": "browserify js_src/new/portal.js -t babelify -o static/js/new/portal.js",
+    "dev": "watchify js_src/new/portal.js -t babelify -o static/js/new/portal.js",
+    "test": "./node_modules/karma/bin/karma start karma.conf.js"
   },
   "repository": {
     "type": "git",
@@ -20,9 +19,9 @@
     "leaflet"
   ],
   "author": "Patrick Curry",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
-    "babel-cli": "^6.24.1",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.5.1",
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
@@ -42,10 +41,9 @@
     "karma-mocha": "^1.3.0",
     "karma-opera-launcher": "^1.0.0",
     "karma-phantomjs-launcher": "^1.0.4",
-    "karma-requirejs": "^1.1.0",
     "karma-safari-launcher": "^1.0.0",
     "mocha": "^3.4.2",
-    "watch": "^1.0.2",
+    "timers-browserify": "^2.0.2",
     "watchify": "^3.9.0"
   },
   "dependencies": {
@@ -56,6 +54,11 @@
     "leaflet": "^1.0.3",
     "leaflet.markercluster": "^1.0.5",
     "requirejs": "^2.3.2"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
   },
   "false": {}
 }
