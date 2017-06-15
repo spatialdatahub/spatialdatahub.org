@@ -10,24 +10,24 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['browserify', 'mocha', 'chai', 'fixture'],
+    frameworks: ['browserify', 'mocha', 'chai'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      'js_src/new/*.js',
-      'js_src/test/*.spec.js',
-      'js_src/fixtures/*.fixture.html'
-      /*
-      // fixtures
-      {pattern: './static/js/fixtures/*.fixture.html', included: true},
+      // create DOM
+      'js_src/test/create-dom.js',
 
-      // files to test
-      {pattern: './static/js/new/*.js', included: true},
+      // dependencies
+      {pattern: 'node_modules/leaflet/dist/leaflet.css'},
+      {pattern: 'node_modules/leaflet/dist/leaflet.js'},
 
-      // the tests, the spec files 
-      {pattern: './static/js/test/*.spec.js', included: true}
-      */
+      // my scripts
+      'js_src/new/scratch.js',
+
+      // test files
+      'js_src/test/test.spec.js'
+
     ],
 
 
@@ -40,9 +40,9 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      './js_src/new/*.js': [ 'browserify' ],
-      './js_src/test/*.spec.js': [ 'browserify' ],
-      './js_src/fixtures/*.fixture.html': [ 'html2js' ]
+      'js_src/new/scratch.js': [ 'browserify' ],
+      '/create-dom.js': [ 'browserify' ],
+      'js_src/test/test.spec.js': [ 'browserify' ]
     },
 
     browserify: {
