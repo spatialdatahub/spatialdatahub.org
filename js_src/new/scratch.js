@@ -1,3 +1,5 @@
+const L = require('leaflet')
+
 const myMap = new L.Map('mapid', {
   center: {lat: 38, lng: 0},
   zoom: 2

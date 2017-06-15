@@ -20,7 +20,7 @@ module.exports = function(config) {
 
       // dependencies
       {pattern: 'node_modules/leaflet/dist/leaflet.css'},
-      {pattern: 'node_modules/leaflet/dist/leaflet.js'},
+//      {pattern: 'node_modules/leaflet/dist/leaflet.js'}, // This is being 'required' in the script
 
       // my scripts
       'js_src/new/scratch.js',
