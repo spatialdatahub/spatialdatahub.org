@@ -24,10 +24,11 @@ module.exports = function(config) {
 
       // my scripts
       'js_src/new/scratch.js',
+      'js_src/pieces/basic.js',
 
       // test files
-      'js_src/test/test.spec.js'
-
+      'js_src/test/test.spec.js',
+      'js_src/test/basic.spec.js'
     ],
 
 
@@ -41,8 +42,10 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       'js_src/new/scratch.js': [ 'browserify' ],
-      '/create-dom.js': [ 'browserify' ],
-      'js_src/test/test.spec.js': [ 'browserify' ]
+      'js_src/pieces/basic.js': [ 'browserify' ],
+      'create-dom.js': [ 'browserify' ],
+      'js_src/test/test.spec.js': [ 'browserify' ],
+      'js_src/test/basic.spec.js': [ 'browserify' ]
     },
 
     browserify: {
@@ -53,7 +56,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['dots'],
 
 
     // web server port
