@@ -1,11 +1,5 @@
 const basic = require('../pieces/basic.js')
 
-describe('Smoke', function () {
-  it('assert that 2+2 is 4', function () {
-    assert.equal(2+2, 4)
-  })
-})
-
 describe('classToggle', function () {
 
   beforeEach( function () {
@@ -24,7 +18,6 @@ describe('classToggle', function () {
 
   it('the element should have the class "nachos" already', function () {
     const element = document.getElementById('element')
-    console.log(element)
     assert.equal(element.getAttribute('class'), 'nachos')
   })
 
@@ -43,3 +36,53 @@ describe('classToggle', function () {
 })
 
 
+describe('classToggleOnDifferentLink', function () {
+
+  beforeEach( function () {
+    const fixture = document.getElementById('fixture')
+
+    const element1 = document.createElement('div')
+    const element2 = document.createElement('div')
+
+    element1.setAttribute('class', 'nachos')
+
+    element1.setAttribute('id', 'element1')
+    element2.setAttribute('id', 'element2')
+
+    fixture.appendChild(element1)
+    fixture.appendChild(element2)
+  })
+
+  afterEach( function () {
+    const fixture = document.getElementById('fixture')
+    const element1 = document.getElementById('element1')
+    const element2 = document.getElementById('element2')
+    fixture.removeChild(element1)
+    fixture.removeChild(element2)
+  })
+
+  it('classToggleOnDifferentLink should remove the class "nachos" from element1', function () {
+    const element1 = document.getElementById('element1')
+    const element2 = document.getElementById('element2')
+    const elements = [element1, element2]
+
+    // call the function on the element without the class, element 2
+    basic.classToggleOnDiffLink(element2, elements, 'nachos')
+
+    assert.equal(element1.getAttribute('class'), '')
+  })
+
+  it('classToggleOnDifferentLink should add the class "nachos" to element2', function () {
+    const element1 = document.getElementById('element1')
+    const element2 = document.getElementById('element2')
+    const elements = [element1, element2]
+
+    // call the function on the element without the class
+    basic.classToggleOnDiffLink(element2, elements, 'nachos')
+
+    // I should fix this so it doesn't have a space first, but I has to be there if there are
+    // more classes on the element... so if it's the only class the space should be removed
+    // otherwise it should keep the space...
+    assert.equal(element2.getAttribute('class'), ' nachos')
+  })
+})

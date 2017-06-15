@@ -29,7 +29,7 @@ exports.classToggle = function (el, className) {
   }
 }
 
-/*
+
 // This one isn't being used right now, but it is useful if there are different choices
 // that turn eachother on and off
 
@@ -54,7 +54,7 @@ exports.classToggleOnDiffLink = function (el, elList, className) {
   classes.push(className)
   el.className = classes.join(' ')
 }
-*/
+
 
 // make function that gets the ext of the url
 // it can handle csv, kml, json, and geojson
