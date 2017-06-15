@@ -67,7 +67,7 @@ exports.getExt = function (string) {
       ? ext[0] = 'csv'
       : stringLower.endsWith('json')
         ? ext[0] = 'geojson'
-        : console.log(stringLower)
+        : ext[0] = 'geojson'
   return ext[0]
 }
 
