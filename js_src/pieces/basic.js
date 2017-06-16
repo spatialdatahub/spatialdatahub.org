@@ -2,9 +2,6 @@
 // basic.js //
 // //////// //
 
-// function to add data to a container
-// is this function completely unnecessary?
-
 // toggle active / inactive links in list
 // almost exactly copied from 'youmightnotneedjquery.com'
 exports.classToggle = function (el, className) {

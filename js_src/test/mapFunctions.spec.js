@@ -1,8 +1,6 @@
 //const L = require('leaflet')
 //const omnivore = require('@mapbox/leaflet-omnivore')
 const addSmoke = require('../pieces/mapFunctions.js').addSmoke
-//const once = require('../pieces/mapFunctions.js').once
-const getCSV = require('../pieces/mapFunctions.js').getCSV
 const extSelect = require('../pieces/mapFunctions.js').extSelect
 
 describe('mapFunctions', function () {
@@ -14,18 +12,21 @@ describe('mapFunctions', function () {
   })
 
 
+// this is impossible! maybe I need to rewrite my functions so they fit with the
+// tests, but that seems like bad practice
+  describe('extSelect', function () {
 
-//  describe('extSelect', function () {
-
-//    it('should return the getCSV function if it is given the csv ext argument', function () {
-//      console.log(extSelect)
+    it('should return the getCSV function if it is given the csv ext argument', function () {
       
-//      var getCSV = sinon.spy()
-//      extSelect('csv', 'whatever')
-//      sinon.assert.called(getCSV)
-//    })
+      //var spyGetCSV = sinon.spy(extSelect, 'getCSV')
+      var stubGetCSV = sinon.stub('getCSV')
+      extSelect('csv', 'whatever')
+
+      //spyGetCSV.restore()
+      sinon.assert.called(stubGetCSV)
+    })
     
-//  })
+  })
 
 
 })

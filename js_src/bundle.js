@@ -5,7 +5,6 @@ import within from '@turf/within'
 import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
 
 //const within = require('@turf/within').within
-
 /*
 const getPlaceData = require('easy-nominatim').getPlaceData
 const nominatim = require('easy-nominatim').nominatim
