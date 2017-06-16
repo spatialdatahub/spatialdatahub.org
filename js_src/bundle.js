@@ -1,14 +1,20 @@
 const L = require('leaflet')
-// const omnivore = require('@mapbox/leaflet-omnivore')
+const omnivore = require('@mapbox/leaflet-omnivore')
+
+// import within from '@turf/within'
+// import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
+// after receiving an error that I think is related to browser support of the 'import' function
+// I will use a require declararion
+
+const within = require('@turf/within').within
+
+const getPlaceData = require('nominatim').getPlaceData
+const nominatim = require('nominatim').nominatim
+const normalizeGeoJSON = require('nominatim').normalizeGeoJSON
+const possiblePlaces = require('nominatim').possiblePlaces
+
 const markercluster = require('leaflet.markercluster')
-
-// how do I do this with the above files? Which functions do I need?
-import within from '@turf/within'
-
-import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
-
 const filesaver = require('file-saver')
-
 const basic = require('./pieces/basic.js')
 const mapFunctions = require('./pieces/mapFunctions.js')
 
@@ -494,6 +500,7 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
 
 // /////////////////////////////////////////////////////////////////////////
 // within polygon
+// this stuff should be 'required' into the page
 // /////////////////////////////////////////////////////////////////////////
 
 const fileContainer = []

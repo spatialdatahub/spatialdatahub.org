@@ -1,3 +1,10 @@
+exports.addSmoke = function (a, b) {
+  return a + b
+}
+
+
+
+
 const L = require('leaflet')
 const omnivore = require('@mapbox/leaflet-omnivore')
 
@@ -9,7 +16,7 @@ const omnivore = require('@mapbox/leaflet-omnivore')
 // these should probably be refactored
 // they don't need to be exposed to the rest of the code base
 // they are only used here
-function getGeoJSON (url) {
+exports.getGeoJSON = function (url) {
   return new Promise(function handlePromise (resolve, reject) {
     const dataLayer = omnivore.geojson(url)
       .on('ready', () => resolve(dataLayer))
@@ -17,7 +24,7 @@ function getGeoJSON (url) {
   })
 }
 
-function getKML (url) {
+exports.getKML = function (url) {
   return new Promise(function handlePromise (resolve, reject) {
     const dataLayer = omnivore.kml(url)
       .on('ready', () => resolve(dataLayer))
@@ -25,7 +32,7 @@ function getKML (url) {
   })
 }
 
-function getCSV (url) {
+exports.getCSV = function (url) {
   return new Promise(function handlePromise (resolve, reject) {
     const dataLayer = omnivore.csv(url)
       .on('ready', () => resolve(dataLayer))
@@ -86,11 +93,11 @@ exports.addPopups = function (feature, layer) {
   layer.bindPopup(popup)
 
   // make array to add content to
-  /*
+  
 
   // bind the popupContent array to the layer's layers
-  layer.bindPopup(popupHtml.innerHTML=popupContent.join('')) // this is where the popup html will be implemented
-*/
+//  layer.bindPopup(popupHtml.innerHTML=popupContent.join('')) // this is where the popup html will be implemented
+
 }
 
 
@@ -152,5 +159,4 @@ L.Control.ToggleScrollButton = L.Control.extend({
     // Nothing to do here
   }
 })
-
 

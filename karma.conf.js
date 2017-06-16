@@ -10,7 +10,14 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['browserify', 'mocha', 'chai'],
+    frameworks: ['browserify', 'mocha', 'sinon-chai'],
+
+    // chai config
+    client: {
+      chai: {
+        includeStack: true
+      }
+    },
 
 
     // list of files / patterns to load in the browser
@@ -25,10 +32,12 @@ module.exports = function(config) {
       // my scripts
       'js_src/new/scratch.js',
       'js_src/pieces/basic.js',
+      'js_src/pieces/mapFunctions.js',
 
       // test files
-      'js_src/test/test.spec.js',
-      'js_src/test/basic.spec.js'
+      'js_src/test/scratch.spec.js',
+      'js_src/test/basic.spec.js',
+      'js_src/test/mapFunctions.spec.js'
     ],
 
 
@@ -43,9 +52,12 @@ module.exports = function(config) {
     preprocessors: {
       'js_src/new/scratch.js': [ 'browserify' ],
       'js_src/pieces/basic.js': [ 'browserify' ],
+      'js_src/pieces/mapFunctions.js': [ 'browserify' ],
+
       'create-dom.js': [ 'browserify' ],
-      'js_src/test/test.spec.js': [ 'browserify' ],
-      'js_src/test/basic.spec.js': [ 'browserify' ]
+      'js_src/test/scratch.spec.js': [ 'browserify' ],
+      'js_src/test/basic.spec.js': [ 'browserify' ],
+      'js_src/test/mapFunctions.spec.js': [ 'browserify' ]
     },
 
     browserify: {
