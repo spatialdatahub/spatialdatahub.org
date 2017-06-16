@@ -16,7 +16,7 @@ const omnivore = require('@mapbox/leaflet-omnivore')
 // these should probably be refactored
 // they don't need to be exposed to the rest of the code base
 // they are only used here
-exports.getGeoJSON = function (url) {
+const getGeoJSON = function (url) {
   return new Promise(function handlePromise (resolve, reject) {
     const dataLayer = omnivore.geojson(url)
       .on('ready', () => resolve(dataLayer))
@@ -24,7 +24,7 @@ exports.getGeoJSON = function (url) {
   })
 }
 
-exports.getKML = function (url) {
+const getKML = function (url) {
   return new Promise(function handlePromise (resolve, reject) {
     const dataLayer = omnivore.kml(url)
       .on('ready', () => resolve(dataLayer))
@@ -32,7 +32,7 @@ exports.getKML = function (url) {
   })
 }
 
-exports.getCSV = function (url) {
+const getCSV = function (url) {
   return new Promise(function handlePromise (resolve, reject) {
     const dataLayer = omnivore.csv(url)
       .on('ready', () => resolve(dataLayer))

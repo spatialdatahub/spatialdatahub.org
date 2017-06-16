@@ -1,17 +1,17 @@
 const L = require('leaflet')
 const omnivore = require('@mapbox/leaflet-omnivore')
 
-// import within from '@turf/within'
-// import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
-// after receiving an error that I think is related to browser support of the 'import' function
-// I will use a require declararion
+import within from '@turf/within'
+import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
 
-const within = require('@turf/within').within
+//const within = require('@turf/within').within
 
-const getPlaceData = require('nominatim').getPlaceData
-const nominatim = require('nominatim').nominatim
-const normalizeGeoJSON = require('nominatim').normalizeGeoJSON
-const possiblePlaces = require('nominatim').possiblePlaces
+/*
+const getPlaceData = require('easy-nominatim').getPlaceData
+const nominatim = require('easy-nominatim').nominatim
+const normalizeGeoJSON = require('easy-nominatim').normalizeGeoJSON
+const possiblePlaces = require('easy-nominatim').possiblePlaces
+*/
 
 const markercluster = require('leaflet.markercluster')
 const filesaver = require('file-saver')
@@ -68,15 +68,12 @@ rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`, {
   and the GIS User Community`
 })
 
-
-
 const myMap = L.map('mapid', {
   center: {lat: 0, lng: 8.8460},
   zoom: 2,
   layers: osm,
   scrollWheelZoom: false
 })
-
 
 const baseLayers = {
   'Open Street Maps': osm,
@@ -85,7 +82,6 @@ const baseLayers = {
 }
 
 const baseLayerControl = L.control.layers(baseLayers)
-
 
 baseLayerControl.addTo(myMap)
 
@@ -257,8 +253,8 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
           // add cluster to cluster container and layer to layer container
           // use this for toggling between clusters and layers
-          basic.addDataToContainer(layerMod, datasets, pk)
-          basic.addDataToContainer(layerCluster, datasetClusters, pk)
+          datasets[pk] = layerMod
+          datasetClusters[pk] = layerCluster
 
         }, function handleError (error) {
           console.log(error)
@@ -287,8 +283,9 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
           // add cluster to cluster container and layer to layer container
           // use this for toggling between clusters and layers
-          basic.addDataToContainer(layerMod, datasets, pk)
-          basic.addDataToContainer(layerCluster, datasetClusters, pk)
+          datasets[pk] = layerMod
+          datasetClusters[pk] = layerCluster
+
 
         }, function handleError (error) {
           console.log(error)

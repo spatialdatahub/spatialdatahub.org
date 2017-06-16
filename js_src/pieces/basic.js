@@ -4,9 +4,6 @@
 
 // function to add data to a container
 // is this function completely unnecessary?
-exports.addDataToContainer = function (data, obj, key) {
-  return obj[key] = data;
-}
 
 // toggle active / inactive links in list
 // almost exactly copied from 'youmightnotneedjquery.com'
