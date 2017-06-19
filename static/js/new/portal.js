@@ -796,35 +796,75 @@ exports.extSelect = function (ext, url) {
 // add popups to the data points
 // should this function be called every time a layer is added to a map?
 // or will the layer still have the popups after it's toggled off and on?
+
+function checkFeatureProperties(feature) {
+  // this sort of makes an ugly popup thing, it has a bunch of commas... not that bad
+  // make empty array
+  var arr = [];
+
+  // check if there are properties
+  // if there are push them to the array
+  // else push 'No feature properties' to the array
+  feature.properties.length !== undefined || feature.properties.length !== 0 ? arr.push(Object.keys(feature.properties).map(function (key) {
+    return '<dt>' + key + '</dt> <dd>' + feature.properties[key] + '</dd>';
+  })) : arr.push('No feature properties');
+
+  return arr;
+}
+
+function latLngPointOnFeature(feature) {
+  var arr = [];
+  feature.geometry.type === 'Point' ? arr.push('<dt>Latitude:</dt> <dd>' + feature.geometry.coordinates[1] + '</dd>', '<dt>Longitude:</dt> <dd>' + feature.geometry.coordinates[0] + '</dd>') : arr.push('');
+
+  return arr;
+}
+
 exports.addPopups = function (feature, layer) {
   var popupContent = [];
 
+  /*
   // first check if there are properties
   feature.properties.length !== undefined || feature.properties.length !== 0
-  // push data from the dataset to the array
-  ? Object.keys(feature.properties).forEach(function (key) {
-    popupContent.push('<dt>' + key + '</dt> <dd>' + feature.properties[key] + '</dd>');
-  }) : console.log('No feature properties');
+    // push data from the dataset to the array
+    ? Object.keys(feature.properties).forEach(key => {
+      popupContent.push(`<dt>${key}</dt> <dd>${feature.properties[key]}</dd>`)
+    })
+    : console.log('No feature properties')
+  */
 
   // push feature cordinates to the popupContent array, if it's a point dataset
-  feature.geometry.type === 'Point' ? popupContent.push('<dt>Latitude:</dt> <dd>' + feature.geometry.coordinates[1] + '</dd>', '<dt>Longitude:</dt> <dd>' + feature.geometry.coordinates[0] + '</dd>') : console.log(feature.geometry.type);
+  /*
+  feature.geometry.type === 'Point'
+    ? popupContent.push(
+        `<dt>Latitude:</dt> <dd>${feature.geometry.coordinates[1]}</dd>`,
+        `<dt>Longitude:</dt> <dd>${feature.geometry.coordinates[0]}</dd>`
+      )
+    : console.log(feature.geometry.type)
+  */
+
+  // popupContent.push(checkFeatureProperties(feature))
+  // popupContent.push(latLngPointOnFeature(feature))
+
+  checkFeatureProperties(feature).forEach(function (x) {
+    return popupContent.push(x);
+  });
+  latLngPointOnFeature(feature).forEach(function (x) {
+    return popupContent.push(x);
+  });
 
   // set max height and width so popup will scroll up and down, and side to side
-  var popupOptions = {
-    //    maxHeight: 300,
-    //    maxWidth: 300,
-    //    autoPanPaddingTopLeft: [50, 50],
-    //    autoPanPaddingTopRight: [50, 50]
-  };
+  var popupOptions = {}
+  //    maxHeight: 300,
+  //    maxWidth: 300,
+  //    autoPanPaddingTopLeft: [50, 50],
+  //    autoPanPaddingTopRight: [50, 50]
 
-  var content = '<dl id="popup-content">' + popupContent.join('') + '</dl>';
 
+  // actual popup and content stuff
+  ;var content = '<dl id="popup-content">' + popupContent.join('') + '</dl>';
   var popup = L.popup(popupOptions).setContent(content);
 
   layer.bindPopup(popup);
-
-  // make array to add content to
-
 
   // bind the popupContent array to the layer's layers
   //  layer.bindPopup(popupHtml.innerHTML=popupContent.join('')) // this is where the popup html will be implemented

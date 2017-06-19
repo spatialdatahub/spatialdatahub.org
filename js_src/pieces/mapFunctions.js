@@ -3,8 +3,6 @@ exports.addSmoke = function (a, b) {
 }
 
 
-
-
 const L = require('leaflet')
 const omnivore = require('@mapbox/leaflet-omnivore')
 
@@ -45,8 +43,8 @@ exports.extSelect = function (ext, url) {
   return ext === 'kml'
     ? getKML(url)
     : ext === 'csv'
-    ? getCSV(url)
-    : getGeoJSON(url)
+      ? getCSV(url)
+      : getGeoJSON(url)
 }
 
 // I need to make a nice looking popup background that scrolls
@@ -58,9 +56,41 @@ exports.extSelect = function (ext, url) {
 // add popups to the data points
 // should this function be called every time a layer is added to a map?
 // or will the layer still have the popups after it's toggled off and on?
+
+function checkFeatureProperties (feature) {
+  // this sort of makes an ugly popup thing, it has a bunch of commas... not that bad
+  // make empty array
+  const arr = []
+ 
+  // check if there are properties
+  // if there are push them to the array
+  // else push 'No feature properties' to the array
+  feature.properties.length !== undefined || feature.properties.length !== 0
+    ? arr.push(
+      Object.keys(feature.properties)
+      .map( key => `<dt>${key}</dt> <dd>${feature.properties[key]}</dd>` )
+    )
+    : arr.push('No feature properties')
+
+  return arr
+}
+
+function latLngPointOnFeature (feature) {
+  const arr = []
+  feature.geometry.type === 'Point'
+    ? arr.push(
+      `<dt>Latitude:</dt> <dd>${feature.geometry.coordinates[1]}</dd>`,
+      `<dt>Longitude:</dt> <dd>${feature.geometry.coordinates[0]}</dd>`
+    )
+    : arr.push('')
+
+  return arr
+}
+
 exports.addPopups = function (feature, layer) {
   const popupContent = []
-
+  
+  /*
   // first check if there are properties
   feature.properties.length !== undefined || feature.properties.length !== 0
     // push data from the dataset to the array
@@ -68,14 +98,23 @@ exports.addPopups = function (feature, layer) {
       popupContent.push(`<dt>${key}</dt> <dd>${feature.properties[key]}</dd>`)
     })
     : console.log('No feature properties')
+  */
 
   // push feature cordinates to the popupContent array, if it's a point dataset
+  /*
   feature.geometry.type === 'Point'
     ? popupContent.push(
         `<dt>Latitude:</dt> <dd>${feature.geometry.coordinates[1]}</dd>`,
         `<dt>Longitude:</dt> <dd>${feature.geometry.coordinates[0]}</dd>`
       )
     : console.log(feature.geometry.type)
+  */
+  
+  // popupContent.push(checkFeatureProperties(feature))
+  // popupContent.push(latLngPointOnFeature(feature))
+
+  checkFeatureProperties(feature).forEach(x => popupContent.push(x))
+  latLngPointOnFeature(feature).forEach(x => popupContent.push(x))
 
   // set max height and width so popup will scroll up and down, and side to side
   const popupOptions = {
@@ -85,19 +124,14 @@ exports.addPopups = function (feature, layer) {
 //    autoPanPaddingTopRight: [50, 50]
   }
 
-
+  // actual popup and content stuff
   const content = `<dl id="popup-content">${popupContent.join('')}</dl>`
-
   const popup = L.popup(popupOptions).setContent(content)
 
   layer.bindPopup(popup)
 
-  // make array to add content to
-  
-
   // bind the popupContent array to the layer's layers
 //  layer.bindPopup(popupHtml.innerHTML=popupContent.join('')) // this is where the popup html will be implemented
-
 }
 
 
@@ -159,4 +193,3 @@ L.Control.ToggleScrollButton = L.Control.extend({
     // Nothing to do here
   }
 })
-
