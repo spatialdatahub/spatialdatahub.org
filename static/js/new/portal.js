@@ -692,8 +692,12 @@ exports.classToggleOnDiffLink = function (el, elList, className) {
 exports.getExt = function (string) {
   var ext = {};
   var stringLower = string.toLowerCase();
-  stringLower.endsWith('kml') ? ext[0] = 'kml' : stringLower.endsWith('csv') ? ext[0] = 'csv' : stringLower.endsWith('json') ? ext[0] = 'geojson' : ext[0] = 'geojson';
-  return ext[0];
+
+  stringLower.endsWith('kml') ? ext.push('kml') : stringLower.endsWith('csv') ? ext.push('csv') : ext.push('geojson');
+
+  return ext.map(function (e) {
+    return e;
+  });
 };
 
 exports.addButton = function (text, color, container) {
