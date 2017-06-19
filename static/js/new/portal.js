@@ -20,8 +20,8 @@ var markercluster = require('leaflet.markercluster');
 
 var filesaver = require('file-saver');
 
-var basic = require('../pieces/basic.js');
-var mapFunctions = require('../pieces/mapFunctions.js');
+var basic = require('./pieces/basic.js');
+var mapFunctions = require('./pieces/mapFunctions.js');
 
 // Things I need to fix
 // - filesaver doesn't save data from all sources, only the test urls
@@ -628,7 +628,7 @@ toggleMarkerClustersButton.addEventListener("click", function clusterToLayer() {
   toggleMarkerClusters(myMap, datasets, datasetClusters);
 });
 
-},{"../pieces/basic.js":2,"../pieces/mapFunctions.js":3,"@turf/within":8,"easy-nominatim":13,"file-saver":14,"leaflet":16,"leaflet.markercluster":15}],2:[function(require,module,exports){
+},{"./pieces/basic.js":2,"./pieces/mapFunctions.js":3,"@turf/within":8,"easy-nominatim":13,"file-saver":14,"leaflet":16,"leaflet.markercluster":15}],2:[function(require,module,exports){
 'use strict';
 
 // //////// //
@@ -663,7 +663,6 @@ exports.classToggle = function (el, className) {
   }
 };
 
-/*
 // This one isn't being used right now, but it is useful if there are different choices
 // that turn eachother on and off
 
@@ -677,25 +676,24 @@ exports.classToggleOnDiffLink = function (el, elList, className) {
   // and then add class to element that was clicked.
 
   // first remove className from all elements
-  elList.forEach(e => {
+  elList.forEach(function (e) {
     if (e.classList) {
-      e.classList.remove(className)
+      e.classList.remove(className);
     }
-  })
+  });
 
   // then add className to element that was clicked
-  const classes = el.className.split(' ')
-  classes.push(className)
-  el.className = classes.join(' ')
-}
-*/
+  var classes = el.className.split(' ');
+  classes.push(className);
+  el.className = classes.join(' ');
+};
 
 // make function that gets the ext of the url
 // it can handle csv, kml, json, and geojson
 exports.getExt = function (string) {
   var ext = {};
   var stringLower = string.toLowerCase();
-  stringLower.endsWith('kml') ? ext[0] = 'kml' : stringLower.endsWith('csv') ? ext[0] = 'csv' : stringLower.endsWith('json') ? ext[0] = 'geojson' : console.log(stringLower);
+  stringLower.endsWith('kml') ? ext[0] = 'kml' : stringLower.endsWith('csv') ? ext[0] = 'csv' : stringLower.endsWith('json') ? ext[0] = 'geojson' : ext[0] = 'geojson';
   return ext[0];
 };
 
