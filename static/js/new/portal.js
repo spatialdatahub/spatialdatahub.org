@@ -156,13 +156,26 @@ var activeDatasetButtons = [];
 // The initial value will start the page with either layers or clusters. 
 var layerClusterState = 1; // 0 is layers, 1 is clusters. // something is wrong
 
+function returnCorrectUrl(link, pk) {
+  var arr = [];
+  link.getAttribute('url') ? arr.push(link.getAttribute('url')) : arr.push('/load_dataset/' + pk);
+
+  return arr[0];
+}
+
 datasetLinks.forEach(function handleDatasetLink(link) {
   var pk = link.id;
   var ext = link.value;
 
   // this should be done better
-  var url = void 0;
-  link.getAttribute('url') ? url = link.getAttribute('url') : url = '/load_dataset/' + pk;
+  var url = returnCorrectUrl(link, pk);
+
+  /*
+  let url
+  link.getAttribute('url')
+    ? url = link.getAttribute('url')
+    : url = `/load_dataset/${pk}`
+  */
 
   // deal with colors
   linkDatasetColorCounter++;
@@ -580,7 +593,40 @@ getDataWithinPolygonButton.addEventListener('click', function () {
 // clear map
 // get button and add click event
 
+/*
+// the goal is to check if the layers on the map match any of
+// the layers in an array. If they do match, they are not to be
+// removed, if they don't match, they must be removed.
+
+For each layer on the map, if that layer equals a layer in the
+array, do not remove the layer, otherwise, remove the layer
+*/
+
+// this was extremely frustrating to write
+function clearLayers(map, arr) {
+  map.eachLayer(function (mapLayer) {
+    var arrayLayer = arr.map(function (aL) {
+      if (map.hasLayer(aL)) {
+        return aL;
+      } else {
+        return undefined;
+      }
+    }).filter(function (x) {
+      if (x !== undefined) {
+        return x;
+      }
+    });
+    if (mapLayer !== arrayLayer[0]) {
+      map.removeLayer(mapLayer);
+    }
+  });
+}
+
 var clearMapButton = document.getElementById('clear_map');
+
+var a = Object.keys(baseLayers).map(function (n) {
+  return baseLayers[n];
+});
 
 clearMapButton.addEventListener('click', function clearMap() {
   // toggle 'active' class off
@@ -588,14 +634,8 @@ clearMapButton.addEventListener('click', function clearMap() {
     link.classList.remove('active');
   });
 
-  // get all layers from map
-  myMap.eachLayer(function clearLayers(layer) {
-    // make sure not to remove tile layers
-    if (layer !== osm && layer !== stamenToner && layer !== esriWorldImagery) {
-      // remove layers
-      myMap.removeLayer(layer);
-    }
-  });
+  // remove all layers from map, except the active tile layers
+  clearLayers(myMap, a);
 });
 
 // /////////////////////////////////////////////////////////////////////////
@@ -690,7 +730,7 @@ exports.classToggleOnDiffLink = function (el, elList, className) {
 // make function that gets the ext of the url
 // it can handle csv, kml, json, and geojson
 exports.getExt = function (string) {
-  var ext = {};
+  var ext = [];
   var stringLower = string.toLowerCase();
 
   stringLower.endsWith('kml') ? ext.push('kml') : stringLower.endsWith('csv') ? ext.push('csv') : ext.push('geojson');

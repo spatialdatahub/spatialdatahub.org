@@ -53,7 +53,7 @@ exports.classToggleOnDiffLink = function (el, elList, className) {
 // make function that gets the ext of the url
 // it can handle csv, kml, json, and geojson
 exports.getExt = function (string) {
-  const ext = {}
+  const ext = []
   const stringLower = string.toLowerCase()
 
   stringLower.endsWith('kml')
