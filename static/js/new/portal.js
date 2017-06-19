@@ -15,7 +15,6 @@ var L = require('leaflet');
 var omnivore = require('@mapbox/leaflet-omnivore');
 
 //const within = require('@turf/within').within
-
 /*
 const getPlaceData = require('easy-nominatim').getPlaceData
 const nominatim = require('easy-nominatim').nominatim
@@ -640,14 +639,6 @@ toggleMarkerClustersButton.addEventListener("click", function clusterToLayer() {
 // //////// //
 // basic.js //
 // //////// //
-
-// function to add data to a container
-// is this function completely unnecessary?
-/*
-exports.addDataToContainer = function (data, obj, key) {
-  return obj[key] = data;
-}
-*/
 
 // toggle active / inactive links in list
 // almost exactly copied from 'youmightnotneedjquery.com'
