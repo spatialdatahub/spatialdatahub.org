@@ -2,12 +2,6 @@
 // basic.js //
 // //////// //
 
-// function to add data to a container
-// is this function completely unnecessary?
-exports.addDataToContainer = function (data, obj, key) {
-  return obj[key] = data;
-}
-
 // toggle active / inactive links in list
 // almost exactly copied from 'youmightnotneedjquery.com'
 exports.classToggle = function (el, className) {
@@ -59,16 +53,16 @@ exports.classToggleOnDiffLink = function (el, elList, className) {
 // make function that gets the ext of the url
 // it can handle csv, kml, json, and geojson
 exports.getExt = function (string) {
-  const ext = {}
+  const ext = []
   const stringLower = string.toLowerCase()
+
   stringLower.endsWith('kml')
-    ? ext[0] = 'kml'
+    ? ext.push('kml')
     : stringLower.endsWith('csv')
-      ? ext[0] = 'csv'
-      : stringLower.endsWith('json')
-        ? ext[0] = 'geojson'
-        : ext[0] = 'geojson'
-  return ext[0]
+      ? ext.push('csv')
+      : ext.push('geojson')
+
+  return ext.map(e => e)
 }
 
 exports.addButton = function (text, color, container) {

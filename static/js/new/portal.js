@@ -12,14 +12,18 @@ function _interopRequireDefault(obj) {
 }
 
 var L = require('leaflet');
-// const omnivore = require('@mapbox/leaflet-omnivore')
+var omnivore = require('@mapbox/leaflet-omnivore');
+
+//const within = require('@turf/within').within
+/*
+const getPlaceData = require('easy-nominatim').getPlaceData
+const nominatim = require('easy-nominatim').nominatim
+const normalizeGeoJSON = require('easy-nominatim').normalizeGeoJSON
+const possiblePlaces = require('easy-nominatim').possiblePlaces
+*/
+
 var markercluster = require('leaflet.markercluster');
-
-// how do I do this with the above files? Which functions do I need?
-
-
 var filesaver = require('file-saver');
-
 var basic = require('./pieces/basic.js');
 var mapFunctions = require('./pieces/mapFunctions.js');
 
@@ -152,13 +156,26 @@ var activeDatasetButtons = [];
 // The initial value will start the page with either layers or clusters. 
 var layerClusterState = 1; // 0 is layers, 1 is clusters. // something is wrong
 
+function returnCorrectUrl(link, pk) {
+  var arr = [];
+  link.getAttribute('url') ? arr.push(link.getAttribute('url')) : arr.push('/load_dataset/' + pk);
+
+  return arr[0];
+}
+
 datasetLinks.forEach(function handleDatasetLink(link) {
   var pk = link.id;
   var ext = link.value;
 
   // this should be done better
-  var url = void 0;
-  link.getAttribute('url') ? url = link.getAttribute('url') : url = '/load_dataset/' + pk;
+  var url = returnCorrectUrl(link, pk);
+
+  /*
+  let url
+  link.getAttribute('url')
+    ? url = link.getAttribute('url')
+    : url = `/load_dataset/${pk}`
+  */
 
   // deal with colors
   linkDatasetColorCounter++;
@@ -242,8 +259,8 @@ datasetLinks.forEach(function handleDatasetLink(link) {
 
         // add cluster to cluster container and layer to layer container
         // use this for toggling between clusters and layers
-        basic.addDataToContainer(layerMod, datasets, pk);
-        basic.addDataToContainer(layerCluster, datasetClusters, pk);
+        datasets[pk] = layerMod;
+        datasetClusters[pk] = layerCluster;
       }, function handleError(error) {
         console.log(error);
       });
@@ -266,8 +283,8 @@ datasetLinks.forEach(function handleDatasetLink(link) {
 
         // add cluster to cluster container and layer to layer container
         // use this for toggling between clusters and layers
-        basic.addDataToContainer(layerMod, datasets, pk);
-        basic.addDataToContainer(layerCluster, datasetClusters, pk);
+        datasets[pk] = layerMod;
+        datasetClusters[pk] = layerCluster;
       }, function handleError(error) {
         console.log(error);
       });
@@ -463,6 +480,7 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
 
 // /////////////////////////////////////////////////////////////////////////
 // within polygon
+// this stuff should be 'required' into the page
 // /////////////////////////////////////////////////////////////////////////
 
 var fileContainer = [];
@@ -575,7 +593,40 @@ getDataWithinPolygonButton.addEventListener('click', function () {
 // clear map
 // get button and add click event
 
+/*
+// the goal is to check if the layers on the map match any of
+// the layers in an array. If they do match, they are not to be
+// removed, if they don't match, they must be removed.
+
+For each layer on the map, if that layer equals a layer in the
+array, do not remove the layer, otherwise, remove the layer
+*/
+
+// this was extremely frustrating to write
+function clearLayers(map, arr) {
+  map.eachLayer(function (mapLayer) {
+    var arrayLayer = arr.map(function (aL) {
+      if (map.hasLayer(aL)) {
+        return aL;
+      } else {
+        return undefined;
+      }
+    }).filter(function (x) {
+      if (x !== undefined) {
+        return x;
+      }
+    });
+    if (mapLayer !== arrayLayer[0]) {
+      map.removeLayer(mapLayer);
+    }
+  });
+}
+
 var clearMapButton = document.getElementById('clear_map');
+
+var a = Object.keys(baseLayers).map(function (n) {
+  return baseLayers[n];
+});
 
 clearMapButton.addEventListener('click', function clearMap() {
   // toggle 'active' class off
@@ -583,14 +634,8 @@ clearMapButton.addEventListener('click', function clearMap() {
     link.classList.remove('active');
   });
 
-  // get all layers from map
-  myMap.eachLayer(function clearLayers(layer) {
-    // make sure not to remove tile layers
-    if (layer !== osm && layer !== stamenToner && layer !== esriWorldImagery) {
-      // remove layers
-      myMap.removeLayer(layer);
-    }
-  });
+  // remove all layers from map, except the active tile layers
+  clearLayers(myMap, a);
 });
 
 // /////////////////////////////////////////////////////////////////////////
@@ -628,22 +673,16 @@ toggleMarkerClustersButton.addEventListener("click", function clusterToLayer() {
   toggleMarkerClusters(myMap, datasets, datasetClusters);
 });
 
-},{"./pieces/basic.js":2,"./pieces/mapFunctions.js":3,"@turf/within":8,"easy-nominatim":13,"file-saver":14,"leaflet":16,"leaflet.markercluster":15}],2:[function(require,module,exports){
+},{"./pieces/basic.js":2,"./pieces/mapFunctions.js":3,"@mapbox/leaflet-omnivore":4,"@turf/within":8,"easy-nominatim":13,"file-saver":14,"leaflet":16,"leaflet.markercluster":15}],2:[function(require,module,exports){
 'use strict';
 
 // //////// //
 // basic.js //
 // //////// //
 
-// function to add data to a container
-// is this function completely unnecessary?
-
-exports.addDataToContainer = function (data, obj, key) {
-  return obj[key] = data;
-};
-
 // toggle active / inactive links in list
 // almost exactly copied from 'youmightnotneedjquery.com'
+
 exports.classToggle = function (el, className) {
   /*
     Toggle class on element. Click element once to turn it on,
@@ -691,10 +730,14 @@ exports.classToggleOnDiffLink = function (el, elList, className) {
 // make function that gets the ext of the url
 // it can handle csv, kml, json, and geojson
 exports.getExt = function (string) {
-  var ext = {};
+  var ext = [];
   var stringLower = string.toLowerCase();
-  stringLower.endsWith('kml') ? ext[0] = 'kml' : stringLower.endsWith('csv') ? ext[0] = 'csv' : stringLower.endsWith('json') ? ext[0] = 'geojson' : ext[0] = 'geojson';
-  return ext[0];
+
+  stringLower.endsWith('kml') ? ext.push('kml') : stringLower.endsWith('csv') ? ext.push('csv') : ext.push('geojson');
+
+  return ext.map(function (e) {
+    return e;
+  });
 };
 
 exports.addButton = function (text, color, container) {
@@ -734,6 +777,10 @@ exports.makeReq = function (url, func, div) {
 },{}],3:[function(require,module,exports){
 'use strict';
 
+exports.addSmoke = function (a, b) {
+  return a + b;
+};
+
 var L = require('leaflet');
 var omnivore = require('@mapbox/leaflet-omnivore');
 
@@ -745,7 +792,7 @@ var omnivore = require('@mapbox/leaflet-omnivore');
 // these should probably be refactored
 // they don't need to be exposed to the rest of the code base
 // they are only used here
-function getGeoJSON(url) {
+var getGeoJSON = function getGeoJSON(url) {
   return new Promise(function handlePromise(resolve, reject) {
     var dataLayer = omnivore.geojson(url).on('ready', function () {
       return resolve(dataLayer);
@@ -753,9 +800,9 @@ function getGeoJSON(url) {
       return reject(Error('Url problem...'));
     });
   });
-}
+};
 
-function getKML(url) {
+var getKML = function getKML(url) {
   return new Promise(function handlePromise(resolve, reject) {
     var dataLayer = omnivore.kml(url).on('ready', function () {
       return resolve(dataLayer);
@@ -763,9 +810,9 @@ function getKML(url) {
       return reject(Error('Url problem...'));
     });
   });
-}
+};
 
-function getCSV(url) {
+var getCSV = function getCSV(url) {
   return new Promise(function handlePromise(resolve, reject) {
     var dataLayer = omnivore.csv(url).on('ready', function () {
       return resolve(dataLayer);
@@ -773,7 +820,7 @@ function getCSV(url) {
       return reject(Error('Url problem...'));
     });
   });
-}
+};
 
 // 2) function to choose which omnivore function to run
 exports.extSelect = function (ext, url) {
@@ -789,38 +836,78 @@ exports.extSelect = function (ext, url) {
 // add popups to the data points
 // should this function be called every time a layer is added to a map?
 // or will the layer still have the popups after it's toggled off and on?
+
+function checkFeatureProperties(feature) {
+  // this sort of makes an ugly popup thing, it has a bunch of commas... not that bad
+  // make empty array
+  var arr = [];
+
+  // check if there are properties
+  // if there are push them to the array
+  // else push 'No feature properties' to the array
+  feature.properties.length !== undefined || feature.properties.length !== 0 ? arr.push(Object.keys(feature.properties).map(function (key) {
+    return '<dt>' + key + '</dt> <dd>' + feature.properties[key] + '</dd>';
+  })) : arr.push('No feature properties');
+
+  return arr;
+}
+
+function latLngPointOnFeature(feature) {
+  var arr = [];
+  feature.geometry.type === 'Point' ? arr.push('<dt>Latitude:</dt> <dd>' + feature.geometry.coordinates[1] + '</dd>', '<dt>Longitude:</dt> <dd>' + feature.geometry.coordinates[0] + '</dd>') : arr.push('');
+
+  return arr;
+}
+
 exports.addPopups = function (feature, layer) {
   var popupContent = [];
 
+  /*
   // first check if there are properties
   feature.properties.length !== undefined || feature.properties.length !== 0
-  // push data from the dataset to the array
-  ? Object.keys(feature.properties).forEach(function (key) {
-    popupContent.push('<dt>' + key + '</dt> <dd>' + feature.properties[key] + '</dd>');
-  }) : console.log('No feature properties');
+    // push data from the dataset to the array
+    ? Object.keys(feature.properties).forEach(key => {
+      popupContent.push(`<dt>${key}</dt> <dd>${feature.properties[key]}</dd>`)
+    })
+    : console.log('No feature properties')
+  */
 
   // push feature cordinates to the popupContent array, if it's a point dataset
-  feature.geometry.type === 'Point' ? popupContent.push('<dt>Latitude:</dt> <dd>' + feature.geometry.coordinates[1] + '</dd>', '<dt>Longitude:</dt> <dd>' + feature.geometry.coordinates[0] + '</dd>') : console.log(feature.geometry.type);
+  /*
+  feature.geometry.type === 'Point'
+    ? popupContent.push(
+        `<dt>Latitude:</dt> <dd>${feature.geometry.coordinates[1]}</dd>`,
+        `<dt>Longitude:</dt> <dd>${feature.geometry.coordinates[0]}</dd>`
+      )
+    : console.log(feature.geometry.type)
+  */
+
+  // popupContent.push(checkFeatureProperties(feature))
+  // popupContent.push(latLngPointOnFeature(feature))
+
+  checkFeatureProperties(feature).forEach(function (x) {
+    return popupContent.push(x);
+  });
+  latLngPointOnFeature(feature).forEach(function (x) {
+    return popupContent.push(x);
+  });
 
   // set max height and width so popup will scroll up and down, and side to side
-  var popupOptions = {
-    //    maxHeight: 300,
-    //    maxWidth: 300,
-    //    autoPanPaddingTopLeft: [50, 50],
-    //    autoPanPaddingTopRight: [50, 50]
-  };
+  var popupOptions = {}
+  //    maxHeight: 300,
+  //    maxWidth: 300,
+  //    autoPanPaddingTopLeft: [50, 50],
+  //    autoPanPaddingTopRight: [50, 50]
 
-  var content = '<dl id="popup-content">' + popupContent.join('') + '</dl>';
 
+  // actual popup and content stuff
+  ;var content = '<dl id="popup-content">' + popupContent.join('') + '</dl>';
   var popup = L.popup(popupOptions).setContent(content);
 
   layer.bindPopup(popup);
 
-  // make array to add content to
-  /*
-   // bind the popupContent array to the layer's layers
-  layer.bindPopup(popupHtml.innerHTML=popupContent.join('')) // this is where the popup html will be implemented
-  */
+  // bind the popupContent array to the layer's layers
+  //  layer.bindPopup(popupHtml.innerHTML=popupContent.join('')) // this is where the popup html will be implemented
 };
 
 // THESE THREE CONTROL FUNCTIONS ARE TIGHTLY COUPLED WITH DIFFERENT THINGS
