@@ -1,14 +1,19 @@
 const L = require('leaflet')
-// const omnivore = require('@mapbox/leaflet-omnivore')
-const markercluster = require('leaflet.markercluster')
+const omnivore = require('@mapbox/leaflet-omnivore')
 
-// how do I do this with the above files? Which functions do I need?
 import within from '@turf/within'
-
 import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
 
-const filesaver = require('file-saver')
+//const within = require('@turf/within').within
+/*
+const getPlaceData = require('easy-nominatim').getPlaceData
+const nominatim = require('easy-nominatim').nominatim
+const normalizeGeoJSON = require('easy-nominatim').normalizeGeoJSON
+const possiblePlaces = require('easy-nominatim').possiblePlaces
+*/
 
+const markercluster = require('leaflet.markercluster')
+const filesaver = require('file-saver')
 const basic = require('./pieces/basic.js')
 const mapFunctions = require('./pieces/mapFunctions.js')
 
@@ -62,15 +67,12 @@ rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`, {
   and the GIS User Community`
 })
 
-
-
 const myMap = L.map('mapid', {
   center: {lat: 0, lng: 8.8460},
   zoom: 2,
   layers: osm,
   scrollWheelZoom: false
 })
-
 
 const baseLayers = {
   'Open Street Maps': osm,
@@ -79,7 +81,6 @@ const baseLayers = {
 }
 
 const baseLayerControl = L.control.layers(baseLayers)
-
 
 baseLayerControl.addTo(myMap)
 
@@ -149,15 +150,29 @@ const activeDatasetButtons = []
 // The initial value will start the page with either layers or clusters. 
 let layerClusterState = 1 // 0 is layers, 1 is clusters. // something is wrong
 
+function returnCorrectUrl(link, pk) {
+  const arr = []
+  link.getAttribute('url')
+    ? arr.push(link.getAttribute('url'))
+    : arr.push(`/load_dataset/${pk}`)
+
+  return arr[0]
+}
+
 datasetLinks.forEach(function handleDatasetLink (link) {
   const pk = link.id
   const ext = link.value
 
   // this should be done better
+  const url = returnCorrectUrl(link, pk)
+
+  /*
   let url
   link.getAttribute('url')
     ? url = link.getAttribute('url')
     : url = `/load_dataset/${pk}`
+  */
+
 
    // deal with colors
   linkDatasetColorCounter++
@@ -251,8 +266,8 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
           // add cluster to cluster container and layer to layer container
           // use this for toggling between clusters and layers
-          basic.addDataToContainer(layerMod, datasets, pk)
-          basic.addDataToContainer(layerCluster, datasetClusters, pk)
+          datasets[pk] = layerMod
+          datasetClusters[pk] = layerCluster
 
         }, function handleError (error) {
           console.log(error)
@@ -281,8 +296,9 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
           // add cluster to cluster container and layer to layer container
           // use this for toggling between clusters and layers
-          basic.addDataToContainer(layerMod, datasets, pk)
-          basic.addDataToContainer(layerCluster, datasetClusters, pk)
+          datasets[pk] = layerMod
+          datasetClusters[pk] = layerCluster
+
 
         }, function handleError (error) {
           console.log(error)
@@ -494,6 +510,7 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
 
 // /////////////////////////////////////////////////////////////////////////
 // within polygon
+// this stuff should be 'required' into the page
 // /////////////////////////////////////////////////////////////////////////
 
 const fileContainer = []
@@ -608,7 +625,38 @@ getDataWithinPolygonButton.addEventListener('click', () => {
 // clear map
 // get button and add click event
 
+/*
+// the goal is to check if the layers on the map match any of
+// the layers in an array. If they do match, they are not to be
+// removed, if they don't match, they must be removed.
+
+For each layer on the map, if that layer equals a layer in the
+array, do not remove the layer, otherwise, remove the layer
+*/
+
+// this was extremely frustrating to write
+function clearLayers (map, arr) {
+  map.eachLayer( mapLayer => {
+    const arrayLayer = arr.map( aL => {
+      if (map.hasLayer(aL)) {
+        return aL
+      } else {
+        return undefined 
+      }
+    }).filter(x =>{
+      if (x !== undefined) {
+        return x 
+      }
+    })
+    if (mapLayer !== arrayLayer[0]) { map.removeLayer(mapLayer) }
+  })
+}
+
+
+
 const clearMapButton = document.getElementById('clear_map')
+
+const a = Object.keys(baseLayers).map(n => baseLayers[n])
 
 clearMapButton.addEventListener('click', function clearMap () {
   // toggle 'active' class off
@@ -616,14 +664,8 @@ clearMapButton.addEventListener('click', function clearMap () {
     link.classList.remove('active')
   })
 
-  // get all layers from map
-  myMap.eachLayer(function clearLayers (layer) {
-    // make sure not to remove tile layers
-    if (layer !== osm && layer !== stamenToner && layer !== esriWorldImagery) {
-      // remove layers
-      myMap.removeLayer(layer)
-    }
-  })
+  // remove all layers from map, except the active tile layers
+  clearLayers(myMap, a)
 })
 
 // /////////////////////////////////////////////////////////////////////////
