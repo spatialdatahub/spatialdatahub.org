@@ -777,16 +777,19 @@ exports.makeReq = function (url, func, div) {
 },{}],3:[function(require,module,exports){
 'use strict';
 
-exports.addSmoke = function (a, b) {
-  return a + b;
-};
-
 var L = require('leaflet');
 var omnivore = require('@mapbox/leaflet-omnivore');
 
 // /////////// //
 // indexMap.js //
 // /////////// //
+
+// should these functions be rewritten?
+// How can I make them take only one arg each?
+// That wouldn't work, because I have to take both the url,
+// and the ext as arguements.
+
+// I could just use the ext, to decide which one of the url
 
 // 1) promisified omnivore functions
 // these should probably be refactored
@@ -823,7 +826,9 @@ var getCSV = function getCSV(url) {
 };
 
 // 2) function to choose which omnivore function to run
-exports.extSelect = function (ext, url) {
+// should I write getCSV getKML and getGeoJSON as object
+// methods and call them?
+var extSelect = function extSelect(ext, url) {
   return ext === 'kml' ? getKML(url) : ext === 'csv' ? getCSV(url) : getGeoJSON(url);
 };
 
@@ -837,7 +842,7 @@ exports.extSelect = function (ext, url) {
 // should this function be called every time a layer is added to a map?
 // or will the layer still have the popups after it's toggled off and on?
 
-function checkFeatureProperties(feature) {
+var checkFeatureProperties = function checkFeatureProperties(feature) {
   // this sort of makes an ugly popup thing, it has a bunch of commas... not that bad
   // make empty array
   var arr = [];
@@ -850,46 +855,19 @@ function checkFeatureProperties(feature) {
   })) : arr.push('No feature properties');
 
   return arr;
-}
+};
 
-function latLngPointOnFeature(feature) {
+var latLngPointOnFeature = function latLngPointOnFeature(feature) {
   var arr = [];
   feature.geometry.type === 'Point' ? arr.push('<dt>Latitude:</dt> <dd>' + feature.geometry.coordinates[1] + '</dd>', '<dt>Longitude:</dt> <dd>' + feature.geometry.coordinates[0] + '</dd>') : arr.push('');
 
   return arr;
-}
+};
 
-exports.addPopups = function (feature, layer) {
-  var popupContent = [];
+var addPopups = function addPopups(feature, layer) {
 
-  /*
-  // first check if there are properties
-  feature.properties.length !== undefined || feature.properties.length !== 0
-    // push data from the dataset to the array
-    ? Object.keys(feature.properties).forEach(key => {
-      popupContent.push(`<dt>${key}</dt> <dd>${feature.properties[key]}</dd>`)
-    })
-    : console.log('No feature properties')
-  */
-
-  // push feature cordinates to the popupContent array, if it's a point dataset
-  /*
-  feature.geometry.type === 'Point'
-    ? popupContent.push(
-        `<dt>Latitude:</dt> <dd>${feature.geometry.coordinates[1]}</dd>`,
-        `<dt>Longitude:</dt> <dd>${feature.geometry.coordinates[0]}</dd>`
-      )
-    : console.log(feature.geometry.type)
-  */
-
-  // popupContent.push(checkFeatureProperties(feature))
-  // popupContent.push(latLngPointOnFeature(feature))
-
-  checkFeatureProperties(feature).forEach(function (x) {
-    return popupContent.push(x);
-  });
-  latLngPointOnFeature(feature).forEach(function (x) {
-    return popupContent.push(x);
+  var popupContent = checkFeatureProperties(feature).concat(latLngPointOnFeature(feature)).map(function (x) {
+    return x;
   });
 
   // set max height and width so popup will scroll up and down, and side to side
@@ -966,6 +944,16 @@ L.Control.ToggleScrollButton = L.Control.extend({
     // Nothing to do here
   }
 });
+
+module.exports = {
+  getGeoJSON: getGeoJSON,
+  getKML: getKML,
+  getCSV: getCSV,
+  extSelect: extSelect,
+  checkFeatureProperties: checkFeatureProperties,
+  latLngPointOnFeature: latLngPointOnFeature,
+  addPopups: addPopups
+};
 
 },{"@mapbox/leaflet-omnivore":4,"leaflet":16}],4:[function(require,module,exports){
 var xhr = require('corslite'),

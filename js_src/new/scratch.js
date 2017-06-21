@@ -23,12 +23,19 @@ const once = fn => {
   }
 }
 
+
+const funcA = callback => callback 
+
+const funcB = () => funcA()
+
 module.exports = {
   myMap: myMap,
   square: square,
   obj: obj,
   keys: keys,
-  once: once
+  once: once,
+  funcA: funcA,
+  funcB: funcB
 }
 
 
