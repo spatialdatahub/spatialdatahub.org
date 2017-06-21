@@ -4,7 +4,7 @@
 
 // toggle active / inactive links in list
 // almost exactly copied from 'youmightnotneedjquery.com'
-exports.classToggle = function (el, className) {
+const classToggle = function (el, className) {
   /*
     Toggle class on element. Click element once to turn it on,
     and again to turn it off, or vis versa.
@@ -27,7 +27,7 @@ exports.classToggle = function (el, className) {
 // This one isn't being used right now, but it is useful if there are different choices
 // that turn eachother on and off
 
-exports.classToggleOnDiffLink = function (el, elList, className) {
+const classToggleOnDiffLink = function (el, elList, className) {
   // Toggle class on element, but with multiple elements.
   // Click element 1 once to turn class on, and click element 2
   // to turn class off for element 1, and to turn class on
@@ -52,7 +52,7 @@ exports.classToggleOnDiffLink = function (el, elList, className) {
 
 // make function that gets the ext of the url
 // it can handle csv, kml, json, and geojson
-exports.getExt = function (string) {
+const getExt = function (string) {
   const ext = []
   const stringLower = string.toLowerCase()
 
@@ -62,10 +62,10 @@ exports.getExt = function (string) {
       ? ext.push('csv')
       : ext.push('geojson')
 
-  return ext.map(e => e)
+  return ext
 }
 
-exports.addButton = function (text, color, container) {
+const addButton = function (text, color, container) {
   const btn = document.createElement('button')
   const value = document.createTextNode(text)
   btn.setAttribute('class', 'btn btn-default active') // this should be changed to not active, and the active thing should be added on the specific function
@@ -99,3 +99,9 @@ exports.makeReq = function (url, func, div) {
 }
 */
 
+module.exports = {
+  classToggle: classToggle,
+  classToggleOnDiffLink: classToggleOnDiffLink,
+  getExt: getExt,
+  addButton: addButton
+}

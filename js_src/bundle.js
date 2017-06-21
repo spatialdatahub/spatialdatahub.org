@@ -14,8 +14,10 @@ const possiblePlaces = require('easy-nominatim').possiblePlaces
 
 const markercluster = require('leaflet.markercluster')
 const filesaver = require('file-saver')
+
 const basic = require('./pieces/basic.js')
 const mapFunctions = require('./pieces/mapFunctions.js')
+const datasetList = require('./pieces/datasetList.js')
 
 // Things I need to fix
 // - filesaver doesn't save data from all sources, only the test urls
@@ -128,6 +130,10 @@ L.imageOverlay(imageUrl, imageBounds).addTo(myMap);
 // into something else
 // I have an idea, I will just make the dataset specific page work like a 
 // dataset list page
+
+// Maybe the functions should be put into a different file, and everything else
+// can just stay here
+
 // colors
 const colors = ['purple', 'blue', 'green', 'yellow', 'orange', 'red']
 let linkDatasetColorCounter = 0 // this is for the datasets from the links
@@ -150,171 +156,123 @@ const activeDatasetButtons = []
 // The initial value will start the page with either layers or clusters. 
 let layerClusterState = 1 // 0 is layers, 1 is clusters. // something is wrong
 
-function returnCorrectUrl(link, pk) {
-  const arr = []
-  link.getAttribute('url')
-    ? arr.push(link.getAttribute('url'))
-    : arr.push(`/load_dataset/${pk}`)
+//datasetLinks.forEach(l => datasetList.handleDatasetLink(l))
 
-  return arr[0]
+
+const handleResponseCluster = function () {}
+
+/*
+const handleResponseLayer = function (lm, map, layerContainer, key, clusterLayer) {
+  // lm = layerMod
+  // add layerMod to a bunch of stuff
+  map.addLayer(lm) //.fitBounds(layerMod.getBounds())
+  layerContainer[key] = lm 
+  clusterLayer.addLayer(lm)
+
+  return clusterLayer // return layerCluster
 }
+*/
+
 
 datasetLinks.forEach(function handleDatasetLink (link) {
   const pk = link.id
   const ext = link.value
+  const url = datasetList.returnCorrectUrl(link, pk)
 
-  // this should be done better
-  const url = returnCorrectUrl(link, pk)
-
-  /*
-  let url
-  link.getAttribute('url')
-    ? url = link.getAttribute('url')
-    : url = `/load_dataset/${pk}`
-  */
-
-
-   // deal with colors
+  // deal with colors
+  // this can be lifted... does it need to be?
   linkDatasetColorCounter++
   const color = colors[linkDatasetColorCounter % colors.length]
+  // a new layer needs to be created for every link
+  const layerMod = datasetList.returnLayer(color, mapFunctions.addPopups, markerOptions)
+  // a new cluster layer needs to be created for every link
+  const layerCluster = datasetList.returnCluster(color)
 
-  // Every time I call the 'getDataset' function there needs to be a new modJson called
-  // there should probably also be a marker cluster function called
-  const layerMod = L.geoJson(null, {
-    // set the points to little circles
-    pointToLayer: (feature, latlng) => {
-      return L.circleMarker(latlng, markerOptions)
-    },
-    onEachFeature: (feature, layer) => {
-      // make sure the fill is the color
-      layer.options.fillColor = color
-      // and make sure the perimiter is black (if it's a point) and the color otherwise
-      feature.geometry.type === 'Point'
-        ? layer.options.color = 'black'
-        : layer.options.color = color
-      // add those popups
-      mapFunctions.addPopups(feature, layer) // this comes from the index_maps.js file
-    }
-  })
-
-  // How do I get markercluster in here?
-  // I would like to be able to turn it on and off
-  // is there a way to add data to both the layer and the marker cluster group at the same time
-  const layerCluster = L.markerClusterGroup({
-    iconCreateFunction: function(cluster) {
-      const textColor = color === 'blue' || color === 'purple' || color === 'green' ? 'white' : 'black'
-      return L.divIcon({ 
-        html: `<div style="text-align: center; background-color: ${color}; color: ${textColor}"><b>${cluster.getChildCount()}</b></div>`,
-        iconSize: new L.Point(40, 20)
-      })
-    }
-  })
-
-
-  // bring big switcher function out here
-  // should this be two functions?
-  // the points and clusters are being added to the wrong containers
-
-  
-  /*
-  function getDatasetAndAddItToMap(map, primary, secondary, key) {
-    primary[key]
-      ? map.hasLayer(primary[key])
-        ? map.removeLayer(primary[key])
-        : map.addLayer(primary[key])
-
-      : mapFunctions.extSelect(ext, url)
-        .then( function handleResponse(response) {
-
-          layerMod.addData(response.toGeoJSON())
-          layerCluster.addLayer(layerMod)
-
-          map.addLayer(layerMod) // here is the problem
-
-          addDataToContainer(layerMod, primary, key) // there is a problem here, on the initial data addition the points go into the datasetCusters with out being converted to clusters
-          addDataToContainer(layerCluster, secondary, key)
-        }, function handleError (error) {
-          console.log(error)
-        })
-  }
-  */
-
-  // how do I control markercluster with this
-  // use layer state
-  function linkEvent (link) {
+  // how do I lift this? 
+  const linkEvent = function (link, map) {
     basic.classToggle(link, 'active')
 
     // start simple, then make it into nice functions. It'll be ugly and hacky, then refactored to something good
     if (layerClusterState === 0) {
-    //  getDatasetAndAddItToMap(myMap, datasets, datasetClusters, pk)
+    //  getDatasetAndAddItToMap(map, datasets, datasetClusters, pk)
     
      // do all this stuff, but use layers 
      datasets[pk]
-      ? myMap.hasLayer(datasets[pk])
-        ? myMap.removeLayer(datasets[pk])
-        : myMap.addLayer(datasets[pk]) //.fitBounds(datasets[pk].getBounds())
+      ? map.hasLayer(datasets[pk])
+        ? map.removeLayer(datasets[pk])
+        : map.addLayer(datasets[pk]) //.fitBounds(datasets[pk].getBounds())
 
-      // if there is no datasets[pk] then go through the process of selecting
-      // the right omnivore function and getting the data and stuff
-      // this is where i deal with the markercluster stuff
+      // Is it better to chain a bunch of then statements that do one thing each?
+      // It is probably easier to test, but I would have to name each function
       : mapFunctions.extSelect(ext, url) // the promise
-        .then( function handleResponse (response) {
-          layerMod.addData(response.toGeoJSON()) // modify the layer
-          layerCluster.addLayer(layerMod)
-          // use layerCluster instead of layerMod
-          myMap.addLayer(layerMod)//.fitBounds(layerMod.getBounds())
+        // convert data to geojson and add it to layerMod
+        .then( res => layerMod.addData( res.toGeoJSON() ) ) // return layerMod
 
-          // add cluster to cluster container and layer to layer container
-          // use this for toggling between clusters and layers
-          datasets[pk] = layerMod
-          datasetClusters[pk] = layerCluster
-
-        }, function handleError (error) {
-          console.log(error)
+        // add layerMod to datasetsContainer[key], return layerMod
+        .then( lm => {
+          datasets[pk] = lm 
+          return lm
         })
-    
-     
+
+        // add layerMod to the map, return layerMod
+        .then( lm => {
+          map.addLayer(lm).fitBounds(layerMod.getBounds())
+          return lm
+        })
+
+        // add layerMod to the layerCluster, return layerCluster
+        .then( lm => layerCluster.addLayer(lm) )
+
+        // add layerCluster to the clusterContainer
+        .then( lc => datasetClusters[pk] = lc )
+
+        // catch any errors and log them
+        .catch( error => console.log(error) )
+
     } else {
-      //getDatasetAndAddItToMap(myMap, datasetClusters, datasets, pk)
+      //getDatasetAndAddItToMap(map, datasetClusters, datasets, pk)
+
       // do all this stuff, but use clusters
-     
-    
      datasets[pk]
-      ? myMap.hasLayer(datasetClusters[pk])
-        ? myMap.removeLayer(datasetClusters[pk])
-        : myMap.addLayer(datasetClusters[pk]) //.fitBounds(datasets[pk].getBounds())
+      ? map.hasLayer(datasetClusters[pk])
+        ? map.removeLayer(datasetClusters[pk])
+        : map.addLayer(datasetClusters[pk]) //.fitBounds(datasets[pk].getBounds())
 
       // if there is no datasets[pk] then go through the process of selecting
       // the right omnivore function and getting the data and stuff
       // this is where i deal with the markercluster stuff
       : mapFunctions.extSelect(ext, url) // the promise
-        .then( function handleResponse (response) {
-          layerMod.addData(response.toGeoJSON()) // modify the layer
-          layerCluster.addLayer(layerMod)
-          // use layerCluster instead of layerMod
-          myMap.addLayer(layerCluster)//.fitBounds(layerMod.getBounds())
+        // convert data to geojson and add it to layerMod
+        .then( res => layerMod.addData( res.toGeoJSON() ) ) // return layerMod
 
-          // add cluster to cluster container and layer to layer container
-          // use this for toggling between clusters and layers
-          datasets[pk] = layerMod
-          datasetClusters[pk] = layerCluster
-
-
-        }, function handleError (error) {
-          console.log(error)
+        // add layerMod to datasetsContainer[key], return layerMod
+        .then( lm => {
+          datasets[pk] = lm 
+          return lm
         })
-            
-    }
 
+        // add layerMod to the layerCluster, return layerCluster
+        .then( lm => layerCluster.addLayer(lm) )
+
+        // add layerCluster to the clusterContainer
+        .then( lc => datasetClusters[pk] = lc )
+
+        // add layer Cluster to the map, return layerCluster
+        .then( lc => map.addLayer(lc).fitBounds(layerMod.getBounds()) ) 
+
+        // catch any errors and log them
+        .catch( error => console.log(error) )
+    }
     activeDatasetButtons.push(link)
   }
 
-//  link.addEventListener('click', () => linkEvent(link))
-
+  // if there is only a single dataset for the page, call the event, else
+  // wait for the buttons to be pressed
   link.getAttribute('detail')
-    ? linkEvent(link)
-    : link.addEventListener('click', () => linkEvent(link))
+    ? linkEvent(link, myMap)
+    : link.addEventListener('click', () => linkEvent(link, myMap))
 })
+
 
 // ////////// // 
 // editMap.js //
@@ -461,6 +419,7 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
   mapFunctions.extSelect(ext, url)
     .then(function handleResponse (response) {
       // make this into a layer
+      // this should be lifted from this function
       const layerMod = L.geoJson(null, {
         // set the points to little circles
         pointToLayer: (feature, latlng) => {
@@ -652,8 +611,6 @@ function clearLayers (map, arr) {
   })
 }
 
-
-
 const clearMapButton = document.getElementById('clear_map')
 
 const a = Object.keys(baseLayers).map(n => baseLayers[n])
@@ -672,11 +629,9 @@ clearMapButton.addEventListener('click', function clearMap () {
 // toggle marker clusters
 // Now I need to make the data addition thing work with this
 // /////////////////////////////////////////////////////////////////////////
-
 const toggleMarkerClustersButton = document.getElementById('toggle_marker_clusters')
 
-
-function pctoggler (map, obj1, obj2) {
+const pctoggler = function (map, obj1, obj2) {
   Object.keys(obj1).forEach( key => {
     if (map.hasLayer(obj1[key])) {
       map.removeLayer(obj1[key])
@@ -685,11 +640,9 @@ function pctoggler (map, obj1, obj2) {
   })
 }
 
-function toggleMarkerClusters (map, layers, clusters) {
-  /*
+const toggleMarkerClusters = function (map, layers, clusters) {
   // If the layer cluster state is 0, which means layers and not clusters, then the
   // function will 
-  */
 
   if (layerClusterState === 0) {
     pctoggler(map, layers, clusters)
