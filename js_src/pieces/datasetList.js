@@ -4,7 +4,7 @@
 
 // const L = require('leaflet')
 
-// The functions
+// The functions, well, most of them
 
 const returnCorrectUrl = function (link, pk) {
   return link.getAttribute('url')

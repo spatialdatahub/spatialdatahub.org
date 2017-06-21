@@ -18,6 +18,7 @@ const filesaver = require('file-saver')
 const basic = require('./pieces/basic.js')
 const mapFunctions = require('./pieces/mapFunctions.js')
 const datasetList = require('./pieces/datasetList.js')
+const editMap = require('./pieces/editMap.js')
 
 // Things I need to fix
 // - filesaver doesn't save data from all sources, only the test urls
@@ -232,15 +233,17 @@ datasetLinks.forEach(function handleDatasetLink (link) {
     } else {
       //getDatasetAndAddItToMap(map, datasetClusters, datasets, pk)
 
+      // if there is no datasets[pk] then go through the process of selecting
+      // the right omnivore function and getting the data
+      // then push the data to and through layers, containers, and the map
+      // this is where we deal with the markercluster stuff
+
       // do all this stuff, but use clusters
-     datasets[pk]
+      datasets[pk]
       ? map.hasLayer(datasetClusters[pk])
         ? map.removeLayer(datasetClusters[pk])
         : map.addLayer(datasetClusters[pk]) //.fitBounds(datasets[pk].getBounds())
 
-      // if there is no datasets[pk] then go through the process of selecting
-      // the right omnivore function and getting the data and stuff
-      // this is where i deal with the markercluster stuff
       : mapFunctions.extSelect(ext, url) // the promise
         // convert data to geojson and add it to layerMod
         .then( res => layerMod.addData( res.toGeoJSON() ) ) // return layerMod
@@ -285,13 +288,11 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 const showFindPlaceContainerButton = document.getElementById('show_find_place_container_button')
 const findPlaceContainer = document.getElementById('find_place_container')
 
-showFindPlaceContainerButton.addEventListener('click', function showPlaceContainer () {
+showFindPlaceContainerButton.addEventListener('click', () => {
   basic.classToggle(showFindPlaceContainerButton, 'active')
-
-  findPlaceContainer.style.display === 'none' || findPlaceContainer.style.display === ''
-    ? findPlaceContainer.style.display = 'block'
-    : findPlaceContainer.style.display = 'none'
+  editMap.showPlaceContainer(findPlaceContainer) 
 })
+
 
 // (2) get elements
 const placeInput = document.getElementById('place_input')
@@ -326,21 +327,6 @@ placeButton.addEventListener('click', function findPlace () {
   en.getPlaceData(val, makeSelectorOptions)
 })
 
-function getSelectedPlacePolygon (sp) {
-  if (sp[0]) {
-    const p = sp[0].toGeoJSON()
-    const spt = p.features[0].geometry.type // spt = selected place type
-
-    if (spt === 'Polygon' || spt === 'MultiPolygon') {
-      return p
-    } else {
-      return 'not a polygon' 
-    }
-
-  } else {
-    return 'not a polygon'
-  } 
-}
 
 // select place to display
 selectButton.addEventListener('click', function selectPlace () {
@@ -374,7 +360,7 @@ placeToggle.addEventListener('click', () => {
 // test url
 // /////////////////////////////////////////////////////////////////////////
 
-// (1) hide and show nominatim stuff (do this after I've gotten it working)
+// (1) hide and show stuff (do this after I've gotten it working)
 const showTestUrlContainerButton = document.getElementById('show_test_url_container_button')
 const testUrlContainer = document.getElementById('test_url_container')
 
@@ -487,7 +473,7 @@ getDataWithinPolygonButton.setAttribute('class', 'btn btn-default')
 function showWithinPolygonContainerFunc () {
   basic.classToggle(showWithinPolygonContainerButton, 'active')
 
-  if (getSelectedPlacePolygon(selectedPlace) !== 'not a polygon') {
+  if (editMap.getSelectedPlacePolygon(selectedPlace) !== 'not a polygon') {
     withinPolygonContainer.innerHTML = '' // why doesn't this clear everything in the container?
     withinPolygonContainer.appendChild(getDataWithinPolygonButton)
   } else {
@@ -538,7 +524,7 @@ getDataWithinPolygonButton.addEventListener('click', () => {
   // refactored
 
   const pointsWithinLayer = L.geoJSON(null).addTo(myMap)
-  getDataWithinPolygonFunc(getSelectedPlacePolygon(selectedPlace), pointsWithinLayer)
+  getDataWithinPolygonFunc(editMap.getSelectedPlacePolygon(selectedPlace), pointsWithinLayer)
 
   if (document.getElementById('file_name_input')) {
     const fni = document.getElementById('file_name_input')
@@ -584,30 +570,27 @@ getDataWithinPolygonButton.addEventListener('click', () => {
 // clear map
 // get button and add click event
 
-/*
+
 // the goal is to check if the layers on the map match any of
 // the layers in an array. If they do match, they are not to be
 // removed, if they don't match, they must be removed.
 
-For each layer on the map, if that layer equals a layer in the
-array, do not remove the layer, otherwise, remove the layer
-*/
+// For each layer on the map, if that layer equals a layer in the
+// array, do not remove the layer, otherwise, remove the layer
+
 
 // this was extremely frustrating to write
-function clearLayers (map, arr) {
+const clearLayers = function (map, arr) {
   map.eachLayer( mapLayer => {
-    const arrayLayer = arr.map( aL => {
-      if (map.hasLayer(aL)) {
-        return aL
-      } else {
-        return undefined 
-      }
-    }).filter(x =>{
-      if (x !== undefined) {
-        return x 
-      }
-    })
-    if (mapLayer !== arrayLayer[0]) { map.removeLayer(mapLayer) }
+    const arrayLayer = arr.map( aL => map.hasLayer(aL) ? aL : undefined)
+      .filter(x =>{
+        if (x !== undefined) {
+          return x 
+        }
+      })
+      if (mapLayer !== arrayLayer[0]) {
+        map.removeLayer(mapLayer)
+       }
   })
 }
 
@@ -626,7 +609,7 @@ clearMapButton.addEventListener('click', function clearMap () {
 })
 
 // /////////////////////////////////////////////////////////////////////////
-// toggle marker clusters
+// toggle markers to clusters
 // Now I need to make the data addition thing work with this
 // /////////////////////////////////////////////////////////////////////////
 const toggleMarkerClustersButton = document.getElementById('toggle_marker_clusters')
