@@ -21,7 +21,6 @@ const mapFunctions = require('../pieces/mapFunctions.js')
 // Maybe I should just do all the function calling here, and all the function
 // defining in the other files
 
-
 // ////////////////////////// //
 // initMap.js //
 // ////////////////////////// //
@@ -62,15 +61,12 @@ rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`, {
   and the GIS User Community`
 })
 
-
-
 const myMap = L.map('mapid', {
   center: {lat: 0, lng: 8.8460},
   zoom: 2,
   layers: osm,
   scrollWheelZoom: false
 })
-
 
 const baseLayers = {
   'Open Street Maps': osm,
@@ -79,7 +75,6 @@ const baseLayers = {
 }
 
 const baseLayerControl = L.control.layers(baseLayers)
-
 
 baseLayerControl.addTo(myMap)
 
