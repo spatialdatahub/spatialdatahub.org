@@ -152,7 +152,7 @@ const handleResponseCluster = function () {}
 
 datasetLinks.forEach(function handleDatasetLink (link) {
   const pk = link.id
-  const ext = link.value
+  const ext = link.getAttribute('value') // I have to use this because 'value' is a loaded arguement
   const url = datasetList.returnCorrectUrl(link, pk)
 
   // deal with colors
@@ -199,34 +199,39 @@ datasetLinks.forEach(function handleDatasetLink (link) {
     } else {
       datasetList.layerLoadOrOnMap(map, datasetClusters, pk, mapFunctions.extSelect(ext, url))
         // convert data to geojson and add it to layerMod
-        .then( res => layerMod.addData( res.toGeoJSON() ) ) // return layerMod
+        .then(res => layerMod.addData(res.toGeoJSON())) // return layerMod
 
         // add layerMod to datasetsContainer[key], return layerMod
-        .then( lm => {
+        .then(lm => {
           datasets[pk] = lm
           return lm
         })
 
         // add layerMod to the layerCluster, return layerCluster
-        .then( lm => layerCluster.addLayer(lm) )
+        .then(lm => layerCluster.addLayer(lm))
 
         // add layerCluster to the clusterContainer
-        .then( lc => datasetClusters[pk] = lc )
+        .then(lc => datasetClusters[pk] = lc)
 
         // add layer Cluster to the map, return layerCluster
-        .then( lc => map.addLayer(lc).fitBounds(layerMod.getBounds()) )
+        .then(lc => map.addLayer(lc).fitBounds(layerMod.getBounds()))
 
         // catch any errors and log them
-        .catch( error => console.log(error) )
+        .catch(error => console.log(error))
     }
     activeDatasetButtons.push(link)
+    console.log(link)
   }
 
   // if there is only a single dataset for the page, call the event, else
   // wait for the buttons to be pressed
-  
+
+  // ok... why isn't getCSV working here? Is it an async issue? This seems to be
+  // linkEvent works on the same csv file when it's part of a list, and 
+  // the geojson single dataset pages work
+  // how does a kml file work? No. There is a problem with the kml file as well
   link.getAttribute('detail')
-    ? linkEvent(link, myMap) // ok... why isn't getCSV working here? Is it an async issue?
+    ? linkEvent(link, myMap)
     : link.addEventListener('click', () => linkEvent(link, myMap))
 })
 

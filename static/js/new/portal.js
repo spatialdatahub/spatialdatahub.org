@@ -160,7 +160,7 @@ var handleResponseCluster = function handleResponseCluster() {};
 
 datasetLinks.forEach(function handleDatasetLink(link) {
   var pk = link.id;
-  var ext = link.value;
+  var ext = link.getAttribute('value'); // I have to use this because 'value' is a loaded arguement
   var url = datasetList.returnCorrectUrl(link, pk);
 
   // deal with colors
@@ -245,13 +245,17 @@ datasetLinks.forEach(function handleDatasetLink(link) {
       });
     }
     activeDatasetButtons.push(link);
+    console.log(link);
   };
 
   // if there is only a single dataset for the page, call the event, else
   // wait for the buttons to be pressed
 
-  link.getAttribute('detail') ? linkEvent(link, myMap) // ok... why isn't getCSV working here? Is it an async issue?
-  : link.addEventListener('click', function () {
+  // ok... why isn't getCSV working here? Is it an async issue? This seems to be
+  // linkEvent works on the same csv file when it's part of a list, and 
+  // the geojson single dataset pages work
+  // how does a kml file work? No. There is a problem with the kml file as well
+  link.getAttribute('detail') ? linkEvent(link, myMap) : link.addEventListener('click', function () {
     return linkEvent(link, myMap);
   });
 });
