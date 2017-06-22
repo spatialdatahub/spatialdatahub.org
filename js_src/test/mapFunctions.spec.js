@@ -1,3 +1,63 @@
+const mapFunctions = require('../pieces/mapFunctions.js')
+
+describe('mapFunctions', function () {
+
+  describe('latLngPointOnFeature', function () {
+
+    // gotta do some hacky stuff here
+    const point = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {},
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -4,
+              38
+            ]
+          }
+        }
+      ]
+    }
+
+    describe('should return html with the lat and lng coordinates', function () {
+
+      it('should return <dt>Latitude:</dt> <dd>38</dd> for the latitude coordinate', function (){
+        const expected = '<dt>Latitude:</dt> <dd>38</dd>'
+        const pointLayer = L.geoJson(point, {
+          onEachFeature: (feature, layer) => {
+            assert.equal(
+              mapFunctions.latLngPointOnFeature(feature)[0],
+              expected
+            )
+          }
+        })
+      })
+
+      it('should return <dt>Longitude:</dt> <dd>-4</dd> for the latitude coordinate', function (){
+        const expected = '<dt>Longitude:</dt> <dd>-4</dd>'
+        const pointLayer = L.geoJson(point, {
+          onEachFeature: (feature, layer) => {
+            assert.equal(
+              mapFunctions.latLngPointOnFeature(feature)[1],
+              expected
+            )
+          }
+        })
+      })
+
+      /* test with line */
+      /* test with polygon */
+
+    })    
+  })
+
+})
+
+
+
 /*
 const L = require('leaflet')
 const omnivore = require('@mapbox/leaflet-omnivore')

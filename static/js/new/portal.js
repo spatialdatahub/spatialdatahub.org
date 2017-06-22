@@ -826,6 +826,7 @@ var getSelectedPlacePolygon = function getSelectedPlacePolygon(sp) {
   }
 };
 
+// this one isn't working yet
 var makeSelectorOptions = function makeSelectorOptions(arr, sel, ppl) {
   sel.innerHTML = '';
 

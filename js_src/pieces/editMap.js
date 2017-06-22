@@ -26,6 +26,7 @@ const getSelectedPlacePolygon = function (sp) {
   }
 }
 
+// this one isn't working yet
 const makeSelectorOptions = function (arr, sel, ppl) {
   sel.innerHTML = ''
 
