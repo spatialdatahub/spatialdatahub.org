@@ -980,9 +980,9 @@ var extSelect = function extSelect(ext, url) {
 // or will the layer still have the popups after it's toggled off and on?
 
 var checkFeatureProperties = function checkFeatureProperties(feature) {
-  return feature.properties.length !== undefined || feature.properties.length !== 0 ? Object.keys(feature.properties).map(function (key) {
+  return Object.keys(feature.properties).map(function (key) {
     return '<dt>' + key + '</dt> <dd>' + feature.properties[key] + '</dd>';
-  }) : ['No feature properties'];
+  });
 };
 
 var latLngPointOnFeature = function latLngPointOnFeature(feature) {

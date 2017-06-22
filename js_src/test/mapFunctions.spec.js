@@ -104,7 +104,7 @@ describe('mapFunctions', function () {
       })
 
       /* test with line */
-      it('should return \'\' for line feature', function (){
+      it('should return \'\' for line feature', function () {
         const expected = ''
         const lineLayer = L.geoJson(line, {
           onEachFeature: (feature, layer) => {
@@ -117,7 +117,7 @@ describe('mapFunctions', function () {
       })
 
       /* test with polygon */
-      it('should return \'\' for polygon feature', function (){
+      it('should return \'\' for polygon feature', function () {
         const expected = ''
         const polygonLayer = L.geoJson(poly, {
           onEachFeature: (feature, layer) => {
@@ -131,12 +131,82 @@ describe('mapFunctions', function () {
     })    
   })
 
-/*
-  describe('checkFeatureProperties', function () {
-    describe('should ')
 
+  describe('checkFeatureProperties', function () {
+    describe('should return array of feature properties of a layer (geojson dataset)', function () {
+
+      const point = {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "color": "blue"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                -4,
+                38
+              ]
+            }
+          }
+        ]
+      }
+
+      const line = {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  -13.9306640625,
+                  33.87041555094183
+                ],
+                [
+                  2.4609375,
+                  27.72243591897343
+                ]
+              ]
+            }
+          }
+        ]
+      }
+
+      // something is wrong here, the expected is the same as the returned value,
+      // but the test is not recognizing it as so.
+      // figured it out, to compare objects use 'deepEqual'
+      it('should return [ \'<dt>color</dt> <dd>blue</dd>\' ]', function () {
+        const expected = ['<dt>color</dt> <dd>blue</dd>'] 
+        const pointLayer = L.geoJson(point, {
+          onEachFeature: (feature, layer) => {
+            assert.deepEqual(
+              mapFunctions.checkFeatureProperties(feature),
+              expected
+            )
+          }
+        })
+      })
+
+      it('layer without properties should return [ \'No feature properties\' ]', function () {
+        const expected = [] 
+        const lineLayer = L.geoJson(line, {
+          onEachFeature: (feature, layer) => {
+            assert.deepEqual(
+              mapFunctions.checkFeatureProperties(feature),
+              expected
+            )
+          }
+        })
+      })
+      
+    })
   })
-*/
+
 // END //
 })
 

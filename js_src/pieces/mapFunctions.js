@@ -62,10 +62,8 @@ const extSelect = function (ext, url) {
 // or will the layer still have the popups after it's toggled off and on?
 
 const checkFeatureProperties = function (feature) {
-  return feature.properties.length !== undefined || feature.properties.length !== 0
-    ? Object.keys(feature.properties)
-      .map( key => `<dt>${key}</dt> <dd>${feature.properties[key]}</dd>` )
-    : ['No feature properties']
+  return Object.keys(feature.properties)
+    .map( key => `<dt>${key}</dt> <dd>${feature.properties[key]}</dd>` )
 }
 
 const latLngPointOnFeature = function (feature) {

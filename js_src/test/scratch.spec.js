@@ -52,7 +52,7 @@ describe('Sinon examples', function () {
   })
 })
 
-
+/*
 describe('My Own Sinon Tests', function () {
   describe('testing a function that takes and returns a callback', function () {
 
@@ -118,7 +118,7 @@ describe('My Own Sinon Tests', function () {
     })
   })
 })
-
+*/
 
 
 /* Here is a stack overflow example of what I am trying to do
