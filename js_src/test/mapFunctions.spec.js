@@ -4,7 +4,62 @@ describe('mapFunctions', function () {
 
   describe('latLngPointOnFeature', function () {
 
-    // gotta do some hacky stuff here
+    const poly = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {},
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -18.544921875,
+                  29.53522956294847
+                ],
+                [
+                  -8.9208984375,
+                  22.30942584120019
+                ],
+                [
+                  -9.31640625,
+                  31.39115752282472
+                ],
+                [
+                  -18.544921875,
+                  29.53522956294847
+                ]
+              ]
+            ]
+          }
+        }
+      ]
+    }
+
+    const line = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {},
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                -13.9306640625,
+                33.87041555094183
+              ],
+              [
+                2.4609375,
+                27.72243591897343
+              ]
+            ]
+          }
+        }
+      ]
+    }
+
     const point = {
       "type": "FeatureCollection",
       "features": [
@@ -24,7 +79,7 @@ describe('mapFunctions', function () {
 
     describe('should return html with the lat and lng coordinates', function () {
 
-      it('should return <dt>Latitude:</dt> <dd>38</dd> for the latitude coordinate', function (){
+      it('should return <dt>Latitude:</dt> <dd>38</dd> for point feature latitude coordinate', function (){
         const expected = '<dt>Latitude:</dt> <dd>38</dd>'
         const pointLayer = L.geoJson(point, {
           onEachFeature: (feature, layer) => {
@@ -36,7 +91,7 @@ describe('mapFunctions', function () {
         })
       })
 
-      it('should return <dt>Longitude:</dt> <dd>-4</dd> for the latitude coordinate', function (){
+      it('should return <dt>Longitude:</dt> <dd>-4</dd> for point feature longitude coordinate', function (){
         const expected = '<dt>Longitude:</dt> <dd>-4</dd>'
         const pointLayer = L.geoJson(point, {
           onEachFeature: (feature, layer) => {
@@ -49,11 +104,40 @@ describe('mapFunctions', function () {
       })
 
       /* test with line */
-      /* test with polygon */
+      it('should return \'\' for line feature', function (){
+        const expected = ''
+        const lineLayer = L.geoJson(line, {
+          onEachFeature: (feature, layer) => {
+            assert.equal(
+              mapFunctions.latLngPointOnFeature(feature),
+              expected
+            )
+          }
+        })
+      })
 
+      /* test with polygon */
+      it('should return \'\' for polygon feature', function (){
+        const expected = ''
+        const polygonLayer = L.geoJson(poly, {
+          onEachFeature: (feature, layer) => {
+            assert.equal(
+              mapFunctions.latLngPointOnFeature(feature),
+              expected
+            )
+          }
+        })
+      })
     })    
   })
 
+/*
+  describe('checkFeatureProperties', function () {
+    describe('should ')
+
+  })
+*/
+// END //
 })
 
 

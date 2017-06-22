@@ -980,25 +980,13 @@ var extSelect = function extSelect(ext, url) {
 // or will the layer still have the popups after it's toggled off and on?
 
 var checkFeatureProperties = function checkFeatureProperties(feature) {
-  // this sort of makes an ugly popup thing, it has a bunch of commas... not that bad
-  // make empty array
-  var arr = [];
-
-  // check if there are properties
-  // if there are push them to the array
-  // else push 'No feature properties' to the array
-  feature.properties.length !== undefined || feature.properties.length !== 0 ? arr.push(Object.keys(feature.properties).map(function (key) {
+  return feature.properties.length !== undefined || feature.properties.length !== 0 ? Object.keys(feature.properties).map(function (key) {
     return '<dt>' + key + '</dt> <dd>' + feature.properties[key] + '</dd>';
-  })) : arr.push('No feature properties');
-
-  return arr;
+  }) : ['No feature properties'];
 };
 
 var latLngPointOnFeature = function latLngPointOnFeature(feature) {
-  var arr = [];
-  feature.geometry.type === 'Point' ? arr.push('<dt>Latitude:</dt> <dd>' + feature.geometry.coordinates[1] + '</dd>', '<dt>Longitude:</dt> <dd>' + feature.geometry.coordinates[0] + '</dd>') : arr.push('');
-
-  return arr;
+  return feature.geometry.type === 'Point' ? ['<dt>Latitude:</dt> <dd>' + feature.geometry.coordinates[1] + '</dd>', '<dt>Longitude:</dt> <dd>' + feature.geometry.coordinates[0] + '</dd>'] : [''];
 };
 
 var addPopups = function addPopups(feature, layer) {
