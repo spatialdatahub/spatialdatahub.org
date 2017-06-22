@@ -1,9 +1,7 @@
 const mapFunctions = require('../pieces/mapFunctions.js')
 
 describe('mapFunctions', function () {
-
   describe('latLngPointOnFeature', function () {
-
     const poly = {
       "type": "FeatureCollection",
       "features": [
@@ -78,8 +76,7 @@ describe('mapFunctions', function () {
     }
 
     describe('should return html with the lat and lng coordinates', function () {
-
-      it('should return <dt>Latitude:</dt> <dd>38</dd> for point feature latitude coordinate', function (){
+      it('should return <dt>Latitude:</dt> <dd>38</dd> for point feature latitude coordinate', function () {
         const expected = '<dt>Latitude:</dt> <dd>38</dd>'
         const pointLayer = L.geoJson(point, {
           onEachFeature: (feature, layer) => {
@@ -91,7 +88,7 @@ describe('mapFunctions', function () {
         })
       })
 
-      it('should return <dt>Longitude:</dt> <dd>-4</dd> for point feature longitude coordinate', function (){
+      it('should return <dt>Longitude:</dt> <dd>-4</dd> for point feature longitude coordinate', function () {
         const expected = '<dt>Longitude:</dt> <dd>-4</dd>'
         const pointLayer = L.geoJson(point, {
           onEachFeature: (feature, layer) => {
@@ -128,13 +125,11 @@ describe('mapFunctions', function () {
           }
         })
       })
-    })    
+    })
   })
-
 
   describe('checkFeatureProperties', function () {
     describe('should return array of feature properties of a layer (geojson dataset)', function () {
-
       const point = {
         "type": "FeatureCollection",
         "features": [
@@ -181,7 +176,7 @@ describe('mapFunctions', function () {
       // but the test is not recognizing it as so.
       // figured it out, to compare objects use 'deepEqual'
       it('should return [ \'<dt>color</dt> <dd>blue</dd>\' ]', function () {
-        const expected = ['<dt>color</dt> <dd>blue</dd>'] 
+        const expected = ['<dt>color</dt> <dd>blue</dd>']
         const pointLayer = L.geoJson(point, {
           onEachFeature: (feature, layer) => {
             assert.deepEqual(
@@ -193,7 +188,7 @@ describe('mapFunctions', function () {
       })
 
       it('layer without properties should return [ \'No feature properties\' ]', function () {
-        const expected = [] 
+        const expected = []
         const lineLayer = L.geoJson(line, {
           onEachFeature: (feature, layer) => {
             assert.deepEqual(
@@ -203,14 +198,11 @@ describe('mapFunctions', function () {
           }
         })
       })
-      
     })
   })
 
 // END //
 })
-
-
 
 /*
 const L = require('leaflet')
@@ -230,7 +222,7 @@ describe('mapFunctions', function () {
     //  afterEach(function () {
     //    mapFunctions.getCSV.restore()
     //  })
- 
+
       it('whatever, i need to learn to spy', function () {
 
         //var spyGetCSV = sinon.spy(mapFunctions, 'getCSV')
@@ -259,12 +251,12 @@ describe('mapFunctions', function () {
         sinon.assert.calledOnce(mapFunctions.getGeoJSON)
       })
     })
-    
+
   })
 })
 
 
-    
+
     it('should be called once if called', function () {
       var spyGetCSV = sinon.spy(mapFunctions, 'extSelect')
       mapFunctions.extSelect('csv', 'https://raw.githubusercontent.com/patcurry/GeoJsonData/master/airports.csv')
@@ -286,4 +278,4 @@ describe('mapFunctions', function () {
       stubGetCSV.restore()
       sinon.assert.called(proxy, stubGetCSV)
     })
-  */  
+  */

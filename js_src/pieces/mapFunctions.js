@@ -81,22 +81,10 @@ const addPopups = function (feature, layer) {
     .concat(latLngPointOnFeature(feature))
     .map(x => x)
 
-  // set max height and width so popup will scroll up and down, and side to side
-  const popupOptions = {
-//    maxHeight: 300,
-//    maxWidth: 300,
-//    autoPanPaddingTopLeft: [50, 50],
-//    autoPanPaddingTopRight: [50, 50]
-  }
-
-  // actual popup and content stuff
   const content = `<dl id="popup-content">${popupContent.join('')}</dl>`
-  const popup = L.popup(popupOptions).setContent(content)
+  const popup = L.popup().setContent(content)
 
   layer.bindPopup(popup)
-
-  // bind the popupContent array to the layer's layers
-//  layer.bindPopup(popupHtml.innerHTML=popupContent.join('')) // this is where the popup html will be implemented
 }
 
 

@@ -2,7 +2,6 @@ const L = require('leaflet')
 const editMap = require('../pieces/editMap.js')
 
 describe('editMap', function () {
-
   describe('showPlaceContainer', function () {
     beforeEach(function () {
       const fixture = document.getElementById('fixture')
@@ -12,7 +11,7 @@ describe('editMap', function () {
       fixture.appendChild(element)
     })
 
-    afterEach( function () {
+    afterEach(function () {
       const fixture = document.getElementById('fixture')
       const element = document.getElementById('element')
       fixture.removeChild(element)
@@ -132,7 +131,5 @@ describe('editMap', function () {
       arr.push(polyLayer)
       assert.equal(editMap.getSelectedPlacePolygon(arr), 'Polygon')
     })
-  }) 
-
-
+  })
 })

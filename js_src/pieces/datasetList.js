@@ -1,11 +1,6 @@
 // ////////////// //
 // datasetList.js //
 // ////////////// //
-
-// const L = require('leaflet')
-
-// The functions, well, most of them
-
 const returnCorrectUrl = function (link, pk) {
   return link.getAttribute('url')
     ? link.getAttribute('url')
@@ -13,7 +8,7 @@ const returnCorrectUrl = function (link, pk) {
 }
 
 const returnLayer = function (color, popupCallback, markerOptions) {
-    return L.geoJson(null, {
+  return L.geoJson(null, {
     // set the points to little circles
     pointToLayer: (feature, latlng) => {
       return L.circleMarker(latlng, markerOptions)
@@ -34,9 +29,11 @@ const returnLayer = function (color, popupCallback, markerOptions) {
 
 const returnCluster = function (color) {
   return L.markerClusterGroup({
-    iconCreateFunction: function(cluster) {
-      const textColor = color === 'blue' || color === 'purple' || color === 'green' ? 'white' : 'black'
-      return L.divIcon({ 
+    iconCreateFunction: cluster => {
+      const textColor = color === 'blue' || color === 'purple' || color === 'green'
+        ? 'white'
+        : 'black'
+      return L.divIcon({
         html: `<div style="text-align: center; background-color: ${color}; color: ${textColor}"><b>${cluster.getChildCount()}</b></div>`,
         iconSize: new L.Point(40, 20)
       })
@@ -44,11 +41,9 @@ const returnCluster = function (color) {
   })
 }
 
-
-
 module.exports = {
   returnCorrectUrl: returnCorrectUrl,
   returnLayer: returnLayer,
   returnCluster: returnCluster
-//  handleDatasetLink: handleDatasetLink 
+//  handleDatasetLink: handleDatasetLink
 }

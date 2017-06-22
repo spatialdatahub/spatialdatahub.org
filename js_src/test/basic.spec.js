@@ -34,7 +34,6 @@ describe('basic.js file', function () {
     })
   })
 
-
   describe('classToggleOnDifferentLink', function () {
     beforeEach( function () {
       const fixture = document.getElementById('fixture')
@@ -85,7 +84,6 @@ describe('basic.js file', function () {
     })
   })
 
-
   describe('getExt', function () {
     it('should return "kml" from a string ending with "kml" (case-insensitive)', function () {
       const str = 'nachos.kMl'
@@ -107,7 +105,6 @@ describe('basic.js file', function () {
       assert.equal(basic.getExt(str), 'geojson')
     })
   })
-
 
   describe('addButton', function () {
     afterEach(function () {
@@ -138,6 +135,5 @@ describe('basic.js file', function () {
       const btn = basic.addButton('hey now now', 'blue', fixture)
       assert.equal('bold', fixture.childNodes[0].style.fontWeight)
     })
-
   })
 })

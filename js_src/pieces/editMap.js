@@ -1,6 +1,6 @@
-// ////////// // 
+// ////////// //
 // editMap.js //
-// ////////// // 
+// ////////// //
 // /////////////////////////////////////////////////////////////////////////
 // nominatim
 // /////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@ const showPlaceContainer = function (container) {
 }
 
 // this must take a layer!!!!!!!
-// using 'sp' as 'selectedPlace' because that variable is being used elsewhere. 
+// using 'sp' as 'selectedPlace' because that variable is being used elsewhere.
 // best to use variable names only once.
 const getSelectedPlacePolygon = function (sp) {
   if (sp[0]) {
@@ -27,6 +27,7 @@ const getSelectedPlacePolygon = function (sp) {
 }
 
 // this one isn't working yet
+/*
 const makeSelectorOptions = function (arr, sel, ppl) {
   sel.innerHTML = ''
 
@@ -41,7 +42,7 @@ const makeSelectorOptions = function (arr, sel, ppl) {
   const lyr = L.geoJSON(place.geojson)
   possiblePlaceLayers[place.display_name] = layer
 }
-
+*/
 
 /*
 // (2) get elements
@@ -77,7 +78,6 @@ placeButton.addEventListener('click', function findPlace () {
   en.getPlaceData(val, makeSelectorOptions)
 })
 
-
 // select place to display
 selectButton.addEventListener('click', function selectPlace () {
 
@@ -109,5 +109,5 @@ placeToggle.addEventListener('click', () => {
 module.exports = {
   showPlaceContainer: showPlaceContainer,
   getSelectedPlacePolygon: getSelectedPlacePolygon
-//  makeSelectorOptions: makeSelectorOptions  
+//  makeSelectorOptions: makeSelectorOptions
 }

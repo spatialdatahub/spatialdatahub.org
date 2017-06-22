@@ -12,7 +12,7 @@ function _interopRequireDefault(obj) {
 }
 
 var L = require('leaflet');
-var omnivore = require('@mapbox/leaflet-omnivore');
+// const omnivore = require('@mapbox/leaflet-omnivore')
 
 var markercluster = require('leaflet.markercluster');
 var filesaver = require('file-saver');
@@ -25,7 +25,7 @@ var editMap = require('./pieces/editMap.js');
 // Things I need to fix
 // - filesaver doesn't save data from all sources, only the test urls
 // - csv files (and possibly other non-geojson files) do not load on dataset detail page
-// - the load data to page or get data function is loading clusters into the wrong containers
+// - the load data to page or get data function is loading clusters into the wrong containers -- fixed
 // - the toggle test datasets button is not toggling the datasets on and off
 
 // Maybe I should just do all the function calling here, and all the function
@@ -126,7 +126,7 @@ L.imageOverlay(imageUrl, imageBounds).addTo(myMap);
 // ////////////// //
 // A lot of this stuff doesn't need to be in the datasetList file. It could be put
 // into something else
-// I have an idea, I will just make the dataset specific page work like a 
+// I have an idea, I will just make the dataset specific page work like a
 // dataset list page
 
 // Maybe the functions should be put into a different file, and everything else
@@ -151,11 +151,10 @@ var datasets = {};
 var datasetClusters = {};
 var activeDatasetButtons = [];
 
-// The initial value will start the page with either layers or clusters. 
+// The initial value will start the page with either layers or clusters.
 var layerClusterState = 1; // 0 is layers, 1 is clusters. // something is wrong
 
 //datasetLinks.forEach(l => datasetList.handleDatasetLink(l))
-
 
 var handleResponseCluster = function handleResponseCluster() {};
 
@@ -173,7 +172,7 @@ datasetLinks.forEach(function handleDatasetLink(link) {
   // a new cluster layer needs to be created for every link
   var layerCluster = datasetList.returnCluster(color);
 
-  // how do I lift this? 
+  // how do I lift this?
   var linkEvent = function linkEvent(link, map) {
     basic.classToggle(link, 'active');
 
@@ -181,7 +180,7 @@ datasetLinks.forEach(function handleDatasetLink(link) {
     if (layerClusterState === 0) {
       //  getDatasetAndAddItToMap(map, datasets, datasetClusters, pk)
 
-      // do all this stuff, but use layers 
+      // do all this stuff, but use layers
       datasets[pk] ? map.hasLayer(datasets[pk]) ? map.removeLayer(datasets[pk]) : map.addLayer(datasets[pk]) //.fitBounds(datasets[pk].getBounds())
 
       // Is it better to chain a bunch of then statements that do one thing each?
@@ -271,9 +270,9 @@ datasetLinks.forEach(function handleDatasetLink(link) {
   });
 });
 
-// ////////// // 
+// ////////// //
 // editMap.js //
-// ////////// // 
+// ////////// //
 // /////////////////////////////////////////////////////////////////////////
 // nominatim
 // /////////////////////////////////////////////////////////////////////////
@@ -438,7 +437,6 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
 // and a function that toggles the button state
 
 toggleTestUrlsButton.addEventListener('click', function () {
-
   Object.keys(testDatasets).forEach(function (x) {
     // also need to make the buttons active and not active
     // this is going to be hacky but it will work
@@ -505,7 +503,6 @@ function getDataWithinPolygonFunc(poly, layer) {
   // be added to the map, and also converted to geojson and saved.
 
   pointsLayers.forEach(function (l) {
-    //const n = turf.within(l, poly)
     var n = (0, _within2.default)(l, poly);
     layer.addData(n);
   });
@@ -561,7 +558,7 @@ getDataWithinPolygonButton.addEventListener('click', function () {
 // which is added to the map. This layer can then be saved to a file
 // using the 'filesaver' javascript script functionality. The function
 // creates buttons that save the data to a file, and clears the data
-// from the saved 
+// from the saved
 ////////////////////////////////////////////////////////////////////////
 
 
@@ -626,8 +623,7 @@ var pctoggler = function pctoggler(map, obj1, obj2) {
 
 var toggleMarkerClusters = function toggleMarkerClusters(map, layers, clusters) {
   // If the layer cluster state is 0, which means layers and not clusters, then the
-  // function will 
-
+  // function will
   if (layerClusterState === 0) {
     pctoggler(map, layers, clusters);
     layerClusterState++;
@@ -637,11 +633,11 @@ var toggleMarkerClusters = function toggleMarkerClusters(map, layers, clusters) 
   }
 };
 
-toggleMarkerClustersButton.addEventListener("click", function clusterToLayer() {
+toggleMarkerClustersButton.addEventListener('click', function clusterToLayer() {
   toggleMarkerClusters(myMap, datasets, datasetClusters);
 });
 
-},{"./pieces/basic.js":2,"./pieces/datasetList.js":3,"./pieces/editMap.js":4,"./pieces/mapFunctions.js":5,"@mapbox/leaflet-omnivore":6,"@turf/within":10,"easy-nominatim":15,"file-saver":16,"leaflet":18,"leaflet.markercluster":17}],2:[function(require,module,exports){
+},{"./pieces/basic.js":2,"./pieces/datasetList.js":3,"./pieces/editMap.js":4,"./pieces/mapFunctions.js":5,"@turf/within":10,"easy-nominatim":15,"file-saver":16,"leaflet":18,"leaflet.markercluster":17}],2:[function(require,module,exports){
 'use strict';
 
 // //////// //
@@ -652,10 +648,8 @@ toggleMarkerClustersButton.addEventListener("click", function clusterToLayer() {
 // almost exactly copied from 'youmightnotneedjquery.com'
 
 var classToggle = function classToggle(el, className) {
-  /*
-    Toggle class on element. Click element once to turn it on,
-    and again to turn it off, or vis versa.
-  */
+  // Toggle class on element. Click element once to turn it on,
+  // and again to turn it off, or vis versa.
   if (el.classList) {
     el.classList.toggle(className);
   } else {
@@ -754,10 +748,6 @@ module.exports = {
 // datasetList.js //
 // ////////////// //
 
-// const L = require('leaflet')
-
-// The functions, well, most of them
-
 var returnCorrectUrl = function returnCorrectUrl(link, pk) {
   return link.getAttribute('url') ? link.getAttribute('url') : '/load_dataset/' + pk;
 };
@@ -796,15 +786,15 @@ module.exports = {
   returnCorrectUrl: returnCorrectUrl,
   returnLayer: returnLayer,
   returnCluster: returnCluster
-  //  handleDatasetLink: handleDatasetLink 
+  //  handleDatasetLink: handleDatasetLink
 };
 
 },{}],4:[function(require,module,exports){
 'use strict';
 
-// ////////// // 
+// ////////// //
 // editMap.js //
-// ////////// // 
+// ////////// //
 // /////////////////////////////////////////////////////////////////////////
 // nominatim
 // /////////////////////////////////////////////////////////////////////////
@@ -814,7 +804,7 @@ var showPlaceContainer = function showPlaceContainer(container) {
 };
 
 // this must take a layer!!!!!!!
-// using 'sp' as 'selectedPlace' because that variable is being used elsewhere. 
+// using 'sp' as 'selectedPlace' because that variable is being used elsewhere.
 // best to use variable names only once.
 var getSelectedPlacePolygon = function getSelectedPlacePolygon(sp) {
   if (sp[0]) {
@@ -827,20 +817,22 @@ var getSelectedPlacePolygon = function getSelectedPlacePolygon(sp) {
 };
 
 // this one isn't working yet
-var makeSelectorOptions = function makeSelectorOptions(arr, sel, ppl) {
-  sel.innerHTML = '';
+/*
+const makeSelectorOptions = function (arr, sel, ppl) {
+  sel.innerHTML = ''
 
-  arr.forEach(function (place) {
-    var option = document.createElement('option');
-    option.value = place.display_name;
-    var text = document.createTextNode(place.display_name);
-    option.appendChild(text);
-    sel.appendChild(option);
-  });
+  arr.forEach(place => {
+    const option = document.createElement('option')
+    option.value = place.display_name
+    const text = document.createTextNode(place.display_name)
+    option.appendChild(text)
+    sel.appendChild(option)
+  })
 
-  var lyr = L.geoJSON(place.geojson);
-  possiblePlaceLayers[place.display_name] = layer;
-};
+  const lyr = L.geoJSON(place.geojson)
+  possiblePlaceLayers[place.display_name] = layer
+}
+*/
 
 /*
 // (2) get elements
@@ -876,7 +868,6 @@ placeButton.addEventListener('click', function findPlace () {
   en.getPlaceData(val, makeSelectorOptions)
 })
 
-
 // select place to display
 selectButton.addEventListener('click', function selectPlace () {
 
@@ -908,7 +899,7 @@ placeToggle.addEventListener('click', () => {
 module.exports = {
   showPlaceContainer: showPlaceContainer,
   getSelectedPlacePolygon: getSelectedPlacePolygon
-  //  makeSelectorOptions: makeSelectorOptions  
+  //  makeSelectorOptions: makeSelectorOptions
 };
 
 },{}],5:[function(require,module,exports){
@@ -995,22 +986,10 @@ var addPopups = function addPopups(feature, layer) {
     return x;
   });
 
-  // set max height and width so popup will scroll up and down, and side to side
-  var popupOptions = {}
-  //    maxHeight: 300,
-  //    maxWidth: 300,
-  //    autoPanPaddingTopLeft: [50, 50],
-  //    autoPanPaddingTopRight: [50, 50]
-
-
-  // actual popup and content stuff
-  ;var content = '<dl id="popup-content">' + popupContent.join('') + '</dl>';
-  var popup = L.popup(popupOptions).setContent(content);
+  var content = '<dl id="popup-content">' + popupContent.join('') + '</dl>';
+  var popup = L.popup().setContent(content);
 
   layer.bindPopup(popup);
-
-  // bind the popupContent array to the layer's layers
-  //  layer.bindPopup(popupHtml.innerHTML=popupContent.join('')) // this is where the popup html will be implemented
 };
 
 // THESE THREE CONTROL FUNCTIONS ARE TIGHTLY COUPLED WITH DIFFERENT THINGS

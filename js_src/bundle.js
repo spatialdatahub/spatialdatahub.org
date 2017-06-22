@@ -1,9 +1,8 @@
 const L = require('leaflet')
-const omnivore = require('@mapbox/leaflet-omnivore')
+// const omnivore = require('@mapbox/leaflet-omnivore')
 
 import within from '@turf/within'
 import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
-
 
 const markercluster = require('leaflet.markercluster')
 const filesaver = require('file-saver')
@@ -16,7 +15,7 @@ const editMap = require('./pieces/editMap.js')
 // Things I need to fix
 // - filesaver doesn't save data from all sources, only the test urls
 // - csv files (and possibly other non-geojson files) do not load on dataset detail page
-// - the load data to page or get data function is loading clusters into the wrong containers
+// - the load data to page or get data function is loading clusters into the wrong containers -- fixed
 // - the toggle test datasets button is not toggling the datasets on and off
 
 // Maybe I should just do all the function calling here, and all the function
@@ -119,7 +118,7 @@ L.imageOverlay(imageUrl, imageBounds).addTo(myMap);
 // ////////////// //
 // A lot of this stuff doesn't need to be in the datasetList file. It could be put
 // into something else
-// I have an idea, I will just make the dataset specific page work like a 
+// I have an idea, I will just make the dataset specific page work like a
 // dataset list page
 
 // Maybe the functions should be put into a different file, and everything else
@@ -144,11 +143,10 @@ const datasets = {}
 const datasetClusters = {}
 const activeDatasetButtons = []
 
-// The initial value will start the page with either layers or clusters. 
+// The initial value will start the page with either layers or clusters.
 let layerClusterState = 1 // 0 is layers, 1 is clusters. // something is wrong
 
 //datasetLinks.forEach(l => datasetList.handleDatasetLink(l))
-
 
 const handleResponseCluster = function () {}
 
@@ -166,15 +164,15 @@ datasetLinks.forEach(function handleDatasetLink (link) {
   // a new cluster layer needs to be created for every link
   const layerCluster = datasetList.returnCluster(color)
 
-  // how do I lift this? 
+  // how do I lift this?
   const linkEvent = function (link, map) {
     basic.classToggle(link, 'active')
 
     // start simple, then make it into nice functions. It'll be ugly and hacky, then refactored to something good
     if (layerClusterState === 0) {
     //  getDatasetAndAddItToMap(map, datasets, datasetClusters, pk)
-    
-     // do all this stuff, but use layers 
+
+     // do all this stuff, but use layers
      datasets[pk]
       ? map.hasLayer(datasets[pk])
         ? map.removeLayer(datasets[pk])
@@ -188,7 +186,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
         // add layerMod to datasetsContainer[key], return layerMod
         .then( lm => {
-          datasets[pk] = lm 
+          datasets[pk] = lm
           return lm
         })
 
@@ -227,7 +225,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
         // add layerMod to datasetsContainer[key], return layerMod
         .then( lm => {
-          datasets[pk] = lm 
+          datasets[pk] = lm
           return lm
         })
 
@@ -238,7 +236,7 @@ datasetLinks.forEach(function handleDatasetLink (link) {
         .then( lc => datasetClusters[pk] = lc )
 
         // add layer Cluster to the map, return layerCluster
-        .then( lc => map.addLayer(lc).fitBounds(layerMod.getBounds()) ) 
+        .then( lc => map.addLayer(lc).fitBounds(layerMod.getBounds()) )
 
         // catch any errors and log them
         .catch( error => console.log(error) )
@@ -254,9 +252,9 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 })
 
 
-// ////////// // 
+// ////////// //
 // editMap.js //
-// ////////// // 
+// ////////// //
 // /////////////////////////////////////////////////////////////////////////
 // nominatim
 // /////////////////////////////////////////////////////////////////////////
@@ -267,7 +265,7 @@ const findPlaceContainer = document.getElementById('find_place_container')
 
 showFindPlaceContainerButton.addEventListener('click', () => {
   basic.classToggle(showFindPlaceContainerButton, 'active')
-  editMap.showPlaceContainer(findPlaceContainer) 
+  editMap.showPlaceContainer(findPlaceContainer)
 })
 
 // (2) get elements
@@ -298,13 +296,11 @@ function makeSelectorOptions (array) {
   })
 }
 
-
 // add place(s) to the selector
 placeButton.addEventListener('click', function findPlace () {
   const val = placeInput.value
   en.getPlaceData(val, makeSelectorOptions)
 })
-
 
 // select place to display
 selectButton.addEventListener('click', function selectPlace () {
@@ -429,14 +425,11 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
     })
 })
 
-
 // toggle testDatasets on and off
 // this should be broken into a function that toggle the datasets
 // and a function that toggles the button state
 
 toggleTestUrlsButton.addEventListener('click', () => {
-
-
   Object.keys(testDatasets).forEach(x => {
     // also need to make the buttons active and not active
     // this is going to be hacky but it will work
@@ -448,7 +441,6 @@ toggleTestUrlsButton.addEventListener('click', () => {
       : myMap.addLayer(testDatasets[x])
   })
 })
-
 
 // /////////////////////////////////////////////////////////////////////////
 // end test url
@@ -507,9 +499,8 @@ function getDataWithinPolygonFunc (poly, layer) {
 
   // run the turf.within function, and add the data to the layer that will
   // be added to the map, and also converted to geojson and saved.
-  
+
   pointsLayers.forEach(l => {
-    //const n = turf.within(l, poly)
     const n = within(l, poly)
     layer.addData(n)
   })
@@ -564,7 +555,7 @@ getDataWithinPolygonButton.addEventListener('click', () => {
 // which is added to the map. This layer can then be saved to a file
 // using the 'filesaver' javascript script functionality. The function
 // creates buttons that save the data to a file, and clears the data
-// from the saved 
+// from the saved
 ////////////////////////////////////////////////////////////////////////
 
 
@@ -582,16 +573,16 @@ getDataWithinPolygonButton.addEventListener('click', () => {
 
 // this was extremely frustrating to write
 const clearLayers = function (map, arr) {
-  map.eachLayer( mapLayer => {
-    const arrayLayer = arr.map( aL => map.hasLayer(aL) ? aL : undefined)
-      .filter(x =>{
+  map.eachLayer(mapLayer => {
+    const arrayLayer = arr.map(aL => map.hasLayer(aL) ? aL : undefined)
+      .filter(x => {
         if (x !== undefined) {
-          return x 
+          return x
         }
       })
-      if (mapLayer !== arrayLayer[0]) {
-        map.removeLayer(mapLayer)
-       }
+    if (mapLayer !== arrayLayer[0]) {
+      map.removeLayer(mapLayer)
+    }
   })
 }
 
@@ -616,18 +607,17 @@ clearMapButton.addEventListener('click', function clearMap () {
 const toggleMarkerClustersButton = document.getElementById('toggle_marker_clusters')
 
 const pctoggler = function (map, obj1, obj2) {
-  Object.keys(obj1).forEach( key => {
+  Object.keys(obj1).forEach(key => {
     if (map.hasLayer(obj1[key])) {
       map.removeLayer(obj1[key])
       map.addLayer(obj2[key])
-    } 
+    }
   })
 }
 
 const toggleMarkerClusters = function (map, layers, clusters) {
   // If the layer cluster state is 0, which means layers and not clusters, then the
-  // function will 
-
+  // function will
   if (layerClusterState === 0) {
     pctoggler(map, layers, clusters)
     layerClusterState++
@@ -635,9 +625,8 @@ const toggleMarkerClusters = function (map, layers, clusters) {
     pctoggler(map, clusters, layers)
     layerClusterState--
   }
-
 }
 
-toggleMarkerClustersButton.addEventListener("click", function clusterToLayer () {
+toggleMarkerClustersButton.addEventListener('click', function clusterToLayer () {
   toggleMarkerClusters(myMap, datasets, datasetClusters)
 })

@@ -5,10 +5,8 @@
 // toggle active / inactive links in list
 // almost exactly copied from 'youmightnotneedjquery.com'
 const classToggle = function (el, className) {
-  /*
-    Toggle class on element. Click element once to turn it on,
-    and again to turn it off, or vis versa.
-  */
+  // Toggle class on element. Click element once to turn it on,
+  // and again to turn it off, or vis versa.
   if (el.classList) {
     el.classList.toggle(className)
   } else {
@@ -22,7 +20,6 @@ const classToggle = function (el, className) {
     el.className = classes.join(' ')
   }
 }
-
 
 // This one isn't being used right now, but it is useful if there are different choices
 // that turn eachother on and off
@@ -48,7 +45,6 @@ const classToggleOnDiffLink = function (el, elList, className) {
   classes.push(className)
   el.className = classes.join(' ')
 }
-
 
 // make function that gets the ext of the url
 // it can handle csv, kml, json, and geojson
