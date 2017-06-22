@@ -11,6 +11,7 @@ const showPlaceContainer = function (container) {
     : container.style.display = 'none'
 }
 
+// this must take a layer!!!!!!!
 // using 'sp' as 'selectedPlace' because that variable is being used elsewhere. 
 // best to use variable names only once.
 const getSelectedPlacePolygon = function (sp) {
@@ -106,6 +107,6 @@ placeToggle.addEventListener('click', () => {
 
 module.exports = {
   showPlaceContainer: showPlaceContainer,
-  getSelectedPlacePolygon: getSelectedPlacePolygon,
+  getSelectedPlacePolygon: getSelectedPlacePolygon
 //  makeSelectorOptions: makeSelectorOptions  
 }

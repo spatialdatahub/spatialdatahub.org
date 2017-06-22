@@ -813,6 +813,7 @@ var showPlaceContainer = function showPlaceContainer(container) {
   container.style.display === 'none' || container.style.display === '' ? container.style.display = 'block' : container.style.display = 'none';
 };
 
+// this must take a layer!!!!!!!
 // using 'sp' as 'selectedPlace' because that variable is being used elsewhere. 
 // best to use variable names only once.
 var getSelectedPlacePolygon = function getSelectedPlacePolygon(sp) {
@@ -906,6 +907,7 @@ placeToggle.addEventListener('click', () => {
 module.exports = {
   showPlaceContainer: showPlaceContainer,
   getSelectedPlacePolygon: getSelectedPlacePolygon
+  //  makeSelectorOptions: makeSelectorOptions  
 };
 
 },{}],5:[function(require,module,exports){
