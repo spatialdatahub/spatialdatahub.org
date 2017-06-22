@@ -178,14 +178,8 @@ datasetLinks.forEach(function handleDatasetLink(link) {
 
     // start simple, then make it into nice functions. It'll be ugly and hacky, then refactored to something good
     if (layerClusterState === 0) {
-      //  getDatasetAndAddItToMap(map, datasets, datasetClusters, pk)
 
-      // do all this stuff, but use layers
-      datasets[pk] ? map.hasLayer(datasets[pk]) ? map.removeLayer(datasets[pk]) : map.addLayer(datasets[pk]) //.fitBounds(datasets[pk].getBounds())
-
-      // Is it better to chain a bunch of then statements that do one thing each?
-      // It is probably easier to test, but I would have to name each function
-      : mapFunctions.extSelect(ext, url) // the promise
+      datasetList.layerLoadOrOnMap(map, datasets, pk, mapFunctions.extSelect(ext, url))
       // convert data to geojson and add it to layerMod
       .then(function (res) {
         return layerMod.addData(res.toGeoJSON());
@@ -218,17 +212,7 @@ datasetLinks.forEach(function handleDatasetLink(link) {
         return console.log(error);
       });
     } else {
-      //getDatasetAndAddItToMap(map, datasetClusters, datasets, pk)
-
-      // if there is no datasets[pk] then go through the process of selecting
-      // the right omnivore function and getting the data
-      // then push the data to and through layers, containers, and the map
-      // this is where we deal with the markercluster stuff
-
-      // do all this stuff, but use clusters
-      datasets[pk] ? map.hasLayer(datasetClusters[pk]) ? map.removeLayer(datasetClusters[pk]) : map.addLayer(datasetClusters[pk]) //.fitBounds(datasets[pk].getBounds())
-
-      : mapFunctions.extSelect(ext, url) // the promise
+      datasetList.layerLoadOrOnMap(map, datasetClusters, pk, mapFunctions.extSelect(ext, url))
       // convert data to geojson and add it to layerMod
       .then(function (res) {
         return layerMod.addData(res.toGeoJSON());
@@ -265,7 +249,9 @@ datasetLinks.forEach(function handleDatasetLink(link) {
 
   // if there is only a single dataset for the page, call the event, else
   // wait for the buttons to be pressed
-  link.getAttribute('detail') ? linkEvent(link, myMap) : link.addEventListener('click', function () {
+
+  link.getAttribute('detail') ? linkEvent(link, myMap) // ok... why isn't getCSV working here? Is it an async issue?
+  : link.addEventListener('click', function () {
     return linkEvent(link, myMap);
   });
 });
@@ -782,10 +768,15 @@ var returnCluster = function returnCluster(color) {
   });
 };
 
+var layerLoadOrOnMap = function layerLoadOrOnMap(map, container, key, callback) {
+  return container[key] ? map.hasLayer(container[key]) ? map.removeLayer(container[key]) : map.addLayer(container[key]) : callback;
+};
+
 module.exports = {
   returnCorrectUrl: returnCorrectUrl,
   returnLayer: returnLayer,
-  returnCluster: returnCluster
+  returnCluster: returnCluster,
+  layerLoadOrOnMap: layerLoadOrOnMap
   //  handleDatasetLink: handleDatasetLink
 };
 
@@ -944,6 +935,7 @@ var getKML = function getKML(url) {
 };
 
 var getCSV = function getCSV(url) {
+  console.log(url);
   return new Promise(function handlePromise(resolve, reject) {
     var dataLayer = omnivore.csv(url).on('ready', function () {
       return resolve(dataLayer);

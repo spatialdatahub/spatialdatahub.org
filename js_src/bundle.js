@@ -170,56 +170,34 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
     // start simple, then make it into nice functions. It'll be ugly and hacky, then refactored to something good
     if (layerClusterState === 0) {
-    //  getDatasetAndAddItToMap(map, datasets, datasetClusters, pk)
 
-     // do all this stuff, but use layers
-     datasets[pk]
-      ? map.hasLayer(datasets[pk])
-        ? map.removeLayer(datasets[pk])
-        : map.addLayer(datasets[pk]) //.fitBounds(datasets[pk].getBounds())
-
-      // Is it better to chain a bunch of then statements that do one thing each?
-      // It is probably easier to test, but I would have to name each function
-      : mapFunctions.extSelect(ext, url) // the promise
+      datasetList.layerLoadOrOnMap(map, datasets, pk, mapFunctions.extSelect(ext, url))
         // convert data to geojson and add it to layerMod
-        .then( res => layerMod.addData( res.toGeoJSON() ) ) // return layerMod
+        .then(res => layerMod.addData(res.toGeoJSON())) // return layerMod
 
         // add layerMod to datasetsContainer[key], return layerMod
-        .then( lm => {
+        .then(lm => {
           datasets[pk] = lm
           return lm
         })
 
         // add layerMod to the map, return layerMod
-        .then( lm => {
+        .then(lm => {
           map.addLayer(lm).fitBounds(layerMod.getBounds())
           return lm
         })
 
         // add layerMod to the layerCluster, return layerCluster
-        .then( lm => layerCluster.addLayer(lm) )
+        .then(lm => layerCluster.addLayer(lm))
 
         // add layerCluster to the clusterContainer
-        .then( lc => datasetClusters[pk] = lc )
+        .then(lc => datasetClusters[pk] = lc)
 
         // catch any errors and log them
-        .catch( error => console.log(error) )
+        .catch(error => console.log(error))
 
     } else {
-      //getDatasetAndAddItToMap(map, datasetClusters, datasets, pk)
-
-      // if there is no datasets[pk] then go through the process of selecting
-      // the right omnivore function and getting the data
-      // then push the data to and through layers, containers, and the map
-      // this is where we deal with the markercluster stuff
-
-      // do all this stuff, but use clusters
-      datasets[pk]
-      ? map.hasLayer(datasetClusters[pk])
-        ? map.removeLayer(datasetClusters[pk])
-        : map.addLayer(datasetClusters[pk]) //.fitBounds(datasets[pk].getBounds())
-
-      : mapFunctions.extSelect(ext, url) // the promise
+      datasetList.layerLoadOrOnMap(map, datasetClusters, pk, mapFunctions.extSelect(ext, url))
         // convert data to geojson and add it to layerMod
         .then( res => layerMod.addData( res.toGeoJSON() ) ) // return layerMod
 
@@ -246,8 +224,9 @@ datasetLinks.forEach(function handleDatasetLink (link) {
 
   // if there is only a single dataset for the page, call the event, else
   // wait for the buttons to be pressed
+  
   link.getAttribute('detail')
-    ? linkEvent(link, myMap)
+    ? linkEvent(link, myMap) // ok... why isn't getCSV working here? Is it an async issue?
     : link.addEventListener('click', () => linkEvent(link, myMap))
 })
 

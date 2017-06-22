@@ -46,14 +46,6 @@
 
 </style>
 
-<!-- Marker Cluster CSS -->
-<!--
-<link rel='stylesheet' href='https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.css' />
-<link rel='stylesheet' href='https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.Default.css' />
--->
-<!-- End Marker Cluster CSS -->
-
-
 {% endblock css %}
 
 {% block breadcrumbs %}
@@ -104,72 +96,4 @@
     </div>
   </div>
 
-
-
-<!--
-  <div class="row">
-    <p><h4><b>Title:</b> {{ dataset.title }}</h4></p>
-    <p><b>Author:</b> {{ dataset.author }}</p>
-    <p><b>Description:</b> {{ dataset.description }}</p>
-    {% if keyword_list %}
-      <p><b>Keywords:</b>
-        {% for keyword in keyword_list %}
-          <a href="{{ keyword.get_absolute_url }}">{{ keyword.keyword }}</a>
-        {% endfor %}
-      </p>
-    {% endif %}
-    <h4>
-      <a href="{% url 'datasets:add_keyword_to_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
-        Add a keyword to {{ dataset.title }}
-      </a>
-    {% if keyword_list %}
-      or <a href="{% url 'datasets:remove_keyword_from_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
-        Remove a keyword from {{ dataset.title }}
-      </a>
-    </h4>
-    {% endif %}
-  </div>
-  <hr class="divider">
-
-
-    <div id="dataset_pk" value="{{ dataset.pk }}"></div>
-    <div id="dataset_ext" value="{{ dataset.ext }}"></div>
-    {% if not dataset.dataset_password %}
-      <div id="dataset_url" url="{{ dataset.url }}"></div>
-    {% else %}
-      <div id="dataset_url"></div>
-    {% endif %}
-
-
-  <div class="row">
-    <p>
-      <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}">
-        Update {{ dataset.title }}
-      </a>
-    </p>
-    <p>
-      <a href="{% url 'datasets:dataset_update_auth' account.account_slug dataset.dataset_slug dataset.pk %}">
-        Update {{ dataset.title }} authentication details
-      </a>
-    </p>
-    <p>
-      <a href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}">
-        Remove {{ dataset.title }}
-      </a>
-    </p>
-  </div>
-  <hr>
-
-  <div class="row">
-    <p><b>Number of dataset features: </b><span id="feature_count"></span></p>
-  </div>
-  <hr>
-
-
-
-  <div class"custom-popup" id="mapid"></div>
--->
-
 {% endblock portal_content %}
-
-

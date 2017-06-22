@@ -33,6 +33,7 @@ const getKML = function (url) {
 }
 
 const getCSV = function (url) {
+  console.log(url)
   return new Promise(function handlePromise (resolve, reject) {
     const dataLayer = omnivore.csv(url)
       .on('ready', () => resolve(dataLayer))

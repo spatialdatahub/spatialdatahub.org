@@ -41,9 +41,18 @@ const returnCluster = function (color) {
   })
 }
 
+const layerLoadOrOnMap = function (map, container, key, callback) {
+  return container[key]
+    ? map.hasLayer(container[key])
+      ? map.removeLayer(container[key]) 
+      : map.addLayer(container[key])
+    : callback  
+} 
+
 module.exports = {
   returnCorrectUrl: returnCorrectUrl,
   returnLayer: returnLayer,
-  returnCluster: returnCluster
+  returnCluster: returnCluster,
+  layerLoadOrOnMap: layerLoadOrOnMap
 //  handleDatasetLink: handleDatasetLink
 }
