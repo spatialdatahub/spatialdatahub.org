@@ -4,13 +4,6 @@ const omnivore = require('@mapbox/leaflet-omnivore')
 import within from '@turf/within'
 import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
 
-//const within = require('@turf/within').within
-/*
-const getPlaceData = require('easy-nominatim').getPlaceData
-const nominatim = require('easy-nominatim').nominatim
-const normalizeGeoJSON = require('easy-nominatim').normalizeGeoJSON
-const possiblePlaces = require('easy-nominatim').possiblePlaces
-*/
 
 const markercluster = require('leaflet.markercluster')
 const filesaver = require('file-saver')
@@ -28,7 +21,6 @@ const editMap = require('./pieces/editMap.js')
 
 // Maybe I should just do all the function calling here, and all the function
 // defining in the other files
-
 
 // ////////////////////////// //
 // initMap.js //
@@ -88,15 +80,15 @@ const baseLayerControl = L.control.layers(baseLayers)
 baseLayerControl.addTo(myMap)
 
 // watermark leaflet control
-L.control.watermark = (options) => new L.Control.Watermark(options)
+L.control.watermark = options => new L.Control.Watermark(options)
 L.control.watermark({position: 'bottomleft'}).addTo(myMap)
 
 // home button leaflet control
-L.control.homebutton = (options) => new L.Control.HomeButton(options)
+L.control.homebutton = options => new L.Control.HomeButton(options)
 L.control.homebutton({position: 'topleft'}).addTo(myMap)
 
 // toggle scroll button leaflet control
-L.control.togglescrollbutton = (options) => new L.Control.ToggleScrollButton(options)
+L.control.togglescrollbutton = options => new L.Control.ToggleScrollButton(options)
 L.control.togglescrollbutton({position: 'topleft'}).addTo(myMap)
 
 // Trying to add 'alt' to tile layers
@@ -121,8 +113,6 @@ var imageBounds = [[40.712216, -74.22655], [40.773941, -74.12544]];
 
 L.imageOverlay(imageUrl, imageBounds).addTo(myMap);
 */
-
-
 
 // ////////////// //
 // datasetList.js //
@@ -161,19 +151,6 @@ let layerClusterState = 1 // 0 is layers, 1 is clusters. // something is wrong
 
 
 const handleResponseCluster = function () {}
-
-/*
-const handleResponseLayer = function (lm, map, layerContainer, key, clusterLayer) {
-  // lm = layerMod
-  // add layerMod to a bunch of stuff
-  map.addLayer(lm) //.fitBounds(layerMod.getBounds())
-  layerContainer[key] = lm 
-  clusterLayer.addLayer(lm)
-
-  return clusterLayer // return layerCluster
-}
-*/
-
 
 datasetLinks.forEach(function handleDatasetLink (link) {
   const pk = link.id
@@ -293,7 +270,6 @@ showFindPlaceContainerButton.addEventListener('click', () => {
   editMap.showPlaceContainer(findPlaceContainer) 
 })
 
-
 // (2) get elements
 const placeInput = document.getElementById('place_input')
 const placeButton = document.getElementById('place_button')
@@ -307,6 +283,7 @@ const selectedPlace = []
 
 activeDatasetButtons.push(placeButton, placeToggle, selectButton)
 
+// this is going to need to be used to make selector too
 function makeSelectorOptions (array) {
   selector.innerHTML = ''
   array.forEach(place => {
@@ -320,6 +297,7 @@ function makeSelectorOptions (array) {
     possiblePlaceLayers[place.display_name] = lyr
   })
 }
+
 
 // add place(s) to the selector
 placeButton.addEventListener('click', function findPlace () {
@@ -428,6 +406,8 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
       // refactor later
       const btn = basic.addButton(testDatasetCount, testDatasetColor, testUrls)
 
+//      btn.setAttribute('id', )
+
       activeDatasetButtons.push(btn)
 
       btn.addEventListener('click', function () {
@@ -448,6 +428,27 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
       console.log(error)
     })
 })
+
+
+// toggle testDatasets on and off
+// this should be broken into a function that toggle the datasets
+// and a function that toggles the button state
+
+toggleTestUrlsButton.addEventListener('click', () => {
+
+
+  Object.keys(testDatasets).forEach(x => {
+    // also need to make the buttons active and not active
+    // this is going to be hacky but it will work
+    const btn = document.getElementById(`newbutton${x}`)
+    basic.classToggle(btn, 'active')
+
+    myMap.hasLayer(testDatasets[x])
+      ? myMap.removeLayer(testDatasets[x])
+      : myMap.addLayer(testDatasets[x])
+  })
+})
+
 
 // /////////////////////////////////////////////////////////////////////////
 // end test url

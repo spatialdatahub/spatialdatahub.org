@@ -25,6 +25,20 @@ const getSelectedPlacePolygon = function (sp) {
   }
 }
 
+const makeSelectorOptions = function (arr, sel, ppl) {
+  sel.innerHTML = ''
+
+  arr.forEach(place => {
+    const option = document.createElement('option')
+    option.value = place.display_name
+    const text = document.createTextNode(place.display_name)
+    option.appendChild(text)
+    sel.appendChild(option)
+  })
+
+  const lyr = L.geoJSON(place.geojson)
+  possiblePlaceLayers[place.display_name] = layer
+}
 
 
 /*
@@ -92,5 +106,6 @@ placeToggle.addEventListener('click', () => {
 
 module.exports = {
   showPlaceContainer: showPlaceContainer,
-  getSelectedPlacePolygon: getSelectedPlacePolygon 
+  getSelectedPlacePolygon: getSelectedPlacePolygon,
+//  makeSelectorOptions: makeSelectorOptions  
 }

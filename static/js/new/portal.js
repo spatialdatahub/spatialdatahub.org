@@ -14,14 +14,6 @@ function _interopRequireDefault(obj) {
 var L = require('leaflet');
 var omnivore = require('@mapbox/leaflet-omnivore');
 
-//const within = require('@turf/within').within
-/*
-const getPlaceData = require('easy-nominatim').getPlaceData
-const nominatim = require('easy-nominatim').nominatim
-const normalizeGeoJSON = require('easy-nominatim').normalizeGeoJSON
-const possiblePlaces = require('easy-nominatim').possiblePlaces
-*/
-
 var markercluster = require('leaflet.markercluster');
 var filesaver = require('file-saver');
 
@@ -38,7 +30,6 @@ var editMap = require('./pieces/editMap.js');
 
 // Maybe I should just do all the function calling here, and all the function
 // defining in the other files
-
 
 // ////////////////////////// //
 // initMap.js //
@@ -167,18 +158,6 @@ var layerClusterState = 1; // 0 is layers, 1 is clusters. // something is wrong
 
 
 var handleResponseCluster = function handleResponseCluster() {};
-
-/*
-const handleResponseLayer = function (lm, map, layerContainer, key, clusterLayer) {
-  // lm = layerMod
-  // add layerMod to a bunch of stuff
-  map.addLayer(lm) //.fitBounds(layerMod.getBounds())
-  layerContainer[key] = lm 
-  clusterLayer.addLayer(lm)
-
-  return clusterLayer // return layerCluster
-}
-*/
 
 datasetLinks.forEach(function handleDatasetLink(link) {
   var pk = link.id;
@@ -321,6 +300,7 @@ var selectedPlace = [];
 
 activeDatasetButtons.push(placeButton, placeToggle, selectButton);
 
+// this is going to need to be used to make selector too
 function makeSelectorOptions(array) {
   selector.innerHTML = '';
   array.forEach(function (place) {
@@ -432,6 +412,8 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
     // refactor later
     var btn = basic.addButton(testDatasetCount, testDatasetColor, testUrls);
 
+    //      btn.setAttribute('id', )
+
     activeDatasetButtons.push(btn);
 
     btn.addEventListener('click', function () {
@@ -448,6 +430,22 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
     myMap.addLayer(layerMod).fitBounds(layerMod.getBounds());
   }, function handleError(error) {
     console.log(error);
+  });
+});
+
+// toggle testDatasets on and off
+// this should be broken into a function that toggle the datasets
+// and a function that toggles the button state
+
+toggleTestUrlsButton.addEventListener('click', function () {
+
+  Object.keys(testDatasets).forEach(function (x) {
+    // also need to make the buttons active and not active
+    // this is going to be hacky but it will work
+    var btn = document.getElementById('newbutton' + x);
+    basic.classToggle(btn, 'active');
+
+    myMap.hasLayer(testDatasets[x]) ? myMap.removeLayer(testDatasets[x]) : myMap.addLayer(testDatasets[x]);
   });
 });
 
@@ -825,6 +823,21 @@ var getSelectedPlacePolygon = function getSelectedPlacePolygon(sp) {
   } else {
     return 'not a polygon';
   }
+};
+
+var makeSelectorOptions = function makeSelectorOptions(arr, sel, ppl) {
+  sel.innerHTML = '';
+
+  arr.forEach(function (place) {
+    var option = document.createElement('option');
+    option.value = place.display_name;
+    var text = document.createTextNode(place.display_name);
+    option.appendChild(text);
+    sel.appendChild(option);
+  });
+
+  var lyr = L.geoJSON(place.geojson);
+  possiblePlaceLayers[place.display_name] = layer;
 };
 
 /*
