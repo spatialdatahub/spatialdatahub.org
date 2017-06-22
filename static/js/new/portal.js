@@ -431,6 +431,18 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
   });
 });
 
+// toggle testDatasets on and off
+// this should be broken into functions
+
+toggleTestUrlsButton.addEventListener('click', function () {
+
+  // also need to make the buttons active and not active
+
+  Object.keys(testDatasets).forEach(function (x) {
+    myMap.hasLayer(testDatasets[x]) ? myMap.removeLayer(testDatasets[x]) : myMap.addLayer(testDatasets[x]);
+  });
+});
+
 // /////////////////////////////////////////////////////////////////////////
 // end test url
 // /////////////////////////////////////////////////////////////////////////
