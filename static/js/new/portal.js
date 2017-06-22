@@ -412,6 +412,8 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
     // refactor later
     var btn = basic.addButton(testDatasetCount, testDatasetColor, testUrls);
 
+    //      btn.setAttribute('id', )
+
     activeDatasetButtons.push(btn);
 
     btn.addEventListener('click', function () {
@@ -432,13 +434,17 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl() {
 });
 
 // toggle testDatasets on and off
-// this should be broken into functions
+// this should be broken into a function that toggle the datasets
+// and a function that toggles the button state
 
 toggleTestUrlsButton.addEventListener('click', function () {
 
-  // also need to make the buttons active and not active
-
   Object.keys(testDatasets).forEach(function (x) {
+    // also need to make the buttons active and not active
+    // this is going to be hacky but it will work
+    var btn = document.getElementById('newbutton' + x);
+    basic.classToggle(btn, 'active');
+
     myMap.hasLayer(testDatasets[x]) ? myMap.removeLayer(testDatasets[x]) : myMap.addLayer(testDatasets[x]);
   });
 });
