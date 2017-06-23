@@ -1,5 +1,4 @@
 const L = require('leaflet')
-// const omnivore = require('@mapbox/leaflet-omnivore')
 
 import within from '@turf/within'
 import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
@@ -14,9 +13,9 @@ const editMap = require('./pieces/editMap.js')
 
 // Things I need to fix
 // - filesaver doesn't save data from all sources, only the test urls
-// - csv files (and possibly other non-geojson files) do not load on dataset detail page
-// - the load data to page or get data function is loading clusters into the wrong containers -- fixed
-// - the toggle test datasets button is not toggling the datasets on and off
+// - csv files (and possibly other non-geojson files) do not load on dataset detail page -- FIXED
+// - the load data to page or get data function is loading clusters into the wrong containers -- FIXED
+// - the toggle test datasets button is not toggling the datasets on and off -- FIXED
 
 // Maybe I should just do all the function calling here, and all the function
 // defining in the other files
@@ -148,7 +147,8 @@ let layerClusterState = 1 // 0 is layers, 1 is clusters. // something is wrong
 
 //datasetLinks.forEach(l => datasetList.handleDatasetLink(l))
 
-const handleResponseCluster = function () {}
+// const handleResponseCluster = function () {}
+
 
 datasetLinks.forEach(function handleDatasetLink (link) {
   const pk = link.id
@@ -164,6 +164,30 @@ datasetLinks.forEach(function handleDatasetLink (link) {
   // a new cluster layer needs to be created for every link
   const layerCluster = datasetList.returnCluster(color)
 
+// I don't like this
+// It's just not working
+// what are the functions I would need to define to break this up?
+
+// addDataToContainer // I've already made and deleted this one
+// return original data after callback
+// return modified data after callback
+
+// this is my handle promise stuff
+/*
+const extSelectAndThenLayer = function (map, ext, url) {
+  mapFunctions.extSelect(ext, url)
+    .then(res => layerMod.addData(res.toGeoJSON()))
+    .then(lm => datasets[pk] = lm)
+    .then(lm => {
+      map.addLayer(lm).fitBounds(layerMod.getBounds())
+      return lm
+    })
+    .then(lm => layerCluster.addLayer(lm))
+    .then(lc => datasetClusters[pk] = lc)
+    .catch(error => console.log(error))
+}
+*/
+
   // how do I lift this?
   const linkEvent = function (link, map) {
     basic.classToggle(link, 'active')
@@ -172,14 +196,19 @@ datasetLinks.forEach(function handleDatasetLink (link) {
     if (layerClusterState === 0) {
 
       datasetList.layerLoadOrOnMap(map, datasets, pk, mapFunctions.extSelect(ext, url))
+//      datasetList.layerLoadOrOnMap(map, datasets, pk, extSelectAndThenLayer(ext, url))
+
+
+        // this bunch of then statements is being run even when the data are being
+        // removed from the map... that should not happen
+        // maybe these statements can be put into at function, then only run with the
+        // extSelect promise
+
         // convert data to geojson and add it to layerMod
         .then(res => layerMod.addData(res.toGeoJSON())) // return layerMod
 
         // add layerMod to datasetsContainer[key], return layerMod
-        .then(lm => {
-          datasets[pk] = lm
-          return lm
-        })
+        .then(lm => datasets[pk] = lm)
 
         // add layerMod to the map, return layerMod
         .then(lm => {
@@ -220,7 +249,6 @@ datasetLinks.forEach(function handleDatasetLink (link) {
         .catch(error => console.log(error))
     }
     activeDatasetButtons.push(link)
-    console.log(link)
   }
 
   // if there is only a single dataset for the page, call the event, else
@@ -467,7 +495,9 @@ function saveFile (layer, fileNameInput) {
   const filename = fileNameInput.value
   const data = JSON.stringify(layer.toGeoJSON())
   const blob = new Blob([data], {type: 'text/plain; charset=utf-8'})
-  filesaver.saveAs(blob, filename + '.geojson')
+
+  //console.log(data)
+  //filesaver.saveAs(blob, filename + '.geojson')
 }
 
 function getDataWithinPolygonFunc (poly, layer) {

@@ -33,7 +33,6 @@ const getKML = function (url) {
 }
 
 const getCSV = function (url) {
-  console.log(url)
   return new Promise(function handlePromise (resolve, reject) {
     const dataLayer = omnivore.csv(url)
       .on('ready', () => resolve(dataLayer))
@@ -44,12 +43,15 @@ const getCSV = function (url) {
 // 2) function to choose which omnivore function to run
 // should I write getCSV getKML and getGeoJSON as object
 // methods and call them?
-const extSelect = function (ext, url) {
-  return ext === 'kml'
+const extSelect = function (ext, url, handlePromise) {
+  const prom = ext === 'kml'
     ? getKML(url)
     : ext === 'csv'
       ? getCSV(url)
       : getGeoJSON(url)
+  // should I have a 'handlePromise function?'
+  // yes, and it goes right here
+  return prom
 }
 
 // I need to make a nice looking popup background that scrolls
@@ -64,7 +66,7 @@ const extSelect = function (ext, url) {
 
 const checkFeatureProperties = function (feature) {
   return Object.keys(feature.properties)
-    .map( key => `<dt>${key}</dt> <dd>${feature.properties[key]}</dd>` )
+    .map(key => `<dt>${key}</dt> <dd>${feature.properties[key]}</dd>`)
 }
 
 const latLngPointOnFeature = function (feature) {

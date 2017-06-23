@@ -46,7 +46,7 @@ const layerLoadOrOnMap = function (map, container, key, callback) {
     ? map.hasLayer(container[key])
       ? map.removeLayer(container[key]) 
       : map.addLayer(container[key])
-    : callback  
+    : callback // this should have all the .then statements in it
 } 
 
 module.exports = {

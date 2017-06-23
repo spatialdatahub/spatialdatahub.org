@@ -7,8 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "build": "browserify js_src/bundle.js -t babelify -o static/js/new/portal.js",
-    "dev": "watchify js_src/bundle.js -t babelify -o static/js/new/portal.js",
+    "build": "browserify js_src/bundle.js -t babelify -o static/js/new/portal.js -v",
+    "dev": "watchify js_src/bundle.js -t babelify -o static/js/new/portal.js -v",
     "test": "./node_modules/karma/bin/karma start karma.conf.js"
   },
   "repository": {
