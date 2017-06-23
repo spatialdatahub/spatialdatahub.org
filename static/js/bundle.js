@@ -1,1 +1,0 @@
-console.error("Error: Cannot find module '/Users/pcu/work/WebGIS/js_src/prebundle.js' from '/Users/pcu/work/WebGIS'");

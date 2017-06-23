@@ -184,3 +184,7 @@ jspm_packages
 
 # Selenium firefox thing
 geckodriver.log
+
+
+#### For compiled javascript ####
+static/js/bundle.js
