@@ -1,6 +1,7 @@
 // ////////////// //
 // datasetList.js //
 // ////////////// //
+// should this stuff just be in the mapFunctions file? Yes
 const returnCorrectUrl = function (link, pk) {
   return link.getAttribute('url')
     ? link.getAttribute('url')

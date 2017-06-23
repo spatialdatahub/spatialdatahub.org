@@ -8,7 +8,7 @@ const filesaver = require('file-saver')
 
 const basic = require('./pieces/basic.js')
 const mapFunctions = require('./pieces/mapFunctions.js')
-const datasetList = require('./pieces/datasetList.js')
+//const datasetList = require('./pieces/datasetList.js')
 const editMap = require('./pieces/editMap.js')
 
 // Things I need to fix
@@ -115,7 +115,7 @@ L.imageOverlay(imageUrl, imageBounds).addTo(myMap);
 // ////////////// //
 // datasetList.js //
 // ////////////// //
-// A lot of this stuff doesn't need to be in the datasetList file. It could be put
+// The functions for stuff has been put into the mapFunctions file
 // into something else
 // I have an idea, I will just make the dataset specific page work like a
 // dataset list page
@@ -145,7 +145,7 @@ const activeDatasetButtons = []
 // The initial value will start the page with either layers or clusters.
 let layerClusterState = 1 // 0 is layers, 1 is clusters. // something is wrong
 
-//datasetLinks.forEach(l => datasetList.handleDatasetLink(l))
+//datasetLinks.forEach(l => mapFunctions.handleDatasetLink(l))
 
 // const handleResponseCluster = function () {}
 
@@ -153,16 +153,16 @@ let layerClusterState = 1 // 0 is layers, 1 is clusters. // something is wrong
 datasetLinks.forEach(function handleDatasetLink (link) {
   const pk = link.id
   const ext = link.getAttribute('value') // I have to use this because 'value' is a loaded arguement
-  const url = datasetList.returnCorrectUrl(link, pk)
+  const url = mapFunctions.returnCorrectUrl(link, pk)
 
   // deal with colors
   // this can be lifted... does it need to be?
   linkDatasetColorCounter++
   const color = colors[linkDatasetColorCounter % colors.length]
   // a new layer needs to be created for every link
-  const layerMod = datasetList.returnLayer(color, mapFunctions.addPopups, markerOptions)
+  const layerMod = mapFunctions.returnLayer(color, mapFunctions.addPopups, markerOptions)
   // a new cluster layer needs to be created for every link
-  const layerCluster = datasetList.returnCluster(color)
+  const layerCluster = mapFunctions.returnCluster(color)
 
 // I don't like this
 // It's just not working
@@ -195,8 +195,8 @@ const extSelectAndThenLayer = function (map, ext, url) {
     // start simple, then make it into nice functions. It'll be ugly and hacky, then refactored to something good
     if (layerClusterState === 0) {
 
-      datasetList.layerLoadOrOnMap(map, datasets, pk, mapFunctions.extSelect(ext, url))
-//      datasetList.layerLoadOrOnMap(map, datasets, pk, extSelectAndThenLayer(ext, url))
+      mapFunctions.layerLoadOrOnMap(map, datasets, pk, mapFunctions.extSelect(ext, url))
+      //mapFunctions.layerLoadOrOnMap(map, datasets, pk, extSelect(ext, url, mapFunctions.handlePromiseLayer(map, layerMod, layerCluster, datasets, datasetClusters, key)))
 
 
         // this bunch of then statements is being run even when the data are being
@@ -226,7 +226,7 @@ const extSelectAndThenLayer = function (map, ext, url) {
         .catch(error => console.log(error))
 
     } else {
-      datasetList.layerLoadOrOnMap(map, datasetClusters, pk, mapFunctions.extSelect(ext, url))
+      mapFunctions.layerLoadOrOnMap(map, datasetClusters, pk, mapFunctions.extSelect(ext, url))
         // convert data to geojson and add it to layerMod
         .then(res => layerMod.addData(res.toGeoJSON())) // return layerMod
 

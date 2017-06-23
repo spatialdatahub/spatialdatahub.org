@@ -2,7 +2,7 @@ const L = require('leaflet')
 const omnivore = require('@mapbox/leaflet-omnivore')
 
 // /////////// //
-// indexMap.js //
+// mapFunctions.js //
 // /////////// //
 
 // should these functions be rewritten?
@@ -40,6 +40,22 @@ const getCSV = function (url) {
   })
 }
 
+/*
+const handlePromiseLayer = function (promise, map, layer, cluster, layerContainer, clusterContainer, key) {
+  promise
+    .then(res => layer.addDataset(res.toGeoJSON()))
+    .then(l => layerContainer[key] = l)
+    .then(l => {
+      map.addLayer(l).fitBounds(l.getBounds())
+      return l
+    })
+    .then(l => cluster.addLayer(l))
+    .then(c => clusterContainer[key] = c)
+    .catch(error => console.log(error))
+}
+*/
+
+
 // 2) function to choose which omnivore function to run
 // should I write getCSV getKML and getGeoJSON as object
 // methods and call them?
@@ -51,6 +67,7 @@ const extSelect = function (ext, url, handlePromise) {
       : getGeoJSON(url)
   // should I have a 'handlePromise function?'
   // yes, and it goes right here
+//  handlePromise(prom)
   return prom
 }
 
@@ -150,12 +167,73 @@ L.Control.ToggleScrollButton = L.Control.extend({
   }
 })
 
+// ////////////// //
+// datasetList.js //
+// ////////////// //
+// should this stuff just be in the mapFunctions file? Yes
+const returnCorrectUrl = function (link, pk) {
+  return link.getAttribute('url')
+    ? link.getAttribute('url')
+    : `/load_dataset/${pk}`
+}
+
+const returnLayer = function (color, popupCallback, markerOptions) {
+  return L.geoJson(null, {
+    // set the points to little circles
+    pointToLayer: (feature, latlng) => {
+      return L.circleMarker(latlng, markerOptions)
+    },
+    onEachFeature: (feature, layer) => {
+      // make sure the fill is the color
+      layer.options.fillColor = color
+      // and make sure the perimiter is black (if it's a point) and the color otherwise
+      feature.geometry.type === 'Point'
+        ? layer.options.color = 'black'
+        : layer.options.color = color
+      // add those popups
+      popupCallback(feature, layer)
+      // mapFunctions.addPopups(feature, layer) // this comes from the index_maps.js file
+    }
+  })
+}
+
+const returnCluster = function (color) {
+  return L.markerClusterGroup({
+    iconCreateFunction: cluster => {
+      const textColor = color === 'blue' || color === 'purple' || color === 'green'
+        ? 'white'
+        : 'black'
+      return L.divIcon({
+        html: `<div style="text-align: center; background-color: ${color}; color: ${textColor}"><b>${cluster.getChildCount()}</b></div>`,
+        iconSize: new L.Point(40, 20)
+      })
+    }
+  })
+}
+
+const layerLoadOrOnMap = function (map, container, key, callback) {
+  return container[key]
+    ? map.hasLayer(container[key])
+      ? map.removeLayer(container[key]) 
+      : map.addLayer(container[key])
+    : callback // this should have all the .then statements in it
+} 
+
+
 module.exports = {
   getGeoJSON: getGeoJSON,
   getKML: getKML,
   getCSV: getCSV,
+//  handlePromiseLayer: handlePromiseLayer,
   extSelect: extSelect,
   checkFeatureProperties: checkFeatureProperties,
   latLngPointOnFeature: latLngPointOnFeature, 
-  addPopups: addPopups
+  addPopups: addPopups,
+  returnCorrectUrl: returnCorrectUrl,
+  returnLayer: returnLayer,
+  returnCluster: returnCluster,
+  layerLoadOrOnMap: layerLoadOrOnMap
+//  handleDatasetLink: handleDatasetLink
 }
+
+
