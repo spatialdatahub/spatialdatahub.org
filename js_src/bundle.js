@@ -1,6 +1,7 @@
 const L = require('leaflet')
 
 import within from '@turf/within'
+import { feature, featureCollection } from '@turf/helpers'
 import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
 
 const markercluster = require('leaflet.markercluster')
@@ -495,41 +496,41 @@ function saveFile (layer, fileNameInput) {
   const data = JSON.stringify(layer.toGeoJSON())
   const blob = new Blob([data], {type: 'text/plain; charset=utf-8'})
 
+  // this doesn't seem to work with markerClusters
   //console.log(data)
-  //filesaver.saveAs(blob, filename + '.geojson')
+  filesaver.saveAs(blob, filename + '.geojson')
 }
 
-function getDataWithinPolygonFunc (poly, layer) {
-  const pointsLayers = Object.keys(testDatasets).map(k => {
-    const v = testDatasets[k]
-    if (myMap.hasLayer(v)) {
-      const l = v.toGeoJSON().features[0].geometry.type
-      if (l === 'Point' || l === 'MultiPoint') {
-        return v.toGeoJSON()
+// how do I get every active layer points on the map?
+// make this return a feature collection with the points
+const getActivePointsLayers = function (map) {
+  const arr = []
+  map.eachLayer(mapLayer => {
+    if (mapLayer.feature) {
+      const lt = mapLayer.feature.geometry.type
+      if (lt === "Point" || lt === "MultiPoint") {
+        arr.push(mapLayer.toGeoJSON())
       }
     }
   })
+  return featureCollection(arr)
+}
 
-  // run the turf.within function, and add the data to the layer that will
-  // be added to the map, and also converted to geojson and saved.
-
-  pointsLayers.forEach(l => {
-    const n = within(l, poly)
-    layer.addData(n)
-  })
-
-  // return a layer with the points
-  return layer
+// this is probably where I need to get the data
+// turf.within works with feature collections
+function getDataWithinPolygonFunc (map, poly) {
+  return within(getActivePointsLayers(map), poly)
 }
 
 showWithinPolygonContainerButton.addEventListener('click', showWithinPolygonContainerFunc)
 
+// now to get this working
 getDataWithinPolygonButton.addEventListener('click', () => {
   // This is pretty ugly, but right now it works, it will be
   // refactored
-
-  const pointsWithinLayer = L.geoJSON(null).addTo(myMap)
-  getDataWithinPolygonFunc(editMap.getSelectedPlacePolygon(selectedPlace), pointsWithinLayer)
+  const pointsWithinLayer = L.geoJSON(
+    getDataWithinPolygonFunc(myMap, editMap.getSelectedPlacePolygon(selectedPlace))                
+  ).addTo(myMap)
 
   if (document.getElementById('file_name_input')) {
     const fni = document.getElementById('file_name_input')
@@ -582,7 +583,7 @@ getDataWithinPolygonButton.addEventListener('click', () => {
 
 // For each layer on the map, if that layer equals a layer in the
 // array, do not remove the layer, otherwise, remove the layer
-
+//
 
 // this was extremely frustrating to write
 const clearLayers = function (map, arr) {
@@ -610,7 +611,8 @@ clearMapButton.addEventListener('click', function clearMap () {
   })
 
   // remove all layers from map, except the active tile layers
-  clearLayers(myMap, a)
+//  clearLayers(myMap, a)
+  getActivePointsLayers(myMap)
 })
 
 // /////////////////////////////////////////////////////////////////////////
