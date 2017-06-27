@@ -192,61 +192,60 @@ const extSelectAndThenLayer = function (map, ext, url) {
   const linkEvent = function (link, map) {
     basic.classToggle(link, 'active')
 
-    // start simple, then make it into nice functions. It'll be ugly and hacky, then refactored to something good
-    if (layerClusterState === 0) {
-
-      mapFunctions.layerLoadOrOnMap(map, datasets, pk, mapFunctions.extSelect(ext, url))
+            //
+      //mapFunctions.layerLoadOrOnMap(map, datasets, pk, mapFunctions.extSelect(ext, url))
       //mapFunctions.layerLoadOrOnMap(map, datasets, pk, extSelect(ext, url, mapFunctions.handlePromiseLayer(map, layerMod, layerCluster, datasets, datasetClusters, key)))
 
-
-        // this bunch of then statements is being run even when the data are being
-        // removed from the map... that should not happen
-        // maybe these statements can be put into at function, then only run with the
-        // extSelect promise
-
-        // convert data to geojson and add it to layerMod
-        .then(res => layerMod.addData(res.toGeoJSON())) // return layerMod
-
-        // add layerMod to datasetsContainer[key], return layerMod
-        .then(lm => datasets[pk] = lm)
-
-        // add layerMod to the map, return layerMod
-        .then(lm => {
-          map.addLayer(lm).fitBounds(layerMod.getBounds())
-          return lm
-        })
-
-        // add layerMod to the layerCluster, return layerCluster
-        .then(lm => layerCluster.addLayer(lm))
-
-        // add layerCluster to the clusterContainer
-        .then(lc => datasetClusters[pk] = lc)
-
-        // catch any errors and log them
-        .catch(error => console.log(error))
-
+            //
+    // start simple, then make it into nice functions. It'll be ugly and hacky, then refactored to something good
+    if (layerClusterState === 0) {
+      datasets[pk]
+        ? myMap.hasLayer(datasets[pk])
+          ? myMap.removeLayer(datasets[pk])
+          : myMap.addLayer(datasets[pk])
+        : mapFunctions.extSelect(ext, url)
+          // convert data to geojson and add it to layerMod
+          .then(res => layerMod.addData(res.toGeoJSON())) // return layerMod
+          // add layerMod to datasetsContainer[key], return layerMod
+          .then(lm => datasets[pk] = lm)
+          // add layerMod to the map, return layerMod
+          .then(lm => {
+            map.addLayer(lm).fitBounds(layerMod.getBounds())
+            return lm
+          })
+          // add layerMod to the layerCluster, return layerCluster
+          .then(lm => layerCluster.addLayer(lm))
+          // add layerCluster to the clusterContainer
+          .then(lc => datasetClusters[pk] = lc)
+          // catch any errors and log them
+          .catch(error => console.log(error))
     } else {
-      mapFunctions.layerLoadOrOnMap(map, datasetClusters, pk, mapFunctions.extSelect(ext, url))
+    //  mapFunctions.layerLoadOrOnMap(map, datasetClusters, pk, mapFunctions.extSelect(ext, url))
         // convert data to geojson and add it to layerMod
-        .then(res => layerMod.addData(res.toGeoJSON())) // return layerMod
+      datasets[pk]
+        ? myMap.hasLayer(datasetClusters[pk])
+          ? myMap.removeLayer(datasetClusters[pk])
+          : myMap.addLayer(datasetClusters[pk])
+        : mapFunctions.extSelect(ext, url)
+       
+          .then(res => layerMod.addData(res.toGeoJSON())) // return layerMod
+          // add layerMod to datasetsContainer[key], return layerMod
+          .then(lm => {
+            datasets[pk] = lm
+            return lm
+          })
 
-        // add layerMod to datasetsContainer[key], return layerMod
-        .then(lm => {
-          datasets[pk] = lm
-          return lm
-        })
+          // add layerMod to the layerCluster, return layerCluster
+          .then(lm => layerCluster.addLayer(lm))
 
-        // add layerMod to the layerCluster, return layerCluster
-        .then(lm => layerCluster.addLayer(lm))
+          // add layerCluster to the clusterContainer
+          .then(lc => datasetClusters[pk] = lc)
 
-        // add layerCluster to the clusterContainer
-        .then(lc => datasetClusters[pk] = lc)
+          // add layer Cluster to the map, return layerCluster
+          .then(lc => map.addLayer(lc).fitBounds(layerMod.getBounds()))
 
-        // add layer Cluster to the map, return layerCluster
-        .then(lc => map.addLayer(lc).fitBounds(layerMod.getBounds()))
-
-        // catch any errors and log them
-        .catch(error => console.log(error))
+          // catch any errors and log them
+          .catch(error => console.log(error))
     }
     activeDatasetButtons.push(link)
   }
