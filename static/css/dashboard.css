@@ -157,4 +157,7 @@
   }
 }
 
- 
+.btn {
+  white-space: normal !important;
+  max-width: 300px;
+} 
