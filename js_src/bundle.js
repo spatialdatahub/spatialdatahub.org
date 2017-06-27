@@ -491,6 +491,39 @@ function showWithinPolygonContainerFunc () {
     : withinPolygonContainer.style.display = 'none'
 }
 
+
+// /////////////////////////////////////////////////////////////////////////
+// toggle markers to clusters
+// Now I need to make the data addition thing work with this
+// /////////////////////////////////////////////////////////////////////////
+const toggleMarkerClustersButton = document.getElementById('toggle_marker_clusters')
+
+const pctoggler = function (map, obj1, obj2) {
+  Object.keys(obj1).forEach(key => {
+    if (map.hasLayer(obj1[key])) {
+      map.removeLayer(obj1[key])
+      map.addLayer(obj2[key])
+    }
+  })
+}
+
+const toggleMarkerClusters = function (map, layers, clusters) {
+  // If the layer cluster state is 0, which means layers and not clusters, then the
+  // function will
+  if (layerClusterState === 0) {
+    pctoggler(map, layers, clusters)
+    layerClusterState++
+  } else {
+    pctoggler(map, clusters, layers)
+    layerClusterState--
+  }
+}
+
+toggleMarkerClustersButton.addEventListener('click', function clusterToLayer () {
+  toggleMarkerClusters(myMap, datasets, datasetClusters)
+})
+
+
 function saveFile (layer, fileNameInput) {
   const filename = fileNameInput.value
   const data = JSON.stringify(layer.toGeoJSON())
@@ -503,6 +536,9 @@ function saveFile (layer, fileNameInput) {
 
 // how do I get every active layer points on the map?
 // make this return a feature collection with the points
+// here I have to call the convert clusters to layers function
+//
+
 const getActivePointsLayers = function (map) {
   const arr = []
   map.eachLayer(mapLayer => {
@@ -518,8 +554,18 @@ const getActivePointsLayers = function (map) {
 
 // this is probably where I need to get the data
 // turf.within works with feature collections
-function getDataWithinPolygonFunc (map, poly) {
-  return within(getActivePointsLayers(map), poly)
+// this isn't the prettiest function, but it can be refactored layer. It works
+// Now I need to figure out how to turn the new dataset on and off
+const getDataWithinPolygonFunc = function (map, poly) {
+  let data        
+  if (layerClusterState === 0) {
+    data = within(getActivePointsLayers(map), poly)
+  } else {
+    toggleMarkerClusters(myMap, datasets, datasetClusters)
+    data = within(getActivePointsLayers(map), poly)
+    toggleMarkerClusters(myMap, datasets, datasetClusters)
+  }
+  return data
 }
 
 showWithinPolygonContainerButton.addEventListener('click', showWithinPolygonContainerFunc)
@@ -615,33 +661,3 @@ clearMapButton.addEventListener('click', function clearMap () {
   getActivePointsLayers(myMap)
 })
 
-// /////////////////////////////////////////////////////////////////////////
-// toggle markers to clusters
-// Now I need to make the data addition thing work with this
-// /////////////////////////////////////////////////////////////////////////
-const toggleMarkerClustersButton = document.getElementById('toggle_marker_clusters')
-
-const pctoggler = function (map, obj1, obj2) {
-  Object.keys(obj1).forEach(key => {
-    if (map.hasLayer(obj1[key])) {
-      map.removeLayer(obj1[key])
-      map.addLayer(obj2[key])
-    }
-  })
-}
-
-const toggleMarkerClusters = function (map, layers, clusters) {
-  // If the layer cluster state is 0, which means layers and not clusters, then the
-  // function will
-  if (layerClusterState === 0) {
-    pctoggler(map, layers, clusters)
-    layerClusterState++
-  } else {
-    pctoggler(map, clusters, layers)
-    layerClusterState--
-  }
-}
-
-toggleMarkerClustersButton.addEventListener('click', function clusterToLayer () {
-  toggleMarkerClusters(myMap, datasets, datasetClusters)
-})
