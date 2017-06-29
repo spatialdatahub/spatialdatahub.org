@@ -57,6 +57,11 @@
 
   <h1>{{ dataset.title }} page</h1>
   <hr/>
+  <h1>
+    {% if request.user == account.user %}
+      {{ request.user }}
+    {% endif %}
+  </h1>
 
   <div class="row" id="main">
     <div class="col-xs-12">
@@ -69,16 +74,36 @@
         {% endfor %}
       </p>
     {% endif %}
-    <h4>
-      <a href="{% url 'datasets:add_keyword_to_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
-        Add a keyword to {{ dataset.title }}
-      </a>
-    {% if keyword_list %}
-      or <a href="{% url 'datasets:remove_keyword_from_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
-        Remove a keyword from {{ dataset.title }}
-      </a>
-    </h4>
+
+    {% if request.user == account.user %}
+      <h4>
+        <a href="{% url 'datasets:add_keyword_to_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
+          Add a keyword to {{ dataset.title }}
+        </a>
+      </h4>
+      <h4>
+      {% if keyword_list %}
+        <a href="{% url 'datasets:remove_keyword_from_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
+          Remove a keyword from {{ dataset.title }}
+        </a>
+      </h4>
+      {% endif %}
+
+      <h4>
+        <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}">
+        Update Dataset Details
+      </h4>
+      <h4>
+        <a href="{% url 'datasets:dataset_update_auth' account.account_slug dataset.dataset_slug dataset.pk %}">
+        Update Dataset Auth Details
+      </h4>
+      <h4>
+        <a href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}">
+        Remove Dataset
+      </h4>
     {% endif %}
+
+
     <hr/>
     </div>
 
