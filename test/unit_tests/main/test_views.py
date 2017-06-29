@@ -166,4 +166,11 @@ class LoadDatasetTests(TestCase):
                                    kwargs={"pk": self.ds2.pk}))
         self.assertIn(b"properties", response.content)
 
+    def test_load_dataset_returns_(self):
+        response = self.client.get(reverse("load_dataset",
+                                   kwargs={"pk": self.ds2.pk}))
+        self.assertIn(b'"type": "LineString"', response.content)
+
+
+
     # There needs to be one for owncloud now
