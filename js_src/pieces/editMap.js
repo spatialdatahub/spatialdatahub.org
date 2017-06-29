@@ -1,3 +1,4 @@
+import { feature, featureCollection } from '@turf/helpers'
 // ////////// //
 // editMap.js //
 // ////////// //
@@ -19,7 +20,7 @@ const getSelectedPlacePolygon = function (sp) {
     // this is very specific to geojson structure
     const selectedPlaceType = sp[0].toGeoJSON().features[0].geometry.type
     return selectedPlaceType === 'Polygon' || selectedPlaceType === 'MultiPolygon'
-      ? selectedPlaceType
+      ? sp[0].toGeoJSON()
       : 'not a polygon'
   } else {
     return 'not a polygon'
