@@ -7,11 +7,6 @@
 // of function as well
 // This should be designed with a test file
 
-
-const add = function (a, b) {
-  return a + b
-}
-
 const getFeaturePropertyKeys = geojsondata => {
 // I didn't really like the way the turf function worked.
 // Maybe I should stick with it, because I don't like the way my code looks, but
@@ -26,11 +21,9 @@ const getFeaturePropertyKeys = geojsondata => {
   return Array.from(mySet)
 }
 
-
 const makePropertySelectorOptions = arr => {
   // make the selector here, populate it, then return it
   const selector = document.createElement('selector')
-
   arr.forEach(prop => {
     const option = document.createElement('option') 
     const text = document.createTextNode(prop)
@@ -38,17 +31,18 @@ const makePropertySelectorOptions = arr => {
     option.appendChild(text)
     selector.appendChild(option)
   })
-
   return selector
 }
 
+var filterPropertiesByString
 
+var filterPropertiesByNumber
 
 
 
 
 module.exports = {
-  add: add,
   getFeaturePropertyKeys: getFeaturePropertyKeys,
-  makePropertySelectorOptions: makePropertySelectorOptions
+  makePropertySelectorOptions: makePropertySelectorOptions,
+  filterPropertiesByString: filterPropertiesByString
 }
