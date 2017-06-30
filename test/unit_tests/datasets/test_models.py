@@ -7,6 +7,8 @@ from datasets.models import Dataset
 from accounts.models import Account
 
 from cryptography.fernet import Fernet
+
+import json
 import os
 
 User = get_user_model()
@@ -144,27 +146,47 @@ class DatasetModelTests(TestCase):
         BASE_DIR = os.path.dirname(os.path.dirname(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
         # get key from file
-        f = BASE_DIR + "/temp_password.txt"
-        g = open(f)
-        key = g.read().encode("utf-8")
-        g.close()
-        cipher_end = Fernet(key)
+        with open(BASE_DIR + "/secrets.json") as f:
+            secrets = json.loads(f.read())
+
+        def get_secret(setting, secrets=secrets):
+            """Get the secret variable or return the explicit exception."""
+            try:
+                return secrets[setting]
+            except KeyError:
+                error_msg = "Set the {0} environment variable".format(setting)
+                raise ImproperlyConfigured(error_msg)
+
+        CRYPTO_KEY = get_secret("CRYPTO_KEY")
+        cipher_end = Fernet(CRYPTO_KEY)
+
         dataset = Dataset.objects.get(
             dataset_slug="password-protected-dataset")
         bytes_password = dataset.dataset_password.encode("utf-8")
         decrypted_password = cipher_end.decrypt(bytes_password).decode("utf-8")
+
         self.assertEqual(decrypted_password, "zmtBremen1991")
 
     def test_that_PASSWORD_PROTECTED_dataset_user_can_be_decrypted(self):
         # set base dir
-        base_dir = os.path.dirname(os.path.dirname(
+        BASE_DIR = os.path.dirname(os.path.dirname(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
         # get key from file
-        f = base_dir + "/temp_password.txt"
-        g = open(f)
-        key = g.read().encode("utf-8")
-        g.close()
-        cipher_end = Fernet(key)
+        with open(BASE_DIR + "/secrets.json") as f:
+            secrets = json.loads(f.read())
+
+        def get_secret(setting, secrets=secrets):
+            """Get the secret variable or return the explicit exception."""
+            try:
+                return secrets[setting]
+            except KeyError:
+                error_msg = "Set the {0} environment variable".format(setting)
+                raise ImproperlyConfigured(error_msg)
+
+        CRYPTO_KEY = get_secret("CRYPTO_KEY")
+        cipher_end = Fernet(CRYPTO_KEY)
+
+
         dataset = Dataset.objects.get(
             dataset_slug="password-protected-dataset")
         bytes_user = dataset.dataset_user.encode("utf-8")
