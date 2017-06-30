@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 #from django.core.exceptions import ObjectDoesNotExist
 from django.db.utils import IntegrityError
 from django.test import TestCase
@@ -6,6 +6,8 @@ from django.test import TestCase
 from accounts.models import Account
 from datasets.models import Dataset
 from keywords.models import Keyword
+
+User = get_user_model()
 
 #from main.views import keyword_list
 

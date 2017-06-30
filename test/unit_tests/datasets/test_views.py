@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.http import HttpRequest
 from django.test import Client
@@ -17,6 +17,8 @@ from datasets.views import dataset_remove
 
 from cryptography.fernet import Fernet
 import os
+
+User = get_user_model()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpRequest
 from django.test import Client
 from django.test import TestCase
@@ -12,6 +12,8 @@ from accounts.views import account_update
 from accounts.views import account_remove
 
 from datasets.models import Dataset
+
+User = get_user_model()
 
 # this is all obsolete, new accounts are automatically created
 # when new users are created, there should be tests for that
@@ -96,7 +98,7 @@ class AccountDetailViewTests_NO_DATASETS(TestCase):
             reverse(
                 "accounts:account_detail",
                 kwargs={"account_slug": self.a1.account_slug}))
-        self.assertIn('There are no datasets available',
+        self.assertIn('No datasets available. Clear Search.',
                       response.content.decode('utf-8'))
 
     def test_account_detail_view_brings_correct_number_dataset_objects(self):
@@ -201,19 +203,22 @@ class AccountUpdateViewTests(TestCase):
             reverse(
                 "accounts:account_update",
                 kwargs={"account_slug": self.a1.account_slug}),
-            data={"user": "changed_test_user", "affiliation": "ZMT"})
+            data={"affiliation": "ZMT"})
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response["location"], "/changed_test_user/")
+        self.assertEqual(response["location"], "/test_user/")
 
     def test_account_update_view_updates_account_data(self):
+      # User name cannot be changed from this view. Only affiliation
         self.logged_in.post(
             reverse(
                 "accounts:account_update",
                 kwargs={"account_slug": self.a1.account_slug}),
-            data={"user": "changed test user", "affiliation": "ZMT"},
+            data={"affiliation": "University of Hawaii"},
             follow=True)
-        test_account = Account.objects.all()[0]
-        self.assertEqual(test_account.user, "changed test user")
+
+        response = self.logged_in.get("/test_user/update/")
+        self.assertIn("University of Hawaii", response.content.decode("utf-8"))
+
 
 
 class AccountRemoveViewTests(TestCase):
