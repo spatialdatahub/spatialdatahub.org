@@ -16,6 +16,8 @@ from datasets.views import dataset_update_auth
 from datasets.views import dataset_remove
 
 from cryptography.fernet import Fernet
+
+import json
 import os
 
 User = get_user_model()
@@ -67,7 +69,7 @@ class NewDatasetViewTests(TestCase):
                 kwargs={"account_slug": self.a1.account_slug}))
         self.assertIsInstance(response.context["form"], DatasetCreateForm)
 
-    def test_new_dataset_view_redirects_to_account_detail_view_on_save(self):
+    def test_new_dataset_view_redirects_to_dataset_detail_view_on_save(self):
         response = self.logged_in.post(
             reverse(
                 "datasets:new_dataset",
@@ -75,8 +77,13 @@ class NewDatasetViewTests(TestCase):
             data={"author": "pat", "title": "test dataset",
                   "description": "This is a test dataset",
                   "url": "https://duckduckgo.com/"})
+
+        last_pk = Dataset.objects.all().order_by("-pk")[0].pk
+
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response["location"], "/test_user/")
+        self.assertEqual(response["location"],
+                         "/test_user/{slug}/{pk}/".format(
+                         slug="test-dataset", pk=last_pk)) # I need to make this number relative
 
     def test_new_dataset_view_saves_new_dataset(self):
         self.logged_in.post(
@@ -309,15 +316,23 @@ class DatasetUpdateViewTests(TestCase):
         BASE_DIR = os.path.dirname(os.path.dirname(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
         # get key from file
-        f = BASE_DIR + "/temp_password.txt"
-        g = open(f)
-        key = g.read().encode("utf-8")
-        g.close()
-        cipher_end = Fernet(key)
+        with open(BASE_DIR + "/secrets.json") as f:
+            secrets = json.loads(f.read())
+
+        def get_secret(setting, secrets=secrets):
+            """Get the secret variable or return the explicit exception."""
+            try:
+                return secrets[setting]
+            except KeyError:
+                error_msg = "Set the {0} environment variable".format(setting)
+                raise ImproperlyConfigured(error_msg)
+
+        CRYPTO_KEY = get_secret("CRYPTO_KEY")
+        cipher_start = Fernet(CRYPTO_KEY)
 
         test_dataset = Dataset.objects.get(title="test dataset")
         bytes_password = test_dataset.dataset_password.encode("utf-8")
-        decrypted_password = cipher_end.decrypt(bytes_password).decode("utf-8")
+        decrypted_password = cipher_start.decrypt(bytes_password).decode("utf-8")
 
         self.assertEqual(decrypted_password, "zmtBremen1991")
 
@@ -336,15 +351,23 @@ class DatasetUpdateViewTests(TestCase):
         BASE_DIR = os.path.dirname(os.path.dirname(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
         # get key from file
-        f = BASE_DIR + "/temp_password.txt"
-        g = open(f)
-        key = g.read().encode("utf-8")
-        g.close()
-        cipher_end = Fernet(key)
+        with open(BASE_DIR + "/secrets.json") as f:
+            secrets = json.loads(f.read())
+
+        def get_secret(setting, secrets=secrets):
+            """Get the secret variable or return the explicit exception."""
+            try:
+                return secrets[setting]
+            except KeyError:
+                error_msg = "Set the {0} environment variable".format(setting)
+                raise ImproperlyConfigured(error_msg)
+
+        CRYPTO_KEY = get_secret("CRYPTO_KEY")
+        cipher_start = Fernet(CRYPTO_KEY)
 
         test_dataset = Dataset.objects.get(title="test dataset")
         bytes_user = test_dataset.dataset_user.encode("utf-8")
-        decrypted_user = cipher_end.decrypt(bytes_user).decode("utf-8")
+        decrypted_user = cipher_start.decrypt(bytes_user).decode("utf-8")
 
         self.assertEqual(decrypted_user, "zmtdummy")
 '''
@@ -461,9 +484,7 @@ class DatasetRemoveViewTests(TestCase):
                 kwargs={"account_slug": self.a1.account_slug,
                         "dataset_slug": self.ds1.dataset_slug,
                         "pk": self.ds1.pk}),
-            data={"author": "pat", "title": "test dataset",
-                  "description": "This is a test dataset",
-                  "url": "https://duckduckgo.com/"})
+                follow=False)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"], "/test_user/")
 
