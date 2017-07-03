@@ -539,9 +539,8 @@ function saveFile (layer, fileNameInput) {
 // how do I get every active layer points on the map?
 // make this return a feature collection with the points
 // here I have to call the convert clusters to layers function
-//
 
-const getActivePointsLayers = function (map) {
+const activePointsLayersToFeatureCollection = function (map) {
   const arr = []
   map.eachLayer(mapLayer => {
     if (mapLayer.feature) {
@@ -561,10 +560,10 @@ const getActivePointsLayers = function (map) {
 const getDataWithinPolygonFunc = function (map, poly) {
   let data        
   if (layerClusterState === 0) {
-    data = within(getActivePointsLayers(map), poly)
+    data = within(activePointsLayersToFeatureCollection(map), poly)
   } else {
     toggleMarkerClusters(myMap, datasets, datasetClusters)
-    data = within(getActivePointsLayers(map), poly)
+    data = within(activePointsLayersToFeatureCollection(map), poly)
     toggleMarkerClusters(myMap, datasets, datasetClusters)
   }
   return data
@@ -633,7 +632,23 @@ getDataWithinPolygonButton.addEventListener('click', () => {
 // array, do not remove the layer, otherwise, remove the layer
 //
 
+/*
+const clearLayers = function (map) {
+  map.eachLayer(mapLayer => {
+    if (mapLayer.feature) {
+      map.removeLayer(mapLayer) 
+    }
+  })
+}
+*/
+
+
 // this was extremely frustrating to write
+// However, this works with the markerCluster function
+// simply specifying that the layer should have features doesn't work
+// it separates the tile layers out, but it also separates out the 
+// markerCluster layers
+// of course I could just call the toggleMarkerClusters function...
 const clearLayers = function (map, arr) {
   map.eachLayer(mapLayer => {
     const arrayLayer = arr.map(aL => map.hasLayer(aL) ? aL : undefined)
@@ -648,20 +663,19 @@ const clearLayers = function (map, arr) {
   })
 }
 
+
 const clearMapButton = document.getElementById('clear_map')
 
 const a = Object.keys(baseLayers).map(n => baseLayers[n])
 
 clearMapButton.addEventListener('click', function clearMap () {
   // toggle 'active' class off
-  console.log('click')
   activeDatasetButtons.forEach(function deactivate (link) {
     link.classList.remove('active')
   })
 
   // remove all layers from map, except the active tile layers
   clearLayers(myMap, a)
-//  getActivePointsLayers(myMap)
 })
 
 
@@ -670,28 +684,38 @@ clearMapButton.addEventListener('click', function clearMap () {
 // /////////////////////////////////////////////////////////////////////////
 // make a button, that when pressed, reveals a selector with the datasets
 // as well as an input box
-/*
+
 // make selector, that has all active datasets on it.
 const searchByTermSelector = document.getElementById('filter_by_selector')
 
 // get input
 const filter_by_input = document.getElementById('filter_by_input')
 
+
+// this must be called with the toggleMarkeClusters function
+// toggleMarkerClusters(myMap, datasets, datasetClusters)
+// this must be called with the toggleMarkeClusters function
 // first put all active datasets in array
-const activeGeoJsonLayers = function (map, tileArr) {
-  map.eachLayer(mL => {
-    const tileLayer = tileArr.map(tL => map.hasLayer(tL) ? tL : undefined)
-      .filter(x => {
-        if (x !== undefined) {
-          return x
-        }
-      })
-    if (mL !== tileLayer[0]){
-      return mL
+
+const activeNonTileLayersOnMap = function (map) {
+  const arr = []
+  map.eachLayer(mapLayer => {
+    if (mapLayer.feature) {
+      arr.push(mapLayer.toGeoJSON()) 
     }
   })
+  return arr
 }
-*/
+
+
+// listen to map
+myMap.on('layeradd', () => {
+  //toggleMarkerClusters(myMap, datasets, datasetClusters)
+  console.log(activeNonTileLayersOnMap(myMap))  
+  //toggleMarkerClusters(myMap, datasets, datasetClusters)
+})
+
+
 // then populate selector with results from the array
 
 // use array to select the layer to search
