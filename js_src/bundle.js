@@ -12,6 +12,8 @@ const mapFunctions = require('./pieces/mapFunctions.js')
 //const datasetList = require('./pieces/datasetList.js')
 const editMap = require('./pieces/editMap.js')
 
+const filterize = require('./pieces/filterize.js')
+
 // Things I need to fix
 // - filesaver doesn't save data from all sources, only the test urls
 // - csv files (and possibly other non-geojson files) do not load on dataset detail page -- FIXED
@@ -537,9 +539,8 @@ function saveFile (layer, fileNameInput) {
 // how do I get every active layer points on the map?
 // make this return a feature collection with the points
 // here I have to call the convert clusters to layers function
-//
 
-const getActivePointsLayers = function (map) {
+const activePointsLayersToFeatureCollection = function (map) {
   const arr = []
   map.eachLayer(mapLayer => {
     if (mapLayer.feature) {
@@ -559,10 +560,10 @@ const getActivePointsLayers = function (map) {
 const getDataWithinPolygonFunc = function (map, poly) {
   let data        
   if (layerClusterState === 0) {
-    data = within(getActivePointsLayers(map), poly)
+    data = within(activePointsLayersToFeatureCollection(map), poly)
   } else {
     toggleMarkerClusters(myMap, datasets, datasetClusters)
-    data = within(getActivePointsLayers(map), poly)
+    data = within(activePointsLayersToFeatureCollection(map), poly)
     toggleMarkerClusters(myMap, datasets, datasetClusters)
   }
   return data
@@ -631,7 +632,23 @@ getDataWithinPolygonButton.addEventListener('click', () => {
 // array, do not remove the layer, otherwise, remove the layer
 //
 
+/*
+const clearLayers = function (map) {
+  map.eachLayer(mapLayer => {
+    if (mapLayer.feature) {
+      map.removeLayer(mapLayer) 
+    }
+  })
+}
+*/
+
+
 // this was extremely frustrating to write
+// However, this works with the markerCluster function
+// simply specifying that the layer should have features doesn't work
+// it separates the tile layers out, but it also separates out the 
+// markerCluster layers
+// of course I could just call the toggleMarkerClusters function...
 const clearLayers = function (map, arr) {
   map.eachLayer(mapLayer => {
     const arrayLayer = arr.map(aL => map.hasLayer(aL) ? aL : undefined)
@@ -646,6 +663,7 @@ const clearLayers = function (map, arr) {
   })
 }
 
+
 const clearMapButton = document.getElementById('clear_map')
 
 const a = Object.keys(baseLayers).map(n => baseLayers[n])
@@ -658,6 +676,54 @@ clearMapButton.addEventListener('click', function clearMap () {
 
   // remove all layers from map, except the active tile layers
   clearLayers(myMap, a)
-//  getActivePointsLayers(myMap)
 })
+
+
+// /////////////////////////////////////////////////////////////////////////
+// Filterize 
+// /////////////////////////////////////////////////////////////////////////
+// make a button, that when pressed, reveals a selector with the datasets
+// as well as an input box
+
+// make selector, that has all active datasets on it.
+const searchByTermSelector = document.getElementById('filter_by_selector')
+
+// get input
+const filter_by_input = document.getElementById('filter_by_input')
+
+
+// this must be called with the toggleMarkeClusters function
+// toggleMarkerClusters(myMap, datasets, datasetClusters)
+// this must be called with the toggleMarkeClusters function
+// first put all active datasets in array
+
+const activeNonTileLayersOnMap = function (map) {
+  const arr = []
+  map.eachLayer(mapLayer => {
+    if (mapLayer.feature) {
+      arr.push(mapLayer.toGeoJSON()) 
+    }
+  })
+  return arr
+}
+
+
+// listen to map
+myMap.on('layeradd', () => {
+  //toggleMarkerClusters(myMap, datasets, datasetClusters)
+  console.log(activeNonTileLayersOnMap(myMap))  
+  //toggleMarkerClusters(myMap, datasets, datasetClusters)
+})
+
+
+// then populate selector with results from the array
+
+// use array to select the layer to search
+
+// get layer, convert to geojson, and search its properties for the term
+
+// filterize.featurePropertiesInclude(searchTerm, geojson)
+
+// remove selected layer from map, and add new filtered layer to map
+
 

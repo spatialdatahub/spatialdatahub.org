@@ -34,12 +34,14 @@ module.exports = function(config) {
       'js_src/pieces/basic.js',
       'js_src/pieces/mapFunctions.js',
       'js_src/pieces/editMap.js',
+      'js_src/pieces/filterize.js',
 
       // test files
       'js_src/test/scratch.spec.js',
       'js_src/test/basic.spec.js',
       'js_src/test/mapFunctions.spec.js',
-      'js_src/test/editMap.spec.js'
+      'js_src/test/editMap.spec.js',
+      'js_src/test/filterize.spec.js'
     ],
 
 
@@ -56,12 +58,14 @@ module.exports = function(config) {
       'js_src/pieces/basic.js': [ 'browserify' ],
       'js_src/pieces/mapFunctions.js': [ 'browserify' ],
       'js_src/pieces/editMap.js': [ 'browserify' ],
+      'js_src/pieces/filterize.js': [ 'browserify' ],
 
       'create-dom.js': [ 'browserify' ],
       'js_src/test/scratch.spec.js': [ 'browserify' ],
       'js_src/test/basic.spec.js': [ 'browserify' ],
       'js_src/test/mapFunctions.spec.js': [ 'browserify' ],
-      'js_src/test/editMap.spec.js': [ 'browserify' ]
+      'js_src/test/editMap.spec.js': [ 'browserify' ],
+      'js_src/test/filterize.spec.js': [ 'browserify' ]
     },
 
     browserify: {
