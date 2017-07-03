@@ -1,6 +1,6 @@
 const L = require('leaflet')
 
-import within from '@turf/within'
+import { within } from '@turf/within'
 import { feature, featureCollection } from '@turf/helpers'
 import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
 
@@ -657,7 +657,7 @@ clearMapButton.addEventListener('click', function clearMap () {
   })
 
   // remove all layers from map, except the active tile layers
-//  clearLayers(myMap, a)
-  getActivePointsLayers(myMap)
+  clearLayers(myMap, a)
+//  getActivePointsLayers(myMap)
 })
 
