@@ -61,7 +61,6 @@ describe('filterize.js', function () {
 
 
   describe('featurePropertiesInclude', function () {
-    it('should return geojson object with feature props that include particular string', function () {
 
       const expected = {
         "type": "FeatureCollection",
@@ -83,8 +82,16 @@ describe('filterize.js', function () {
         ]
       }
 
+    it('should return geojson object with feature props that include particular string', function () {
       assert.deepEqual(
         filterize.featurePropertiesInclude("now", points),
+        expected
+      )
+    })
+
+    it('shoud return geojson object with feature props that include particular number', function () {
+      assert.deepEqual(
+        filterize.featurePropertiesInclude(2000, points),
         expected
       )
     })
@@ -114,12 +121,4 @@ describe('filterize.js', function () {
     })
   })
 
-/*
-  describe('filterPropertiesByString', function () {
-    it('should take geojson and return geojson with properties that match the string', function () {
-      assert.equal('fail', 'write the test')
-    })
-  })
-*/
-  
 })

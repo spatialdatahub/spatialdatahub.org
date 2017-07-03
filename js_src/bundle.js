@@ -12,6 +12,8 @@ const mapFunctions = require('./pieces/mapFunctions.js')
 //const datasetList = require('./pieces/datasetList.js')
 const editMap = require('./pieces/editMap.js')
 
+const filterize = require('./pieces/filterize.js')
+
 // Things I need to fix
 // - filesaver doesn't save data from all sources, only the test urls
 // - csv files (and possibly other non-geojson files) do not load on dataset detail page -- FIXED
@@ -652,18 +654,52 @@ const a = Object.keys(baseLayers).map(n => baseLayers[n])
 
 clearMapButton.addEventListener('click', function clearMap () {
   // toggle 'active' class off
+  console.log('click')
   activeDatasetButtons.forEach(function deactivate (link) {
     link.classList.remove('active')
   })
 
   // remove all layers from map, except the active tile layers
-//  clearLayers(myMap, a)
-  getActivePointsLayers(myMap)
+  clearLayers(myMap, a)
+//  getActivePointsLayers(myMap)
 })
 
 
 // /////////////////////////////////////////////////////////////////////////
 // Filterize 
 // /////////////////////////////////////////////////////////////////////////
+// make a button, that when pressed, reveals a selector with the datasets
+// as well as an input box
+/*
+// make selector, that has all active datasets on it.
+const searchByTermSelector = document.getElementById('filter_by_selector')
+
+// get input
+const filter_by_input = document.getElementById('filter_by_input')
+
+// first put all active datasets in array
+const activeGeoJsonLayers = function (map, tileArr) {
+  map.eachLayer(mL => {
+    const tileLayer = tileArr.map(tL => map.hasLayer(tL) ? tL : undefined)
+      .filter(x => {
+        if (x !== undefined) {
+          return x
+        }
+      })
+    if (mL !== tileLayer[0]){
+      return mL
+    }
+  })
+}
+*/
+// then populate selector with results from the array
+
+// use array to select the layer to search
+
+// get layer, convert to geojson, and search its properties for the term
+
+// filterize.featurePropertiesInclude(searchTerm, geojson)
+
+// remove selected layer from map, and add new filtered layer to map
 
 

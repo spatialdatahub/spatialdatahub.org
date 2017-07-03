@@ -35,30 +35,25 @@ const makePropertySelectorOptions = arr => {
 }
 
 
-const featurePropertiesInclude = (string, geojson) => {
-  //  if feat.properties.values include string return feature
-  //  return feat whose property values include the string
-
+const featurePropertiesInclude = (searchTerm, geojson) => {
+  // filter features
+  // if any of the  feature's properties include the string
+  // or number argument, return that feature
   const correctFeatures = geojson.features.filter(feat => {
     const fp = feat.properties
     if (Object.keys(fp)
-          .map(key => fp[key].toString().includes(string))
+          .map(key => fp[key].toString().includes(searchTerm))
           .includes(true)
     ) { return feat }
   })
-  
   return {
     "type": "FeatureCollection",
     "features": correctFeatures
   }
 }
 
-
-
-
 module.exports = {
   getFeaturePropertyKeys: getFeaturePropertyKeys,
   makePropertySelectorOptions: makePropertySelectorOptions,
   featurePropertiesInclude: featurePropertiesInclude
-//  filterPropertiesByString: filterPropertiesByString
 }
