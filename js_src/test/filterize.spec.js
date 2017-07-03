@@ -59,6 +59,38 @@ describe('filterize.js', function () {
     })
   })
 
+
+  describe('featurePropertiesInclude', function () {
+    it('should return geojson object with feature props that include particular string', function () {
+
+      const expected = {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "hey": "now now",
+              "Year": 2000
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                4.921875,
+                49.61070993807422
+              ]
+            }
+          }
+        ]
+      }
+
+      assert.deepEqual(
+        filterize.featurePropertiesInclude("now", points),
+        expected
+      )
+    })
+  })
+
+
   describe('makePropertySelector', function () {
     // Array    
     const propertyArray = ["Title", 2017]
@@ -82,10 +114,12 @@ describe('filterize.js', function () {
     })
   })
 
+/*
   describe('filterPropertiesByString', function () {
     it('should take geojson and return geojson with properties that match the string', function () {
       assert.equal('fail', 'write the test')
     })
   })
+*/
   
 })

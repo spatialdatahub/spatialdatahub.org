@@ -34,9 +34,24 @@ const makePropertySelectorOptions = arr => {
   return selector
 }
 
-var filterPropertiesByString
 
-var filterPropertiesByNumber
+const featurePropertiesInclude = (string, geojson) => {
+  //  if feat.properties.values include string return feature
+  //  return feat whose property values include the string
+
+  const correctFeatures = geojson.features.filter(feat => {
+    const fp = feat.properties
+    if (Object.keys(fp)
+          .map(key => fp[key].toString().includes(string))
+          .includes(true)
+    ) { return feat }
+  })
+  
+  return {
+    "type": "FeatureCollection",
+    "features": correctFeatures
+  }
+}
 
 
 
@@ -44,5 +59,6 @@ var filterPropertiesByNumber
 module.exports = {
   getFeaturePropertyKeys: getFeaturePropertyKeys,
   makePropertySelectorOptions: makePropertySelectorOptions,
-  filterPropertiesByString: filterPropertiesByString
+  featurePropertiesInclude: featurePropertiesInclude
+//  filterPropertiesByString: filterPropertiesByString
 }
