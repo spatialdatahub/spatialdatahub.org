@@ -1,6 +1,6 @@
 const L = require('leaflet')
 
-import within from '@turf/within'
+import { within } from '@turf/within'
 import { feature, featureCollection } from '@turf/helpers'
 import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
 
