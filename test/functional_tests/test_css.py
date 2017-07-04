@@ -1,9 +1,14 @@
 from selenium import webdriver
 
+from django.contrib.auth import get_user_model
+
 from accounts.models import Account
 from datasets.models import Dataset
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+
+
+User = get_user_model()
 
 """
 I am going to set this up to run through the tests with chrome, then to run
@@ -13,6 +18,7 @@ for tear down.
 """
 
 
+'''
 class BrowserSizeChangerTests(StaticLiveServerTestCase):
     """
     This class will be set up to go through all the web pages and make sure
@@ -22,9 +28,12 @@ class BrowserSizeChangerTests(StaticLiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Chrome()
 
-        self.a1 = Account.objects.create(
-            user="test_user",
-            affiliation="Zentrum für Marine Tropenökologie")
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
 
         self.ds1 = Dataset.objects.create(
             account=self.a1,
@@ -296,7 +305,6 @@ class BrowserSizeChangerTests(StaticLiveServerTestCase):
         )
 
 
-'''
 class DatasetCreateViewMiscCSS(CssBaseLiveTest):
 
     def test_dataset_create_view_Submit_button_is_green_and_bold(self):

@@ -11,7 +11,7 @@
 {% block content %}
 
   <p>
-    <form action="" method="post">
+    <form id="confirm_remove_form" action="" method="post">
       {% csrf_token %}
       <input class="btn btn-danger" type="submit" value="Yes, please remove {{ dataset.title }}"/>
     </form>
