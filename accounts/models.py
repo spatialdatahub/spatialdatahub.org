@@ -6,7 +6,6 @@ from django.utils.text import slugify
 
 from django.conf import settings
 
-
 class Account(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)

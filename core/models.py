@@ -8,5 +8,5 @@ class CustomUserManager(UserManager):
         return self.get(username__iexact=username)
 
 
-class CustomUser(AbstractUser):
+class User(AbstractUser):
     objects = CustomUserManager()
