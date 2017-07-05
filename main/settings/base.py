@@ -49,13 +49,22 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     # THIRD PARTY
+    "rest_framework",
 
     # LOCAL
     "core",
     "accounts",
     "datasets",
     "keywords",
+    "api",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSIONS_CLASSES": [
+        "rest_framework.permissions.IsAdminUser",
+    ],
+    "PAGE_SIZE": 10
+}
 
 
 MIDDLEWARE_CLASSES = [
