@@ -21,9 +21,9 @@ const getFeaturePropertyKeys = geojsondata => {
   return Array.from(mySet)
 }
 
-const makePropertySelectorOptions = arr => {
+const makeSelector = arr => {
   // make the selector here, populate it, then return it
-  const selector = document.createElement('selector')
+  const selector = document.createElement('select')
   arr.forEach(prop => {
     const option = document.createElement('option') 
     const text = document.createTextNode(prop)
@@ -54,6 +54,6 @@ const featurePropertiesInclude = (searchTerm, geojson) => {
 
 module.exports = {
   getFeaturePropertyKeys: getFeaturePropertyKeys,
-  makePropertySelectorOptions: makePropertySelectorOptions,
+  makeSelector: makeSelector,
   featurePropertiesInclude: featurePropertiesInclude
 }

@@ -663,10 +663,9 @@ const clearLayers = function (map, arr) {
   })
 }
 
-
 const clearMapButton = document.getElementById('clear_map')
 
-const a = Object.keys(baseLayers).map(n => baseLayers[n])
+const tileLayers = Object.keys(baseLayers).map(n => baseLayers[n])
 
 clearMapButton.addEventListener('click', function clearMap () {
   // toggle 'active' class off
@@ -675,7 +674,7 @@ clearMapButton.addEventListener('click', function clearMap () {
   })
 
   // remove all layers from map, except the active tile layers
-  clearLayers(myMap, a)
+  clearLayers(myMap, tileLayers)
 })
 
 
@@ -685,33 +684,69 @@ clearMapButton.addEventListener('click', function clearMap () {
 // make a button, that when pressed, reveals a selector with the datasets
 // as well as an input box
 
-// make selector, that has all active datasets on it.
-const searchByTermSelector = document.getElementById('filter_by_selector')
-
-// get input
-const filter_by_input = document.getElementById('filter_by_input')
-
+// get all active datasets on map that are not tile layers
 
 // this must be called with the toggleMarkeClusters function
 // toggleMarkerClusters(myMap, datasets, datasetClusters)
 // this must be called with the toggleMarkeClusters function
 // first put all active datasets in array
 
-const activeNonTileLayersOnMap = function (map) {
-  const arr = []
-  map.eachLayer(mapLayer => {
-    if (mapLayer.feature) {
-      arr.push(mapLayer.toGeoJSON()) 
-    }
-  })
-  return arr
+// this is difficult because it pulls from the map, and the map gives 
+// layers back, not necessarily single names
+// so how do I get the names from the datasets container and use them?
+
+// I probably have to compare those datasets with the active layers on
+// the map
+
+// this shouldn't be too bad. I'll just switch it up so that the array is
+// the datasets array, and so that it compares them .... and returns the
+// positives, instead of looking for negatives
+
+// there needs to be a function that gets marker layers and toggles them
+// to datasets, but doesn't get the non-marker layers
+const activeNonTileLayerKeys = function (map, obj) {
+  return Object.keys(obj)
+    .filter(key => {
+      if (map.hasLayer(obj[key])) {
+        return obj
+      }
+    })
 }
 
+// get filter by container button stuff
+// make container show up
+const showFilterByContainer = document.getElementById('filter_by_container_button')
+const filterByContainer = document.getElementById('filter_by_container')
 
+showFilterByContainer.addEventListener('click', () => {
+
+  // make selector, that has all active datasets on it.
+  const filterBySelector = layerClusterState === 0 
+    ? filterize.makeSelector(activeNonTileLayerKeys(myMap, datasets))
+    : filterize.makeSelector(activeNonTileLayerKeys(myMap, datasetClusters))
+
+  filterBySelector.setAttribute('id', 'filter_by_selector')
+  filterByContainer.appendChild(filterBySelector)
+//console.log(filterByContainer)
+
+})
+
+// get text input
+const filter_by_input = document.getElementById('filter_by_input')
+
+// get selected dataset on selector choice
+
+// on text input submit run the dataset filter function
+
+// update the filtered layer to show only filtered points or polygons or lines
+
+// I bet that marker cluster isn't working because it was being called on
+// non-points layers
 // listen to map
 myMap.on('layeradd', () => {
   //toggleMarkerClusters(myMap, datasets, datasetClusters)
-  console.log(activeNonTileLayersOnMap(myMap))  
+//  var x = activeNonTileLayersOnMap(myMap, tileLayers)
+//  console.log(x.length)
   //toggleMarkerClusters(myMap, datasets, datasetClusters)
 })
 

@@ -97,13 +97,13 @@ describe('filterize.js', function () {
     })
   })
 
-
-  describe('makePropertySelector', function () {
+  // this should be in the mapFunctions file
+  describe('makeSelector', function () {
     // Array    
     const propertyArray = ["Title", 2017]
 
     // pre-built slector with two options
-    const expect = document.createElement('selector')
+    const expect = document.createElement('select')
     const text1 = document.createTextNode('Title')
     const text2 = document.createTextNode(2017)
     const option1 = document.createElement('option') 
@@ -116,7 +116,7 @@ describe('filterize.js', function () {
     expect.appendChild(option2)
     
     it('should build selector and assign options to feature collection properties', function () {
-      const tester = filterize.makePropertySelectorOptions(propertyArray)
+      const tester = filterize.makeSelector(propertyArray)
       assert.deepEqual(tester, expect) 
     })
   })
