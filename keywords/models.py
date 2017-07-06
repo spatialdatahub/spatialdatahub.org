@@ -9,7 +9,7 @@ class Keyword(models.Model):
     # keywords should be unique, and they should not be blank
     keyword = models.CharField(
         max_length=100, blank=True, null=True, unique=True)
-    datasets = models.ManyToManyField(Dataset)
+    datasets = models.ManyToManyField(Dataset, related_name='keywords')
     keyword_slug = models.SlugField(max_length=100, unique=True,
                                     blank=True, null=True)
 
