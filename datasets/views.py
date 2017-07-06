@@ -22,7 +22,7 @@ def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     '''
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
-    keyword_list = dataset.keyword_set.all()
+    keyword_list = dataset.keywords.all()
 
     context = {"account": account,
                "keyword_list": keyword_list,
@@ -94,9 +94,9 @@ def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=Non
 
         try:
             n = Keyword.objects.get(keyword=keyword_lower)
-            dataset.keyword_set.add(n)
+            dataset.keywords.add(n)
         except ObjectDoesNotExist:
-            dataset.keyword_set.create(keyword=keyword_lower)
+            dataset.keywords.create(keyword=keyword_lower)
 
         return redirect("datasets:dataset_detail",
                     account_slug=account.account_slug,
@@ -118,11 +118,11 @@ def remove_keyword_from_dataset(request, account_slug=None, dataset_slug=None, p
     """
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
-    keyword_list = dataset.keyword_set.all()
+    keyword_list = dataset.keywords.all()
     # I don't like this... how can I do it better?
     if "kw" in request.POST:
         kw = request.POST["kw"]
-        dataset.keyword_set.remove(kw)
+        dataset.keywords.remove(kw)
         return redirect("datasets:dataset_detail",
                         account_slug=account.account_slug,
                         dataset_slug=dataset.dataset_slug,

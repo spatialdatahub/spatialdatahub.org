@@ -26,11 +26,10 @@ class AccountSerializer(serializers.ModelSerializer):
 
 class KeywordSerializer(serializers.ModelSerializer):
 
-    datasets = DatasetSerializer(many=True)
-
     class Meta:
         model = Keyword
-        fields = ('keyword', 'datasets', 'keyword_slug')
+        fields = ('keyword', 'keyword_slug')
+
 
 
 class DatasetSerializer(serializers.ModelSerializer):
@@ -43,3 +42,7 @@ class DatasetSerializer(serializers.ModelSerializer):
         fields = ('account', 'author', 'title', 'description', 'url', 
                   'public_access', 'owncloud', 'dataset_slug', 'date_added',
                   'ext', 'keywords')
+
+
+
+

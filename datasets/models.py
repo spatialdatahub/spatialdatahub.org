@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.text import slugify
 
 from accounts.models import Account
+from keywords.models import Keyword
 
 from cryptography.fernet import Fernet
 
@@ -48,6 +49,9 @@ class Dataset(models.Model):
     account = models.ForeignKey(Account,
                                 on_delete=models.CASCADE,
                                 related_name='datasets')
+    keywords = models.ManyToManyField(Keyword,
+                                      related_name='datasets',
+                                      blank=True)
     author = models.CharField(max_length=200, null=True)
     title = models.CharField(max_length=50, null=True)
     description = models.TextField(null=True)
