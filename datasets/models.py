@@ -45,7 +45,9 @@ class Dataset(models.Model):
     a model field.
     """
 
-    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account,
+                                on_delete=models.CASCADE,
+                                related_name='datasets')
     author = models.CharField(max_length=200, null=True)
     title = models.CharField(max_length=50, null=True)
     description = models.TextField(null=True)
