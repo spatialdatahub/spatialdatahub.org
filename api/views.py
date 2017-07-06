@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model
+#from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 
 from accounts.models import Account
@@ -8,14 +8,14 @@ from keywords.models import Keyword
 from api.serializers import AccountSerializer
 from api.serializers import DatasetSerializer
 from api.serializers import KeywordSerializer
-from api.serializers import UserSerializer
+#from api.serializers import UserSerializer
 
 
-User = get_user_model()
+#User = get_user_model()
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
+#class UserViewSet(viewsets.ModelViewSet):
+#    queryset = User.objects.all().order_by('-date_joined')
+#    serializer_class = UserSerializer
 
 
 class AccountViewSet(viewsets.ModelViewSet):
