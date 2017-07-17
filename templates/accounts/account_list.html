@@ -18,7 +18,7 @@
   {% for account in account_list %}
     <p>
       <a name="account_link" id="{{ account.pk }}" href="{{ account.get_absolute_url }}">
-        {{ account.user }}: {{ account.dataset_set.all|length }} datasets
+        {{ account.user }}: {{ account.datasets.all|length }} datasets
       </a>
     </p>
   {% endfor %}
