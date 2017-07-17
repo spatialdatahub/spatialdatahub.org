@@ -167,4 +167,13 @@ LOGIN_REDIRECT_URL = '/'
 
 # This won't work yet I think, it's kind of just here before the real thing
 # gets set up
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Going to set up the email with a dummy gmail account
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'zmtdummy'
+EMAIL_HOST_PASSWORD = 'zmtBremen1991'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'zmtdummy@gmail.com'
