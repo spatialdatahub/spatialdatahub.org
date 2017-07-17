@@ -71,7 +71,7 @@ def portal(request):
             Q(title__icontains=q) |
             Q(account__user__username__icontains=q) |
             Q(author__icontains=q) |
-            Q(keyword__keyword__icontains=q)
+            Q(keywords__keyword__icontains=q)
             ).order_by("title").distinct()
     else:
         dataset_list = D.order_by("title")
