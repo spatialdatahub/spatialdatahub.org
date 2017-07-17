@@ -16,6 +16,7 @@
       <input class="btn btn-default" type="submit" value="Update {{ account.user }}">
     </form>
   </p>
+  <h3><a href="{% url 'password_reset' %}">Reset Password</a></h3>
 
   <p>
     <a href="{{ account.get_absolute_url }}">
