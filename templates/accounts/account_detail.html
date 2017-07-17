@@ -16,9 +16,7 @@
     height: 41em;
   }
 
-  #mainContainer {
-    overflow-y: auto;
-    overflow-x: hidden;
+  #mapContainer {
     float: right;
   }
 
@@ -45,12 +43,7 @@
     display: none;
   }
 
-
 </style>
-<!-- 
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
--->
 
 {% endblock css %}
 
@@ -60,7 +53,6 @@
 
 {% block portal_content %}
 
-<!-- account detail page specific stuff -->
   {% if account.affiliation %}
     <div class="row" id="account_info">
       <div class="col-xs-12">
@@ -70,7 +62,7 @@
     <hr>
   {% endif %}
 
-  <div class="row"> <!-- do I need this id? -->
+  <div class="row">
     <div class="col-xs-12 col-md-4 col-lg-3">
         <p>
           <a href="{% url 'datasets:new_dataset' account.account_slug %}">
@@ -91,9 +83,6 @@
   </div>
   <hr>
 
-<!-- account detail page specific stuff -->
-
-
   {% include "pieces/editmap.html" %}
 
   <div class="row" id="main">
@@ -106,10 +95,4 @@
     </div>
   </div>
 
-
-
-
 {% endblock portal_content %}
-
-{% block portal_js %}
-{% endblock portal_js %}
