@@ -715,10 +715,19 @@ const activeNonTileLayerKeys = function (map, obj) {
 
 // get filter by container button stuff
 // make container show up
+// there also needs to be a hide container function. There should be a toggle function somewhere
 const showFilterByContainer = document.getElementById('filter_by_container_button')
 const filterByContainer = document.getElementById('filter_by_container')
 
 showFilterByContainer.addEventListener('click', () => {
+
+  // filter description text
+  const descriptionText = `This section will contain a selector containing all of the
+unique field names (keys) for a dataset. It will also include a text input -or- another selector
+that will allow the field values to be searched. On the value search only the data points that
+match the search query will be displayed on the map.`
+
+  const descriptionTextNode = document.createTextNode(descriptionText)
 
   // make selector, that has all active datasets on it.
   const filterBySelector = layerClusterState === 0 
@@ -726,6 +735,7 @@ showFilterByContainer.addEventListener('click', () => {
     : filterize.makeSelector(activeNonTileLayerKeys(myMap, datasetClusters))
 
   filterBySelector.setAttribute('id', 'filter_by_selector')
+  filterByContainer.appendChild(descriptionTextNode)
   filterByContainer.appendChild(filterBySelector)
 //console.log(filterByContainer)
 

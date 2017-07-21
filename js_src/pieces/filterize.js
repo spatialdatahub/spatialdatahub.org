@@ -13,11 +13,11 @@ const getFeaturePropertyKeys = geojsondata => {
 // at least I can see everything, and know that it works... so far
 // it returns an array of the unique feature property keys
   const mySet = new Set()
-
-  geojsondata.features.forEach(x => {
-    Object.keys(x.properties).forEach(x => mySet.add(x))
-  })
-
+  geojsondata.features
+    .forEach(x => {
+      Object.keys(x.properties)
+        .forEach(x => mySet.add(x))
+    })
   return Array.from(mySet)
 }
 
@@ -33,7 +33,6 @@ const makeSelector = arr => {
   })
   return selector
 }
-
 
 const featurePropertiesInclude = (searchTerm, geojson) => {
   // filter features
