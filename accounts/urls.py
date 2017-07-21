@@ -6,13 +6,15 @@ from accounts import views
 app_name = "accounts"
 
 urlpatterns = [
+
     url(r'^accounts/$',
-        views.account_list,
+        views.AccountList.as_view(),
         name="account_list"),
 
-    url(r'^account_ajax/(?P<account_slug>[-\w]*)/$',
-        views.account_ajax,
-        name="account_ajax"),
+
+#    url(r'^account_ajax/(?P<account_slug>[-\w]*)/$',
+#        views.account_ajax,
+#        name="account_ajax"),
 
     url(r'^(?P<account_slug>[-\w]*)/$',
         views.account_detail,

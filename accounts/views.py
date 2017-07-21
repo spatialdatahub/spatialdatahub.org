@@ -2,39 +2,53 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.views.generic import ListView
 
 from accounts.models import Account
 from accounts.forms import AccountForm
 
 from datasets.models import Dataset
 
+"""
+All these views can probably be refactored into django's class views
+they are no longer doing very special things, most of the special things
+the views do have been pushed to the main/views.py file. I just need
+to figure out how to put page queries from templates into these views
+"""
 
-def account_list(request):
-    """
-    This view will need to be searchable by account name, account affiliation,
-    and other account terms.
-    """
-    account_list = Account.objects.all().order_by("account_slug")
-
-    if "q" in request.GET:
-        q = request.GET["q"]
-        account_list = Account.objects.filter(
-            account_slug__contains=q).order_by("account_slug")
-
-    total_accounts = len(account_list)
-
-    context = {"account_list": account_list, "total_accounts": total_accounts}
+class AccountList(ListView):
+    model = Account
+    context_object_name = "account_list"
     template_name = "accounts/account_list.html"
-    return render(request, template_name, context)
 
 
+#def account_list(request):
+#    '''
+#    This view will need to be searchable by account name, account affiliation,
+#    and other account terms.
+#    '''
+#    account_list = Account.objects.all().order_by("account_slug")
+#
+#    if "q" in request.GET:
+#        q = request.GET["q"]
+#        account_list = Account.objects.filter(
+#            account_slug__contains=q).order_by("account_slug")
+#
+#    total_accounts = len(account_list)
+#
+#    context = {"account_list": account_list, "total_accounts": total_accounts}
+#    template_name = "accounts/account_list.html"
+#    return render(request, template_name, context)
+
+
+"""
 def account_ajax(request, account_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset_list = Dataset.objects.filter(account=account)
     template_name = "accounts/account_ajax.html"
     return render(request, template_name,
                   context={"account": account, "dataset_list": dataset_list})
-
+"""
 
 @login_required
 def account_update(request, account_slug=None):

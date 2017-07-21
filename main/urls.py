@@ -15,10 +15,6 @@ urlpatterns = [
         views.portal,
         name='portal'),
 
-#    url(r'^portal2/$',
-#        views.portal2,
-#        name='portal2'),
-
     url(r'^about/$',
         TemplateView.as_view(template_name='about.html'),
         name='about'),
