@@ -92,14 +92,15 @@
       <h4>
         <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}">
         Update Dataset Details
-      </h4>
+      </a>
       <h4>
         <a href="{% url 'datasets:dataset_update_auth' account.account_slug dataset.dataset_slug dataset.pk %}">
         Update Dataset Auth Details
-      </h4>
+      </a>
       <h4>
         <a href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}">
         Remove Dataset
+        </a>
       </h4>
     {% endif %}
 
