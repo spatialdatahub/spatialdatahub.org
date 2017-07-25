@@ -1,6 +1,7 @@
 const L = require('leaflet')
 
-import { within } from '@turf/within'
+const within = require('@turf/within')
+
 import { feature, featureCollection } from '@turf/helpers'
 import { getPlaceData, nominatim, normalizeGeoJSON, possiblePlaces } from 'easy-nominatim'
 
@@ -13,6 +14,8 @@ const mapFunctions = require('./pieces/mapFunctions.js')
 const editMap = require('./pieces/editMap.js')
 
 const filterize = require('./pieces/filterize.js')
+
+
 
 // Things I need to fix
 // - filesaver doesn't save data from all sources, only the test urls
