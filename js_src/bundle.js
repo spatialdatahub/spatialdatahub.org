@@ -383,7 +383,6 @@ showTestUrlContainerButton.addEventListener('click', function showTestUrlContain
 
 // (2) get elements
 const testUrlInput = document.getElementById('test_url_input')
-const getTestUrl = document.getElementById('get_test_url')
 const toggleTestUrlsButton = document.getElementById('toggle_test_urls')
 const testUrls = document.getElementById('test_urls')
 
@@ -399,7 +398,8 @@ const testUrlMarkerOptions = {
   fillOpacity: 0.4
 }
 
-getTestUrl.addEventListener('click', function getDataFromTestUrl () {
+
+function getDataFromTestUrl () {
   // get ext and url
   const ext = basic.getExt(testUrlInput.value)
   const url = testUrlInput.value
@@ -457,7 +457,16 @@ getTestUrl.addEventListener('click', function getDataFromTestUrl () {
     }, function handleError (error) {
       console.log(error)
     })
+}
+
+testUrlInput.addEventListener('keydown', function executeGetDataFromTestUrl(e) {
+  if (e.keyCode === 13) {
+    getDataFromTestUrl()
+  }
 })
+
+testUrlInput.addEventListener('blur', getDataFromTestUrl)
+
 
 // toggle testDatasets on and off
 // this should be broken into a function that toggle the datasets
