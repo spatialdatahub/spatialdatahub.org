@@ -287,7 +287,7 @@ showFindPlaceContainerButton.addEventListener('click', () => {
 
 // (2) get elements
 const placeInput = document.getElementById('place_input')
-const placeButton = document.getElementById('place_button')
+//const placeButton = document.getElementById('place_button')
 const placeToggle = document.getElementById('place_toggle')
 const selector = document.getElementById('selector')
 const selectButton = document.getElementById('select_button')
@@ -296,7 +296,7 @@ const selectButton = document.getElementById('select_button')
 const possiblePlaceLayers = {} // this is where i keep the layers to query the map with
 const selectedPlace = []
 
-activeDatasetButtons.push(placeButton, placeToggle, selectButton)
+activeDatasetButtons.push(/*placeButton,*/ placeToggle, selectButton)
 
 // this is going to need to be used to make selector too
 function makeSelectorOptions (array) {
@@ -314,10 +314,27 @@ function makeSelectorOptions (array) {
 }
 
 // add place(s) to the selector
+/*
 placeButton.addEventListener('click', function findPlace () {
   const val = placeInput.value
   en.getPlaceData(val, makeSelectorOptions)
 })
+*/
+
+// now the event fires on the enter key press and when the focus
+// shifts to a separate element
+placeInput.addEventListener('keydown', function findPlace(e) {
+  if (e.keyCode === 13) {
+    const val = placeInput.value
+    en.getPlaceData(val, makeSelectorOptions)
+  }
+})
+
+placeInput.addEventListener('blur', function findPlace() {
+  const val = placeInput.value
+  en.getPlaceData(val, makeSelectorOptions)
+})
+
 
 // select place to display
 selectButton.addEventListener('click', function selectPlace () {
