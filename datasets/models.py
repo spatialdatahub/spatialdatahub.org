@@ -99,6 +99,8 @@ class Dataset(models.Model):
             self.ext = "csv"
         elif base.endswith("kml"):
             self.ext = "kml"
+        elif base.endswith("tsv") or base.endswith("txt"):
+            self.ext = "tsv"
         else:
             self.ext = "geojson"
 

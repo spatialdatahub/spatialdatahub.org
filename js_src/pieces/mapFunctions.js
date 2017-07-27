@@ -20,7 +20,7 @@ const getGeoJSON = function (url) {
   return new Promise(function handlePromise (resolve, reject) {
     const dataLayer = omnivore.geojson(url)
       .on('ready', () => resolve(dataLayer))
-      .on('error', () => reject(Error('Url problem...')))
+      .on('error', () => reject(Error('Either a url problem or the file cannot be parsed')))
   })
 }
 
@@ -28,17 +28,31 @@ const getKML = function (url) {
   return new Promise(function handlePromise (resolve, reject) {
     const dataLayer = omnivore.kml(url)
       .on('ready', () => resolve(dataLayer))
-      .on('error', () => reject(Error('Url problem...')))
+      .on('error', () => reject(Error('Either a url problem or the file cannot be parsed')))
   })
 }
 
 const getCSV = function (url) {
   return new Promise(function handlePromise (resolve, reject) {
-    const dataLayer = omnivore.csv(url)
+    const dataLayer = omnivore.csv(url, {
+      delimiter: ',',
+    })
       .on('ready', () => resolve(dataLayer))
-      .on('error', () => reject(Error('Url problem...')))
+      .on('error', () => reject(Error('Either a url problem or the file cannot be parsed')))
   })
 }
+
+const getTSV = function (url) {
+  return new Promise(function handlePromise (resolve, reject) {
+    const dataLayer = omnivore.csv(url, {
+      delimiter: '\t',
+    })
+      .on('ready', () => resolve(dataLayer))
+      .on('error', () => reject(Error('Either a url problem or the file cannot be parsed')))
+  })
+}
+
+
 
 /*
 const handlePromiseLayer = function (promise, map, layer, cluster, layerContainer, clusterContainer, key) {
@@ -60,14 +74,14 @@ const handlePromiseLayer = function (promise, map, layer, cluster, layerContaine
 // should I write getCSV getKML and getGeoJSON as object
 // methods and call them?
 const extSelect = function (ext, url, handlePromise) {
+  console.log(ext)
   const prom = ext === 'kml'
     ? getKML(url)
     : ext === 'csv'
       ? getCSV(url)
-      : getGeoJSON(url)
-  // should I have a 'handlePromise function?'
-  // yes, and it goes right here
-//  handlePromise(prom)
+      : ext === 'tsv'
+        ? getTSV(url)
+        : getGeoJSON(url)
   return prom
 }
 
@@ -224,6 +238,7 @@ module.exports = {
   getGeoJSON: getGeoJSON,
   getKML: getKML,
   getCSV: getCSV,
+  getTSV: getTSV,
 //  handlePromiseLayer: handlePromiseLayer,
   extSelect: extSelect,
   checkFeatureProperties: checkFeatureProperties,

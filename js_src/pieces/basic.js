@@ -49,16 +49,14 @@ const classToggleOnDiffLink = function (el, elList, className) {
 // make function that gets the ext of the url
 // it can handle csv, kml, json, and geojson
 const getExt = function (string) {
-  const ext = []
   const stringLower = string.toLowerCase()
-
-  stringLower.endsWith('kml')
-    ? ext.push('kml')
+  return  stringLower.endsWith('kml')
+    ? 'kml'
     : stringLower.endsWith('csv')
-      ? ext.push('csv')
-      : ext.push('geojson')
-
-  return ext
+      ? 'csv'
+        : /*stringLower.endsWith('tsv') ||*/ stringLower.endsWith('txt')
+        ? 'tsv'
+          : 'geojson'
 }
 
 const addButton = function (text, color, container) {
