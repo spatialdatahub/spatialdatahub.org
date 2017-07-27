@@ -216,7 +216,7 @@ const extSelectAndThenLayer = function (map, ext, url) {
           .then(lm => datasets[pk] = lm)
           // add layerMod to the map, return layerMod
           .then(lm => {
-            map.addLayer(lm)//.fitBounds(layerMod.getBounds())
+            map.addLayer(lm).fitBounds(layerMod.getBounds())
             return lm
           })
           // add layerMod to the layerCluster, return layerCluster
@@ -248,7 +248,7 @@ const extSelectAndThenLayer = function (map, ext, url) {
           .then(lc => datasetClusters[pk] = lc)
 
           // add layer Cluster to the map, return layerCluster
-          .then(lc => map.addLayer(lc)/*.fitBounds(layerMod.getBounds())*/)
+          .then(lc => map.addLayer(lc).fitBounds(layerMod.getBounds()))
 
           // catch any errors and log them
           .catch(error => console.log(error))
@@ -330,10 +330,12 @@ placeInput.addEventListener('keydown', function findPlace(e) {
   }
 })
 
+/*
 placeInput.addEventListener('blur', function findPlace() {
   const val = placeInput.value
   en.getPlaceData(val, makeSelectorOptions)
 })
+*/
 
 
 // select place to display
@@ -465,7 +467,9 @@ testUrlInput.addEventListener('keydown', function executeGetDataFromTestUrl(e) {
   }
 })
 
+/*
 testUrlInput.addEventListener('blur', getDataFromTestUrl)
+*/
 
 
 // toggle testDatasets on and off
