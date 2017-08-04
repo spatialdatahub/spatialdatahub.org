@@ -187,4 +187,7 @@ geckodriver.log
 
 
 #### For compiled javascript ####
-static/js/bundle.js
+# BECAUSE I AM NOT COMPILING THIS ON THE SERVER I NEED TO SAVE IT FOR NOW. LATER
+# WHEN I SEPARATE THE BACK AND FRONT ENDS I WILL HAVE A DIFFERENT SYSTEM
+# AND NOT NEED THIS
+# static/js/bundle.js
