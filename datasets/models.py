@@ -108,11 +108,16 @@ class Dataset(models.Model):
         # I'd like to do this with the owncloud stuff as well
         if self.dataset_password:
             bytes_password = self.dataset_password.encode('utf-8')
-            self.dataset_password = cipher_start.encrypt(bytes_password)
+            encrypted_password = cipher.encrypt(bytes_password)
+            self.dataset_password = encrypted_password.decode('utf-8')
 
         if self.dataset_user:
             bytes_user = self.dataset_user.encode('utf-8')
-            self.dataset_user = cipher_start.encrypt(bytes_user)
+            encrypted_user = cipher.encrypt(bytes_user)
+            self.dataset_user = encrypted_user.decode('utf-8')
+
+            self.dataset_user = cipher.encrypt(bytes_user)
+            self.dataset_user = self.dataset_user.decode('utf-8')
 
         self.dataset_slug = slugify(self.title)
         super(Dataset, self).save(*args, **kwargs)
