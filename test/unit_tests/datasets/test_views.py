@@ -172,7 +172,7 @@ class DatasetDetailViewTests(TestCase):
                 kwargs={"account_slug": self.a1.account_slug,
                         "dataset_slug": self.ds2.dataset_slug,
                         "pk": self.ds2.pk}))
-        self.assertNotIn(self.ds2.dataset_password.decode("utf-8"),
+        self.assertNotIn(self.ds2.dataset_password,
                          response.context)
         self.assertNotIn("dataset_password",
                          response.content.decode("utf-8"))
@@ -184,11 +184,10 @@ class DatasetDetailViewTests(TestCase):
                 kwargs={"account_slug": self.a1.account_slug,
                         "dataset_slug": self.ds2.dataset_slug,
                         "pk": self.ds2.pk}))
-        self.assertNotIn(self.ds2.dataset_user.decode("utf-8"),
+        self.assertNotIn(self.ds2.dataset_user,
                          response.context)
         self.assertNotIn("dataset_user",
                          response.content.decode("utf-8"))
-
 
 class DatasetUpdateViewTests(TestCase):
 
@@ -335,6 +334,9 @@ class DatasetUpdateViewTests(TestCase):
         decrypted_password = cipher_start.decrypt(bytes_password).decode("utf-8")
 
         self.assertEqual(decrypted_password, "zmtBremen1991")
+
+
+
 
     def test_dataset_update_view_updates_dataset_but_not_auth_user(self):
         self.logged_in.post(

@@ -6,7 +6,10 @@ from django.urls import reverse
 
 from accounts.forms import AccountForm
 from accounts.models import Account
-from accounts.views import account_list
+
+#from accounts.views import account_list
+from accounts.views import AccountList
+
 from accounts.views import account_detail
 from accounts.views import account_update
 from accounts.views import account_remove

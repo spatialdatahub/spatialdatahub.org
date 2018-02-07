@@ -31,7 +31,7 @@ def get_secret(setting, secrets=secrets):
 
 
 CRYPTO_KEY = get_secret("CRYPTO_KEY")
-cipher_start = Fernet(CRYPTO_KEY)
+cipher = Fernet(CRYPTO_KEY)
 
 
 class Dataset(models.Model):
