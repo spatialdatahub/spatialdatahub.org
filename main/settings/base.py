@@ -49,22 +49,23 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     # THIRD PARTY
-    "rest_framework",
+    # "rest_framework",
 
     # LOCAL
     "core",
     "accounts",
     "datasets",
     "keywords",
-    "api",
+    #"api",
 ]
 
-REST_FRAMEWORK = {
-    "DEFAULT_PERMISSIONS_CLASSES": [
-        "rest_framework.permissions.IsAdminUser",
-    ],
-    "PAGE_SIZE": 10
-}
+#REST_FRAMEWORK = {
+#    "DEFAULT_PERMISSIONS_CLASSES": [
+#        "rest_framework.permissions.IsAdminUser",
+#    ],
+#    "PAGE_SIZE": 10
+#}
+
 
 """
 # Pre-Django 2.0

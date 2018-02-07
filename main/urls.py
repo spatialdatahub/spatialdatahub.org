@@ -59,9 +59,11 @@ urlpatterns = [
     #
     # I also want to put create update delete user views in this part
 
-    url(r'^api/',
-        include('api.urls',
-                namespace='api')),
+
+    # I just removed django rest framework stuff
+    # url(r'^api/',
+    #    include('api.urls',
+    #            namespace='api')),
 
     url(r'^keywords/',
         include('keywords.urls',
