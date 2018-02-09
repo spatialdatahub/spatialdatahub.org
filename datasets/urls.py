@@ -17,6 +17,10 @@ urlpatterns = [
         views.dataset_detail,
         name="dataset_detail"),
 
+    url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/serialized/$',
+        views.DatasetDetailSerialized.as_view(),
+        name="dataset_detail_serialized"),
+
     url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/add_keyword/$',
         views.add_keyword_to_dataset,
         name="add_keyword_to_dataset"),
