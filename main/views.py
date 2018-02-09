@@ -87,9 +87,29 @@ class PortalSerialized(TemplateView):
     Going to use clase based view "TemplateView" here. It might not be super easy to
     write all of the filter and query stuff... we will see
     """
-    template_name = "portal.html"
+    template_name = "portal_serialized.html"
 
-    def get_context_data(self, **kwargs):
+    # this is going to be difficult maybe...
+    
+    def get(self, request):
+        D = Dataset.objects.all()
+        if "q" in request.GET:
+            q = request.GET["q"]
+            self.dataset_list = D.filter(
+                Q(title__icontains=q) |
+                Q(account__user__username__icontains=q) |
+                Q(author__icontains=q) |
+                Q(keywords__keyword__icontains=q)
+                ).order_by("title").distinct()
+        else:
+            self.dataset_list = D.order_by("title")
+
+        # must return http response object here.
+
+
+    def get_context_data(self, request, **kwargs):
+        old_context = super().get_context_data(**kwargs)
+
         context = {"hey": "hey"}
         return context
     
