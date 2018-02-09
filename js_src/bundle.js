@@ -149,7 +149,7 @@ const datasetClusters = {}
 const activeDatasetButtons = []
 
 // The initial value will start the page with either layers or clusters.
-let layerClusterState = 1 // 0 is layers, 1 is clusters. // something is wrong
+let layerClusterState = 0 // 0 is layers, 1 is clusters. // something is wrong
 
 //datasetLinks.forEach(l => mapFunctions.handleDatasetLink(l))
 
