@@ -14,6 +14,10 @@ urlpatterns = [
         views.portal,
         name='portal'),
 
+    url(r'^serialized/$',
+        views.PortalSerialized.as_view(),
+        name='portal_serialized'),
+
     url(r'^about/$',
         TemplateView.as_view(template_name='about.html'),
         name='about'),

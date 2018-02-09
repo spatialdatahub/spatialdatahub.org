@@ -1,7 +1,10 @@
+from django.core import serializers
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
+
+from django.views.generic import TemplateView
 
 from datasets.models import Dataset
 
@@ -79,3 +82,14 @@ def portal(request):
     template_name = "portal.html"
     return render(request, template_name, {"dataset_list": dataset_list})
 
+class PortalSerialized(TemplateView):
+    """
+    Going to use clase based view "TemplateView" here. It might not be super easy to
+    write all of the filter and query stuff... we will see
+    """
+    template_name = "portal.html"
+
+    def get_context_data(self, **kwargs):
+        context = {"hey": "hey"}
+        return context
+    
