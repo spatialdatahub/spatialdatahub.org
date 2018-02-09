@@ -8,40 +8,40 @@
 <style>
 
   #datasetsContainer {
-    height: 50em;
-    float: left;
+  height: 50em;
+  float: left;
   }
 
   #datasets-list {
-    overflow-y: auto;
-    height: 41em;
+  overflow-y: auto;
+  height: 41em;
   }
 
   #mapContainer {
-    float: right;
+  float: right;
   }
 
   #mapid {
-    height: 50em;
-    margin-bottom: 10px;
+  height: 50em;
+  margin-bottom: 10px;
   }
 
   #find_place_container {
-    display: none;
+  display: none;
   }
 
   #test_url_container {
-    display: none;
+  display: none;
   }
 
   /*
   #draw_polygon_container {
-    display: none;
+  display: none;
   }
   */
 
   #within_polygon_container {
-    display: none;
+  display: none;
   }
 
 </style>
@@ -55,69 +55,58 @@
 
 {% block portal_content %}
 
-  <h1>{{ dataset.title }} page</h1>
-  <hr/>
-  <h1>
-    {% if request.user == account.user %}
-      {{ request.user }}
-    {% endif %}
-  </h1>
+<h1>{{ title }} page</h1>
+<hr/>
+<h1>
+  {% if request.user == account.user %}
+  {{ request.user }}
+  {% endif %}
+</h1>
 
-  <div class="row" id="main">
-    <div class="col-xs-12">
-    <p><b>Author:</b> {{ dataset.author }}</p>
-    <p><b>Description:</b> {{ dataset.description }}</p>
-    {% if keyword_list %}
-      <p><b>Keywords:</b>
-        {% for keyword in keyword_list %}
-          <a href="{{ keyword.get_absolute_url }}">{{ keyword.keyword }}</a>
-        {% endfor %}
-      </p>
-    {% endif %}
+<div class="row" id="main">
+  <div class="col-xs-12">
+    <p><b>Author:</b> {{ author }}</p>
+    <p><b>Description:</b> {{ description }}</p>
 
     {% if request.user == account.user %}
-      <h4>
-        <a href="{% url 'datasets:add_keyword_to_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
-          Add a keyword to {{ dataset.title }}
-        </a>
-      </h4>
-      <h4>
-      {% if keyword_list %}
-        <a href="{% url 'datasets:remove_keyword_from_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
-          Remove a keyword from {{ dataset.title }}
-        </a>
-      </h4>
-      {% endif %}
-
-      <h4>
-        <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}">
+    <h4>
+      <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}">
         Update Dataset Details
       </a>
       <h4>
         <a href="{% url 'datasets:dataset_update_auth' account.account_slug dataset.dataset_slug dataset.pk %}">
-        Update Dataset Auth Details
-      </a>
-      <h4>
-        <a href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}">
-        Remove Dataset
+          Update Dataset Auth Details
         </a>
-      </h4>
-    {% endif %}
+        <h4>
+          <a href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}">
+            Remove Dataset
+          </a>
+        </h4>
+        {% endif %}
 
 
-    <hr/>
+        <hr/>
+  </div>
+  <div>
+    <h3>account slug: {{account_slug}}</h3>
+    <h3>dataset slug: {{dataset_slug}}</h3>
+  </div>
+
+
+  <!-- this should be javascript from here -->
+  <div class="col-xs-12" id="map-and-buttons">
+    <div id="js-mount">
+      <i class="fa fa-lg fa-spinner fa-spin"></i><br><br>
+      <i class="pending">Loading...</i><br><br>  
     </div>
-    <div>
-      <h3>account slug: {{account_slug}}</h3>
-      <h3>dataset slug: {{dataset_slug}}</h3>
-    </div>
+  </div>
+  <!-- to here -->
 
+  <script>
+    window.json_data = JSON.parse("{{json_data|escapejs}}");
+    window.js_mount = document.getElementById("js-mount");
+    console.log(window.json_data)
+  </script>
+  <script></script>
 
-    <!-- this should be javascript from here -->
-    <div class="col-xs-12" id="map-and-buttons">
-      JSON data here
-      {{ json_data }}
-    </div>
-    <!-- to here -->
-
-{% endblock portal_content %}
+  {% endblock portal_content %}

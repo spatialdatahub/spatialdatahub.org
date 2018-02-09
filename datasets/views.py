@@ -34,26 +34,36 @@ def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     return render(request, template_name, context)
 
 class DatasetDetailSerialized(TemplateView):
+    """Going to use the class based view "TemplateView" along with a serializer to pass the data to the template and also to the javascript."""
     template_name = "datasets/dataset_detail_serialized.html"
 
+    
     def get_context_data(self, **kwargs):
 
         old_context = super().get_context_data(**kwargs)
+        dataset = Dataset.objects.filter(pk=old_context["pk"])
 
         json_data = serializers.serialize('json',
-                                          Dataset.objects.filter(
-                                              pk=old_context["pk"]),
-                                          fields=("title", "author", "description", "url", "ext"))
-
-        print(old_context)
+                                          dataset,
+                                          fields=("title",
+                                                  "author",
+                                                  "description",
+                                                  "url",
+                                                  "ext",
+                                                  "keywords"))
 
         context = {
             "account_slug": old_context["account_slug"],
             "dataset_slug": old_context["dataset_slug"],
+            "title": dataset[0].title,
+            "author": dataset[0].author,
+            "description": dataset[0].description,
+            "keyword_list": dataset[0].keywords,
             "json_data": json_data
         }
 
         return context
+
 
 def dataset_detail_serialized(request, account_slug=None, dataset_slug=None, pk=None):
     '''
@@ -100,7 +110,7 @@ def new_dataset(request, account_slug):
 
         else:
             form = DatasetCreateForm()
-        template_name = "datasets/new_dataset.html"
+            template_name = "datasets/new_dataset.html"
         return render(request,
                       template_name,
                       {"form": form,
@@ -143,10 +153,10 @@ def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=Non
             dataset.keywords.create(keyword=keyword_lower)
 
         return redirect("datasets:dataset_detail",
-                    account_slug=account.account_slug,
-                    dataset_slug=dataset.dataset_slug,
-                    pk=dataset.pk)
-        
+                        account_slug=account.account_slug,
+                        dataset_slug=dataset.dataset_slug,
+                        pk=dataset.pk)
+    
     context = {"account": account, "dataset": dataset}
     template_name = "datasets/add_keyword_to_dataset.html"
     return render(request, template_name, context)
@@ -171,7 +181,7 @@ def remove_keyword_from_dataset(request, account_slug=None, dataset_slug=None, p
                         account_slug=account.account_slug,
                         dataset_slug=dataset.dataset_slug,
                         pk=dataset.pk)
-        
+    
     context = {"account": account, "dataset": dataset, "keyword_list": keyword_list}
     template_name = "datasets/remove_keyword_from_dataset.html"
     return render(request, template_name, context)
@@ -192,9 +202,9 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
                 updated_dataset = form.save(commit=False)
                 updated_dataset.account = account
                 updated_dataset.save(update_fields=[
-                                     "title", "author", "url",
-                                     "public_access", "description",
-                                     "dataset_slug"])
+                    "title", "author", "url",
+                    "public_access", "description",
+                    "dataset_slug"])
 
             return redirect("datasets:dataset_detail",
                             account_slug=account.account_slug,
@@ -202,7 +212,7 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
                             pk=dataset.pk)
         else:
             form = DatasetUpdateForm(instance=dataset)
-        template_name = "datasets/dataset_update.html"
+            template_name = "datasets/dataset_update.html"
         return render(request, template_name,
                       {"form": form,
                        "account": account,
@@ -230,7 +240,7 @@ def dataset_update_auth(request, account_slug=None,
                             pk=dataset.pk)
         else:
             form = DatasetUpdateAuthForm(instance=dataset)
-        template_name = "datasets/dataset_update_auth.html"
+            template_name = "datasets/dataset_update_auth.html"
         return render(request, template_name,
                       {"form": form,
                        "account": account,
