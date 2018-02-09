@@ -9,6 +9,7 @@
   "scripts": {
     "build": "browserify js_src/bundle.js -t babelify -o static/js/bundle.js -v",
     "dev": "watchify js_src/bundle.js -t babelify -o static/js/bundle.js -v",
+    "devserial": "watchify js_src/serialized.js -t babelify -o static/js/serialized.js -v",
     "test": "./node_modules/karma/bin/karma start karma.conf.js"
   },
   "repository": {
