@@ -1,59 +1,4 @@
-{% extends "base_portal.html" %}
 {% load staticfiles %}
-
-{% block title %}{{ dataset.title }}{% endblock title %}
-
-{% block css %}
-
-<style>
-
-  #datasetsContainer {
-  height: 50em;
-  float: left;
-  }
-
-  #datasets-list {
-  overflow-y: auto;
-  height: 41em;
-  }
-
-  #mapContainer {
-  float: right;
-  }
-
-  #mapid {
-  height: 50em;
-  margin-bottom: 10px;
-  }
-
-  #find_place_container {
-  display: none;
-  }
-
-  #test_url_container {
-  display: none;
-  }
-
-  /*
-  #draw_polygon_container {
-  display: none;
-  }
-  */
-
-  #within_polygon_container {
-  display: none;
-  }
-
-</style>
-
-{% endblock css %}
-
-{% block breadcrumbs %}
-/ <a href="{{ account.get_absolute_url }}">{{ account.user }}</a>
-/ <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a>
-{% endblock breadcrumbs %}
-
-{% block portal_content %}
 
 <h1>{{ title }} page</h1>
 <hr/>
@@ -103,10 +48,7 @@
   <!-- to here -->
 
   <script>
-    window.json_data = JSON.parse("{{json_data|escapejs}}");
-    window.js_mount = document.getElementById("js-mount");
-    console.log(window.json_data)
+    json_data = JSON.parse("{{json_data|escapejs}}");
+    js_mount = document.getElementById("js-mount");
   </script>
-  <script"{% static 'js/serialized.js' %}"></script>
-
-  {% endblock portal_content %}
+  <script src="{% static 'js/serialized.js' %}"></script>
