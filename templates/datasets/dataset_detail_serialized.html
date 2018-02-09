@@ -1,4 +1,61 @@
+{% extends "base_portal.html" %}
 {% load staticfiles %}
+
+
+{% block title %}{{ dataset.title }}{% endblock title %}
+
+{% block css %}
+
+<style>
+
+  #datasetsContainer {
+    height: 50em;
+    float: left;
+  }
+
+  #datasets-list {
+    overflow-y: auto;
+    height: 41em;
+  }
+
+  #mapContainer {
+    float: right;
+  }
+
+  #mapid {
+    height: 50em;
+    margin-bottom: 10px;
+  }
+
+  #find_place_container {
+    display: none;
+  }
+
+  #test_url_container {
+    display: none;
+  }
+
+  /*
+  #draw_polygon_container {
+    display: none;
+  }
+  */
+
+  #within_polygon_container {
+    display: none;
+  }
+
+</style>
+
+{% endblock css %}
+
+{% block breadcrumbs %}
+/ <a href="{{ account.get_absolute_url }}">{{ account.user }}</a>
+/ <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a>
+{% endblock breadcrumbs %}
+
+{% block portal_content %}
+
 
 <h1>{{ title }} page</h1>
 <hr/>
@@ -45,6 +102,7 @@
       <i class="pending">Loading...</i><br><br>  
     </div>
   </div>
+  <div id="div1"></div>
   <!-- to here -->
 
   <script>
@@ -52,3 +110,5 @@
     js_mount = document.getElementById("js-mount");
   </script>
   <script src="{% static 'js/serialized.js' %}"></script>
+
+{% endblock portal_content %}
