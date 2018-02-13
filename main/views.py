@@ -75,7 +75,7 @@ def portal(request):
             Q(account__user__username__icontains=q) |
             Q(author__icontains=q) |
             Q(keywords__keyword__icontains=q)
-            ).order_by("title").distinct()
+        ).order_by("title").distinct()
     else:
         dataset_list = D.order_by("title")
 
@@ -96,18 +96,21 @@ def portal_serialized(request):
             Q(account__user__username__icontains=q) |
             Q(author__icontains=q) |
             Q(keywords__keyword__icontains=q)
-            ).order_by("title").distinct()
+        ).order_by("title").distinct()
     else:
         dataset_list = D.order_by("title")
 
-    json_data = serializers.serialize("json", dataset_list, fields=("title",
-                                                                    "author",
-                                                                    "dataset_slug",
-                                                                    "account",
-                                                                    "description",
-                                                                    "url",
-                                                                    "ext",
-                                                                    "keywords"))
+    json_data = serializers.serialize("json",
+                                      dataset_list,
+                                      fields=("title",
+                                              "author",
+                                              "dataset_slug",
+                                              "account",
+                                              "description",
+                                              "url",
+                                              "ext",
+                                              "keywords"),
+                                      use_natural_foreign_keys=True) # mega hack here. there should be a better way
     context = {
         "dataset_list": dataset_list,
         "json_data": json_data

@@ -21,6 +21,11 @@ class Account(models.Model):
         self.account_slug = slugify(self.user)
         super(Account, self).save(*args, **kwargs)
 
+    # super hacky, I should have a better answer than this
+    # I will fix it later, but right now it is being used for the json serializer
+    def natural_key(self):
+        return self.account_slug
+
     def get_absolute_url(self):
         kwargs = {"account_slug": self.account_slug}
         return reverse("accounts:account_detail", kwargs=kwargs)

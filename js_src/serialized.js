@@ -25,6 +25,7 @@ It looks like I need dataset primary keys, slugs, urls, ext
 
   */
 
+// My replacement for React
 const makeElement = (element, cls, id) => {
     const el = document.createElement(element);
     el.setAttribute('class', cls);
@@ -81,63 +82,42 @@ const clearMapButton = makeElement('button', 'btn btn-default btn-block', 'clear
 const clearMapButtonText = document.createTextNode('Clear Map');
 
 // puting it all together
-// append the map container to js_mount
-js_mount.appendChild(mapContainerJS);
+
+// start with the Search Bar and Clear Map elements
+// append the searchBarFormInput to the searchBarForm
+searchBarForm.appendChild(searchBarFormInput);
+// append the searchBarForm to the searchBarLi
+searchBarLi.appendChild(searchBarForm);
+// append the searchBarLi to the searchBarUl
+searchBarClearMapUl.appendChild(searchBarLi); 
+
+// append the clearMapButtonText to the clearMapButton
+clearMapButton.appendChild(clearMapButtonText);
+// append the clearMapButton to the clearMapButtonLi
+clearMapLi.appendChild(clearMapButton);
+// append the clearMapButtonLi to the sidebar
+searchBarClearMapUl.appendChild(clearMapLi);
+
+// append the searchBarClearMapUl to the datasetsContainer
+datasetsContainerJS.appendChild(searchBarClearMapUl);
+
 // append the mapContainerPlaceholder to the mapContainer
 mapContainerJS.appendChild(mapContainerPlaceholder);
 
 // append the sidebar to js_mount
 js_mount.appendChild(datasetsContainerJS);
-// append the searchBarClearMapUl to the datasetsContainer
-datasetsContainerJS.appendChild(searchBarClearMapUl);
 
-// append the searchBarLi to the searchBarUl
-searchBarClearMapUl.appendChild(searchBarLi); 
-// append the searchBarForm to the searchBarLi
-searchBarLi.appendChild(searchBarForm);
-// append the searchBarFormInput to the searchBarForm
-searchBarForm.appendChild(searchBarFormInput);
+// append the map container to js_mount
+js_mount.appendChild(mapContainerJS);
 
-// append the clearMapButtonLi to the sidebar
-searchBarClearMapUl.appendChild(clearMapLi);
-// append the clearMapButton to the clearMapButtonLi
-clearMapLi.appendChild(clearMapButton);
-// append the clearMapButtonText to the clearMapButton
-clearMapButton.appendChild(clearMapButtonText);
-
-
-
-/* add data to map buttons in side bar */
-/* container for map buttons and dataset page links in side bar */
-
-/* dataset has password */
-/*
-  <div class="btn-group" role="group">
-    <button type="button" class="btn btn-default"
-      name="dataset" id="pk" value="ext">
-        dataset.title
-    </button>
-  </div>
-*/
-
-/* dataset does not have password */
-/*
-  <div class="btn-group" role="group">
-    <button type="button" class="btn btn-default"
-      name="dataset" id="pk" value="ext" url="url">
-        dataset.title
-    </button>
-  </div>
-*/
-
-  
 /* dataset page links in side bar */
 
 /* map container */
 
 /* map */
 
-//console.log(json_data);
+// do some of the other stuff
+// this is why things get broken up in react.
 json_data.map(dataset => console.log(dataset));
 
 const datasetButtons = json_data.map(dataset => {
@@ -165,21 +145,27 @@ const datasetButtons = json_data.map(dataset => {
 
     // make the link to the dataset page
     const datasetLink = makeElement('a', 'btn', `datasetLink${dataset.pk}`);
-    datasetLink.setAttribute('href', `/${dataset.fields.account_slug}/${dataset.fields.dataset_slug}/${dataset.fields.pk}`);
+    datasetLink.setAttribute('href', `/${dataset.fields.account}/${dataset.fields.dataset_slug}/${dataset.pk}/`);
 
     // make the text for the link to the dataset page
-    document.createTextNode('Dataset Page');
+    const datasetLinkText = document.createTextNode('Dataset Page');
 
     // put it all together
-    justifiedButtonGroup.appendChild(buttonGroup);
-    buttonGroup.appendChild(button);
+    // dataset to map button
     button.appendChild(buttonText);
+    buttonGroup.appendChild(button);
+    justifiedButtonGroup.appendChild(buttonGroup);
+
+    // dataset page link
+    datasetLink.appendChild(datasetLinkText);
+    datasetLinkButtonGroup.appendChild(datasetLink);
+    justifiedButtonGroup.appendChild(datasetLinkButtonGroup);
 
     // return as array of divs
     return justifiedButtonGroup;
 });
 
-datasetButtons.forEach(datasetButton => console.log(datasetButton));
+datasetButtons.forEach(datasetButton => datasetsContainerJS.appendChild(datasetButton));
 
 // create button groups for each json_data item
 
