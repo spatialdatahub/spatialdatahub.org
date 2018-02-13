@@ -15,7 +15,8 @@ urlpatterns = [
         name='portal'),
 
     url(r'^serialized/$',
-        views.PortalSerialized.as_view(),
+        views.portal_serialized,
+        #views.PortalSerialized.as_view(),
         name='portal_serialized'),
 
     url(r'^about/$',

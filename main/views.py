@@ -82,34 +82,34 @@ def portal(request):
     template_name = "portal.html"
     return render(request, template_name, {"dataset_list": dataset_list})
 
-class PortalSerialized(TemplateView):
-    """
-    Going to use clase based view "TemplateView" here. It might not be super easy to
-    write all of the filter and query stuff... we will see
-    """
+
+# do I have a reason to do this as a class based view?
+# no.
+
+def portal_serialized(request):
+    D = Dataset.objects.all()
+
+    if "q" in request.GET:
+        q = request.GET["q"]
+        dataset_list = D.filter(
+            Q(title__icontains=q) |
+            Q(account__user__username__icontains=q) |
+            Q(author__icontains=q) |
+            Q(keywords__keyword__icontains=q)
+            ).order_by("title").distinct()
+    else:
+        dataset_list = D.order_by("title")
+
+    json_data = serializers.serialize("json", dataset_list, fields=("title",
+                                                                    "author",
+                                                                    "description",
+                                                                    "url",
+                                                                    "ext",
+                                                                    "keywords"))
+    context = {
+        "dataset_list": dataset_list,
+        "json_data": json_data
+    }
+
     template_name = "portal_serialized.html"
-
-    # this is going to be difficult maybe...
-    
-    def get(self, request):
-        D = Dataset.objects.all()
-        if "q" in request.GET:
-            q = request.GET["q"]
-            self.dataset_list = D.filter(
-                Q(title__icontains=q) |
-                Q(account__user__username__icontains=q) |
-                Q(author__icontains=q) |
-                Q(keywords__keyword__icontains=q)
-                ).order_by("title").distinct()
-        else:
-            self.dataset_list = D.order_by("title")
-
-        # must return http response object here.
-
-
-    def get_context_data(self, request, **kwargs):
-        old_context = super().get_context_data(**kwargs)
-
-        context = {"hey": "hey"}
-        return context
-    
+    return render(request, template_name, context)

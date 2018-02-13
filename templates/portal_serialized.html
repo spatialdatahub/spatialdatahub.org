@@ -61,6 +61,16 @@
     </div>
   </div>
 
+  <div id="js-mount"></div>
+  <!-- to here -->
+  <script>
+    json_data = JSON.parse("{{json_data|escapejs}}");
+    js_mount = document.getElementById("js-mount");
+  </script>
+  <script src="{% static 'js/serialized.js' %}"></script>
+
+
+
 {% endblock portal_content %}
 
 {% block portal_js %}

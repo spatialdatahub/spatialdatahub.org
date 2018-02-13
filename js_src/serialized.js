@@ -26,7 +26,10 @@ It looks like I need dataset primary keys, slugs, urls, ext
   */
 
 console.log(json_data);
+console.log(js_mount);
 
+
+/*
 function addElement () { 
   // create a new div element 
   var newDiv = document.createElement("div"); 
@@ -48,7 +51,7 @@ const createButton = buttonText => {
 };
 
 js_mount.appendChild(createButton("steve"));
-
+********/
 
 // instead of using django template to create the html elements use javascript
 // this is basically what react does... do i need react? I don't want to add
@@ -61,9 +64,11 @@ js_mount.appendChild(createButton("steve"));
 
 /* sidebar */
 
-/* search box in side bar */
+/* container with searchbox and clear map button in sidebar */
 
-/* clear map button in side bar */
+   /* search box */
+
+   /* clear map button */
 
 /* add data to map buttons in side bar */
 /* container for map buttons and dataset page links in side bar */
@@ -89,7 +94,7 @@ js_mount.appendChild(createButton("steve"));
 */
 
   
-*/
+/**/
 
 /* dataset page links in side bar */
 
