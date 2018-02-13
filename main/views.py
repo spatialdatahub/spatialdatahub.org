@@ -102,6 +102,8 @@ def portal_serialized(request):
 
     json_data = serializers.serialize("json", dataset_list, fields=("title",
                                                                     "author",
+                                                                    "dataset_slug",
+                                                                    "account",
                                                                     "description",
                                                                     "url",
                                                                     "ext",

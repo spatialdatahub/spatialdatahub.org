@@ -28,75 +28,46 @@ It looks like I need dataset primary keys, slugs, urls, ext
 
   */
 
-console.log(json_data);
-console.log(js_mount);
-
-var makeDiv = function makeDiv(cls, id) {
-  var div = document.createElement('div');
-  div.setAttribute('class', cls);
-  div.setAttribute('id', id);
-  return div;
-};
-
-var makeUl = function makeUl(cls, id) {
-  var ul = document.createElement('ul');
-  ul.setAttribute('class', cls);
-  ul.setAttribute('id', id);
-  return ul;
-};
-
-var makeLi = function makeLi(cls, id) {
-  var li = document.createElement('li');
-  li.setAttribute('class', cls);
-  li.setAttribute('id', id);
-  return li;
+var makeElement = function makeElement(element, cls, id) {
+  var el = document.createElement(element);
+  el.setAttribute('class', cls);
+  el.setAttribute('id', id);
+  return el;
 };
 
 // instead of using django template to create the html elements use javascript
 // this is basically what react does... do i need react? I don't want to add
 // that much js to this project.
 
-/* main container */
+// main container
 // js_mount
 
-/* top bar with functional buttons */
-/* div */
+// top bar with functional buttons
+// div
 
-/* buttons */
+// buttons
 
-/* main map container */
-// create map container with classes and id
-var mapContainerJS = makeDiv('col-xs-12 col-md-8 col-lg-9', 'mapContainerJS');
-
-// put in placeholder text
+// main map container
+// create map container with classes and id and a placeholder text element
+var mapContainerJS = makeElement('div', 'col-xs-12 col-md-8 col-lg-9', 'mapContainerJS');
 var mapContainerPlaceholder = document.createTextNode('Map Here');
-mapContainerJS.appendChild(mapContainerPlaceholder);
 
-// append to js_mount div
-js_mount.appendChild(mapContainerJS);
+// sidebar 
+// create sidebar container for datasets
+var datasetsContainerJS = makeElement('div', 'col-xs-12 col-md-4 col-lg-3', 'datasetsContainerJS');
 
-/* sidebar */
-// create sidebar container for datsets
-var datasetsContainerJS = makeDiv('col-xs-12 col-md-4 col-lg-3', 'datasetsContainerJS');
+// container with searchbox and clear map button in sidebar
+var searchBarClearMapUl = makeElement('ul', 'nav nav-pils nav-stacked', 'searchBarClearMapUl');
 
-// put in placeholder text
-var datasetsContainerPlaceholder = document.createTextNode('Sidebar Here');
-datasetsContainerJS.appendChild(datasetsContainerPlaceholder);
+// search bar
+var searchBarLi = makeElement('li', 'searchBarLi', 'searchBarLi');
 
-// append to js_mount div
-js_mount.appendChild(datasetsContainerJS);
-
-/* container with searchbox and clear map button in sidebar */
-var searchBarClearMapUl = makeUl('nav nav-pils nav-stacked', 'searchBarClearMapUl');
-
-/* search bar */
-var searchBarLi = makeLi('', 'searchBarLi');
-
-/* make all the stuff that goes into the search bar */
+// make the form that goes into the searchBarLi
 var searchBarForm = document.createElement('form');
 searchBarForm.setAttribute('action', '.');
 searchBarForm.setAttribute('method', 'GET');
 
+// make the input that will go into the searchBarform
 var searchBarFormInput = document.createElement('input');
 searchBarFormInput.setAttribute('class', 'form-control');
 searchBarFormInput.setAttribute('name', 'q');
@@ -104,11 +75,38 @@ searchBarFormInput.setAttribute('type', 'text');
 searchBarFormInput.setAttribute('title', 'Search Datasets');
 searchBarFormInput.setAttribute('placeholder', 'Search title, account, author, keyword');
 
-/* append it to searchBarLi and then to js_mount */
-/* append it to searchBarClearMapUl */
-datasetsContainerJS.appendChild(searchBarClearMapUl.appendChild(searchBarLi.appendChild(searchBarForm.appendChild(searchBarFormInput))));
+// make the clear map button
+// make li
+var clearMapLi = makeElement('li', 'clearMapLi', 'clearMapLi');
+// make button
+var clearMapButton = makeElement('button', 'btn btn-default btn-block', 'clear_map');
+/* make textNode */
+var clearMapButtonText = document.createTextNode('Clear Map');
 
-/* clear map button */
+// puting it all together
+// append the map container to js_mount
+js_mount.appendChild(mapContainerJS);
+// append the mapContainerPlaceholder to the mapContainer
+mapContainerJS.appendChild(mapContainerPlaceholder);
+
+// append the sidebar to js_mount
+js_mount.appendChild(datasetsContainerJS);
+// append the searchBarClearMapUl to the datasetsContainer
+datasetsContainerJS.appendChild(searchBarClearMapUl);
+
+// append the searchBarLi to the searchBarUl
+searchBarClearMapUl.appendChild(searchBarLi);
+// append the searchBarForm to the searchBarLi
+searchBarLi.appendChild(searchBarForm);
+// append the searchBarFormInput to the searchBarForm
+searchBarForm.appendChild(searchBarFormInput);
+
+// append the clearMapButtonLi to the sidebar
+searchBarClearMapUl.appendChild(clearMapLi);
+// append the clearMapButton to the clearMapButtonLi
+clearMapLi.appendChild(clearMapButton);
+// append the clearMapButtonText to the clearMapButton
+clearMapButton.appendChild(clearMapButtonText);
 
 /* add data to map buttons in side bar */
 /* container for map buttons and dataset page links in side bar */
@@ -133,12 +131,60 @@ datasetsContainerJS.appendChild(searchBarClearMapUl.appendChild(searchBarLi.appe
   </div>
 */
 
-/**/
-
 /* dataset page links in side bar */
 
 /* map container */
 
 /* map */
+
+//console.log(json_data);
+json_data.map(function (dataset) {
+  return console.log(dataset);
+});
+
+var datasetButtons = json_data.map(function (dataset) {
+  // make the justified button group div
+  var justifiedButtonGroup = makeElement('div', 'btn-group btn-group-justified', 'justifiedButtonGroup' + dataset.pk);
+  justifiedButtonGroup.setAttribute('role', 'group');
+
+  // make the button group div
+  var buttonGroup = makeElement('div', 'btn-group', 'buttonGroup' + dataset.pk);
+  buttonGroup.setAttribute('role', 'group');
+
+  // make the button for the dataset
+  // a lot of this will change with refactorin
+  var button = makeElement('button', 'btn btn-default', 'button' + dataset.pk);
+  button.setAttribute('type', 'button');
+  button.setAttribute('name', 'dataset'); // is this necessary?
+  button.setAttribute('value', '' + dataset.fields.ext); // is this necessary?
+  button.setAttribute('url', '' + dataset.fields.url); // is this necessary?
+
+  // make the text node for the button for the dataset
+  var buttonText = document.createTextNode('' + dataset.fields.title);
+
+  // make the button group div for the link to the dataset page
+  var datasetLinkButtonGroup = makeElement('div', 'btn-group', 'datasetLinkButtonGroup' + dataset.pk);
+
+  // make the link to the dataset page
+  var datasetLink = makeElement('a', 'btn', 'datasetLink' + dataset.pk);
+  datasetLink.setAttribute('href', '/' + dataset.fields.account_slug + '/' + dataset.fields.dataset_slug + '/' + dataset.fields.pk);
+
+  // make the text for the link to the dataset page
+  document.createTextNode('Dataset Page');
+
+  // put it all together
+  justifiedButtonGroup.appendChild(buttonGroup);
+  buttonGroup.appendChild(button);
+  button.appendChild(buttonText);
+
+  // return as array of divs
+  return justifiedButtonGroup;
+});
+
+datasetButtons.forEach(function (datasetButton) {
+  return console.log(datasetButton);
+});
+
+// create button groups for each json_data item
 
 },{}]},{},[1]);
