@@ -25,13 +25,21 @@ It looks like I need dataset primary keys, slugs, urls, ext
 
   */
 
-// My replacement for React
+
+
+
+
+
 const makeElement = (element, cls, id) => {
     const el = document.createElement(element);
     el.setAttribute('class', cls);
     el.setAttribute('id', id);
     return el;
 };
+
+// So, instead of breaking this into many files, then calling them, which may actually be good, I am going to
+// break it up into sections, starting with the smallest parts first
+
 
 // instead of using django template to create the html elements use javascript
 // this is basically what react does... do i need react? I don't want to add
@@ -48,7 +56,8 @@ const makeElement = (element, cls, id) => {
 // main map container
 // create map container with classes and id and a placeholder text element
 const mapContainerJS = makeElement('div', 'col-xs-12 col-md-8 col-lg-9', 'mapContainerJS');
-const mapContainerPlaceholder = document.createTextNode('Map Here');
+const mapId = makeElement('div', 'custom-popup', 'mapid');
+//const mapContainerPlaceholder = document.createTextNode('Map Here');
 
 // sidebar 
 // create sidebar container for datasets
@@ -102,19 +111,13 @@ searchBarClearMapUl.appendChild(clearMapLi);
 datasetsContainerJS.appendChild(searchBarClearMapUl);
 
 // append the mapContainerPlaceholder to the mapContainer
-mapContainerJS.appendChild(mapContainerPlaceholder);
+mapContainerJS.appendChild(mapId);
 
 // append the sidebar to js_mount
 js_mount.appendChild(datasetsContainerJS);
 
 // append the map container to js_mount
 js_mount.appendChild(mapContainerJS);
-
-/* dataset page links in side bar */
-
-/* map container */
-
-/* map */
 
 // do some of the other stuff
 // this is why things get broken up in react.
@@ -165,7 +168,7 @@ const datasetButtons = json_data.map(dataset => {
     return justifiedButtonGroup;
 });
 
+// add the dataset buttons to the sidebar container
 datasetButtons.forEach(datasetButton => datasetsContainerJS.appendChild(datasetButton));
 
-// create button groups for each json_data item
 
