@@ -113,37 +113,15 @@ const JustifiedDatasetButtonGroup = props => (
     </div>
 );
 
-window.json_data.map(x => console.log(x));
-
-/*
-const justifiedButtonGroups = window.json_data
-      .map(dataset => 
-            <JustifiedDatasetButtonGroup
-            props={dataset}
-            key={dataset.pk}
-            />
-          );
-          */
-
-// put all the datasets sidebar stuff in here
-/*
-const DatasetsContainer = props => (
-    <div className='col-xs-12 col-md-4 col-lg-3' id='datasetsContainer'>
-      <SearchBarClearMapUl />
-      {justifiedButtonGroups}
+// this should bave the justified dataset button group and the link
+// I think
+const JustifiedButtonGroup = props => (
+    <div
+      className="btn-group btn-group-justified"
+      id={`justified-button-group${props.dataset.pk}`}>
+      <p>{props.dataset.fields.title} button | Dataset Page Link</p>
     </div>
 );
-*/
-
-
-/*
-const App = () => (
-    <div className='row' id='main'>
-      <MapContainer />
-      <DatasetsContainer dataset_list={window.json_data} />
-    </div>
-);
-*/
 
 const App = props => {
 
@@ -151,20 +129,21 @@ const App = props => {
 
     const sideBarDatasetList = datasetList
           .map(dataset =>
-               <li key={dataset.pk.toString()}>
-               {dataset.pk}
-               </li>
+               <JustifiedButtonGroup
+               key={dataset.pk.toString()}
+               dataset={dataset}
+               />
               );
 
     return (
         <div className='row' id='main'>
           <MapContainer />
-          <ul
+          <div
             className='col-xs-12 col-md-4 col-lg-3'
             id='datasetsContainer'>
             <SearchBarClearMapUl />
             {sideBarDatasetList}
-          </ul>
+          </div>
         </div>
     );
 };
@@ -173,3 +152,27 @@ ReactDOM.render(
     <App datasetList={window.json_data} />,
     window.react_mount
 );
+
+
+
+
+// put all the datasets sidebar stuff in here
+/*
+  const DatasetsContainer = props => (
+  <div className='col-xs-12 col-md-4 col-lg-3' id='datasetsContainer'>
+    <SearchBarClearMapUl />
+    {justifiedButtonGroups}
+  </div>
+  );
+*/
+
+
+/*
+  const App = () => (
+  <div className='row' id='main'>
+    <MapContainer />
+    <DatasetsContainer dataset_list={window.json_data} />
+  </div>
+  );
+*/
+
