@@ -1,13 +1,23 @@
+/*
 {
   "presets": [
-    ["env", {
-      "targets": {
-        "browsers": [
-          "last 2 versions",
-          "safari >= 7",
-          "IE >= 9"
-        ]
+    [
+      "env",
+      "react",
+      {
+        "targets": {
+          "browsers": [
+            "last 2 versions",
+            "safari >= 7",
+            "IE >= 9"
+          ]
+        }
       }
-    }]
+    ]
   ]
+}
+*/
+// react
+{
+  "presets": ["env", "react"]
 }

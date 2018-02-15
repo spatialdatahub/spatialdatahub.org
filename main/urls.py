@@ -16,8 +16,11 @@ urlpatterns = [
 
     url(r'^serialized/$',
         views.portal_serialized,
-        #views.PortalSerialized.as_view(),
         name='portal_serialized'),
+
+    url(r'^react/$',
+        views.portal_react,
+        name='portal_react'),
 
     url(r'^about/$',
         TemplateView.as_view(template_name='about.html'),

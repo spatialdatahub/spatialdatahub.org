@@ -1,0 +1,76 @@
+{% extends "base_portal_react.html" %}
+{% load staticfiles %}
+
+{% block title %}Portal{% endblock title %}
+
+{% block css %}
+<style>
+
+  #datasetsContainer {
+    height: 50em;
+    float: left;
+  }
+
+  #datasetsContainerJS {
+    height: 50em;
+    float: left;
+  }
+
+  #datasets-list {
+    overflow-y: auto;
+    height: 41em;
+  }
+
+  #mapContainer {
+    float: right;
+  }
+
+  #mapContainerJS {
+    float: right;
+  }
+
+  #mapid {
+    height: 50em;
+    margin-bottom: 10px;
+  }
+
+  #find_place_container {
+    display: none;
+  }
+
+  #test_url_container {
+    display: none;
+  }
+
+  /*
+  #draw_polygon_container {
+    display: none;
+  }
+  */
+
+  #within_polygon_container {
+    display: none;
+  }
+
+</style>
+
+{% endblock css %}
+
+{% block portal_content %}
+
+  {% include "pieces/editmap.html" %}
+
+  <div id="react"></div>
+  <!-- to here -->
+  <script>
+    window.json_data = JSON.parse("{{json_data|escapejs}}");
+    window.react_mount = document.getElementById("react");
+  </script>
+  <script src="{% static 'js/reactify.js' %}"></script>
+
+
+
+{% endblock portal_content %}
+
+{% block portal_js %}
+{% endblock portal_js %}
