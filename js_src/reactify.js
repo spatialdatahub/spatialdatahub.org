@@ -67,8 +67,8 @@ const SearchBarClearMapUl = () => (
 const DatasetLink = props => (
     <a
       className='btn'
-      id={`datasetLink${props.pk}`}
-      href={`/${props.fields.account}/${props.fields.dataset_slug}/${props.pk}/`}>
+      id={`datasetLink${props.dataset.pk}`}
+      href={`/${props.dataset.fields.account}/${props.dataset.fields.dataset_slug}/${props.dataset.pk}/`}>
       Dataset Page
     </a>
 );
@@ -77,8 +77,8 @@ const DatasetLink = props => (
 const DatasetLinkButtonGroup = props => (
     <div
       className='btn-group'
-      id={`datasetLinkButtonGroup${props.pk}`}>
-      <DatasetLink dataset={props} />
+      id={`datasetLinkButtonGroup${props.dataset.pk}`}>
+      <DatasetLink dataset={props.dataset} />
     </div>
 );
 
@@ -87,9 +87,10 @@ const DatasetLinkButtonGroup = props => (
 const DatasetButton = props => (
     <button
       className='btn btn-default'
-      id={`dataset-button${props.pk}`}
-      value={`${props.fields.ext}`}
-      url={`${props.fields.url}`}>
+      id={`dataset-button${props.dataset.pk}`}
+      value={`${props.dataset.fields.ext}`}
+      url={`${props.dataset.fields.url}`}>
+      {props.dataset.fields.title}
     </button>
 );
 
@@ -97,8 +98,8 @@ const DatasetButton = props => (
 const DatasetButtonGroup = props => (
     <div
       className="btn-group"
-      id={`dataset-button-group${props.pk}`}>
-      <DatasetButton />
+      id={`dataset-button-group${props.dataset.pk}`}>
+      <DatasetButton dataset={props.dataset}/>
     </div>
 );
 
@@ -106,10 +107,8 @@ const DatasetButtonGroup = props => (
 const JustifiedDatasetButtonGroup = props => (
     <div
       className="btn-group btn-group-justified"
-      id={`justified-button-group${props.pk}`}>
-      <DatasetButtonGroup dataset={props} />
-
-
+      id={`justified-button-group${props.dataset.pk}`}>
+      <DatasetButtonGroup dataset={props.dataset} />
     </div>
 );
 
@@ -118,8 +117,10 @@ const JustifiedDatasetButtonGroup = props => (
 const JustifiedButtonGroup = props => (
     <div
       className="btn-group btn-group-justified"
-      id={`justified-button-group${props.dataset.pk}`}>
-      <p>{props.dataset.fields.title} button | Dataset Page Link</p>
+      id={`justified-button-group${props.dataset.pk}`}
+      >
+      <JustifiedDatasetButtonGroup dataset={props.dataset} />
+      <DatasetLinkButtonGroup dataset={props.dataset} />
     </div>
 );
 

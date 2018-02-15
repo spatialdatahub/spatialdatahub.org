@@ -65,15 +65,15 @@ var SearchBarClearMapUl = function SearchBarClearMapUl() {
 var DatasetLink = function DatasetLink(props) {
   return _react2.default.createElement('a', {
     className: 'btn',
-    id: 'datasetLink' + props.pk,
-    href: '/' + props.fields.account + '/' + props.fields.dataset_slug + '/' + props.pk + '/' }, 'Dataset Page');
+    id: 'datasetLink' + props.dataset.pk,
+    href: '/' + props.dataset.fields.account + '/' + props.dataset.fields.dataset_slug + '/' + props.dataset.pk + '/' }, 'Dataset Page');
 };
 
 // datasetLinkButtonGroup
 var DatasetLinkButtonGroup = function DatasetLinkButtonGroup(props) {
   return _react2.default.createElement('div', {
     className: 'btn-group',
-    id: 'datasetLinkButtonGroup' + props.pk }, _react2.default.createElement(DatasetLink, { dataset: props }));
+    id: 'datasetLinkButtonGroup' + props.dataset.pk }, _react2.default.createElement(DatasetLink, { dataset: props.dataset }));
 };
 
 // datasetButton
@@ -81,23 +81,23 @@ var DatasetLinkButtonGroup = function DatasetLinkButtonGroup(props) {
 var DatasetButton = function DatasetButton(props) {
   return _react2.default.createElement('button', {
     className: 'btn btn-default',
-    id: 'dataset-button' + props.pk,
-    value: '' + props.fields.ext,
-    url: '' + props.fields.url });
+    id: 'dataset-button' + props.dataset.pk,
+    value: '' + props.dataset.fields.ext,
+    url: '' + props.dataset.fields.url }, props.dataset.fields.title);
 };
 
 // datasetButtonGroup
 var DatasetButtonGroup = function DatasetButtonGroup(props) {
   return _react2.default.createElement('div', {
     className: 'btn-group',
-    id: 'dataset-button-group' + props.pk }, _react2.default.createElement(DatasetButton, null));
+    id: 'dataset-button-group' + props.dataset.pk }, _react2.default.createElement(DatasetButton, { dataset: props.dataset }));
 };
 
 // justifiedDatasetButtonGroup
 var JustifiedDatasetButtonGroup = function JustifiedDatasetButtonGroup(props) {
   return _react2.default.createElement('div', {
     className: 'btn-group btn-group-justified',
-    id: 'justified-button-group' + props.pk }, _react2.default.createElement(DatasetButtonGroup, { dataset: props }));
+    id: 'justified-button-group' + props.dataset.pk }, _react2.default.createElement(DatasetButtonGroup, { dataset: props.dataset }));
 };
 
 // this should bave the justified dataset button group and the link
@@ -105,7 +105,8 @@ var JustifiedDatasetButtonGroup = function JustifiedDatasetButtonGroup(props) {
 var JustifiedButtonGroup = function JustifiedButtonGroup(props) {
   return _react2.default.createElement('div', {
     className: 'btn-group btn-group-justified',
-    id: 'justified-button-group' + props.dataset.pk }, _react2.default.createElement('p', null, props.dataset.fields.title, ' button | Dataset Page Link'));
+    id: 'justified-button-group' + props.dataset.pk
+  }, _react2.default.createElement(JustifiedDatasetButtonGroup, { dataset: props.dataset }), _react2.default.createElement(DatasetLinkButtonGroup, { dataset: props.dataset }));
 };
 
 var App = function App(props) {
