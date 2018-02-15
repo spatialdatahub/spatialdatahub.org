@@ -63,25 +63,113 @@ const SearchBarClearMapUl = () => (
 // make many justifed button groups with button groups that have buttons and dataset page links in them
 // add them into the datasets container below
 
+// datasetLink
+const DatasetLink = props => (
+    <a
+      className='btn'
+      id={`datasetLink${props.pk}`}
+      href={`/${props.fields.account}/${props.fields.dataset_slug}/${props.pk}/`}>
+      Dataset Page
+    </a>
+);
 
+// datasetLinkButtonGroup
+const DatasetLinkButtonGroup = props => (
+    <div
+      className='btn-group'
+      id={`datasetLinkButtonGroup${props.pk}`}>
+      <DatasetLink dataset={props} />
+    </div>
+);
+
+// datasetButton
+// the non-essential attributes should be taken off of this element
+const DatasetButton = props => (
+    <button
+      className='btn btn-default'
+      id={`dataset-button${props.pk}`}
+      value={`${props.fields.ext}`}
+      url={`${props.fields.url}`}>
+    </button>
+);
+
+// datasetButtonGroup
+const DatasetButtonGroup = props => (
+    <div
+      className="btn-group"
+      id={`dataset-button-group${props.pk}`}>
+      <DatasetButton />
+    </div>
+);
+
+// justifiedDatasetButtonGroup
+const JustifiedDatasetButtonGroup = props => (
+    <div
+      className="btn-group btn-group-justified"
+      id={`justified-button-group${props.pk}`}>
+      <DatasetButtonGroup dataset={props} />
+
+
+    </div>
+);
+
+window.json_data.map(x => console.log(x));
+
+/*
+const justifiedButtonGroups = window.json_data
+      .map(dataset => 
+            <JustifiedDatasetButtonGroup
+            props={dataset}
+            key={dataset.pk}
+            />
+          );
+          */
 
 // put all the datasets sidebar stuff in here
-const DatasetsContainer = () => (
+/*
+const DatasetsContainer = props => (
     <div className='col-xs-12 col-md-4 col-lg-3' id='datasetsContainer'>
       <SearchBarClearMapUl />
+      {justifiedButtonGroups}
     </div>
 );
+*/
 
 
-
-const app = (
+/*
+const App = () => (
     <div className='row' id='main'>
       <MapContainer />
-      <DatasetsContainer />
+      <DatasetsContainer dataset_list={window.json_data} />
     </div>
 );
+*/
+
+const App = props => {
+
+    const datasetList = props.datasetList;
+
+    const sideBarDatasetList = datasetList
+          .map(dataset =>
+               <li key={dataset.pk.toString()}>
+               {dataset.pk}
+               </li>
+              );
+
+    return (
+        <div className='row' id='main'>
+          <MapContainer />
+          <ul
+            className='col-xs-12 col-md-4 col-lg-3'
+            id='datasetsContainer'>
+            <SearchBarClearMapUl />
+            {sideBarDatasetList}
+          </ul>
+        </div>
+    );
+};
 
 ReactDOM.render(
-    app,
+    <App datasetList={window.json_data} />,
     window.react_mount
 );

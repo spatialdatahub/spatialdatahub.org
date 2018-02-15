@@ -61,15 +61,92 @@ var SearchBarClearMapUl = function SearchBarClearMapUl() {
 // make many justifed button groups with button groups that have buttons and dataset page links in them
 // add them into the datasets container below
 
-
-// put all the datasets sidebar stuff in here
-var DatasetsContainer = function DatasetsContainer() {
-    return _react2.default.createElement('div', { className: 'col-xs-12 col-md-4 col-lg-3', id: 'datasetsContainer' }, _react2.default.createElement(SearchBarClearMapUl, null));
+// datasetLink
+var DatasetLink = function DatasetLink(props) {
+    return _react2.default.createElement('a', {
+        className: 'btn',
+        id: 'datasetLink' + props.pk,
+        href: '/' + props.fields.account + '/' + props.fields.dataset_slug + '/' + props.pk + '/' }, 'Dataset Page');
 };
 
-var app = _react2.default.createElement('div', { className: 'row', id: 'main' }, _react2.default.createElement(MapContainer, null), _react2.default.createElement(DatasetsContainer, null));
+// datasetLinkButtonGroup
+var DatasetLinkButtonGroup = function DatasetLinkButtonGroup(props) {
+    return _react2.default.createElement('div', {
+        className: 'btn-group',
+        id: 'datasetLinkButtonGroup' + props.pk }, _react2.default.createElement(DatasetLink, { dataset: props }));
+};
 
-_reactDom2.default.render(app, window.react_mount);
+// datasetButton
+// the non-essential attributes should be taken off of this element
+var DatasetButton = function DatasetButton(props) {
+    return _react2.default.createElement('button', {
+        className: 'btn btn-default',
+        id: 'dataset-button' + props.pk,
+        value: '' + props.fields.ext,
+        url: '' + props.fields.url });
+};
+
+// datasetButtonGroup
+var DatasetButtonGroup = function DatasetButtonGroup(props) {
+    return _react2.default.createElement('div', {
+        className: 'btn-group',
+        id: 'dataset-button-group' + props.pk }, _react2.default.createElement(DatasetButton, null));
+};
+
+// justifiedDatasetButtonGroup
+var JustifiedDatasetButtonGroup = function JustifiedDatasetButtonGroup(props) {
+    return _react2.default.createElement('div', {
+        className: 'btn-group btn-group-justified',
+        id: 'justified-button-group' + props.pk }, _react2.default.createElement(DatasetButtonGroup, { dataset: props }));
+};
+
+window.json_data.map(function (x) {
+    return console.log(x);
+});
+
+/*
+const justifiedButtonGroups = window.json_data
+      .map(dataset => 
+            <JustifiedDatasetButtonGroup
+            props={dataset}
+            key={dataset.pk}
+            />
+          );
+          */
+
+// put all the datasets sidebar stuff in here
+/*
+const DatasetsContainer = props => (
+    <div className='col-xs-12 col-md-4 col-lg-3' id='datasetsContainer'>
+      <SearchBarClearMapUl />
+      {justifiedButtonGroups}
+    </div>
+);
+*/
+
+/*
+const App = () => (
+    <div className='row' id='main'>
+      <MapContainer />
+      <DatasetsContainer dataset_list={window.json_data} />
+    </div>
+);
+*/
+
+var App = function App(props) {
+
+    var datasetList = props.datasetList;
+
+    var sideBarDatasetList = datasetList.map(function (dataset) {
+        return _react2.default.createElement('li', { key: dataset.pk.toString() }, dataset.pk);
+    });
+
+    return _react2.default.createElement('div', { className: 'row', id: 'main' }, _react2.default.createElement(MapContainer, null), _react2.default.createElement('ul', {
+        className: 'col-xs-12 col-md-4 col-lg-3',
+        id: 'datasetsContainer' }, _react2.default.createElement(SearchBarClearMapUl, null), sideBarDatasetList));
+};
+
+_reactDom2.default.render(_react2.default.createElement(App, { datasetList: window.json_data }), window.react_mount);
 
 },{"react":27,"react-dom":24}],2:[function(require,module,exports){
 (function (process){
