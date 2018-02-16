@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-console.log(window.json_data);
 
 // instead of breaking things up into files, just make things here first 
-
 // create map stuff 
 const MapContainer = () => {
     return (
@@ -55,17 +53,6 @@ const SearchBarClearMapUl = () => {
 // add them into the datasets container below
 
 // datasetLink
-/*
-const DatasetLink = props => (
-    <a
-      className='btn'
-      id={`datasetLink${props.dataset.pk}`}
-      href={`/${props.dataset.fields.account}/${props.dataset.fields.dataset_slug}/${props.dataset.pk}/`}>
-      Dataset Page
-    </a>
-);
-*/
-
 // datasetLinkButtonGroup
 const DatasetLinkButtonGroup = props => {
     return (
@@ -87,6 +74,8 @@ const DatasetLinkButtonGroup = props => {
 // all this info can be taken care of in a different way.
 // datasetButtonGroup
 // justifiedDatasetButtonGroup
+// this is a button within a div within a div. How can this be simplified? It's all to use bootstrap3,
+// how can we remove bootstrap3?
 const JustifiedDatasetButtonGroup = props => {
     return (
         <div
@@ -114,14 +103,16 @@ const JustifiedDatasetButtonGroup = props => {
 
 // this should bave the justified dataset button group and the link
 // I think
-const JustifiedButtonGroup = props => (
-    <div
-      className="btn-group btn-group-justified"
-      id={`justified-button-group${props.dataset.pk}`}>
-      <JustifiedDatasetButtonGroup dataset={props.dataset} />
-      <DatasetLinkButtonGroup dataset={props.dataset} />
-    </div>
-);
+const JustifiedButtonGroup = props => {
+    return (
+        <div
+          className="btn-group btn-group-justified"
+          id={`justified-button-group${props.dataset.pk}`}>
+          <JustifiedDatasetButtonGroup dataset={props.dataset} />
+          <DatasetLinkButtonGroup dataset={props.dataset} />
+        </div>
+    );
+};
 
 const App = props => {
 
@@ -148,31 +139,8 @@ const App = props => {
     );
 };
 
+
 ReactDOM.render(
     <App datasetList={window.json_data} />,
     window.react_mount
 );
-
-
-
-
-// put all the datasets sidebar stuff in here
-/*
-  const DatasetsContainer = props => (
-  <div className='col-xs-12 col-md-4 col-lg-3' id='datasetsContainer'>
-    <SearchBarClearMapUl />
-    {justifiedButtonGroups}
-  </div>
-  );
-*/
-
-
-/*
-  const App = () => (
-  <div className='row' id='main'>
-    <MapContainer />
-    <DatasetsContainer dataset_list={window.json_data} />
-  </div>
-  );
-*/
-

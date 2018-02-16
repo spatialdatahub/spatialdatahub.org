@@ -10,34 +10,31 @@ var _reactDom = require('react-dom');
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
+    return obj && obj.__esModule ? obj : { default: obj };
 }
 
-console.log(window.json_data);
-
 // instead of breaking things up into files, just make things here first 
-
 // create map stuff 
 var MapContainer = function MapContainer() {
-  return _react2.default.createElement('div', { className: 'col-xs-12 col-md-8 col-lg-9', id: 'mapContainer' }, _react2.default.createElement('div', { className: 'custom-popup', id: 'mapId' }));
+    return _react2.default.createElement('div', { className: 'col-xs-12 col-md-8 col-lg-9', id: 'mapContainer' }, _react2.default.createElement('div', { className: 'custom-popup', id: 'mapId' }));
 };
 
 // all this stuff acts a single unit, there is no reason to break it up
 // breaking it up would only make more complexity
 var SearchBarLi = function SearchBarLi() {
-  return _react2.default.createElement('li', { className: 'searchBarLi', id: 'searchBarLi' }, _react2.default.createElement('form', { action: '.', method: 'GET' }, _react2.default.createElement('input', { className: 'form-control',
-    name: 'q',
-    type: 'text',
-    title: 'Search Datasets',
-    placeholder: 'Search title, account, author, keyword' })));
+    return _react2.default.createElement('li', { className: 'searchBarLi', id: 'searchBarLi' }, _react2.default.createElement('form', { action: '.', method: 'GET' }, _react2.default.createElement('input', { className: 'form-control',
+        name: 'q',
+        type: 'text',
+        title: 'Search Datasets',
+        placeholder: 'Search title, account, author, keyword' })));
 };
 
 var ClearMapLi = function ClearMapLi() {
-  return _react2.default.createElement('li', { className: 'clearMapLi', id: 'clearMapLi' }, _react2.default.createElement('button', { className: 'btn btn-default btn-block', id: 'clearMapButton' }, 'Clear Map'));
+    return _react2.default.createElement('li', { className: 'clearMapLi', id: 'clearMapLi' }, _react2.default.createElement('button', { className: 'btn btn-default btn-block', id: 'clearMapButton' }, 'Clear Map'));
 };
 
 var SearchBarClearMapUl = function SearchBarClearMapUl() {
-  return _react2.default.createElement('ul', { className: 'nav nav-pills nav-stacked', id: 'searchBarClearMapUl' }, _react2.default.createElement(SearchBarLi, null), _react2.default.createElement(ClearMapLi, null));
+    return _react2.default.createElement('ul', { className: 'nav nav-pills nav-stacked', id: 'searchBarClearMapUl' }, _react2.default.createElement(SearchBarLi, null), _react2.default.createElement(ClearMapLi, null));
 };
 
 // Now for the fun part
@@ -45,25 +42,14 @@ var SearchBarClearMapUl = function SearchBarClearMapUl() {
 // add them into the datasets container below
 
 // datasetLink
-/*
-const DatasetLink = props => (
-    <a
-      className='btn'
-      id={`datasetLink${props.dataset.pk}`}
-      href={`/${props.dataset.fields.account}/${props.dataset.fields.dataset_slug}/${props.dataset.pk}/`}>
-      Dataset Page
-    </a>
-);
-*/
-
 // datasetLinkButtonGroup
 var DatasetLinkButtonGroup = function DatasetLinkButtonGroup(props) {
-  return _react2.default.createElement('div', {
-    className: 'btn-group',
-    id: 'datasetLinkButtonGroup' + props.dataset.pk }, _react2.default.createElement('a', {
-    className: 'btn',
-    id: 'datasetLink' + props.dataset.pk,
-    href: '/' + props.dataset.fields.account + '/' + props.dataset.fields.dataset_slug + '/' + props.dataset.pk + '/' }, 'Dataset Page'));
+    return _react2.default.createElement('div', {
+        className: 'btn-group',
+        id: 'datasetLinkButtonGroup' + props.dataset.pk }, _react2.default.createElement('a', {
+        className: 'btn',
+        id: 'datasetLink' + props.dataset.pk,
+        href: '/' + props.dataset.fields.account + '/' + props.dataset.fields.dataset_slug + '/' + props.dataset.pk + '/' }, 'Dataset Page'));
 };
 
 // datasetButton
@@ -71,62 +57,45 @@ var DatasetLinkButtonGroup = function DatasetLinkButtonGroup(props) {
 // all this info can be taken care of in a different way.
 // datasetButtonGroup
 // justifiedDatasetButtonGroup
+// this is a button within a div within a div. How can this be simplified? It's all to use bootstrap3,
+// how can we remove bootstrap3?
 var JustifiedDatasetButtonGroup = function JustifiedDatasetButtonGroup(props) {
-  return _react2.default.createElement('div', {
-    className: 'btn-group btn-group-justified',
-    id: 'justified-button-group' + props.dataset.pk }, _react2.default.createElement('div', {
-    className: 'btn-group',
-    id: 'dataset-button-group' + props.dataset.pk }, _react2.default.createElement('button', {
-    className: 'btn btn-default',
-    id: 'dataset-button' + props.dataset.pk,
-    value: '' + props.dataset.fields.ext,
-    url: '' + props.dataset.fields.url }, props.dataset.fields.title)));
+    return _react2.default.createElement('div', {
+        className: 'btn-group btn-group-justified',
+        id: 'justified-button-group' + props.dataset.pk }, _react2.default.createElement('div', {
+        className: 'btn-group',
+        id: 'dataset-button-group' + props.dataset.pk }, _react2.default.createElement('button', {
+        className: 'btn btn-default',
+        id: 'dataset-button' + props.dataset.pk,
+        value: '' + props.dataset.fields.ext,
+        url: '' + props.dataset.fields.url }, props.dataset.fields.title)));
 };
 
 // this should bave the justified dataset button group and the link
 // I think
 var JustifiedButtonGroup = function JustifiedButtonGroup(props) {
-  return _react2.default.createElement('div', {
-    className: 'btn-group btn-group-justified',
-    id: 'justified-button-group' + props.dataset.pk }, _react2.default.createElement(JustifiedDatasetButtonGroup, { dataset: props.dataset }), _react2.default.createElement(DatasetLinkButtonGroup, { dataset: props.dataset }));
+    return _react2.default.createElement('div', {
+        className: 'btn-group btn-group-justified',
+        id: 'justified-button-group' + props.dataset.pk }, _react2.default.createElement(JustifiedDatasetButtonGroup, { dataset: props.dataset }), _react2.default.createElement(DatasetLinkButtonGroup, { dataset: props.dataset }));
 };
 
 var App = function App(props) {
 
-  var datasetList = props.datasetList;
+    var datasetList = props.datasetList;
 
-  var sideBarDatasetList = datasetList.map(function (dataset) {
-    return _react2.default.createElement(JustifiedButtonGroup, {
-      key: dataset.pk.toString(),
-      dataset: dataset
+    var sideBarDatasetList = datasetList.map(function (dataset) {
+        return _react2.default.createElement(JustifiedButtonGroup, {
+            key: dataset.pk.toString(),
+            dataset: dataset
+        });
     });
-  });
 
-  return _react2.default.createElement('div', { className: 'row', id: 'main' }, _react2.default.createElement(MapContainer, null), _react2.default.createElement('div', {
-    className: 'col-xs-12 col-md-4 col-lg-3',
-    id: 'datasetsContainer' }, _react2.default.createElement(SearchBarClearMapUl, null), sideBarDatasetList));
+    return _react2.default.createElement('div', { className: 'row', id: 'main' }, _react2.default.createElement(MapContainer, null), _react2.default.createElement('div', {
+        className: 'col-xs-12 col-md-4 col-lg-3',
+        id: 'datasetsContainer' }, _react2.default.createElement(SearchBarClearMapUl, null), sideBarDatasetList));
 };
 
 _reactDom2.default.render(_react2.default.createElement(App, { datasetList: window.json_data }), window.react_mount);
-
-// put all the datasets sidebar stuff in here
-/*
-  const DatasetsContainer = props => (
-  <div className='col-xs-12 col-md-4 col-lg-3' id='datasetsContainer'>
-    <SearchBarClearMapUl />
-    {justifiedButtonGroups}
-  </div>
-  );
-*/
-
-/*
-  const App = () => (
-  <div className='row' id='main'>
-    <MapContainer />
-    <DatasetsContainer dataset_list={window.json_data} />
-  </div>
-  );
-*/
 
 },{"react":27,"react-dom":24}],2:[function(require,module,exports){
 (function (process){
