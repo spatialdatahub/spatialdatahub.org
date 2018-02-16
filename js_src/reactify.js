@@ -1,16 +1,38 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+
+import {Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
 
 // instead of breaking things up into files, just make things here first 
+
+
+// to be put through the MapContainer container
+const initialMapState = {
+    lat: 51.505,
+    lng: -0.09,
+    zoom: 13
+};
+
+
+
 // create map stuff 
-const MapContainer = () => {
+// this is going not the correct way right now.
+const MapContainer = props => {
+    const initialPosition = [props.mapState.lat, props.mapState.lng];
+    const initialZoom = props.mapState.zoom;
     return (
         <div className='col-xs-12 col-md-8 col-lg-9' id='mapContainer'>
-          <div className='custom-popup' id='mapId'></div>
+          <Map center={initialPosition} zoom={initialZoom} id='mapid'>
+            <TileLayer
+              attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+          </Map>
         </div>
     );
 };
+
 
 // all this stuff acts a single unit, there is no reason to break it up
 // breaking it up would only make more complexity
@@ -128,7 +150,7 @@ const App = props => {
 
     return (
         <div className='row' id='main'>
-          <MapContainer />
+          <MapContainer mapState={initialMapState} />
           <div
             className='col-xs-12 col-md-4 col-lg-3'
             id='datasetsContainer'>
