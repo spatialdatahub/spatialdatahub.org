@@ -18,39 +18,22 @@ console.log(window.json_data);
 // instead of breaking things up into files, just make things here first 
 
 // create map stuff 
-
-var MapId = function MapId() {
-  return _react2.default.createElement('div', { className: 'custom-popup', id: 'mapId' });
-};
-
 var MapContainer = function MapContainer() {
-  return _react2.default.createElement('div', { className: 'col-xs-12 col-md-8 col-lg-9', id: 'mapContainer' }, _react2.default.createElement(MapId, null));
+  return _react2.default.createElement('div', { className: 'col-xs-12 col-md-8 col-lg-9', id: 'mapContainer' }, _react2.default.createElement('div', { className: 'custom-popup', id: 'mapId' }));
 };
 
-// create sidebar stuff 
-var SearchBarFormInput = function SearchBarFormInput() {
-  return _react2.default.createElement('input', { className: 'form-control',
+// all this stuff acts a single unit, there is no reason to break it up
+// breaking it up would only make more complexity
+var SearchBarLi = function SearchBarLi() {
+  return _react2.default.createElement('li', { className: 'searchBarLi', id: 'searchBarLi' }, _react2.default.createElement('form', { action: '.', method: 'GET' }, _react2.default.createElement('input', { className: 'form-control',
     name: 'q',
     type: 'text',
     title: 'Search Datasets',
-    placeholder: 'Search title, account, author, keyword'
-  });
-};
-
-var SearchBarForm = function SearchBarForm() {
-  return _react2.default.createElement('form', { action: '.', method: 'GET' }, _react2.default.createElement(SearchBarFormInput, null));
-};
-
-var SearchBarLi = function SearchBarLi() {
-  return _react2.default.createElement('li', { className: 'searchBarLi', id: 'searchBarLi' }, _react2.default.createElement(SearchBarForm, null));
-};
-
-var ClearMapButton = function ClearMapButton() {
-  return _react2.default.createElement('button', { className: 'btn btn-default btn-block', id: 'clear_map' }, 'Clear Map');
+    placeholder: 'Search title, account, author, keyword' })));
 };
 
 var ClearMapLi = function ClearMapLi() {
-  return _react2.default.createElement('li', { className: 'clearMapLi', id: 'clearMapLi' }, _react2.default.createElement(ClearMapButton, null));
+  return _react2.default.createElement('li', { className: 'clearMapLi', id: 'clearMapLi' }, _react2.default.createElement('button', { className: 'btn btn-default btn-block', id: 'clearMapButton' }, 'Clear Map'));
 };
 
 var SearchBarClearMapUl = function SearchBarClearMapUl() {

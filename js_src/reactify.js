@@ -6,49 +6,36 @@ console.log(window.json_data);
 // instead of breaking things up into files, just make things here first 
 
 // create map stuff 
-
-const MapId = () => <div className='custom-popup' id='mapId'></div>;
-
 const MapContainer = () => {
     return (
         <div className='col-xs-12 col-md-8 col-lg-9' id='mapContainer'>
-          <MapId />
+          <div className='custom-popup' id='mapId'></div>
         </div>
     );
 };
 
-// create sidebar stuff 
-const SearchBarFormInput = () => (
-    <input className='form-control'
-           name='q'
-           type='text'
-           title='Search Datasets'
-           placeholder='Search title, account, author, keyword'
-           >
-    </input>
-);
-
-const SearchBarForm = () => (
-    <form action='.' method='GET'>
-      <SearchBarFormInput />
-    </form>  
-);
-
-const SearchBarLi = () => (
-    <li className='searchBarLi' id='searchBarLi'>
-      <SearchBarForm />
-    </li>  
-);
-
-const ClearMapButton = () => (
-    <button className='btn btn-default btn-block' id='clear_map'>
-      Clear Map
-    </button>  
-);
+// all this stuff acts a single unit, there is no reason to break it up
+// breaking it up would only make more complexity
+const SearchBarLi = () => {
+    return (
+        <li className='searchBarLi' id='searchBarLi'>
+          <form action='.' method='GET'>
+            <input className='form-control'
+                   name='q'
+                   type='text'
+                   title='Search Datasets'
+                   placeholder='Search title, account, author, keyword'>
+            </input>
+          </form>  
+        </li>  
+    );
+};
 
 const ClearMapLi = () => (
     <li className='clearMapLi' id='clearMapLi'>
-      <ClearMapButton />
+      <button className='btn btn-default btn-block' id='clearMapButton'>
+        Clear Map
+      </button>  
     </li>  
 );
 
