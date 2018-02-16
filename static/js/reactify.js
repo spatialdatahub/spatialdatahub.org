@@ -45,42 +45,42 @@ var SearchBarClearMapUl = function SearchBarClearMapUl() {
 // add them into the datasets container below
 
 // datasetLink
-var DatasetLink = function DatasetLink(props) {
-  return _react2.default.createElement('a', {
-    className: 'btn',
-    id: 'datasetLink' + props.dataset.pk,
-    href: '/' + props.dataset.fields.account + '/' + props.dataset.fields.dataset_slug + '/' + props.dataset.pk + '/' }, 'Dataset Page');
-};
+/*
+const DatasetLink = props => (
+    <a
+      className='btn'
+      id={`datasetLink${props.dataset.pk}`}
+      href={`/${props.dataset.fields.account}/${props.dataset.fields.dataset_slug}/${props.dataset.pk}/`}>
+      Dataset Page
+    </a>
+);
+*/
 
 // datasetLinkButtonGroup
 var DatasetLinkButtonGroup = function DatasetLinkButtonGroup(props) {
   return _react2.default.createElement('div', {
     className: 'btn-group',
-    id: 'datasetLinkButtonGroup' + props.dataset.pk }, _react2.default.createElement(DatasetLink, { dataset: props.dataset }));
+    id: 'datasetLinkButtonGroup' + props.dataset.pk }, _react2.default.createElement('a', {
+    className: 'btn',
+    id: 'datasetLink' + props.dataset.pk,
+    href: '/' + props.dataset.fields.account + '/' + props.dataset.fields.dataset_slug + '/' + props.dataset.pk + '/' }, 'Dataset Page'));
 };
 
 // datasetButton
 // the non-essential attributes should be taken off of this element
-var DatasetButton = function DatasetButton(props) {
-  return _react2.default.createElement('button', {
-    className: 'btn btn-default',
-    id: 'dataset-button' + props.dataset.pk,
-    value: '' + props.dataset.fields.ext,
-    url: '' + props.dataset.fields.url }, props.dataset.fields.title);
-};
-
+// all this info can be taken care of in a different way.
 // datasetButtonGroup
-var DatasetButtonGroup = function DatasetButtonGroup(props) {
-  return _react2.default.createElement('div', {
-    className: 'btn-group',
-    id: 'dataset-button-group' + props.dataset.pk }, _react2.default.createElement(DatasetButton, { dataset: props.dataset }));
-};
-
 // justifiedDatasetButtonGroup
 var JustifiedDatasetButtonGroup = function JustifiedDatasetButtonGroup(props) {
   return _react2.default.createElement('div', {
     className: 'btn-group btn-group-justified',
-    id: 'justified-button-group' + props.dataset.pk }, _react2.default.createElement(DatasetButtonGroup, { dataset: props.dataset }));
+    id: 'justified-button-group' + props.dataset.pk }, _react2.default.createElement('div', {
+    className: 'btn-group',
+    id: 'dataset-button-group' + props.dataset.pk }, _react2.default.createElement('button', {
+    className: 'btn btn-default',
+    id: 'dataset-button' + props.dataset.pk,
+    value: '' + props.dataset.fields.ext,
+    url: '' + props.dataset.fields.url }, props.dataset.fields.title)));
 };
 
 // this should bave the justified dataset button group and the link
@@ -88,8 +88,7 @@ var JustifiedDatasetButtonGroup = function JustifiedDatasetButtonGroup(props) {
 var JustifiedButtonGroup = function JustifiedButtonGroup(props) {
   return _react2.default.createElement('div', {
     className: 'btn-group btn-group-justified',
-    id: 'justified-button-group' + props.dataset.pk
-  }, _react2.default.createElement(JustifiedDatasetButtonGroup, { dataset: props.dataset }), _react2.default.createElement(DatasetLinkButtonGroup, { dataset: props.dataset }));
+    id: 'justified-button-group' + props.dataset.pk }, _react2.default.createElement(JustifiedDatasetButtonGroup, { dataset: props.dataset }), _react2.default.createElement(DatasetLinkButtonGroup, { dataset: props.dataset }));
 };
 
 var App = function App(props) {

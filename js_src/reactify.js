@@ -31,26 +31,31 @@ const SearchBarLi = () => {
     );
 };
 
-const ClearMapLi = () => (
-    <li className='clearMapLi' id='clearMapLi'>
-      <button className='btn btn-default btn-block' id='clearMapButton'>
-        Clear Map
-      </button>  
-    </li>  
-);
+const ClearMapLi = () => {
+    return (
+        <li className='clearMapLi' id='clearMapLi'>
+          <button className='btn btn-default btn-block' id='clearMapButton'>
+            Clear Map
+          </button>  
+        </li>  
+    );
+};
 
-const SearchBarClearMapUl = () => (
-    <ul className='nav nav-pills nav-stacked' id='searchBarClearMapUl'>
-      <SearchBarLi />
-      <ClearMapLi />
-    </ul>  
-);
+const SearchBarClearMapUl = () => {
+    return (
+        <ul className='nav nav-pills nav-stacked' id='searchBarClearMapUl'>
+          <SearchBarLi />
+          <ClearMapLi />
+        </ul>  
+    );
+};
 
 // Now for the fun part
 // make many justifed button groups with button groups that have buttons and dataset page links in them
 // add them into the datasets container below
 
 // datasetLink
+/*
 const DatasetLink = props => (
     <a
       className='btn'
@@ -59,53 +64,60 @@ const DatasetLink = props => (
       Dataset Page
     </a>
 );
+*/
 
 // datasetLinkButtonGroup
-const DatasetLinkButtonGroup = props => (
-    <div
-      className='btn-group'
-      id={`datasetLinkButtonGroup${props.dataset.pk}`}>
-      <DatasetLink dataset={props.dataset} />
-    </div>
-);
+const DatasetLinkButtonGroup = props => {
+    return (
+        <div
+          className='btn-group'
+          id={`datasetLinkButtonGroup${props.dataset.pk}`}>
+          <a
+            className='btn'
+            id={`datasetLink${props.dataset.pk}`}
+            href={`/${props.dataset.fields.account}/${props.dataset.fields.dataset_slug}/${props.dataset.pk}/`}>
+            Dataset Page
+          </a>
+        </div>
+    );
+};
 
 // datasetButton
 // the non-essential attributes should be taken off of this element
-const DatasetButton = props => (
-    <button
-      className='btn btn-default'
-      id={`dataset-button${props.dataset.pk}`}
-      value={`${props.dataset.fields.ext}`}
-      url={`${props.dataset.fields.url}`}>
-      {props.dataset.fields.title}
-    </button>
-);
-
+// all this info can be taken care of in a different way.
 // datasetButtonGroup
-const DatasetButtonGroup = props => (
-    <div
-      className="btn-group"
-      id={`dataset-button-group${props.dataset.pk}`}>
-      <DatasetButton dataset={props.dataset}/>
-    </div>
-);
-
 // justifiedDatasetButtonGroup
-const JustifiedDatasetButtonGroup = props => (
-    <div
-      className="btn-group btn-group-justified"
-      id={`justified-button-group${props.dataset.pk}`}>
-      <DatasetButtonGroup dataset={props.dataset} />
-    </div>
-);
+const JustifiedDatasetButtonGroup = props => {
+    return (
+        <div
+          className="btn-group btn-group-justified"
+          id={`justified-button-group${props.dataset.pk}`}>
+
+          <div
+            className="btn-group"
+            id={`dataset-button-group${props.dataset.pk}`}>
+
+            <button
+              className='btn btn-default'
+              id={`dataset-button${props.dataset.pk}`}
+              value={`${props.dataset.fields.ext}`}
+              url={`${props.dataset.fields.url}`}>
+              {props.dataset.fields.title}
+            </button>
+
+          </div>
+
+        </div>
+        
+    );
+};
 
 // this should bave the justified dataset button group and the link
 // I think
 const JustifiedButtonGroup = props => (
     <div
       className="btn-group btn-group-justified"
-      id={`justified-button-group${props.dataset.pk}`}
-      >
+      id={`justified-button-group${props.dataset.pk}`}>
       <JustifiedDatasetButtonGroup dataset={props.dataset} />
       <DatasetLinkButtonGroup dataset={props.dataset} />
     </div>
