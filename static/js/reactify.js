@@ -9,8 +9,6 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactLeaflet = require('react-leaflet');
-
 var _Searchbar = require('./reactify_src/containers/Sidebar/Searchbar');
 
 var _Searchbar2 = _interopRequireDefault(_Searchbar);
@@ -31,10 +29,13 @@ function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
 }
 
+// where should all of the crazy logic be?
+// there are a lot of things that have to go on with the map and getting data and stuff
+
+
 // import containers
 var App = function App(props) {
 
-    // to be put through the MapContainer container
     var initialMapState = {
         lat: 51.505,
         lng: -0.09,
@@ -48,7 +49,7 @@ var App = function App(props) {
 
 _reactDom2.default.render(_react2.default.createElement(App, { datasetList: window.json_data }), window.react_mount);
 
-},{"./reactify_src/containers/MapContainer/MapContainer":2,"./reactify_src/containers/Sidebar/ClearMapButton":3,"./reactify_src/containers/Sidebar/Searchbar":4,"./reactify_src/containers/Sidebar/SidebarDatasetList":5,"react":252,"react-dom":212,"react-leaflet":239}],2:[function(require,module,exports){
+},{"./reactify_src/containers/MapContainer/MapContainer":2,"./reactify_src/containers/Sidebar/ClearMapButton":3,"./reactify_src/containers/Sidebar/Searchbar":4,"./reactify_src/containers/Sidebar/SidebarDatasetList":5,"react":252,"react-dom":212}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66,10 +67,11 @@ function _interopRequireDefault(obj) {
 }
 
 // create map stuff 
-// this is going not the correct way right now.
 var MapContainer = function MapContainer(props) {
+
     var initialPosition = [props.mapState.lat, props.mapState.lng];
     var initialZoom = props.mapState.zoom;
+
     return _react2.default.createElement('div', { className: 'col-xs-12 col-md-8 col-lg-9', id: 'mapContainer' }, _react2.default.createElement(_reactLeaflet.Map, { center: initialPosition, zoom: initialZoom, id: 'mapid' }, _react2.default.createElement(_reactLeaflet.TileLayer, {
         attribution: '&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'

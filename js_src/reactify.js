@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
 // import containers
 import SearchBar from './reactify_src/containers/Sidebar/Searchbar';
@@ -8,12 +7,10 @@ import ClearMapButton from './reactify_src/containers/Sidebar/ClearMapButton';
 import SidebarDatasetList from './reactify_src/containers/Sidebar/SidebarDatasetList';
 import MapContainer from './reactify_src/containers/MapContainer/MapContainer';
 
-
-
-
+// where should all of the crazy logic be?
+// there are a lot of things that have to go on with the map and getting data and stuff
 const App = props => {
 
-    // to be put through the MapContainer container
     const initialMapState = {
         lat: 51.505,
         lng: -0.09,

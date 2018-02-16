@@ -2,10 +2,11 @@ import React from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
 // create map stuff 
-// this is going not the correct way right now.
 const MapContainer = props => {
+
     const initialPosition = [props.mapState.lat, props.mapState.lng];
     const initialZoom = props.mapState.zoom;
+
     return (
         <div className='col-xs-12 col-md-8 col-lg-9' id='mapContainer'>
           <Map center={initialPosition} zoom={initialZoom} id='mapid'>
