@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-
 import {Map, TileLayer, Marker, Popup } from 'react-leaflet';
+
+// import containers
+import SearchBar from './reactify_src/containers/Sidebar/Searchbar';
+import ClearMapButton from './reactify_src/containers/Sidebar/ClearMapButton';
 
 
 // instead of breaking things up into files, just make things here first 
@@ -13,8 +16,6 @@ const initialMapState = {
     lng: -0.09,
     zoom: 13
 };
-
-
 
 // create map stuff 
 // this is going not the correct way right now.
@@ -34,38 +35,12 @@ const MapContainer = props => {
 };
 
 
-// all this stuff acts a single unit, there is no reason to break it up
-// breaking it up would only make more complexity
-const SearchBarLi = () => {
-    return (
-        <li className='searchBarLi' id='searchBarLi'>
-          <form action='.' method='GET'>
-            <input className='form-control'
-                   name='q'
-                   type='text'
-                   title='Search Datasets'
-                   placeholder='Search title, account, author, keyword'>
-            </input>
-          </form>  
-        </li>  
-    );
-};
-
-const ClearMapLi = () => {
-    return (
-        <li className='clearMapLi' id='clearMapLi'>
-          <button className='btn btn-default btn-block' id='clearMapButton'>
-            Clear Map
-          </button>  
-        </li>  
-    );
-};
-
+// this is a relic tha I would like to be rid of.
 const SearchBarClearMapUl = () => {
     return (
         <ul className='nav nav-pills nav-stacked' id='searchBarClearMapUl'>
-          <SearchBarLi />
-          <ClearMapLi />
+          <SearchBar />
+          <ClearMapButton />
         </ul>  
     );
 };
