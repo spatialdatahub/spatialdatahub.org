@@ -8,9 +8,6 @@ import ClearMapButton from './reactify_src/containers/Sidebar/ClearMapButton';
 import SidebarDatasetList from './reactify_src/containers/Sidebar/SidebarDatasetList';
 
 
-// instead of breaking things up into files, just make things here first 
-
-
 // to be put through the MapContainer container
 const initialMapState = {
     lat: 51.505,
@@ -35,21 +32,6 @@ const MapContainer = props => {
     );
 };
 
-
-// this is a relic tha I would like to be rid of.
-const SearchBarClearMapUl = () => {
-    return (
-        <ul className='nav nav-pills nav-stacked' id='searchBarClearMapUl'>
-          <SearchBar />
-          <ClearMapButton />
-        </ul>  
-    );
-};
-
-// Now for the fun part
-// make many justifed button groups with button groups that have buttons and dataset page links in them
-// add them into the datasets container below
-
 const App = props => {
     return (
         <div className='row' id='main'>
@@ -57,7 +39,12 @@ const App = props => {
           <div
             className='col-xs-12 col-md-4 col-lg-3'
             id='datasetsContainer'>
-            <SearchBarClearMapUl />
+
+            <ul className='nav nav-pills nav-stacked' id='searchBarClearMapUl'>
+              <SearchBar />
+              <ClearMapButton />
+            </ul>  
+
             <SidebarDatasetList datasetList={props.datasetList} />
           </div>
         </div>

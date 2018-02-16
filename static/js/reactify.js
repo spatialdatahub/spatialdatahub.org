@@ -27,9 +27,6 @@ function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
 }
 
-// instead of breaking things up into files, just make things here first 
-
-
 // to be put through the MapContainer container
 var initialMapState = {
     lat: 51.505,
@@ -51,19 +48,10 @@ var MapContainer = function MapContainer(props) {
     })));
 };
 
-// this is a relic tha I would like to be rid of.
-var SearchBarClearMapUl = function SearchBarClearMapUl() {
-    return _react2.default.createElement('ul', { className: 'nav nav-pills nav-stacked', id: 'searchBarClearMapUl' }, _react2.default.createElement(_Searchbar2.default, null), _react2.default.createElement(_ClearMapButton2.default, null));
-};
-
-// Now for the fun part
-// make many justifed button groups with button groups that have buttons and dataset page links in them
-// add them into the datasets container below
-
 var App = function App(props) {
     return _react2.default.createElement('div', { className: 'row', id: 'main' }, _react2.default.createElement(MapContainer, { mapState: initialMapState }), _react2.default.createElement('div', {
         className: 'col-xs-12 col-md-4 col-lg-3',
-        id: 'datasetsContainer' }, _react2.default.createElement(SearchBarClearMapUl, null), _react2.default.createElement(_SidebarDatasetList2.default, { datasetList: props.datasetList })));
+        id: 'datasetsContainer' }, _react2.default.createElement('ul', { className: 'nav nav-pills nav-stacked', id: 'searchBarClearMapUl' }, _react2.default.createElement(_Searchbar2.default, null), _react2.default.createElement(_ClearMapButton2.default, null)), _react2.default.createElement(_SidebarDatasetList2.default, { datasetList: props.datasetList })));
 };
 
 _reactDom2.default.render(_react2.default.createElement(App, { datasetList: window.json_data }), window.react_mount);
