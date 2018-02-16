@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
 // import containers
 import SearchBar from './reactify_src/containers/Sidebar/Searchbar';
 import ClearMapButton from './reactify_src/containers/Sidebar/ClearMapButton';
+import SidebarDatasetList from './reactify_src/containers/Sidebar/SidebarDatasetList';
 
 
 // instead of breaking things up into files, just make things here first 
@@ -49,80 +50,7 @@ const SearchBarClearMapUl = () => {
 // make many justifed button groups with button groups that have buttons and dataset page links in them
 // add them into the datasets container below
 
-// datasetLink
-// datasetLinkButtonGroup
-const DatasetLinkButtonGroup = props => {
-    return (
-        <div
-          className='btn-group'
-          id={`datasetLinkButtonGroup${props.dataset.pk}`}>
-          <a
-            className='btn'
-            id={`datasetLink${props.dataset.pk}`}
-            href={`/${props.dataset.fields.account}/${props.dataset.fields.dataset_slug}/${props.dataset.pk}/`}>
-            Dataset Page
-          </a>
-        </div>
-    );
-};
-
-// datasetButton
-// the non-essential attributes should be taken off of this element
-// all this info can be taken care of in a different way.
-// datasetButtonGroup
-// justifiedDatasetButtonGroup
-// this is a button within a div within a div. How can this be simplified? It's all to use bootstrap3,
-// how can we remove bootstrap3?
-const JustifiedDatasetButtonGroup = props => {
-    return (
-        <div
-          className="btn-group btn-group-justified"
-          id={`justified-button-group${props.dataset.pk}`}>
-
-          <div
-            className="btn-group"
-            id={`dataset-button-group${props.dataset.pk}`}>
-
-            <button
-              className='btn btn-default'
-              id={`dataset-button${props.dataset.pk}`}
-              value={`${props.dataset.fields.ext}`}
-              url={`${props.dataset.fields.url}`}>
-              {props.dataset.fields.title}
-            </button>
-
-          </div>
-
-        </div>
-        
-    );
-};
-
-// this should bave the justified dataset button group and the link
-// I think
-const JustifiedButtonGroup = props => {
-    return (
-        <div
-          className="btn-group btn-group-justified"
-          id={`justified-button-group${props.dataset.pk}`}>
-          <JustifiedDatasetButtonGroup dataset={props.dataset} />
-          <DatasetLinkButtonGroup dataset={props.dataset} />
-        </div>
-    );
-};
-
 const App = props => {
-
-    const datasetList = props.datasetList;
-
-    const sideBarDatasetList = datasetList
-          .map(dataset =>
-               <JustifiedButtonGroup
-               key={dataset.pk.toString()}
-               dataset={dataset}
-               />
-              );
-
     return (
         <div className='row' id='main'>
           <MapContainer mapState={initialMapState} />
@@ -130,7 +58,7 @@ const App = props => {
             className='col-xs-12 col-md-4 col-lg-3'
             id='datasetsContainer'>
             <SearchBarClearMapUl />
-            {sideBarDatasetList}
+            <SidebarDatasetList datasetList={props.datasetList} />
           </div>
         </div>
     );
