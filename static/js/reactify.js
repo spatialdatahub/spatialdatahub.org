@@ -53,7 +53,7 @@ _reactDom2.default.render(_react2.default.createElement(App, { datasetList: wind
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _react = require('react');
@@ -63,19 +63,26 @@ var _react2 = _interopRequireDefault(_react);
 var _reactLeaflet = require('react-leaflet');
 
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
+  return obj && obj.__esModule ? obj : { default: obj };
 }
 
+var BaseLayer = _reactLeaflet.LayersControl.BaseLayer;
+
 // create map stuff 
+
+
 var MapContainer = function MapContainer(props) {
 
-    var initialPosition = [props.mapState.lat, props.mapState.lng];
-    var initialZoom = props.mapState.zoom;
+  var initialPosition = [props.mapState.lat, props.mapState.lng];
+  var initialZoom = props.mapState.zoom;
 
-    return _react2.default.createElement('div', { className: 'col-xs-12 col-md-8 col-lg-9', id: 'mapContainer' }, _react2.default.createElement(_reactLeaflet.Map, { center: initialPosition, zoom: initialZoom, id: 'mapid' }, _react2.default.createElement(_reactLeaflet.TileLayer, {
-        attribution: '&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-        url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-    })));
+  return _react2.default.createElement('div', { className: 'col-xs-12 col-md-8 col-lg-9', id: 'mapContainer' }, _react2.default.createElement(_reactLeaflet.Map, { center: initialPosition, zoom: initialZoom, id: 'mapid' }, _react2.default.createElement(_reactLeaflet.LayersControl, { position: 'topright' }, _react2.default.createElement(BaseLayer, { checked: true, name: 'OpenStreetMap.Mapnik' }, _react2.default.createElement(_reactLeaflet.TileLayer, {
+    attribution: '&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+  })), _react2.default.createElement(BaseLayer, { name: 'OpenStreetMap.BlackAndWhite' }, _react2.default.createElement(_reactLeaflet.TileLayer, {
+    attribution: '&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    url: 'https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png'
+  })))));
 };
 
 exports.default = MapContainer;
@@ -170,9 +177,7 @@ var JustifiedDatasetButtonGroup = function JustifiedDatasetButtonGroup(props) {
         className: 'btn-group',
         id: 'dataset-button-group' + props.dataset.pk }, _react2.default.createElement('button', {
         className: 'btn btn-default',
-        id: 'dataset-button' + props.dataset.pk,
-        value: '' + props.dataset.fields.ext,
-        url: '' + props.dataset.fields.url }, props.dataset.fields.title)));
+        id: 'dataset-button' + props.dataset.pk }, props.dataset.fields.title)));
 };
 
 // this should bave the justified dataset button group and the link

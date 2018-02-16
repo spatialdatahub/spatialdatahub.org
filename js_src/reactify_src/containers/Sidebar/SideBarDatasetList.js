@@ -40,9 +40,7 @@ const JustifiedDatasetButtonGroup = props => {
 
             <button
               className='btn btn-default'
-              id={`dataset-button${props.dataset.pk}`}
-              value={`${props.dataset.fields.ext}`}
-              url={`${props.dataset.fields.url}`}>
+              id={`dataset-button${props.dataset.pk}`}>
               {props.dataset.fields.title}
             </button>
 
