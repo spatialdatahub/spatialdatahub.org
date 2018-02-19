@@ -9,4 +9,5 @@ install:
 script:
   - "python manage.py makemigrations --settings=main.settings.dev"
   - "python manage.py migrate --settings=main.settings.dev"
-  - "python manage.py test --settings=main.settings.dev"
+  # this needs to be fixed to run more than just unit tests
+  - "python manage.py test test.unit_tests --settings=main.settings.dev"
