@@ -8,6 +8,7 @@ from keywords.models import Keyword
 
 from cryptography.fernet import Fernet
 
+import os
 import json
 
 # This is pretty much copied from the two scoops of django 1.8 book
@@ -17,8 +18,15 @@ import json
 
 # Maybe this could be imported from settings or something? Maybe it
 # could be kept in a different file called 'crypto.json'
-with open("secrets.json") as f:
-    secrets = json.loads(f.read())
+#with open("secrets.json") as f:
+#    secrets = json.loads(f.read())
+if 'TRAVIS' in os.environ:
+    with open("travis-secrets.json") as f:
+        secrets = json.loads(f.read())
+else:
+    with open("secrets.json") as f:
+        secrets = json.loads(f.read())
+
 
 
 def get_secret(setting, secrets=secrets):
