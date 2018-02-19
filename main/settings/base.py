@@ -21,10 +21,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # This is pretty much copied from the two scoops of django 1.8 book
 # JSON based secrets module
 if 'TRAVIS' in os.environ:
-    print('TRAVIS')
-    
-with open("secrets.json") as f:
-    secrets = json.loads(f.read())
+    with open("travis-secrets.json") as f:
+        secrets = json.loads(f.read())
+else:
+    with open("secrets.json") as f:
+        secrets = json.loads(f.read())
 
 def get_secret(setting, secrets=secrets):
     """Get the secret variable or return the explicit exception."""
