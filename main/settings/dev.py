@@ -18,19 +18,8 @@ DEBUG = True
 # set this thing up for travis and for gitlab-ci
 # this shouldn't be in here
 ################################################
-'''
-if 'GITLAB' in os.environ:
-    DATABASES = {
-        'default': {
-            'ENGINE':   'django.db.backends.postgresql_psycopg2',
-            'NAME':     'gitlab_ci_test',
-            'USER':     'postgres',
-            'PASSWORD': '',
-            'HOST':     'localhost',
-            'PORT':     '',
-        }
-    }
-elif 'TRAVIS' in os.environ:
+"""
+if 'TRAVIS' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE':   'django.db.backends.postgresql_psycopg2',
@@ -45,8 +34,7 @@ else:
     DATABASES = {
 
     }
-'''
-
+"""
 
 DATABASES = {
     'default': {
