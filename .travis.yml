@@ -6,12 +6,7 @@ python:
 install:
   - "pip3 install -r requirements.txt"
 
-#before_script:
-#  - psql -c 'create database travis_ci_test;' -U postgres
-
 script:
   - "python manage.py makemigrations"
   - "python manage.py migrate"
   - "python manage.py test test.unit_tests"
-
-echo "connected"
