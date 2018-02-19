@@ -318,7 +318,7 @@ class DatasetUpdateViewTests(TestCase):
         #with open(BASE_DIR + "/secrets.json") as f:
         #    secrets = json.loads(f.read())
         if 'TRAVIS' in os.environ:
-            with open(BASE_DIR + "travis-secrets.json") as f:
+            with open(BASE_DIR + "/travis-secrets.json") as f:
                 secrets = json.loads(f.read())
         else:
             with open("secrets.json") as f:
@@ -361,8 +361,15 @@ class DatasetUpdateViewTests(TestCase):
         BASE_DIR = os.path.dirname(os.path.dirname(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
         # get key from file
-        with open(BASE_DIR + "/secrets.json") as f:
-            secrets = json.loads(f.read())
+        #with open(BASE_DIR + "/secrets.json") as f:
+        #    secrets = json.loads(f.read())
+        if 'TRAVIS' in os.environ:
+            with open(BASE_DIR + "/travis-secrets.json") as f:
+                secrets = json.loads(f.read())
+        else:
+            with open("secrets.json") as f:
+                secrets = json.loads(f.read())
+
 
         def get_secret(setting, secrets=secrets):
             """Get the secret variable or return the explicit exception."""
