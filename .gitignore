@@ -6,6 +6,9 @@
 ############################
 
 
+.elasticbeanstalk/
+
+
 ###### Old .gitignore ######
 db.sqlite3
 *.pyc
