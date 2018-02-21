@@ -3,11 +3,11 @@ language:
 
 python:
   - "3.6"
-#
-#env:
-#  global:
-#    - SECRET_KEY=secret
-#    - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
+
+env:
+  global:
+    - SECRET_KEY=secret
+    - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
 
 #install:
 #  - "pip3 install -r requirements.txt"
@@ -27,4 +27,4 @@ services:
 
 script:
   - docker build -t django-app .
-  - docker run django-app ./manage.py makemigrations --settings=main.settings.dev 
+  - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py makemigrations --settings=main.settings.dev 
