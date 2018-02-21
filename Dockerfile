@@ -1,6 +1,5 @@
 FROM python:3.6
 
-# Environmental variables
 ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /code
@@ -15,4 +14,4 @@ ADD . /code/
 
 EXPOSE 8000
 
-CMD ["sh", "./container_start.sh"]
+#CMD ["sh", "./container_start.sh"]
