@@ -4,23 +4,23 @@ language:
 python:
   - "3.6"
 #
-#env:
-#  global:
-#    - SECRET_KEY=secret
-#    - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
+env:
+  global:
+    - SECRET_KEY=secret
+    - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
+
+install:
+  - "pip3 install -r requirements.txt"
+
+#before_script:
+#  - psql -c 'create database travis_ci_test;' -U postgres
+
+script:
+  - "python manage.py makemigrations --settings=main.settings.dev"
+  - "python manage.py migrate --settings=main.settings.dev"
+  - "python manage.py test test.unit_tests --settings=main.settings.dev"
+
+#sudo: required
 #
-#install:
-#  - "pip3 install -r requirements.txt"
-#
-##before_script:
-##  - psql -c 'create database travis_ci_test;' -U postgres
-
-#script:
-#  - "python manage.py makemigrations --settings=main.settings.dev"
-#  - "python manage.py migrate --settings=main.settings.dev"
-#  - "python manage.py test test.unit_tests --settings=main.settings.dev"
-
-sudo: required
-
-services:
-  - docker
+#services:
+#  - docker
