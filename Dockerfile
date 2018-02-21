@@ -17,4 +17,5 @@ ADD . /code/
 
 EXPOSE 8000
 
-CMD ["python3", "manage.py", "runserver", "--setting=main.settings.dev"]
+#CMD ["python3", "manage.py", "runserver", "--setting=main.settings.dev"]
+CMD ["sh", "./container_start.sh"]
