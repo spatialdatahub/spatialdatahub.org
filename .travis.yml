@@ -28,3 +28,5 @@ services:
 script:
   - docker build -t django-app .
   - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py makemigrations --settings=main.settings.dev 
+  - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py migrate --settings=main.settings.dev 
+  - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py test test.unit_tests --settings=main.settings.dev 
