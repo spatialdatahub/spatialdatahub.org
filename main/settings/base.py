@@ -20,18 +20,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 # This is pretty much copied from the two scoops of django 1.8 book
 # JSON based secrets module
-with open("secrets.json") as f:
-    secrets = json.loads(f.read())
-
-def get_secret(setting, secrets=secrets):
-    """Get the secret variable or return the explicit exception."""
-    try:
-        return secrets[setting]
-    except KeyError:
-        error_msg = "Set the {0} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
-
-SECRET_KEY = get_secret("SECRET_KEY")
+#with open("secrets.json") as f:
+#    secrets = json.loads(f.read())
+#
+#def get_secret(setting, secrets=secrets):
+#    """Get the secret variable or return the explicit exception."""
+#    try:
+#        return secrets[setting]
+#    except KeyError:
+#        error_msg = "Set the {0} environment variable".format(setting)
+#        raise ImproperlyConfigured(error_msg)
+#
+#SECRET_KEY = get_secret("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 ALLOWED_HOSTS = []
 
@@ -114,11 +115,16 @@ WSGI_APPLICATION = "main.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": get_secret("DATABASES_NAME"),
-        "USER": get_secret("DATABASES_USER"),
-        "PASSWORD": get_secret("DATABASES_PASSWORD"),
-        "HOST": get_secret("DATABASES_HOST"),
-        "PORT": get_secret("DATABASES_PORT"),
+        #"NAME": get_secret("DATABASE_NAME"),
+        #"USER": get_secret("DATABASE_USER"),
+        #"PASSWORD": get_secret("DATABASE_PASSWORD"),
+        #"HOST": get_secret("DATABASE_HOST"),
+        #"PORT": get_secret("DATABASE_PORT"),
+        "NAME": os.environ.get("DATABASE_NAME"),
+        "USER": os.environ.get("DATABASE_USER"),
+        "PASSWORD": os.environ.get("DATABASE_PASSWORD"),
+        "HOST": os.environ.get("DATABASE_HOST"),
+        "PORT": os.environ.get("DATABASE_PORT"),
     }
 }
 
