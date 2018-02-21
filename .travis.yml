@@ -4,10 +4,10 @@ language:
 python:
   - "3.6"
 
-#env:
-#  global:
-#    - SECRET_KEY=secret
-#    - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
+env:
+  global:
+    - SECRET_KEY=secret
+    - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
 
 #this stuff is being done with docker containers below
 # except for the postgres thing
