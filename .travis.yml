@@ -6,8 +6,8 @@ python:
 
 env:
   - SECRET_KEY=secret
-  - CRYPTO_KEY_OLD="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
-  - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
+  - CRYPTO_KEY_OLD=b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
+  - CRYPTO_KEY=b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
 
 
 install:
