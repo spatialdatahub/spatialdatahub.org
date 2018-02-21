@@ -2,8 +2,8 @@ FROM python:3.6
 
 # Environmental variables
 ENV PYTHONUNBUFFERED 1
-ENV SECRET_KEY=secret
-ENV CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
+#ENV SECRET_KEY=secret
+#ENV CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
 
 RUN mkdir /code
 
@@ -17,4 +17,4 @@ ADD . /code/
 
 EXPOSE 8000
 
-CMD ["sh", "./container_start.sh"]
+#CMD ["sh", "./container_start.sh"]
