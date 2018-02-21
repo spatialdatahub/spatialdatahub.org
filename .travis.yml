@@ -9,7 +9,8 @@ env:
     - SECRET_KEY=secret
     - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
 
-# this stuff should be done via docker.
+#this stuff is being done with docker containers below
+# except for the postgres thing
 #install:
 #  - "pip3 install -r requirements.txt"
 #before_script:
