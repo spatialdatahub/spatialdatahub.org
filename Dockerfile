@@ -4,16 +4,16 @@ ENV PYTHONUNBUFFERED 1
 ENV SECRET_KEY=secret
 ENV CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
 
-RUN mkdir /code
+RUN mkdir /src
 
-WORKDIR /code
+WORKDIR /src
 
-ADD requirements.txt /code/
+ADD requirements.txt /src/
 
 RUN pip install -r requirements.txt
 
-ADD . /code/
+ADD . /src/
 
-EXPOSE 8000
+#EXPOSE 8000
 
 #CMD ["sh", "./container_start.sh"]
