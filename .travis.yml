@@ -9,12 +9,11 @@ env:
     - SECRET_KEY=secret
     - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
 
+# this stuff should be done via docker.
 #install:
 #  - "pip3 install -r requirements.txt"
-
 #before_script:
 #  - psql -c 'create database travis_ci_test;' -U postgres
-
 #script:
 #  - "python manage.py makemigrations --settings=main.settings.dev"
 #  - "python manage.py migrate --settings=main.settings.dev"
@@ -25,8 +24,11 @@ sudo: required
 services:
   - docker
 
+# run the tests from the docker container. Be sure to provide the necessary environmental variables
+# this should probably be written better, but it works like this now.
 script:
   - docker build -t django-app .
   - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py makemigrations --settings=main.settings.dev 
   - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py migrate --settings=main.settings.dev 
   - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py test test.unit_tests --settings=main.settings.dev 
+
