@@ -1,6 +1,8 @@
 FROM python:3.6
 
 ENV PYTHONUNBUFFERED 1
+ENV SECRET_KEY=secret
+ENV CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
 
 RUN mkdir /code
 
