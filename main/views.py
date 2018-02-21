@@ -81,3 +81,24 @@ def portal(request):
     template_name = "portal.html"
     return render(request, template_name, {"dataset_list": dataset_list})
 
+def portal_grid(request):
+    """
+    I'm not ready to try and make this filter function ajax yet. That will
+    have to wait a bit longer.
+    """
+    D = Dataset.objects.all()
+
+    if "q" in request.GET:
+        q = request.GET["q"]
+        dataset_list = D.filter(
+            Q(title__icontains=q) |
+            Q(account__user__username__icontains=q) |
+            Q(author__icontains=q) |
+            Q(keywords__keyword__icontains=q)
+            ).order_by("title").distinct()
+    else:
+        dataset_list = D.order_by("title")
+
+    template_name = "portal_grid.html"
+    return render(request, template_name, {"dataset_list": dataset_list})
+

@@ -1,0 +1,78 @@
+{% extends "base_grid.html" %}
+{% load staticfiles %}
+
+{% block title %}Portal{% endblock title %}
+
+{% block css %}
+<style>
+
+  #datasetsContainer {
+    height: 50em;
+    float: left;
+  }
+
+  #datasets-list {
+    overflow-y: auto;
+    height: 41em;
+  }
+
+  #mapContainer {
+    float: right;
+  }
+
+  #mapid {
+    height: 50em;
+    margin-bottom: 10px;
+  }
+
+  #find_place_container {
+    display: none;
+  }
+
+  #test_url_container {
+    display: none;
+  }
+
+  /*
+  #draw_polygon_container {
+    display: none;
+  }
+  */
+
+  #within_polygon_container {
+    display: none;
+  }
+
+</style>
+
+{% endblock css %}
+
+{% block content %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+<link rel="stylesheet" href="{% static 'css/map.css' %}" />
+
+<!-- marker cluster cdn -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.5/MarkerCluster.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.5/MarkerCluster.Default.css" />
+
+
+
+  {% include "pieces/editmap.html" %}
+
+  <div class="row" id="main">
+    <div class="col-xs-12 col-md-8 col-lg-9" id="mapContainer">
+      {% include "pieces/mymap.html" %}
+    </div>
+
+    <div class="col-xs-12 col-md-4 col-lg-3" id="datasetsContainer">
+      {% include "pieces/datasetlist.html" %}
+    </div>
+  </div>
+
+<!-- javascript for portal pages -->
+
+<script src="https://unpkg.com/easy-nominatim@1.0.3"></script>
+
+<script src="{% static 'js/bundle.js' %}"></script>
+<!-- javascript for portal pages -->
+{% endblock content %}
