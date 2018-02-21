@@ -4,3 +4,6 @@
 *Dockerfile*
 *docker-compose*
 node_modules
+env/
+.env/
+amazon_web_env/

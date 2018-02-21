@@ -32,3 +32,18 @@ script:
   - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py migrate --settings=main.settings.dev 
   - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py test test.unit_tests --settings=main.settings.dev 
 
+# presumably deployment will not work if the tests fail...
+after_deploy:
+  -echo "done deploying"
+
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $ACCESSKEYID
+  secret_access_key:
+    secure: "$SECRETACCESSKEY"
+  region: "eu-central-1"  
+  app: "spatialdatahub"
+  env: "spatialdatahub-dev"
+  bucket_name: "elasticbeanstalk-eu-central-1-707675293479"
+  on:
+    branch: master

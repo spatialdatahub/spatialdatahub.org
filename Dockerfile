@@ -15,4 +15,4 @@ ADD . /code/
 
 EXPOSE 8000
 
-#CMD ["sh", "./container_start.sh"]
+CMD ["sh", "./container_start.sh"]

@@ -34,6 +34,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+amazon_web_env/
 build/
 develop-eggs/
 dist/
@@ -238,3 +239,8 @@ flycheck_*.el
 
 # directory configuration
 .dir-locals.el
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
