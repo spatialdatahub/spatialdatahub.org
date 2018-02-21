@@ -28,10 +28,11 @@ services:
 # run the tests from the docker container. Be sure to provide the necessary environmental variables
 # this should probably be written better, but it works like this now.
 script:
-  - docker build -t django-app .
-  - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py makemigrations --settings=main.settings.dev 
-  - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py migrate --settings=main.settings.dev 
-  - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py test test.unit_tests --settings=main.settings.dev 
+  - echo $SECRET_KEY
+#  - docker build -t django-app .
+#  - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py makemigrations --settings=main.settings.dev 
+#  - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py migrate --settings=main.settings.dev 
+#  - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py test test.unit_tests --settings=main.settings.dev 
 
 # presumably deployment will not work if the tests fail...
 after_deploy:
