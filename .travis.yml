@@ -2,16 +2,15 @@ language:
   - python
 
 python:
-  - "3.5"
   - "3.6"
 
 install:
-  - "pip3 install -r requirements_test.txt"
+  - "pip3 install -r requirements.txt"
 
-before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
+#before_script:
+#  - psql -c 'create database travis_ci_test;' -U postgres
 
 script:
-  - "python manage.py makemigrations"
-  - "python manage.py migrate"
-  - "python manage.py test test.unit_tests"
+  - "python manage.py makemigrations --settings=main.settings.dev"
+  - "python manage.py migrate --settings=main.settings.dev"
+  - "python manage.py test test.unit_tests --settings=main.settings.dev"
