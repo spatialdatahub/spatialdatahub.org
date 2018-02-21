@@ -4,6 +4,12 @@ language:
 python:
   - "3.6"
 
+env:
+  - SECRET_KEY=secret
+  - CRYPTO_KEY_OLD="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
+  - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
+
+
 install:
   - "pip3 install -r requirements.txt"
 
