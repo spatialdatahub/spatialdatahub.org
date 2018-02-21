@@ -112,6 +112,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "main.wsgi.application"
 
+'''
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
@@ -127,6 +128,7 @@ DATABASES = {
         "PORT": os.environ.get("DATABASE_PORT"),
     }
 }
+'''
 
 
 AUTH_USER_MODEL = "core.User"

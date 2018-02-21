@@ -8,6 +8,7 @@ from datasets.models import Dataset
 import requests
 import owncloud
 import json
+import os
 
 from cryptography.fernet import Fernet
 
@@ -20,18 +21,19 @@ def load_dataset(request, pk):
     Maybe there's a better wy to do this whole secret crypto key thing, I
     still don't feel like it's secure enough
     """
-    with open("secrets.json") as f:
-        secrets = json.loads(f.read())
+#    with open("secrets.json") as f:
+#        secrets = json.loads(f.read())
+#
+#    def get_secret(setting, secrets=secrets):
+#        """Get the secret variable or return the explicit exception."""
+#        try:
+#            return secrets[setting]
+#        except KeyError:
+#            error_msg = "Set the {0} environment variable".format(setting)
+#            raise ImproperlyConfigured(error_msg)
 
-    def get_secret(setting, secrets=secrets):
-        """Get the secret variable or return the explicit exception."""
-        try:
-            return secrets[setting]
-        except KeyError:
-            error_msg = "Set the {0} environment variable".format(setting)
-            raise ImproperlyConfigured(error_msg)
-
-    CRYPTO_KEY = get_secret("CRYPTO_KEY")
+#    CRYPTO_KEY = get_secret("CRYPTO_KEY")
+    CRYPTO_KEY = os.environ.get("CRYPTO_KEY")
     cipher_end = Fernet(CRYPTO_KEY)
 
     # bring in the dataset by pk

@@ -23,13 +23,24 @@ ALLOWED_HOSTS = ['map.leibniz-zmt.de/', '127.0.0.1', 'localhost'] # for the time
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
+#DATABASES = {
+#    "default": {
+#        "ENGINE": "django.db.backends.postgresql_psycopg2",
+#        "NAME": get_secret("DATABASES_NAME"),
+#        "USER": get_secret("DATABASES_USER"),
+#        "PASSWORD": get_secret("DATABASES_PASSWORD"),
+#        "HOST": get_secret("DATABASES_HOST"),
+#        "PORT": get_secret("DATABASES_PORT"),
+#    }
+#}
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": get_secret("DATABASES_NAME"),
-        "USER": get_secret("DATABASES_USER"),
-        "PASSWORD": get_secret("DATABASES_PASSWORD"),
-        "HOST": get_secret("DATABASES_HOST"),
-        "PORT": get_secret("DATABASES_PORT"),
+        "NAME": os.environ.get("DATABASE_NAME"),
+        "USER": os.environ.get("DATABASE_USER"),
+        "PASSWORD": os.environ.get("DATABASE_PASSWORD"),
+        "HOST": os.environ.get("DATABASE_HOST"),
+        "PORT": os.environ.get("DATABASE_PORT"),
     }
 }
