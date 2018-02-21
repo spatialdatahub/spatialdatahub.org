@@ -15,5 +15,4 @@ RUN pip install -r requirements.txt
 ADD . /src/
 
 #EXPOSE 8000
-
 #CMD ["sh", "./container_start.sh"]
