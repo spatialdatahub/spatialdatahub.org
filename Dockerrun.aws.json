@@ -1,0 +1,12 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+        "Name": "patcurry/spatialdatahub",
+        "Update": "true"
+    },
+    "Ports": [
+        {
+            "ContainerPort": "800"
+        }
+    ]
+}
