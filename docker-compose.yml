@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+  web:
+    build: .
+    command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && gunicorn main.wsgi -b 0.0.0.0:8000"
+    volumes:
+      - .:/src
+      - ../static_root:/static_root
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
