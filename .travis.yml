@@ -9,12 +9,19 @@ env:
     - SECRET_KEY=secret
     - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
 
+#install:
+#  - "pip3 install -r requirements.txt"
+
+#script:
+#  - "python manage.py makemigrations --settings=main.settings.dev"
+#  - "python manage.py migrate --settings=main.settings.dev"
+#  - "python manage.py test test.unit_tests --settings=main.settings.dev"
+
+
 install:
   - "pip3 install -r requirements.txt"
 
 script:
-  - "python manage.py makemigrations --settings=main.settings.dev"
-  - "python manage.py migrate --settings=main.settings.dev"
   - "python manage.py test test.unit_tests --settings=main.settings.dev"
 
 
