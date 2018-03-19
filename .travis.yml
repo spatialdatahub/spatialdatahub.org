@@ -8,19 +8,21 @@ language:
 python:
   - "3.6"
 
-env:
-  global:
-    - SECRET_KEY=secret
-    - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
-
-#this stuff is being done with docker containers below
-# except for the postgres thing
 install:
-  - "pip3 install -r requirements.txt"
-#before_script:
-#  - psql -c 'create database travis_ci_test;' -U postgres
+  - "pip install -r requirements.txt"
+
 script:
-   - "echo 'hey!'"
-#  - "python manage.py makemigrations --settings=main.settings.dev"
-#  - "python manage.py migrate --settings=main.settings.dev"
+  - "echo 'hey!'"
   - "python manage.py test test.unit_tests --settings=main.settings.dev"
+
+#deploy:
+#  provider: elasticbeanstalk
+#  access_key_id: $ACCESSKEYID
+#  secret_access_key:
+#    secure: "$SECRETACCESSKEY"
+#  region: "eu-central-1"  
+#  app: "spatialdatahub"
+#  env: "spatialdatahub-dev"
+#  bucket_name: "elasticbeanstalk-eu-central-1-707675293479"
+#  on:
+#    branch: master
