@@ -1,4 +1,4 @@
-# .travis.yml
+# spatialdatahub.org/.travis.yml
 sudo: required
 
 language:
@@ -11,9 +11,6 @@ env:
   global:
     - SECRET_KEY=secret
     - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
-
-#install:
-#  - "pip3 install -r requirements.txt"
 
 #script:
 #  - "python manage.py makemigrations --settings=main.settings.dev"
