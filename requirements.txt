@@ -1,6 +1,2 @@
-Django==2.0
-cryptography==2.1.4
-psycopg2==2.7
-requests==2.9.1
-gunicorn==19.7.1
-pyocclient==0.4
+Django==2.0.3
+cryptography
