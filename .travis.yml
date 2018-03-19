@@ -7,41 +7,12 @@ language:
 python:
   - "3.6"
 
-env:
-  global:
-    - SECRET_KEY=secret
-    - CRYPTO_KEY="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ="
-
-#script:
-#  - "python manage.py makemigrations --settings=main.settings.dev"
-#  - "python manage.py migrate --settings=main.settings.dev"
-#  - "python manage.py test test.unit_tests --settings=main.settings.dev"
-
-
 install:
-  - "pip3 install -r requirements.txt"
+  - "pip install -r requirements.txt"
 
 script:
-  - "python manage.py test test.unit_tests --settings=main.settings.dev"
-
-
-#sudo: required
-
-#services:
-#  - docker
-
-# run the tests from the docker container. Be sure to provide the necessary environmental variables
-# this should probably be written better, but it works like this now.
-script:
-#  - echo $SECRET_KEY
-#  - docker build -t django-app .
-#  - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py makemigrations --settings=main.settings.dev 
-#  - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py migrate --settings=main.settings.dev 
-#  - docker run -e SECRET_KEY -e CRYPTOKEY django-app ./manage.py test test.unit_tests --settings=main.settings.dev 
-
-# presumably deployment will not work if the tests fail...
-#after_deploy:
-#  -echo "done deploying"
+  - "echo 'hey!'"
+#  - "python manage.py test test.unit_tests --settings=main.settings.dev"
 
 #deploy:
 #  provider: elasticbeanstalk
