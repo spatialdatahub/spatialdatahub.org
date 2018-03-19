@@ -58,30 +58,7 @@ INSTALLED_APPS = [
     "accounts",
     "datasets",
     "keywords",
-    #"api",
 ]
-
-#REST_FRAMEWORK = {
-#    "DEFAULT_PERMISSIONS_CLASSES": [
-#        "rest_framework.permissions.IsAdminUser",
-#    ],
-#    "PAGE_SIZE": 10
-#}
-
-
-"""
-# Pre-Django 2.0
-MIDDLEWARE_CLASSES = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-]
-"""
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -113,27 +90,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "main.wsgi.application"
 
-'''
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        #"NAME": get_secret("DATABASE_NAME"),
-        #"USER": get_secret("DATABASE_USER"),
-        #"PASSWORD": get_secret("DATABASE_PASSWORD"),
-        #"HOST": get_secret("DATABASE_HOST"),
-        #"PORT": get_secret("DATABASE_PORT"),
-        "NAME": os.environ.get("DATABASE_NAME"),
-        "USER": os.environ.get("DATABASE_USER"),
-        "PASSWORD": os.environ.get("DATABASE_PASSWORD"),
-        "HOST": os.environ.get("DATABASE_HOST"),
-        "PORT": os.environ.get("DATABASE_PORT"),
-    }
-}
-'''
-
-
 AUTH_USER_MODEL = "core.User"
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -153,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -170,7 +126,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-
+# I am going to change this to use a cdn maybe that should be in the production file
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
