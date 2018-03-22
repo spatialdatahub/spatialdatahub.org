@@ -55,6 +55,7 @@ def embed_dataset(request, account_slug=None, dataset_slug=None, pk=None):
     response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+    response["X-Frame-Options"] = "ALLOW-FROM https://example.com/"
             
     return response
 
