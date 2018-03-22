@@ -130,13 +130,13 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "../spatialdatahub.org-static/build"),
 ]
 
 # set the STATIC_ROOT to a directory I would like to serve the static files
 # from. Maybe just outside of the BASE_DIR would be good for development, but I
 # think that maybe a specific place for the deployed version would be good.
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_root")
+#STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_root")
 
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
