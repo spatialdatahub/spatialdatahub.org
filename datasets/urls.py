@@ -17,6 +17,10 @@ urlpatterns = [
         views.dataset_detail,
         name="dataset_detail"),
 
+    url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/embed/$',
+        views.embed_dataset,
+        name="embed_dataset"),
+
     url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/add_keyword/$',
         views.add_keyword_to_dataset,
         name="add_keyword_to_dataset"),
