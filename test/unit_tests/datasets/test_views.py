@@ -256,6 +256,12 @@ class EmbeddableDatasetViewTests(TestCase):
                 pk=self.ds1.pk))
         self.assertEqual(response["Access-Control-Allow-Headers"], "X-Requested-With, Content-Type")  
 
+    def test_embeddable_dataset_view_has_correct_Access_Control_Allow_Headers(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/{pk}/embed/".format(
+                pk=self.ds1.pk))
+        self.assertEqual(response["X-Frame-Options"], "ALLOW-FROM https://example.com/")  
+
 
 class DatasetUpdateViewTests(TestCase):
 

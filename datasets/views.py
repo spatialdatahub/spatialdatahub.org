@@ -55,15 +55,12 @@ def embed_dataset(request, account_slug=None, dataset_slug=None, pk=None):
     response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
     response["Access-Control-Max-Age"] = "1000"
     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+    # this is hacky and probably won't work in the end.
+    # there should be a better way. How does youtube or google.maps do this?
     response["X-Frame-Options"] = "ALLOW-FROM https://example.com/"
             
     return response
 
-
-#class EmbedView(View):
-#    response
-#    return response
-    
 
 # is this view used anywhere?
 def dataset_ajax(request, account_slug=None, pk=None):
