@@ -53,11 +53,11 @@ def embed_dataset(request, account_slug=None, dataset_slug=None, pk=None):
     # here's the important part
     response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
-    response["Access-Control-Max-Age"] = "1000"
+    response["Access-Control-Max-Age"] = "43200"
     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
     # this is hacky and probably won't work in the end.
     # there should be a better way. How does youtube or google.maps do this?
-    response["X-Frame-Options"] = "ALLOW-FROM https://example.com/"
+    response["X-Frame-Options"] = "ALLOW-FROM http://www.leibniz-zmt.de/"
             
     return response
 
