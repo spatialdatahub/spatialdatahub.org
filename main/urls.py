@@ -14,6 +14,11 @@ urlpatterns = [
         views.portal,
         name='portal'),
 
+    url(r'^grid/$',
+        views.portal_grid,
+        name='portal_grid'),
+
+
     url(r'^about/$',
         TemplateView.as_view(template_name='about.html'),
         name='about'),
