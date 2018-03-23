@@ -1,140 +1,86 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>ZMT | {% block title %}{% endblock title%}</title>
+    <title>ZMT | {% block title %}{% endblock title%}</title>
 
-<link rel="shortcut icon" type="image/png" href="{% static 'images/zmt_favicon.ico' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/zmt_favicon.ico' %}">
 
-<!-- Latest compiled and minified CSS -->
+    <!-- Latest compiled and minified CSS -->
 
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-{% block css %}
-
-
-{% endblock css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block css %}
 
 
-</head>
-<body>
+    {% endblock css %}
 
-  <!-- NEW HEADER / NAVBAR -->
-  <div class="header">
-    <a class="navbar-brand" href="http://www.zmt-bremen.de/en/zmt.html" target="_blank">
-      <img src="{% static 'images/zmt_logo_white.png' %}" height="32" alt="ZMT Logo" />
-    </a>
-    <a href="{% url 'portal' %}">Home</a>
-    <a href="{% url 'accounts:account_list' %}">Accounts</a>
-    <a href="{% url 'keywords:keyword_list' %}">Keywords</a>
-    {% if user.is_authenticated %}
-    <a href="{{ user.account.get_absolute_url }}">{{ user.account }}</a>
-    <a href="{% url 'logout' %}?next=/">Logout</a>
-    {% else %}
-    <a href="{%url 'register' %}">Register</a>
-    <a href="{% url 'login' %}">Login</a>
-    {% endif %}
-  </div>
 
-<!-- OLD HEADER / NAVBAR -->
-<!--
-<div class="old-header">
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container">
+  </head>
+  <body>
 
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+    <!-- NEW HEADER / NAVBAR -->
+    <div class="header">
       <a class="navbar-brand" href="http://www.zmt-bremen.de/en/zmt.html" target="_blank">
         <img src="{% static 'images/zmt_logo_white.png' %}" height="32" alt="ZMT Logo" />
       </a>
+      <a href="{% url 'portal' %}">Home</a>
+      <a href="{% url 'accounts:account_list' %}">Accounts</a>
+      <a href="{% url 'keywords:keyword_list' %}">Keywords</a>
+      {% if user.is_authenticated %}
+      <a href="{{ user.account.get_absolute_url }}">{{ user.account }}</a>
+      <a href="{% url 'logout' %}?next=/">Logout</a>
+      {% else %}
+      <a href="{%url 'register' %}">Register</a>
+      <a href="{% url 'login' %}">Login</a>
+      {% endif %}
     </div>
 
-    <div id="navbar" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="{% url 'portal' %}">Home</a></li>
-        <li><a href="{% url 'accounts:account_list' %}">Accounts</a></li>
-        <li><a href="{% url 'keywords:keyword_list' %}">Keywords</a></li>
+    <!-- NOSCRIPT -->
+      <noscript>
+        <h2>Warning: without javascript enabled this site will not show maps or retreive data. Also, the buttons will be broken and dataset links will not show up.</h2>
+      </noscript>
+    <!-- END NOSCRIPT -->
 
-        {% if user.is_authenticated %}
-          <li><a href="{{ user.account.get_absolute_url }}">{{ user.account }}</a></li>
-          <li><a href="{% url 'logout' %}?next=/">Logout</a></li>
-        {% else %}
-          <li><a href="{%url 'register' %}">Register</a></li>
-          <li><a href="{% url 'login' %}">Login</a></li>
-        {% endif %}
 
-      </ul>
+    <div class="main">
+      <!-- All the pages should have breadcrumbs -->
+      <div>
+        <div>
+          <h4>
+            <a href="{% url 'portal' %}" >Home</a>
+            {% block breadcrumbs %}{% endblock breadcrumbs %}
+          </h4>
+        </div>
+        <h4 class="col-xs-12" id="selected_link"></h4>
+      </div>
+      <!-- end of breadcrumb area -->
+      <!-- CONTENT -->
+      <div class="content">
+        {% block content %}
+        {% endblock content %}
+      </div>
+      <!-- CONTENT -->
     </div>
-  </div>
-</nav>
-</div>
--->
-<!-- END NAVBAR -->
 
-<!-- NOSCRIPT -->
-<div class="container">
-  <noscript>
-    <h2>Warning: without javascript enabled this site will not show maps or retreive data. Also, the buttons will be broken and dataset links will not show up.</h2>
-  </noscript>
-</div>
-<!-- END NOSCRIPT -->
+    <!-- FOOTER -->
 
-
-<div class="main">
-<div class="container">
-<!-- All the pages should have breadcrumbs -->
-    <div class="row">
-      <h4 class="col-xs-12">
-        <a href="{% url 'portal' %}" >Home</a>
-        {% block breadcrumbs %}{% endblock breadcrumbs %}
-      </h4>
+    <hr class="divider">
+    <div class="footer">
+      <a href="{% url 'about' %}">About</a>
+      <a href="{% url 'contact' %}">Contact</a>
+      <a href="https://github.com/spatialdatahub/spatialdatahub.org" target="_blank">GitHub</a>
     </div>
-    <hr />
+    <!-- END FOOTER -->
+    <!-- or cdnjs repo -->
 
-      <h4 class="col-xs-12" id="selected_link">
-      </h4>
-
-{% block content %}
-{% endblock content %}
-</div>
-</div>
-<!-- CONTENT -->
-
-<!-- FOOTER -->
-<!--
-<hr class="divider">
-<footer class="bs-docs-footer">
-  <div class="container text-center">
-    <ul class="list-inline">
-      <li><a href="{% url 'about' %}">About</a></li>
-      <li><a href="{% url 'contact' %}">Contact</a></li>
-      <li><a href="https://github.com/patcurry/WebGIS" target="_blank">GitHub</a></li>
-    </ul>
-  </div>
-</footer>
--->
-<hr class="divider">
-<div class="footer">
-  <a href="{% url 'about' %}">About</a>
-  <a href="{% url 'contact' %}">Contact</a>
-  <a href="https://github.com/spatialdatahub/spatialdatahub.org" target="_blank">GitHub</a>
-</div>
-<!-- END FOOTER -->
-<!-- or cdnjs repo -->
-
-<!-- JS-->
-{% block js %}
-{% endblock js %}
-<!-- JS -->
+    <!-- JS-->
+    {% block js %}
+    {% endblock js %}
+    <!-- JS -->
 
   </body>
 </html>
