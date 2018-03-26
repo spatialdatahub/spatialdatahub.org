@@ -8,12 +8,15 @@ from accounts.models import Account
 
 from datasets.forms import DatasetCreateForm
 from datasets.forms import DatasetUpdateForm
+
 from datasets.models import Dataset
+
 from datasets.views import new_dataset
 from datasets.views import dataset_detail
 from datasets.views import dataset_update
 from datasets.views import dataset_update_auth
 from datasets.views import dataset_remove
+from datasets.views import embed_dataset
 
 from cryptography.fernet import Fernet
 
@@ -188,6 +191,78 @@ class DatasetDetailViewTests(TestCase):
                          response.context)
         self.assertNotIn("dataset_user",
                          response.content.decode("utf-8"))
+
+class EmbeddableDatasetViewTests(TestCase):
+
+    def setUp(self):
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
+
+        self.u2 = User.objects.create_user(
+            username="user_two", password="password_two")
+
+        self.a2 = self.u2.account
+        self.a2.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a2.save()
+
+        # pretty much login u1
+        self.logged_in = Client()
+        self.logged_in.login(username="test_user", password="test_password")
+        self.logged_in.is_authenticated = True
+        self.logged_in.id = self.u1.id
+
+        # make non logged in client
+        self.not_logged_in = Client()
+
+        self.ds1 = Dataset.objects.create(
+            account=self.a1,
+            author="Google",
+            title="Google GeoJSON Example",
+            description="Polygons spelling 'GOOGLE' over Australia",
+            url="https://storage.googleapis.com/maps-devrel/google.json",
+            public_access=True)
+
+    def test_embeddable_dataset_view_url_resolves(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/{pk}/embed/".format(
+                pk=self.ds1.pk))
+        self.assertEqual(response.status_code, 200)
+
+    def test_embeddable_dataset_view_has_open_Access_Control_Allow_Origin(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/{pk}/embed/".format(
+                pk=self.ds1.pk))
+        self.assertEqual(response["Access-Control-Allow-Origin"], "*")
+
+    def test_embeddable_dataset_view_has_right_Access_Control_Allow_Methods(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/{pk}/embed/".format(
+                pk=self.ds1.pk))
+        self.assertEqual(response["Access-Control-Allow-Methods"], "GET, OPTIONS")
+
+    def test_embeddable_dataset_view_has_correct_Access_Control_Max_Age(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/{pk}/embed/".format(
+                pk=self.ds1.pk))
+        # 43200 is apparently 12 hours
+        self.assertEqual(response["Access-Control-Max-Age"], "43200")
+
+    def test_embeddable_dataset_view_has_correct_Access_Control_Allow_Headers(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/{pk}/embed/".format(
+                pk=self.ds1.pk))
+        self.assertEqual(response["Access-Control-Allow-Headers"], "X-Requested-With, Content-Type")  
+
+    def test_embeddable_dataset_view_has_correct_Access_Control_Allow_Headers(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/{pk}/embed/".format(
+                pk=self.ds1.pk))
+        self.assertEqual(response["X-Frame-Options"], "ALLOW-FROM https://s3.eu-central-1.amazonaws.com/spatialdatahub-embed-test/")  
+
 
 class DatasetUpdateViewTests(TestCase):
 

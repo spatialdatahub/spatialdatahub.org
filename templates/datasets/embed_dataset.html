@@ -1,0 +1,125 @@
+{% extends "base_portal.html" %}
+{% load staticfiles %}
+
+{% block title %}{{ dataset.title }}{% endblock title %}
+
+{% block css %}
+
+<style>
+
+  #datasetsContainer {
+    height: 50em;
+    float: left;
+  }
+
+  #datasets-list {
+    overflow-y: auto;
+    height: 41em;
+  }
+
+  #mapContainer {
+    float: right;
+  }
+
+  #mapid {
+    height: 50em;
+    margin-bottom: 10px;
+  }
+
+  #find_place_container {
+    display: none;
+  }
+
+  #test_url_container {
+    display: none;
+  }
+
+  /*
+  #draw_polygon_container {
+    display: none;
+  }
+  */
+
+  #within_polygon_container {
+    display: none;
+  }
+
+</style>
+
+{% endblock css %}
+
+{% block breadcrumbs %}
+/ <a href="{{ account.get_absolute_url }}">{{ account.user }}</a>
+/ <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a>
+{% endblock breadcrumbs %}
+
+{% block portal_content %}
+
+  <h1>{{ dataset.title }} page</h1>
+  <hr/>
+  <h1>
+    {% if request.user == account.user %}
+      {{ request.user }}
+    {% endif %}
+  </h1>
+
+  <div class="row" id="main">
+    <div class="col-xs-12">
+    <p><b>Author:</b> {{ dataset.author }}</p>
+    <p><b>Description:</b> {{ dataset.description }}</p>
+    {% if keyword_list %}
+      <p><b>Keywords:</b>
+        {% for keyword in keyword_list %}
+          <a href="{{ keyword.get_absolute_url }}">{{ keyword.keyword }}</a>
+        {% endfor %}
+      </p>
+    {% endif %}
+
+    {% if request.user == account.user %}
+      <h4>
+        <a href="{% url 'datasets:add_keyword_to_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
+          Add a keyword to {{ dataset.title }}
+        </a>
+      </h4>
+      <h4>
+      {% if keyword_list %}
+        <a href="{% url 'datasets:remove_keyword_from_dataset' account.account_slug dataset.dataset_slug dataset.pk %}">
+          Remove a keyword from {{ dataset.title }}
+        </a>
+      </h4>
+      {% endif %}
+
+      <h4>
+        <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}">
+        Update Dataset Details
+      </a>
+      <h4>
+        <a href="{% url 'datasets:dataset_update_auth' account.account_slug dataset.dataset_slug dataset.pk %}">
+        Update Dataset Auth Details
+      </a>
+      <h4>
+        <a href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}">
+        Remove Dataset
+        </a>
+      </h4>
+    {% endif %}
+
+
+    <hr/>
+    </div>
+
+    <div class="col-xs-12" id="editmap">
+      {% include "pieces/editmap.html" %}
+    </div>
+
+    <div class="col-xs-12" id="mapContainer">
+      {% include "pieces/mymap.html" %}
+    </div>
+
+    <!-- I need to set this up so it loads by ajax -->
+    <div class="col-xs-12" id="datasetsContainer">
+      {% include "pieces/datasetlist.html" %}
+    </div>
+  </div>
+
+{% endblock portal_content %}

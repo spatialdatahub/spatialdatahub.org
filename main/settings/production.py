@@ -20,8 +20,12 @@ DEBUG = False
 ALLOWED_HOSTS = ['*'] # This must change
 
 # I am not sure why these are important.
-CSRF_COOKIE_SECURE = True
+# This is https stuff I think.
+# how is this stuff testable?
 SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 if 'RDS_HOSTNAME' in os.environ:
     DATABASES = {

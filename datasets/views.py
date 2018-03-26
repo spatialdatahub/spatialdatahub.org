@@ -31,6 +31,39 @@ def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     return render(request, template_name, context)
 
 
+# can I make a functional view with cors headers?
+def embed_dataset(request, account_slug=None, dataset_slug=None, pk=None):
+    '''
+    In this view I bring in the account and the dataset, and I check to see
+    if the dataset is protected by password and username, meaning I will have
+    to make the ajax call to the /load_dataset/<pk>/ view. If I don't have to
+    do this, I can just use a plain old XMLHttpRequest to get the data, which
+    should be faster than getting it through the server.
+    '''
+    account = get_object_or_404(Account, account_slug=account_slug)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    keyword_list = dataset.keywords.all()
+
+    context = {"account": account,
+               "keyword_list": keyword_list,
+               "dataset": dataset}
+    template_name = "datasets/embed_dataset.html"
+    response = render(request, template_name, context)
+
+    # here's the important part
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "43200"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+    # this is hacky and probably won't work in the end.
+    # there should be a better way. How does youtube or google.maps do this?
+    #response["X-Frame-Options"] = "ALLOW-FROM http://www.leibniz-zmt.de/"
+    response["X-Frame-Options"] = "ALLOW-FROM https://s3.eu-central-1.amazonaws.com/spatialdatahub-embed-test/"
+            
+    return response
+
+
+# is this view used anywhere?
 def dataset_ajax(request, account_slug=None, pk=None):
     dataset = get_object_or_404(Dataset, pk=pk)
     template_name = "datasets/dataset_ajax.html"
@@ -56,7 +89,7 @@ def new_dataset(request, account_slug):
 
         else:
             form = DatasetCreateForm()
-        template_name = "datasets/new_dataset.html"
+            template_name = "datasets/new_dataset.html"
         return render(request,
                       template_name,
                       {"form": form,
@@ -99,10 +132,10 @@ def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=Non
             dataset.keywords.create(keyword=keyword_lower)
 
         return redirect("datasets:dataset_detail",
-                    account_slug=account.account_slug,
-                    dataset_slug=dataset.dataset_slug,
-                    pk=dataset.pk)
-        
+                        account_slug=account.account_slug,
+                        dataset_slug=dataset.dataset_slug,
+                        pk=dataset.pk)
+    
     context = {"account": account, "dataset": dataset}
     template_name = "datasets/add_keyword_to_dataset.html"
     return render(request, template_name, context)
@@ -127,7 +160,7 @@ def remove_keyword_from_dataset(request, account_slug=None, dataset_slug=None, p
                         account_slug=account.account_slug,
                         dataset_slug=dataset.dataset_slug,
                         pk=dataset.pk)
-        
+    
     context = {"account": account, "dataset": dataset, "keyword_list": keyword_list}
     template_name = "datasets/remove_keyword_from_dataset.html"
     return render(request, template_name, context)
@@ -148,9 +181,9 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
                 updated_dataset = form.save(commit=False)
                 updated_dataset.account = account
                 updated_dataset.save(update_fields=[
-                                     "title", "author", "url",
-                                     "public_access", "description",
-                                     "dataset_slug"])
+                    "title", "author", "url",
+                    "public_access", "description",
+                    "dataset_slug"])
 
             return redirect("datasets:dataset_detail",
                             account_slug=account.account_slug,
@@ -158,7 +191,7 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
                             pk=dataset.pk)
         else:
             form = DatasetUpdateForm(instance=dataset)
-        template_name = "datasets/dataset_update.html"
+            template_name = "datasets/dataset_update.html"
         return render(request, template_name,
                       {"form": form,
                        "account": account,
@@ -186,7 +219,7 @@ def dataset_update_auth(request, account_slug=None,
                             pk=dataset.pk)
         else:
             form = DatasetUpdateAuthForm(instance=dataset)
-        template_name = "datasets/dataset_update_auth.html"
+            template_name = "datasets/dataset_update_auth.html"
         return render(request, template_name,
                       {"form": form,
                        "account": account,
