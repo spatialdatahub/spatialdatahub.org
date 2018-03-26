@@ -21,6 +21,7 @@ ALLOWED_HOSTS = ['*'] # This must change
 
 # I am not sure why these are important.
 # This is https stuff I think.
+# how is this stuff testable?
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True
