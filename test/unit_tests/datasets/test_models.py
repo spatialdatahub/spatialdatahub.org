@@ -100,10 +100,9 @@ class DatasetModelTests(TestCase):
         self.assertEqual(self.ds1.ext, "csv")
 
     def test_get_absolute_url_returns_correct_url(self):
-        expected_url = "/{account_slug}/{dataset_slug}/{pk}/".format(
+        expected_url = "/{account_slug}/{dataset_slug}/".format(
             account_slug=self.a1.account_slug,
-            dataset_slug=self.ds1.dataset_slug,
-            pk=self.ds1.pk)
+            dataset_slug=self.ds1.dataset_slug)
         self.assertEqual(self.ds1.get_absolute_url(), expected_url)
 
     def test_that_when_dataset_is_deleted_the_account_is_still_there(self):

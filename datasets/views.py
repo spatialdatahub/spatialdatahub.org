@@ -32,7 +32,7 @@ def dataset_detail(request, account_slug=None, dataset_slug=None):
 
 
 # can I make a functional view with cors headers?
-def embed_dataset(request, account_slug=None, dataset_slug=None, pk=None):
+def embed_dataset(request, account_slug=None, dataset_slug=None):
     '''
     In this view I bring in the account and the dataset, and I check to see
     if the dataset is protected by password and username, meaning I will have
@@ -41,7 +41,7 @@ def embed_dataset(request, account_slug=None, dataset_slug=None, pk=None):
     should be faster than getting it through the server.
     '''
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     keyword_list = dataset.keywords.all()
 
     context = {"account": account,
@@ -101,7 +101,7 @@ in the keywords app?
 '''
 
 @login_required
-def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=None):
+def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None):
     """ This works. It associates a keyword with a dataset, and if the keyword
         already exists, it simply gets that keyword and associates it with the
         dataset.
@@ -110,7 +110,7 @@ def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=Non
         dataset page as well.
     """
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     if "kw" in request.POST:
         kw = request.POST["kw"]
         # this isn't working. I think that get or create is not meant for many to many
@@ -139,7 +139,7 @@ def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=Non
     return render(request, template_name, context)
 
 @login_required
-def remove_keyword_from_dataset(request, account_slug=None, dataset_slug=None, pk=None):
+def remove_keyword_from_dataset(request, account_slug=None, dataset_slug=None):
     """ This works. It associates a keyword with a dataset, and if the keyword
         already exists, it simply gets that keyword and associates it with the
         dataset.
@@ -148,7 +148,7 @@ def remove_keyword_from_dataset(request, account_slug=None, dataset_slug=None, p
         dataset page as well.
     """
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     keyword_list = dataset.keywords.all()
     # I don't like this... how can I do it better?
     if "kw" in request.POST:
@@ -166,9 +166,9 @@ def remove_keyword_from_dataset(request, account_slug=None, dataset_slug=None, p
 
 
 @login_required
-def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
+def dataset_update(request, account_slug=None, dataset_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     if request.user.id != account.user.id:
         return redirect("access_denied")
     else:

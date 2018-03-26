@@ -17,7 +17,7 @@ urlpatterns = [
         views.dataset_detail,
         name="dataset_detail"),
 
-    url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/embed/$',
+    url(r'^(?P<dataset_slug>[-\w]*)/embed/$',
         views.embed_dataset,
         name="embed_dataset"),
 
@@ -29,7 +29,7 @@ urlpatterns = [
         views.remove_keyword_from_dataset,
         name="remove_keyword_from_dataset"),
 
-    url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>[0-9]+)/update/$',
+    url(r'^(?P<dataset_slug>[-\w]*)/update/$',
         views.dataset_update,
         name="dataset_update"),
 
