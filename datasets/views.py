@@ -12,7 +12,7 @@ from datasets.forms import DatasetUpdateAuthForm
 from keywords.models import Keyword
 
 
-def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
+def dataset_detail(request, account_slug=None, dataset_slug=None):
     '''
     In this view I bring in the account and the dataset, and I check to see
     if the dataset is protected by password and username, meaning I will have
@@ -21,7 +21,7 @@ def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
     should be faster than getting it through the server.
     '''
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     keyword_list = dataset.keywords.all()
 
     context = {"account": account,

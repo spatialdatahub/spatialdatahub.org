@@ -126,6 +126,6 @@ class Dataset(models.Model):
 
     def get_absolute_url(self):
         kwargs = {"account_slug": self.account.account_slug,
-                  "dataset_slug": self.dataset_slug,
-                  "pk": self.pk}
+                  "dataset_slug": self.dataset_slug}
+
         return reverse("datasets:dataset_detail", kwargs=kwargs)

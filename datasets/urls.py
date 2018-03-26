@@ -13,7 +13,7 @@ urlpatterns = [
         views.dataset_ajax,
         name="dataset_ajax"),
 
-    url(r'^(?P<dataset_slug>[-\w]*)/(?P<pk>\d+)/$',
+    url(r'^(?P<dataset_slug>[-\w]*)/$',
         views.dataset_detail,
         name="dataset_detail"),
 

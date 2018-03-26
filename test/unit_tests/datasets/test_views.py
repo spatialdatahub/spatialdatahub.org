@@ -141,8 +141,7 @@ class DatasetDetailViewTests(TestCase):
 
     def test_dataset_detail_view_url_resolves(self):
         response = self.not_logged_in.get(
-            "/test_user/google-geojson-example/{pk}/".format(
-                pk=self.ds1.pk))
+            "/test_user/google-geojson-example/")
         self.assertEqual(response.status_code, 200)
 
     def test_dataset_detail_view_title_is_correct(self):
@@ -150,8 +149,7 @@ class DatasetDetailViewTests(TestCase):
             reverse(
                 "datasets:dataset_detail",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}))
+                        "dataset_slug": self.ds1.dataset_slug}))
         self.assertIn("<title>ZMT | Google GeoJSON Example</title>",
                       response.content.decode("utf-8"))
 
@@ -160,8 +158,7 @@ class DatasetDetailViewTests(TestCase):
             reverse(
                 "datasets:dataset_detail",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}))
+                        "dataset_slug": self.ds1.dataset_slug}))
         self.assertEqual(self.ds1, response.context["dataset"])
         self.assertEqual(self.a1, response.context["account"])
 
@@ -173,8 +170,7 @@ class DatasetDetailViewTests(TestCase):
             reverse(
                 "datasets:dataset_detail",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds2.dataset_slug,
-                        "pk": self.ds2.pk}))
+                        "dataset_slug": self.ds2.dataset_slug}))
         self.assertNotIn(self.ds2.dataset_password,
                          response.context)
         self.assertNotIn("dataset_password",
@@ -185,8 +181,7 @@ class DatasetDetailViewTests(TestCase):
             reverse(
                 "datasets:dataset_detail",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds2.dataset_slug,
-                        "pk": self.ds2.pk}))
+                        "dataset_slug": self.ds2.dataset_slug}))
         self.assertNotIn(self.ds2.dataset_user,
                          response.context)
         self.assertNotIn("dataset_user",
