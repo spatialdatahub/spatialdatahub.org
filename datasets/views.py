@@ -58,7 +58,7 @@ def embed_dataset(request, account_slug=None, dataset_slug=None, pk=None):
     # this is hacky and probably won't work in the end.
     # there should be a better way. How does youtube or google.maps do this?
     #response["X-Frame-Options"] = "ALLOW-FROM http://www.leibniz-zmt.de/"
-    response["X-Frame-Options"] = "ALLOW-FROM https://s3.eu-central-1.amazonaws.com/spatialdatahub-embed-test/index.html"
+    response["X-Frame-Options"] = "ALLOW-FROM https://s3.eu-central-1.amazonaws.com/spatialdatahub-embed-test/"
             
     return response
 

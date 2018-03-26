@@ -248,7 +248,8 @@ class EmbeddableDatasetViewTests(TestCase):
         response = self.not_logged_in.get(
             "/test_user/google-geojson-example/{pk}/embed/".format(
                 pk=self.ds1.pk))
-        self.assertEqual(response["Access-Control-Max-Age"], "1000")
+        # 43200 is apparently 12 hours
+        self.assertEqual(response["Access-Control-Max-Age"], "43200")
 
     def test_embeddable_dataset_view_has_correct_Access_Control_Allow_Headers(self):
         response = self.not_logged_in.get(
@@ -260,7 +261,7 @@ class EmbeddableDatasetViewTests(TestCase):
         response = self.not_logged_in.get(
             "/test_user/google-geojson-example/{pk}/embed/".format(
                 pk=self.ds1.pk))
-        self.assertEqual(response["X-Frame-Options"], "ALLOW-FROM https://example.com/")  
+        self.assertEqual(response["X-Frame-Options"], "ALLOW-FROM https://s3.eu-central-1.amazonaws.com/spatialdatahub-embed-test/")  
 
 
 class DatasetUpdateViewTests(TestCase):
