@@ -84,8 +84,7 @@ def new_dataset(request, account_slug):
                 dataset.save()
                 return redirect("datasets:dataset_detail",
                                 account_slug=account.account_slug,
-                                dataset_slug=dataset.dataset_slug,
-                                pk=dataset.pk)
+                                dataset_slug=dataset.dataset_slug)
 
         else:
             form = DatasetCreateForm()
@@ -133,8 +132,7 @@ def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=Non
 
         return redirect("datasets:dataset_detail",
                         account_slug=account.account_slug,
-                        dataset_slug=dataset.dataset_slug,
-                        pk=dataset.pk)
+                        dataset_slug=dataset.dataset_slug)
     
     context = {"account": account, "dataset": dataset}
     template_name = "datasets/add_keyword_to_dataset.html"
@@ -158,8 +156,7 @@ def remove_keyword_from_dataset(request, account_slug=None, dataset_slug=None, p
         dataset.keywords.remove(kw)
         return redirect("datasets:dataset_detail",
                         account_slug=account.account_slug,
-                        dataset_slug=dataset.dataset_slug,
-                        pk=dataset.pk)
+                        dataset_slug=dataset.dataset_slug)
     
     context = {"account": account, "dataset": dataset, "keyword_list": keyword_list}
     template_name = "datasets/remove_keyword_from_dataset.html"
@@ -187,8 +184,7 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
 
             return redirect("datasets:dataset_detail",
                             account_slug=account.account_slug,
-                            dataset_slug=dataset.dataset_slug,
-                            pk=dataset.pk)
+                            dataset_slug=dataset.dataset_slug)
         else:
             form = DatasetUpdateForm(instance=dataset)
             template_name = "datasets/dataset_update.html"
@@ -215,8 +211,7 @@ def dataset_update_auth(request, account_slug=None,
 
             return redirect("datasets:dataset_detail",
                             account_slug=account.account_slug,
-                            dataset_slug=dataset.dataset_slug,
-                            pk=dataset.pk)
+                            dataset_slug=dataset.dataset_slug)
         else:
             form = DatasetUpdateAuthForm(instance=dataset)
             template_name = "datasets/dataset_update_auth.html"

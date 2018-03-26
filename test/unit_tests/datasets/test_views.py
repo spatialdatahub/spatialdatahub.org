@@ -85,8 +85,7 @@ class NewDatasetViewTests(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"],
-                         "/test_user/{slug}/{pk}/".format(
-                         slug="test-dataset", pk=last_pk)) # I need to make this number relative
+                         "/test_user/{slug}/".format(slug="test-dataset")) # I need to make this number relative
 
     def test_new_dataset_view_saves_new_dataset(self):
         self.logged_in.post(
@@ -354,8 +353,7 @@ class DatasetUpdateViewTests(TestCase):
                   "url": "https://duckduckgo.com/"})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"],
-                         "/test_user/test-dataset/{pk}/".format(
-                         pk=self.ds1.pk))
+                         "/test_user/test-dataset/")
 
     def test_dataset_update_view_updates_dataset(self):
         self.logged_in.post(
@@ -420,22 +418,6 @@ class DatasetUpdateViewTests(TestCase):
                   "description": "This is a test dataset",
                   "url": "https://duckduckgo.com/"}, follow=True)
 
-        # set base dir
-        #BASE_DIR = os.path.dirname(os.path.dirname(
-        #    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-        ## get key from file
-        #with open(BASE_DIR + "/secrets.json") as f:
-        #    secrets = json.loads(f.read())
-#
-#        def get_secret(setting, secrets=secrets):
-#            """Get the secret variable or return the explicit exception."""
-#            try:
-#                return secrets[setting]
-#            except KeyError:
-#                error_msg = "Set the {0} environment variable".format(setting)
-#                raise ImproperlyConfigured(error_msg)
-#
-#        CRYPTO_KEY = get_secret("CRYPTO_KEY")
         CRYPTO_KEY = os.environ.get("CRYPTO_KEY")
         
         cipher_start = Fernet(CRYPTO_KEY)
