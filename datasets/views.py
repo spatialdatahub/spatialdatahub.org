@@ -195,10 +195,9 @@ def dataset_update(request, account_slug=None, dataset_slug=None):
 
 
 @login_required
-def dataset_update_auth(request, account_slug=None,
-                        dataset_slug=None, pk=None):
+def dataset_update_auth(request, account_slug=None, dataset_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     if request.user.id != account.user.id:
         return redirect("access_denied")
     else:
@@ -222,9 +221,9 @@ def dataset_update_auth(request, account_slug=None,
 
 
 @login_required
-def dataset_remove(request, account_slug=None, dataset_slug=None, pk=None):
+def dataset_remove(request, account_slug=None, dataset_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     context = {"account": account, "dataset": dataset}
     template_name = "datasets/dataset_remove.html"
     if request.user.id != account.user.id:

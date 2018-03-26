@@ -485,14 +485,12 @@ class DatasetRemoveViewTests(TestCase):
 
     def test_dataset_remove_view_url_does_not_resolve_for_non_logged_in_users(self):
         response = self.not_logged_in.get(
-            "/test_user/google-geojson-example/{pk}/remove/".format(
-                pk=self.ds1.pk))
+            "/test_user/google-geojson-example/remove/")
         self.assertEqual(response.status_code, 302)
 
     def test_dataset_remove_view_url_resolves(self):
         response = self.logged_in.get(
-            "/test_user/google-geojson-example/{pk}/remove/".format(
-                pk=self.ds1.pk))
+            "/test_user/google-geojson-example/remove/")
         self.assertEqual(response.status_code, 200)
 
     def test_dataset_remove_view_title_is_correct(self):
@@ -500,8 +498,7 @@ class DatasetRemoveViewTests(TestCase):
             reverse(
                 "datasets:dataset_remove",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}))
+                        "dataset_slug": self.ds1.dataset_slug}))
         self.assertIn("<title>ZMT | Remove Dataset</title>",
                       response.content.decode("utf-8"))
 
@@ -510,8 +507,7 @@ class DatasetRemoveViewTests(TestCase):
             reverse(
                 "datasets:dataset_remove",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}),
+                        "dataset_slug": self.ds1.dataset_slug}),
                 follow=False)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"], "/test_user/")
@@ -521,7 +517,6 @@ class DatasetRemoveViewTests(TestCase):
             reverse(
                 "datasets:dataset_remove",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}),
+                        "dataset_slug": self.ds1.dataset_slug}),
             follow=True)
         self.assertFalse(Dataset.objects.all())

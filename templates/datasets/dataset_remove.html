@@ -5,7 +5,7 @@
 {% block breadcrumbs %}
   / <a href="{{ account.get_absolute_url }}">{{ account.user }}</a>
   / <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a>
-  / <a href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug dataset.pk %}">remove</a>
+  / <a href="{% url 'datasets:dataset_remove' account.account_slug dataset.dataset_slug %}">remove</a>
 {% endblock breadcrumbs %}
 
 {% block content %}
