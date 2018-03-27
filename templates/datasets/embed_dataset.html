@@ -30,12 +30,12 @@
       }
 
       .main-map {
-        display: flex;
+      display: flex;
 
       }
 
       .dataset {
-        display: none;
+      display: none;
       }
 
       #mapid {
@@ -55,9 +55,20 @@
     <!-- END NOSCRIPT -->
 
     <div class="main-map">
-    <div class="custom-popup" id="mapid"></div>
+      <div class="custom-popup" id="mapid"></div>
     </div>
-    <div class="dataset">hey</div>
+    <div class="dataset">
+      {% if dataset.dataset_password %}
+      <div name="dataset" id="{{ dataset.pk }}" detail="yeah"
+           value="{{ dataset.ext }}">
+      </div>
+      {% else %}
+      <div name="dataset" id="{{ dataset.pk }}" detail="yeah"
+           value="{{ dataset.ext }}" url="{{ dataset.url }}">
+      </div>
+      {% endif %}
+
+    </div>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.10/bootstrap-native.min.js"></script>
     <script src="{% static 'js/bundle.js' %}"></script>
