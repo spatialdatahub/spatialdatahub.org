@@ -24,7 +24,7 @@ deploy:
     secure: "$SECRETACCESSKEY"
   region: "eu-central-1"  
   app: "spatialdatahub"
-  env: "spatialdatahub-dev"
+  env: "spatialdatahub-env"
   bucket_name: "elasticbeanstalk-eu-central-1-707675293479"
   on:
     branch: master
