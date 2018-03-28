@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>ZMT | {% block title %}{% endblock title%}</title>
+    <title>ZMT | {% block title %}{{ dataset.title }}{% endblock title%}</title>
 
     <link rel="shortcut icon" type="image/png" href="{% static 'images/zmt_favicon.ico' %}">
 
