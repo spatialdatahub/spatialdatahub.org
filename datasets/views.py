@@ -31,14 +31,9 @@ def dataset_detail(request, account_slug=None, dataset_slug=None):
     return render(request, template_name, context)
 
 
-# can I make a functional view with cors headers?
 def embed_dataset(request, account_slug=None, dataset_slug=None):
     '''
-    In this view I bring in the account and the dataset, and I check to see
-    if the dataset is protected by password and username, meaning I will have
-    to make the ajax call to the /load_dataset/<pk>/ view. If I don't have to
-    do this, I can just use a plain old XMLHttpRequest to get the data, which
-    should be faster than getting it through the server.
+
     '''
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
@@ -57,6 +52,54 @@ def embed_dataset(request, account_slug=None, dataset_slug=None):
     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
     # this is hacky and probably won't work in the end.
     # there should be a better way. How does youtube or google.maps do this?
+    #response["X-Frame-Options"] = "ALLOW-FROM http://www.leibniz-zmt.de/"
+    response["X-Frame-Options"] = "ALLOW-FROM https://s3.eu-central-1.amazonaws.com/spatialdatahub-embed-test/"
+            
+    return response
+
+def embed_dataset(request, account_slug=None, dataset_slug=None):
+    '''
+
+    '''
+    account = get_object_or_404(Account, account_slug=account_slug)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
+    keyword_list = dataset.keywords.all()
+
+    context = {"account": account,
+               "keyword_list": keyword_list,
+               "dataset": dataset}
+    template_name = "datasets/embed_dataset.html"
+    response = render(request, template_name, context)
+
+    # here's the important part
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "43200"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+    response["X-Frame-Options"] = "ALLOW-FROM http://www.leibniz-zmt.de/"
+    #response["X-Frame-Options"] = "ALLOW-FROM https://s3.eu-central-1.amazonaws.com/spatialdatahub-embed-test/"
+            
+    return response
+
+def sanity_dataset(request, account_slug=None, dataset_slug=None):
+    '''
+
+    '''
+    account = get_object_or_404(Account, account_slug=account_slug)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
+    keyword_list = dataset.keywords.all()
+
+    context = {"account": account,
+               "keyword_list": keyword_list,
+               "dataset": dataset}
+    template_name = "datasets/embed_dataset.html"
+    response = render(request, template_name, context)
+
+    # here's the important part
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "43200"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
     #response["X-Frame-Options"] = "ALLOW-FROM http://www.leibniz-zmt.de/"
     response["X-Frame-Options"] = "ALLOW-FROM https://s3.eu-central-1.amazonaws.com/spatialdatahub-embed-test/"
             

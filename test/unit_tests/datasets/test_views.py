@@ -252,7 +252,8 @@ class EmbeddableDatasetViewTests(TestCase):
     def test_embeddable_dataset_view_has_correct_Access_Control_Allow_Headers(self):
         response = self.not_logged_in.get(
             "/test_user/google-geojson-example/embed/")
-        self.assertEqual(response["X-Frame-Options"], "ALLOW-FROM https://s3.eu-central-1.amazonaws.com/spatialdatahub-embed-test/")  
+        #self.assertEqual(response["X-Frame-Options"], "ALLOW-FROM https://s3.eu-central-1.amazonaws.com/spatialdatahub-embed-test/")  
+        self.assertEqual(response["X-Frame-Options"], "ALLOW-FROM http://www.leibniz-zmt.de/")  
 
 
 class DatasetUpdateViewTests(TestCase):
