@@ -37,7 +37,6 @@ class DatasetDetailSerialized(TemplateView):
     """Going to use the class based view "TemplateView" along with a serializer to pass the data to the template and also to the javascript."""
     template_name = "datasets/dataset_detail_serialized.html"
 
-    
     def get_context_data(self, **kwargs):
 
         old_context = super().get_context_data(**kwargs)
@@ -64,32 +63,51 @@ class DatasetDetailSerialized(TemplateView):
 
         return context
 
-
-def dataset_detail_serialized(request, account_slug=None, dataset_slug=None, pk=None):
-    '''
-    In this view I bring in the account and the dataset, and I check to see
-    if the dataset is protected by password and username, meaning I will have
-    to make the ajax call to the /load_dataset/<pk>/ view. If I don't have to
-    do this, I can just use a plain old XMLHttpRequest to get the data, which
-    should be faster than getting it through the server.
-    '''
+def embed_dataset(request, account_slug=None, dataset_slug=None):
+    """
+    This is the page that will be embedded into the ZMT's staff pages.
+    """
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     keyword_list = dataset.keywords.all()
 
     context = {"account": account,
                "keyword_list": keyword_list,
                "dataset": dataset}
-    template_name = "datasets/dataset_detail_serialized.html"
-    return render(request, template_name, context)
+    template_name = "datasets/embed_dataset.html"
+    response = render(request, template_name, context)
 
+    # here's the important part
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "43200"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+    response["X-Frame-Options"] = "ALLOW-FROM http://www.leibniz-zmt.de/"
+    
+    return response
 
+def sanity_dataset(request, account_slug=None, dataset_slug=None):
+    """
+    This page is just here so that I know embedding works.
+    """
+    account = get_object_or_404(Account, account_slug=account_slug)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
+    keyword_list = dataset.keywords.all()
 
-def dataset_ajax(request, account_slug=None, pk=None):
-    dataset = get_object_or_404(Dataset, pk=pk)
-    template_name = "datasets/dataset_ajax.html"
-    return render(request, template_name, {"dataset": dataset})
+    context = {"account": account,
+               "keyword_list": keyword_list,
+               "dataset": dataset}
+    template_name = "datasets/embed_dataset.html"
+    response = render(request, template_name, context)
 
+    # here's the important part
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Max-Age"] = "43200"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
+    response["X-Frame-Options"] = "ALLOW-FROM https://s3.eu-central-1.amazonaws.com/spatialdatahub-embed-test/"
+    
+    return response
 
 @login_required
 def new_dataset(request, account_slug):
