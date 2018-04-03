@@ -21,18 +21,6 @@ def load_dataset(request, pk):
     Maybe there's a better wy to do this whole secret crypto key thing, I
     still don't feel like it's secure enough
     """
-#    with open("secrets.json") as f:
-#        secrets = json.loads(f.read())
-#
-#    def get_secret(setting, secrets=secrets):
-#        """Get the secret variable or return the explicit exception."""
-#        try:
-#            return secrets[setting]
-#        except KeyError:
-#            error_msg = "Set the {0} environment variable".format(setting)
-#            raise ImproperlyConfigured(error_msg)
-
-#    CRYPTO_KEY = get_secret("CRYPTO_KEY")
     CRYPTO_KEY = os.environ.get("CRYPTO_KEY")
     cipher_end = Fernet(CRYPTO_KEY)
 
@@ -74,7 +62,7 @@ def portal(request):
             Q(account__user__username__icontains=q) |
             Q(author__icontains=q) |
             Q(keywords__keyword__icontains=q)
-            ).order_by("title").distinct()
+        ).order_by("title").distinct()
     else:
         dataset_list = D.order_by("title")
 
@@ -95,10 +83,9 @@ def portal_grid(request):
             Q(account__user__username__icontains=q) |
             Q(author__icontains=q) |
             Q(keywords__keyword__icontains=q)
-            ).order_by("title").distinct()
+        ).order_by("title").distinct()
     else:
         dataset_list = D.order_by("title")
 
     template_name = "portal_grid.html"
     return render(request, template_name, {"dataset_list": dataset_list})
-

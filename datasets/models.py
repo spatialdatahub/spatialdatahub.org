@@ -11,27 +11,7 @@ from cryptography.fernet import Fernet
 import json
 import os
 
-# This is pretty much copied from the two scoops of django 1.8 book
-# It's actually supposed to be for the settings module, but I thought
-# it would be a good place to keep the crypto key as well. We'll see
-# JSON based secrets module
 
-# Maybe this could be imported from settings or something? Maybe it
-# could be kept in a different file called 'crypto.json'
-#with open("secrets.json") as f:
-#    secrets = json.loads(f.read())
-
-
-#def get_secret(setting, secrets=secrets):
-#    """Get the secret variable or return the explicit exception."""
-#    try:
-#        return secrets[setting]
-#    except KeyError:
-#        error_msg = "Set the {0} environment variable".format(setting)
-#        raise ImproperlyConfigured(error_msg)
-
-
-#CRYPTO_KEY = get_secret("CRYPTO_KEY")
 CRYPTO_KEY = os.environ.get("CRYPTO_KEY")
 cipher = Fernet(CRYPTO_KEY)
 

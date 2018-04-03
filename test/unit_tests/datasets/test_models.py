@@ -141,22 +141,6 @@ class DatasetModelTests(TestCase):
         self.assertNotEqual(dataset.dataset_user, "zmtdummy")
 
     def test_that_PASSWORD_PROTECTED_dataset_password_can_be_decrypted(self):
-        # set base dir
-        #BASE_DIR = os.path.dirname(os.path.dirname(
-        #    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-        ## get key from file
-        #with open(BASE_DIR + "/secrets.json") as f:
-        #    secrets = json.loads(f.read())
-#
-#        def get_secret(setting, secrets=secrets):
-#            """Get the secret variable or return the explicit exception."""
-#            try:
-#                return secrets[setting]
-#            except KeyError:
-#                error_msg = "Set the {0} environment variable".format(setting)
-#                raise ImproperlyConfigured(error_msg)
-#
-#        CRYPTO_KEY = get_secret("CRYPTO_KEY")
         CRYPTO_KEY = os.environ.get("CRYPTO_KEY")
         cipher_end = Fernet(CRYPTO_KEY)
 
@@ -168,22 +152,6 @@ class DatasetModelTests(TestCase):
         self.assertEqual(decrypted_password, "zmtBremen1991")
 
     def test_that_PASSWORD_PROTECTED_dataset_user_can_be_decrypted(self):
-        # set base dir
-        #BASE_DIR = os.path.dirname(os.path.dirname(
-        #    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-        ## get key from file
-        #with open(BASE_DIR + "/secrets.json") as f:
-        #    secrets = json.loads(f.read())
-#
-#        def get_secret(setting, secrets=secrets):
-#            """Get the secret variable or return the explicit exception."""
-#            try:
-#                return secrets[setting]
-#            except KeyError:
-#                error_msg = "Set the {0} environment variable".format(setting)
-#                raise ImproperlyConfigured(error_msg)
-##
-#        CRYPTO_KEY = get_secret("CRYPTO_KEY")
         CRYPTO_KEY = os.environ.get("CRYPTO_KEY")
         cipher_end = Fernet(CRYPTO_KEY)
 
