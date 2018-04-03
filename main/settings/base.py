@@ -1,6 +1,7 @@
 # settings/base.py
 """
 THIS PROJECT IS NOW USING DJANGO VERSION 1.11
+THIS PROJECT IS NOW USING DJANGO VERSION 2.0
 """
 
 import os
@@ -20,22 +21,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 # This is pretty much copied from the two scoops of django 1.8 book
 # JSON based secrets module
-if 'TRAVIS' in os.environ:
-    with open("travis-secrets.json") as f:
-        secrets = json.loads(f.read())
-else:
-    with open("secrets.json") as f:
-        secrets = json.loads(f.read())
-
-def get_secret(setting, secrets=secrets):
-    """Get the secret variable or return the explicit exception."""
-    try:
-        return secrets[setting]
-    except KeyError:
-        error_msg = "Set the {0} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
-
-SECRET_KEY = get_secret("SECRET_KEY")
+#with open("secrets.json") as f:
+#    secrets = json.loads(f.read())
+#
+#def get_secret(setting, secrets=secrets):
+#    """Get the secret variable or return the explicit exception."""
+#    try:
+#        return secrets[setting]
+#    except KeyError:
+#        error_msg = "Set the {0} environment variable".format(setting)
+#        raise ImproperlyConfigured(error_msg)
+#
+#SECRET_KEY = get_secret("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 ALLOWED_HOSTS = []
 
@@ -60,30 +58,7 @@ INSTALLED_APPS = [
     "accounts",
     "datasets",
     "keywords",
-    #"api",
 ]
-
-#REST_FRAMEWORK = {
-#    "DEFAULT_PERMISSIONS_CLASSES": [
-#        "rest_framework.permissions.IsAdminUser",
-#    ],
-#    "PAGE_SIZE": 10
-#}
-
-
-"""
-# Pre-Django 2.0
-MIDDLEWARE_CLASSES = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-]
-"""
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -115,20 +90,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "main.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": get_secret("DATABASES_NAME"),
-        "USER": get_secret("DATABASES_USER"),
-        "PASSWORD": get_secret("DATABASES_PASSWORD"),
-        "HOST": get_secret("DATABASES_HOST"),
-        "PORT": get_secret("DATABASES_PORT"),
-    }
-}
-
-
 AUTH_USER_MODEL = "core.User"
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -148,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -165,17 +126,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-
+# I am going to change this to use a cdn maybe that should be in the production file
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "../spatialdatahub.org-static/build"),
 ]
 
 # set the STATIC_ROOT to a directory I would like to serve the static files
 # from. Maybe just outside of the BASE_DIR would be good for development, but I
 # think that maybe a specific place for the deployed version would be good.
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_root")
+#STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_root")
 
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)

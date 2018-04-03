@@ -11,25 +11,33 @@ The secret key and database info should come from the same file, and it
 should probably be a JSON file (per two scoops of django's suggestion).
 """
 
-with open('/etc/secret_key.txt') as f:
-    SECRET_KEY = f.read().strip()
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = False
 
 #ALLOWED_HOSTS = ['https://map.leibniz-zmt.de/']
-ALLOWED_HOSTS = ['map.leibniz-zmt.de/', '127.0.0.1', 'localhost'] # for the time being
+#ALLOWED_HOSTS = ['map.leibniz-zmt.de/', '127.0.0.1', 'localhost'] # for the time being
+ALLOWED_HOSTS = ['*'] # This must change
 
 # I am not sure why these are important.
-CSRF_COOKIE_SECURE = True
+# This is https stuff I think.
+# how is this stuff testable?
 SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": get_secret("DATABASES_NAME"),
-        "USER": get_secret("DATABASES_USER"),
-        "PASSWORD": get_secret("DATABASES_PASSWORD"),
-        "HOST": get_secret("DATABASES_HOST"),
-        "PORT": get_secret("DATABASES_PORT"),
+if 'RDS_HOSTNAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
     }
-}
+
+
+STATIC_URL = "https://s3.eu-central-1.amazonaws.com/spatialdatahub-static/"
