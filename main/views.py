@@ -73,8 +73,6 @@ def portal(request):
     template_name = "portal.html"
     return render(request, template_name, {"dataset_list": dataset_list})
 
-<<<<<<< HEAD
-
 # do I have a reason to do this as a class based view?
 # no.
 
@@ -112,13 +110,10 @@ def portal_serialized(request):
     return render(request, template_name, context)
 
 def portal_react(request):
-=======
-def portal_grid(request):
     """
     I'm not ready to try and make this filter function ajax yet. That will
     have to wait a bit longer.
     """
->>>>>>> master
     D = Dataset.objects.all()
 
     if "q" in request.GET:
@@ -132,7 +127,6 @@ def portal_grid(request):
     else:
         dataset_list = D.order_by("title")
 
-<<<<<<< HEAD
     json_data = serializers.serialize("json",
                                       dataset_list,
                                       fields=("title",
@@ -151,7 +145,40 @@ def portal_grid(request):
 
     template_name = "portal_react.html"
     return render(request, template_name, context)
-=======
+
+def portal_grid(request):
+    """
+    I'm not ready to try and make this filter function ajax yet. That will
+    have to wait a bit longer.
+    """
+    D = Dataset.objects.all()
+
+    if "q" in request.GET:
+        q = request.GET["q"]
+        dataset_list = D.filter(
+            Q(title__icontains=q) |
+            Q(account__user__username__icontains=q) |
+            Q(author__icontains=q) |
+            Q(keywords__keyword__icontains=q)
+        ).order_by("title").distinct()
+    else:
+        dataset_list = D.order_by("title")
+
+    json_data = serializers.serialize("json",
+                                      dataset_list,
+                                      fields=("title",
+                                              "author",
+                                              "dataset_slug",
+                                              "account",
+                                              "description",
+                                              "url",
+                                              "ext",
+                                              "keywords"),
+                                      use_natural_foreign_keys=True) # mega hack here. there should be a better way
+    context = {
+        "dataset_list": dataset_list,
+        "json_data": json_data
+    }
+
     template_name = "portal_grid.html"
     return render(request, template_name, {"dataset_list": dataset_list})
->>>>>>> master
