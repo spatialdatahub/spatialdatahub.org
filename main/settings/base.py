@@ -19,20 +19,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-# This is pretty much copied from the two scoops of django 1.8 book
-# JSON based secrets module
-#with open("secrets.json") as f:
-#    secrets = json.loads(f.read())
-#
-#def get_secret(setting, secrets=secrets):
-#    """Get the secret variable or return the explicit exception."""
-#    try:
-#        return secrets[setting]
-#    except KeyError:
-#        error_msg = "Set the {0} environment variable".format(setting)
-#        raise ImproperlyConfigured(error_msg)
-#
-#SECRET_KEY = get_secret("SECRET_KEY")
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 ALLOWED_HOSTS = []
@@ -49,9 +35,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
-    # THIRD PARTY
-    # "rest_framework",
 
     # LOCAL
     "core",
@@ -148,6 +131,8 @@ LOGIN_REDIRECT_URL = '/'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Going to set up the email with a dummy gmail account
+# this all must be changed to environmental variables in the aws elastic beanstalk setup
+# also this email account needs to be destroyed.
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

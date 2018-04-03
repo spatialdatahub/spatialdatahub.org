@@ -12,6 +12,7 @@ import requests
 import owncloud
 import os
 import json
+import os
 
 from cryptography.fernet import Fernet
 
@@ -24,25 +25,7 @@ def load_dataset(request, pk):
     Maybe there's a better wy to do this whole secret crypto key thing, I
     still don't feel like it's secure enough
     """
-    #with open("secrets.json") as f:
-    #    secrets = json.loads(f.read())
-    if 'TRAVIS' in os.environ:
-        with open("travis-secrets.json") as f:
-            secrets = json.loads(f.read())
-    else:
-        with open("secrets.json") as f:
-            secrets = json.loads(f.read())
-
-
-    def get_secret(setting, secrets=secrets):
-        """Get the secret variable or return the explicit exception."""
-        try:
-            return secrets[setting]
-        except KeyError:
-            error_msg = "Set the {0} environment variable".format(setting)
-            raise ImproperlyConfigured(error_msg)
-
-    CRYPTO_KEY = get_secret("CRYPTO_KEY")
+    CRYPTO_KEY = os.environ.get("CRYPTO_KEY")
     cipher_end = Fernet(CRYPTO_KEY)
 
     # bring in the dataset by pk
@@ -90,6 +73,7 @@ def portal(request):
     template_name = "portal.html"
     return render(request, template_name, {"dataset_list": dataset_list})
 
+<<<<<<< HEAD
 
 # do I have a reason to do this as a class based view?
 # no.
@@ -128,6 +112,13 @@ def portal_serialized(request):
     return render(request, template_name, context)
 
 def portal_react(request):
+=======
+def portal_grid(request):
+    """
+    I'm not ready to try and make this filter function ajax yet. That will
+    have to wait a bit longer.
+    """
+>>>>>>> master
     D = Dataset.objects.all()
 
     if "q" in request.GET:
@@ -141,6 +132,7 @@ def portal_react(request):
     else:
         dataset_list = D.order_by("title")
 
+<<<<<<< HEAD
     json_data = serializers.serialize("json",
                                       dataset_list,
                                       fields=("title",
@@ -159,3 +151,7 @@ def portal_react(request):
 
     template_name = "portal_react.html"
     return render(request, template_name, context)
+=======
+    template_name = "portal_grid.html"
+    return render(request, template_name, {"dataset_list": dataset_list})
+>>>>>>> master

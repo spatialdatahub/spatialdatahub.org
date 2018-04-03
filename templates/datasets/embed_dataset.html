@@ -1,0 +1,77 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ZMT | {% block title %}{{ dataset.title }}{% endblock title%}</title>
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/zmt_favicon.ico' %}">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <link rel="stylesheet" href="{% static 'css/map.css' %}" />
+
+    <!-- marker cluster cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.5/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.0.5/MarkerCluster.Default.css" />
+
+    <style>
+
+      .main-map, html, body {
+      height: 100%;
+      margin: 0;
+      }
+
+      .main-map {
+      display: flex;
+
+      }
+
+      .dataset {
+      display: none;
+      }
+
+      #mapid {
+      height: 100%;
+      width: 100%;
+      }
+    </style>
+
+  </head>
+  <body>
+    <!-- NOSCRIPT -->
+    <div class="container">
+      <noscript>
+        <h2>Warning: without javascript enabled this site will not show maps or retreive data. Also, the buttons will be broken and dataset links will not show up.</h2>
+      </noscript>
+    </div>
+    <!-- END NOSCRIPT -->
+
+    <div class="main-map">
+      <div class="custom-popup" id="mapid"></div>
+    </div>
+    <div class="dataset">
+      {% if dataset.dataset_password %}
+      <div name="dataset" id="{{ dataset.pk }}" detail="yeah"
+           value="{{ dataset.ext }}">
+      </div>
+      {% else %}
+      <div name="dataset" id="{{ dataset.pk }}" detail="yeah"
+           value="{{ dataset.ext }}" url="{{ dataset.url }}">
+      </div>
+      {% endif %}
+
+    </div>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.10/bootstrap-native.min.js"></script>
+    <script src="{% static 'js/bundle.js' %}"></script>
+
+  </body>
+</html>

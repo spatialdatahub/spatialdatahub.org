@@ -10,6 +10,7 @@ from cryptography.fernet import Fernet
 
 import os
 import json
+import os
 
 CRYPTO_KEY = os.environ.get("CRYPTO_KEY")
 cipher = Fernet(CRYPTO_KEY)
@@ -105,6 +106,6 @@ class Dataset(models.Model):
 
     def get_absolute_url(self):
         kwargs = {"account_slug": self.account.account_slug,
-                  "dataset_slug": self.dataset_slug,
-                  "pk": self.pk}
+                  "dataset_slug": self.dataset_slug}
+
         return reverse("datasets:dataset_detail", kwargs=kwargs)

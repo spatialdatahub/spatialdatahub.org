@@ -8,12 +8,15 @@ from accounts.models import Account
 
 from datasets.forms import DatasetCreateForm
 from datasets.forms import DatasetUpdateForm
+
 from datasets.models import Dataset
+
 from datasets.views import new_dataset
 from datasets.views import dataset_detail
 from datasets.views import dataset_update
 from datasets.views import dataset_update_auth
 from datasets.views import dataset_remove
+from datasets.views import embed_dataset
 
 from cryptography.fernet import Fernet
 
@@ -23,6 +26,9 @@ import os
 User = get_user_model()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+# add keyword and remove keyword view tests are missing
 
 
 class NewDatasetViewTests(TestCase):
@@ -82,8 +88,7 @@ class NewDatasetViewTests(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"],
-                         "/test_user/{slug}/{pk}/".format(
-                         slug="test-dataset", pk=last_pk)) # I need to make this number relative
+                         "/test_user/{slug}/".format(slug="test-dataset")) # I need to make this number relative
 
     def test_new_dataset_view_saves_new_dataset(self):
         self.logged_in.post(
@@ -138,8 +143,7 @@ class DatasetDetailViewTests(TestCase):
 
     def test_dataset_detail_view_url_resolves(self):
         response = self.not_logged_in.get(
-            "/test_user/google-geojson-example/{pk}/".format(
-                pk=self.ds1.pk))
+            "/test_user/google-geojson-example/")
         self.assertEqual(response.status_code, 200)
 
     def test_dataset_detail_view_title_is_correct(self):
@@ -147,8 +151,7 @@ class DatasetDetailViewTests(TestCase):
             reverse(
                 "datasets:dataset_detail",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}))
+                        "dataset_slug": self.ds1.dataset_slug}))
         self.assertIn("<title>ZMT | Google GeoJSON Example</title>",
                       response.content.decode("utf-8"))
 
@@ -157,8 +160,7 @@ class DatasetDetailViewTests(TestCase):
             reverse(
                 "datasets:dataset_detail",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}))
+                        "dataset_slug": self.ds1.dataset_slug}))
         self.assertEqual(self.ds1, response.context["dataset"])
         self.assertEqual(self.a1, response.context["account"])
 
@@ -170,8 +172,7 @@ class DatasetDetailViewTests(TestCase):
             reverse(
                 "datasets:dataset_detail",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds2.dataset_slug,
-                        "pk": self.ds2.pk}))
+                        "dataset_slug": self.ds2.dataset_slug}))
         self.assertNotIn(self.ds2.dataset_password,
                          response.context)
         self.assertNotIn("dataset_password",
@@ -182,12 +183,78 @@ class DatasetDetailViewTests(TestCase):
             reverse(
                 "datasets:dataset_detail",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds2.dataset_slug,
-                        "pk": self.ds2.pk}))
+                        "dataset_slug": self.ds2.dataset_slug}))
         self.assertNotIn(self.ds2.dataset_user,
                          response.context)
         self.assertNotIn("dataset_user",
                          response.content.decode("utf-8"))
+
+class EmbeddableDatasetViewTests(TestCase):
+
+    def setUp(self):
+        self.u1 = User.objects.create_user(
+            username="test_user", password="test_password")
+
+        self.a1 = self.u1.account
+        self.a1.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a1.save()
+
+        self.u2 = User.objects.create_user(
+            username="user_two", password="password_two")
+
+        self.a2 = self.u2.account
+        self.a2.affiliation = "Zentrum für Marine Tropenökologie"
+        self.a2.save()
+
+        # pretty much login u1
+        self.logged_in = Client()
+        self.logged_in.login(username="test_user", password="test_password")
+        self.logged_in.is_authenticated = True
+        self.logged_in.id = self.u1.id
+
+        # make non logged in client
+        self.not_logged_in = Client()
+
+        self.ds1 = Dataset.objects.create(
+            account=self.a1,
+            author="Google",
+            title="Google GeoJSON Example",
+            description="Polygons spelling 'GOOGLE' over Australia",
+            url="https://storage.googleapis.com/maps-devrel/google.json",
+            public_access=True)
+
+    def test_embeddable_dataset_view_url_resolves(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/embed/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_embeddable_dataset_view_has_open_Access_Control_Allow_Origin(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/embed/")
+        self.assertEqual(response["Access-Control-Allow-Origin"], "*")
+
+    def test_embeddable_dataset_view_has_right_Access_Control_Allow_Methods(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/embed/")
+        self.assertEqual(response["Access-Control-Allow-Methods"], "GET, OPTIONS")
+
+    def test_embeddable_dataset_view_has_correct_Access_Control_Max_Age(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/embed/")
+        # 43200 is apparently 12 hours
+        self.assertEqual(response["Access-Control-Max-Age"], "43200")
+
+    def test_embeddable_dataset_view_has_correct_Access_Control_Allow_Headers(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/embed/")
+        self.assertEqual(response["Access-Control-Allow-Headers"], "X-Requested-With, Content-Type")  
+
+    def test_embeddable_dataset_view_has_correct_Access_Control_Allow_Headers(self):
+        response = self.not_logged_in.get(
+            "/test_user/google-geojson-example/embed/")
+        #self.assertEqual(response["X-Frame-Options"], "ALLOW-FROM https://s3.eu-central-1.amazonaws.com/spatialdatahub-embed-test/")  
+        self.assertEqual(response["X-Frame-Options"], "ALLOW-FROM http://www.leibniz-zmt.de/")  
+
 
 class DatasetUpdateViewTests(TestCase):
 
@@ -245,20 +312,17 @@ class DatasetUpdateViewTests(TestCase):
 
     def test_dataset_update_view_url_requires_logged_in_user(self):
         response = self.not_logged_in.get(
-            "/test_user/google-geojson-example/{pk}/update/".format(
-                pk=self.ds1.pk))
+            "/test_user/google-geojson-example/update/")
         self.assertEqual(response.status_code, 302)
 
     def test_dataset_update_view_url_resolves_for_logged_in_user(self):
         response = self.logged_in.get(
-            "/test_user/google-geojson-example/{pk}/update/".format(
-                pk=self.ds1.pk))
+            "/test_user/google-geojson-example/update/")
         self.assertEqual(response.status_code, 200)
 
     def test_dataset_update_view_url_does_not_resolve_for_incorrect_user(self):
         response = self.logged_in.get(
-            "/user_two/whatever/{pk}/update/".format(
-                pk=self.ds3.pk))
+            "/user_two/whatever/update/")
         self.assertEqual(response.status_code, 302)
 
     def test_dataset_update_view_title_is_correct(self):
@@ -266,8 +330,7 @@ class DatasetUpdateViewTests(TestCase):
             reverse(
                 "datasets:dataset_update",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}))
+                        "dataset_slug": self.ds1.dataset_slug}))
         self.assertIn("<title>ZMT | Update {title}</title>".format(
             title=self.ds1.title),
             response.content.decode("utf-8"))
@@ -277,23 +340,20 @@ class DatasetUpdateViewTests(TestCase):
             reverse(
                 "datasets:dataset_update",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}),
+                        "dataset_slug": self.ds1.dataset_slug}),
             data={"author": "pat", "title": "test dataset",
                   "description": "This is a test dataset",
                   "url": "https://duckduckgo.com/"})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"],
-                         "/test_user/test-dataset/{pk}/".format(
-                         pk=self.ds1.pk))
+                         "/test_user/test-dataset/")
 
     def test_dataset_update_view_updates_dataset(self):
         self.logged_in.post(
             reverse(
                 "datasets:dataset_update",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}),
+                        "dataset_slug": self.ds1.dataset_slug}),
             data={"author": "pat", "title": "test dataset",
                   "description": "This is a test dataset",
                   "url": "https://duckduckgo.com/"}, follow=True)
@@ -305,36 +365,12 @@ class DatasetUpdateViewTests(TestCase):
             reverse(
                 "datasets:dataset_update",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds2.dataset_slug,
-                        "pk": self.ds2.pk}),
+                        "dataset_slug": self.ds2.dataset_slug}),
             data={"author": "pat", "title": "test dataset",
                   "description": "This is a test dataset",
                   "url": "https://duckduckgo.com/"}, follow=True)
 
-        # set base dir
-        BASE_DIR = os.path.dirname(os.path.dirname(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-        # get key from file
-        #with open(BASE_DIR + "/secrets.json") as f:
-        #    secrets = json.loads(f.read())
-        if 'TRAVIS' in os.environ:
-            with open(BASE_DIR + "/travis-secrets.json") as f:
-                secrets = json.loads(f.read())
-        else:
-            with open("secrets.json") as f:
-                secrets = json.loads(f.read())
-
-
-
-        def get_secret(setting, secrets=secrets):
-            """Get the secret variable or return the explicit exception."""
-            try:
-                return secrets[setting]
-            except KeyError:
-                error_msg = "Set the {0} environment variable".format(setting)
-                raise ImproperlyConfigured(error_msg)
-
-        CRYPTO_KEY = get_secret("CRYPTO_KEY")
+        CRYPTO_KEY = os.environ.get("CRYPTO_KEY")
         cipher_start = Fernet(CRYPTO_KEY)
 
         test_dataset = Dataset.objects.get(title="test dataset")
@@ -343,43 +379,17 @@ class DatasetUpdateViewTests(TestCase):
 
         self.assertEqual(decrypted_password, "zmtBremen1991")
 
-
-
-
     def test_dataset_update_view_updates_dataset_but_not_auth_user(self):
         self.logged_in.post(
             reverse(
                 "datasets:dataset_update",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds2.dataset_slug,
-                        "pk": self.ds2.pk}),
+                        "dataset_slug": self.ds2.dataset_slug}),
             data={"author": "pat", "title": "test dataset",
                   "description": "This is a test dataset",
                   "url": "https://duckduckgo.com/"}, follow=True)
 
-        # set base dir
-        BASE_DIR = os.path.dirname(os.path.dirname(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-        # get key from file
-        #with open(BASE_DIR + "/secrets.json") as f:
-        #    secrets = json.loads(f.read())
-        if 'TRAVIS' in os.environ:
-            with open(BASE_DIR + "/travis-secrets.json") as f:
-                secrets = json.loads(f.read())
-        else:
-            with open("secrets.json") as f:
-                secrets = json.loads(f.read())
-
-
-        def get_secret(setting, secrets=secrets):
-            """Get the secret variable or return the explicit exception."""
-            try:
-                return secrets[setting]
-            except KeyError:
-                error_msg = "Set the {0} environment variable".format(setting)
-                raise ImproperlyConfigured(error_msg)
-
-        CRYPTO_KEY = get_secret("CRYPTO_KEY")
+        CRYPTO_KEY = os.environ.get("CRYPTO_KEY")
         cipher_start = Fernet(CRYPTO_KEY)
 
         test_dataset = Dataset.objects.get(title="test dataset")
@@ -387,6 +397,7 @@ class DatasetUpdateViewTests(TestCase):
         decrypted_user = cipher_start.decrypt(bytes_user).decode("utf-8")
 
         self.assertEqual(decrypted_user, "zmtdummy")
+
 '''
 
 class DatasetUpdateAuthViewTests(TestCase):
@@ -474,14 +485,12 @@ class DatasetRemoveViewTests(TestCase):
 
     def test_dataset_remove_view_url_does_not_resolve_for_non_logged_in_users(self):
         response = self.not_logged_in.get(
-            "/test_user/google-geojson-example/{pk}/remove/".format(
-                pk=self.ds1.pk))
+            "/test_user/google-geojson-example/remove/")
         self.assertEqual(response.status_code, 302)
 
     def test_dataset_remove_view_url_resolves(self):
         response = self.logged_in.get(
-            "/test_user/google-geojson-example/{pk}/remove/".format(
-                pk=self.ds1.pk))
+            "/test_user/google-geojson-example/remove/")
         self.assertEqual(response.status_code, 200)
 
     def test_dataset_remove_view_title_is_correct(self):
@@ -489,8 +498,7 @@ class DatasetRemoveViewTests(TestCase):
             reverse(
                 "datasets:dataset_remove",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}))
+                        "dataset_slug": self.ds1.dataset_slug}))
         self.assertIn("<title>ZMT | Remove Dataset</title>",
                       response.content.decode("utf-8"))
 
@@ -499,8 +507,7 @@ class DatasetRemoveViewTests(TestCase):
             reverse(
                 "datasets:dataset_remove",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}),
+                        "dataset_slug": self.ds1.dataset_slug}),
                 follow=False)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["location"], "/test_user/")
@@ -510,7 +517,6 @@ class DatasetRemoveViewTests(TestCase):
             reverse(
                 "datasets:dataset_remove",
                 kwargs={"account_slug": self.a1.account_slug,
-                        "dataset_slug": self.ds1.dataset_slug,
-                        "pk": self.ds1.pk}),
+                        "dataset_slug": self.ds1.dataset_slug}),
             follow=True)
         self.assertFalse(Dataset.objects.all())

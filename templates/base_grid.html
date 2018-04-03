@@ -11,9 +11,6 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'images/zmt_favicon.ico' %}">
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block css %}
@@ -25,10 +22,9 @@
   </head>
   <body>
 
-
     <!-- NEW HEADER / NAVBAR -->
     <div class="header">
-      <a href="http://www.zmt-bremen.de/en/zmt.html" target="_blank">
+      <a class="navbar-brand" href="http://www.zmt-bremen.de/en/zmt.html" target="_blank">
         <img src="{% static 'images/zmt_logo_white.png' %}" height="32" alt="ZMT Logo" />
       </a>
       <a href="{% url 'portal' %}">Home</a>
@@ -42,35 +38,36 @@
       <a href="{% url 'login' %}">Login</a>
       {% endif %}
     </div>
-    <!-- END NAVBAR -->
 
     <!-- NOSCRIPT -->
-    <div class="container">
       <noscript>
         <h2>Warning: without javascript enabled this site will not show maps or retreive data. Also, the buttons will be broken and dataset links will not show up.</h2>
       </noscript>
-    </div>
     <!-- END NOSCRIPT -->
 
-    <div class="container">
+
+    <div class="main">
       <!-- All the pages should have breadcrumbs -->
-      <div class="row">
-        <h4 class="col-xs-12">
-          <a href="{% url 'portal' %}" >Home</a>
-          {% block breadcrumbs %}{% endblock breadcrumbs %}
-        </h4>
+      <div>
+        <div>
+          <h4>
+            <a href="{% url 'portal' %}" >Home</a>
+            {% block breadcrumbs %}{% endblock breadcrumbs %}
+          </h4>
+        </div>
+        <h4 class="col-xs-12" id="selected_link"></h4>
       </div>
-      <hr />
-
-      <h4 class="col-xs-12" id="selected_link">
-      </h4>
-
-      {% block content %}
-      {% endblock content %}
+      <!-- end of breadcrumb area -->
+      <!-- CONTENT -->
+      <div class="content">
+        {% block content %}
+        {% endblock content %}
+      </div>
+      <!-- CONTENT -->
     </div>
-    <!-- CONTENT -->
 
     <!-- FOOTER -->
+
     <hr class="divider">
     <div class="footer">
       <a href="{% url 'about' %}">About</a>
@@ -79,9 +76,6 @@
     </div>
     <!-- END FOOTER -->
     <!-- or cdnjs repo -->
-
-    <!-- or cdnjs repo -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.10/bootstrap-native.min.js"></script>
 
     <!-- JS-->
     {% block js %}

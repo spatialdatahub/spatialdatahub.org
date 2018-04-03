@@ -13,7 +13,7 @@ import os
 
 User = get_user_model()
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class DatasetModelTests(TestCase):
@@ -100,10 +100,9 @@ class DatasetModelTests(TestCase):
         self.assertEqual(self.ds1.ext, "csv")
 
     def test_get_absolute_url_returns_correct_url(self):
-        expected_url = "/{account_slug}/{dataset_slug}/{pk}/".format(
+        expected_url = "/{account_slug}/{dataset_slug}/".format(
             account_slug=self.a1.account_slug,
-            dataset_slug=self.ds1.dataset_slug,
-            pk=self.ds1.pk)
+            dataset_slug=self.ds1.dataset_slug)
         self.assertEqual(self.ds1.get_absolute_url(), expected_url)
 
     def test_that_when_dataset_is_deleted_the_account_is_still_there(self):
@@ -142,32 +141,8 @@ class DatasetModelTests(TestCase):
         self.assertNotEqual(dataset.dataset_user, "zmtdummy")
 
     def test_that_PASSWORD_PROTECTED_dataset_password_can_be_decrypted(self):
-        # set base dir
-        BASE_DIR = os.path.dirname(os.path.dirname(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-        # get key from file
-        #with open(BASE_DIR + "/secrets.json") as f:
-        #    secrets = json.loads(f.read())
-
-        if 'TRAVIS' in os.environ:
-            with open(BASE_DIR + "/travis-secrets.json") as f:
-                secrets = json.loads(f.read())
-        else:
-            with open("secrets.json") as f:
-                secrets = json.loads(f.read())
-
-
-
-        def get_secret(setting, secrets=secrets):
-            """Get the secret variable or return the explicit exception."""
-            try:
-                return secrets[setting]
-            except KeyError:
-                error_msg = "Set the {0} environment variable".format(setting)
-                raise ImproperlyConfigured(error_msg)
-
-        CRYPTO_KEY = get_secret("CRYPTO_KEY")
+        CRYPTO_KEY = os.environ.get("CRYPTO_KEY")
         cipher_end = Fernet(CRYPTO_KEY)
 
         dataset = Dataset.objects.get(
@@ -178,31 +153,8 @@ class DatasetModelTests(TestCase):
         self.assertEqual(decrypted_password, "zmtBremen1991")
 
     def test_that_PASSWORD_PROTECTED_dataset_user_can_be_decrypted(self):
-        # set base dir
-        BASE_DIR = os.path.dirname(os.path.dirname(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-        # get key from file
-        #with open(BASE_DIR + "/secrets.json") as f:
-        #    secrets = json.loads(f.read())
-        if 'TRAVIS' in os.environ:
-            with open(BASE_DIR + "/travis-secrets.json") as f:
-                secrets = json.loads(f.read())
-        else:
-            with open("secrets.json") as f:
-                secrets = json.loads(f.read())
-
-
-        def get_secret(setting, secrets=secrets):
-            """Get the secret variable or return the explicit exception."""
-            try:
-                return secrets[setting]
-            except KeyError:
-                error_msg = "Set the {0} environment variable".format(setting)
-                raise ImproperlyConfigured(error_msg)
-
-        CRYPTO_KEY = get_secret("CRYPTO_KEY")
+        CRYPTO_KEY = os.environ.get("CRYPTO_KEY")
         cipher_end = Fernet(CRYPTO_KEY)
-
 
         dataset = Dataset.objects.get(
             dataset_slug="password-protected-dataset")

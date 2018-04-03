@@ -5,7 +5,7 @@
 {% block breadcrumbs %}
   / <a href="{{ account.get_absolute_url }}">{{ account.user }}</a>
   / <a href="{{ dataset.get_absolute_url }}">{{ dataset.title }}</a>
-  / <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug dataset.pk %}">update</a>
+  / <a href="{% url 'datasets:dataset_update' account.account_slug dataset.dataset_slug %}">update</a>
 {% endblock breadcrumbs %}
 
 {% block content %}
@@ -19,7 +19,7 @@
   </p>
 
   <p>
-    <a href="{% url 'datasets:dataset_update_auth' account.account_slug dataset.dataset_slug dataset.pk %}">
+    <a href="{% url 'datasets:dataset_update_auth' account.account_slug dataset.dataset_slug %}">
       Update {{ dataset.title }} authentication details
     </a>
   </p>

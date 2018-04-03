@@ -1,13 +1,32 @@
-language: python
+# spatialdatahub.org/.travis.yml
+
+sudo: required
+
+language:
+  - python
 
 python:
   - "3.6"
 
 install:
-  - "pip3 install -r requirements.txt"
+  - "pip install -r requirements.txt"
 
 script:
-  - "python manage.py makemigrations --settings=main.settings.dev"
-  - "python manage.py migrate --settings=main.settings.dev"
-  # this needs to be fixed to run more than just unit tests
+  - "echo 'hey!'"
   - "python manage.py test test.unit_tests --settings=main.settings.dev"
+
+before_deploy: "echo 'ready to deploy'"
+
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $ACCESSKEYID
+  secret_access_key:
+    secure: "$SECRETACCESSKEY"
+  region: "eu-central-1"  
+  app: "spatialdatahub" 
+  env: "spatialdatahub-dev"
+  bucket_name: "elasticbeanstalk-eu-central-1-707675293479"
+  on:
+    branch: master
+
+after_deploy: "echo 'application deployed'"

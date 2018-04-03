@@ -15,18 +15,17 @@ from datasets.forms import DatasetUpdateAuthForm
 from keywords.models import Keyword
 
 
-def dataset_detail(request, account_slug=None, dataset_slug=None, pk=None):
-    '''
+def dataset_detail(request, account_slug=None, dataset_slug=None):
+    """
     In this view I bring in the account and the dataset, and I check to see
     if the dataset is protected by password and username, meaning I will have
     to make the ajax call to the /load_dataset/<pk>/ view. If I don't have to
     do this, I can just use a plain old XMLHttpRequest to get the data, which
     should be faster than getting it through the server.
-    '''
+    """
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     keyword_list = dataset.keywords.all()
-
     context = {"account": account,
                "keyword_list": keyword_list,
                "dataset": dataset}
@@ -38,10 +37,8 @@ class DatasetDetailSerialized(TemplateView):
     template_name = "datasets/dataset_detail_serialized.html"
 
     def get_context_data(self, **kwargs):
-
         old_context = super().get_context_data(**kwargs)
         dataset = Dataset.objects.filter(pk=old_context["pk"])
-
         json_data = serializers.serialize('json',
                                           dataset,
                                           fields=("title",
@@ -50,7 +47,6 @@ class DatasetDetailSerialized(TemplateView):
                                                   "url",
                                                   "ext",
                                                   "keywords"))
-
         context = {
             "account_slug": old_context["account_slug"],
             "dataset_slug": old_context["dataset_slug"],
@@ -60,7 +56,6 @@ class DatasetDetailSerialized(TemplateView):
             "keyword_list": dataset[0].keywords,
             "json_data": json_data
         }
-
         return context
 
 def embed_dataset(request, account_slug=None, dataset_slug=None):
@@ -70,20 +65,17 @@ def embed_dataset(request, account_slug=None, dataset_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     keyword_list = dataset.keywords.all()
-
     context = {"account": account,
                "keyword_list": keyword_list,
                "dataset": dataset}
     template_name = "datasets/embed_dataset.html"
     response = render(request, template_name, context)
-
     # here's the important part
     response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
     response["Access-Control-Max-Age"] = "43200"
     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
     response["X-Frame-Options"] = "ALLOW-FROM http://www.leibniz-zmt.de/"
-    
     return response
 
 def sanity_dataset(request, account_slug=None, dataset_slug=None):
@@ -93,20 +85,17 @@ def sanity_dataset(request, account_slug=None, dataset_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
     dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     keyword_list = dataset.keywords.all()
-
     context = {"account": account,
                "keyword_list": keyword_list,
                "dataset": dataset}
     template_name = "datasets/embed_dataset.html"
     response = render(request, template_name, context)
-
     # here's the important part
     response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
     response["Access-Control-Max-Age"] = "43200"
     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
     response["X-Frame-Options"] = "ALLOW-FROM https://s3.eu-central-1.amazonaws.com/spatialdatahub-embed-test/"
-    
     return response
 
 @login_required
@@ -123,9 +112,7 @@ def new_dataset(request, account_slug):
                 dataset.save()
                 return redirect("datasets:dataset_detail",
                                 account_slug=account.account_slug,
-                                dataset_slug=dataset.dataset_slug,
-                                pk=dataset.pk)
-
+                                dataset_slug=dataset.dataset_slug)
         else:
             form = DatasetCreateForm()
             template_name = "datasets/new_dataset.html"
@@ -134,14 +121,13 @@ def new_dataset(request, account_slug):
                       {"form": form,
                        "account": account})
 
-
-'''
+"""
 should the add keyword to dataset and remove keyword from dataset views be
 in the keywords app?
-'''
+"""
 
 @login_required
-def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=None):
+def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None):
     """ This works. It associates a keyword with a dataset, and if the keyword
         already exists, it simply gets that keyword and associates it with the
         dataset.
@@ -150,7 +136,7 @@ def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=Non
         dataset page as well.
     """
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     if "kw" in request.POST:
         kw = request.POST["kw"]
         # this isn't working. I think that get or create is not meant for many to many
@@ -163,24 +149,20 @@ def add_keyword_to_dataset(request, account_slug=None, dataset_slug=None, pk=Non
         # if it doesn't, create it and associate it with the dataset
         # if it does just associate it with the dataset
         keyword_lower = kw.lower()
-
         try:
             n = Keyword.objects.get(keyword=keyword_lower)
             dataset.keywords.add(n)
         except ObjectDoesNotExist:
             dataset.keywords.create(keyword=keyword_lower)
-
         return redirect("datasets:dataset_detail",
                         account_slug=account.account_slug,
-                        dataset_slug=dataset.dataset_slug,
-                        pk=dataset.pk)
-    
+                        dataset_slug=dataset.dataset_slug)
     context = {"account": account, "dataset": dataset}
     template_name = "datasets/add_keyword_to_dataset.html"
     return render(request, template_name, context)
 
 @login_required
-def remove_keyword_from_dataset(request, account_slug=None, dataset_slug=None, pk=None):
+def remove_keyword_from_dataset(request, account_slug=None, dataset_slug=None):
     """ This works. It associates a keyword with a dataset, and if the keyword
         already exists, it simply gets that keyword and associates it with the
         dataset.
@@ -189,7 +171,7 @@ def remove_keyword_from_dataset(request, account_slug=None, dataset_slug=None, p
         dataset page as well.
     """
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     keyword_list = dataset.keywords.all()
     # I don't like this... how can I do it better?
     if "kw" in request.POST:
@@ -197,20 +179,15 @@ def remove_keyword_from_dataset(request, account_slug=None, dataset_slug=None, p
         dataset.keywords.remove(kw)
         return redirect("datasets:dataset_detail",
                         account_slug=account.account_slug,
-                        dataset_slug=dataset.dataset_slug,
-                        pk=dataset.pk)
-    
+                        dataset_slug=dataset.dataset_slug)
     context = {"account": account, "dataset": dataset, "keyword_list": keyword_list}
     template_name = "datasets/remove_keyword_from_dataset.html"
     return render(request, template_name, context)
 
-
-
-
 @login_required
-def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
+def dataset_update(request, account_slug=None, dataset_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     if request.user.id != account.user.id:
         return redirect("access_denied")
     else:
@@ -223,11 +200,9 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
                     "title", "author", "url",
                     "public_access", "description",
                     "dataset_slug"])
-
             return redirect("datasets:dataset_detail",
                             account_slug=account.account_slug,
-                            dataset_slug=dataset.dataset_slug,
-                            pk=dataset.pk)
+                            dataset_slug=dataset.dataset_slug)
         else:
             form = DatasetUpdateForm(instance=dataset)
             template_name = "datasets/dataset_update.html"
@@ -236,12 +211,10 @@ def dataset_update(request, account_slug=None, dataset_slug=None, pk=None):
                        "account": account,
                        "dataset": dataset})
 
-
 @login_required
-def dataset_update_auth(request, account_slug=None,
-                        dataset_slug=None, pk=None):
+def dataset_update_auth(request, account_slug=None, dataset_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     if request.user.id != account.user.id:
         return redirect("access_denied")
     else:
@@ -251,11 +224,9 @@ def dataset_update_auth(request, account_slug=None,
                 updated_dataset = form.save(commit=False)
                 updated_dataset.account = account
                 updated_dataset.save()
-
             return redirect("datasets:dataset_detail",
                             account_slug=account.account_slug,
-                            dataset_slug=dataset.dataset_slug,
-                            pk=dataset.pk)
+                            dataset_slug=dataset.dataset_slug)
         else:
             form = DatasetUpdateAuthForm(instance=dataset)
             template_name = "datasets/dataset_update_auth.html"
@@ -266,9 +237,9 @@ def dataset_update_auth(request, account_slug=None,
 
 
 @login_required
-def dataset_remove(request, account_slug=None, dataset_slug=None, pk=None):
+def dataset_remove(request, account_slug=None, dataset_slug=None):
     account = get_object_or_404(Account, account_slug=account_slug)
-    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, pk=pk)
+    dataset = get_object_or_404(Dataset, dataset_slug=dataset_slug, account=account)
     context = {"account": account, "dataset": dataset}
     template_name = "datasets/dataset_remove.html"
     if request.user.id != account.user.id:

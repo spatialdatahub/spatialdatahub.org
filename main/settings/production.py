@@ -15,9 +15,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = False
 
-#ALLOWED_HOSTS = ['https://map.leibniz-zmt.de/']
-#ALLOWED_HOSTS = ['map.leibniz-zmt.de/', '127.0.0.1', 'localhost'] # for the time being
-ALLOWED_HOSTS = ['*'] # This must change
+#ALLOWED_HOSTS = ["https://map.leibniz-zmt.de/"]
+ALLOWED_HOSTS = ["*"] # This must change
 
 # I am not sure why these are important.
 # This is https stuff I think.
@@ -25,17 +24,17 @@ ALLOWED_HOSTS = ['*'] # This must change
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-if 'RDS_HOSTNAME' in os.environ:
+if "RDS_HOSTNAME" in os.environ:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ['RDS_DB_NAME'],
-            'USER': os.environ['RDS_USERNAME'],
-            'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': os.environ['RDS_PORT'],
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ["RDS_DB_NAME"],
+            "USER": os.environ["RDS_USERNAME"],
+            "PASSWORD": os.environ["RDS_PASSWORD"],
+            "HOST": os.environ["RDS_HOSTNAME"],
+            "PORT": os.environ["RDS_PORT"],
         }
     }
 
