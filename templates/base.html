@@ -62,8 +62,14 @@
       </div>
       <hr />
 
-      <h4 class="col-xs-12" id="selected_link">
+      {% if user.is_authenticated %}
+      <h4>
+        <a href="{% url 'datasets:new_dataset' user.account.account_slug %}">
+          * Add New Dataset *
+        </a>
       </h4>
+      <hr />
+      {% endif %}
 
       {% block content %}
       {% endblock content %}
