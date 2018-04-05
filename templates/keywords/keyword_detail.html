@@ -8,40 +8,40 @@
 <style>
 
   #datasetsContainer {
-    height: 50em;
-    float: left;
+  height: 50em;
+  float: left;
   }
 
   #datasets-list {
-    overflow-y: auto;
-    height: 41em;
+  overflow-y: auto;
+  height: 41em;
   }
 
   #mapContainer {
-    float: right;
+  float: right;
   }
 
   #mapid {
-    height: 50em;
-    margin-bottom: 10px;
+  height: 50em;
+  margin-bottom: 10px;
   }
 
   #find_place_container {
-    display: none;
+  display: none;
   }
 
   #test_url_container {
-    display: none;
+  display: none;
   }
 
   /*
   #draw_polygon_container {
-    display: none;
+  display: none;
   }
   */
 
   #within_polygon_container {
-    display: none;
+  display: none;
   }
 
 </style>
@@ -53,31 +53,18 @@
 / <a href="{{ keyword.get_absolute_url }}" >{{ keyword.keyword }}</a>
 {% endblock breadcrumbs %}
 
-<!-- THIS NEEDS TO BE A PORTAL PAGE -->
-
 {% block portal_content %}
-
-  <h1>{{ keyword }} datasets</h1>
-  <hr/>
-
-  <div class="row" id="main">
-    <div class="col-xs-12" id="editmap">
-      {% include "pieces/editmap.html" %}
-    </div>
-
-    <div class="col-xs-12 col-md-8 col-lg-9" id="mapContainer">
-      {% include "pieces/mymap.html" %}
-    </div>
-
-    <!-- I need to set this up so it loads by ajax -->
-    <div class="col-xs-12 col-md-4 col-lg-3" id="datasetsContainer">
-      {% include "pieces/datasetlist.html" %}
-    </div>
+<h1>{{ keyword }} datasets</h1>
+<hr/>
+<div class="row" id="main">
+  <div class="col-xs-12" id="editmap">
+    {% include "pieces/editmap.html" %}
   </div>
-
+  <div class="col-xs-12 col-md-8 col-lg-9" id="mapContainer">
+    {% include "pieces/mymap.html" %}
+  </div>
+  <div class="col-xs-12 col-md-4 col-lg-3" id="datasetsContainer">
+    {% include "pieces/datasetlist.html" %}
+  </div>
+</div>
 {% endblock portal_content %}
-
-{% block portal_js %}
-<!-- this page shouldn't need any more js, it should all be in the portal base page
---> 
-{% endblock portal_js %}
