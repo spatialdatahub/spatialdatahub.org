@@ -30,7 +30,7 @@
       <a href="http://www.zmt-bremen.de/en/zmt.html" target="_blank">
         <img src="{% static 'images/zmt_logo_white.png' %}" height="32" alt="ZMT Logo" />
       </a>
-      <a href="{% url 'portal' %}">HOME</a>
+      <a href="{% url 'portal' %}">Home</a>
       <a href="{% url 'accounts:account_list' %}">Accounts</a>
       <a href="{% url 'keywords:keyword_list' %}">Keywords</a>
       {% if user.is_authenticated %}
