@@ -7,40 +7,40 @@
 <style>
 
   #datasetsContainer {
-    height: 50em;
-    float: left;
+  height: 50em;
+  float: left;
   }
 
   #datasets-list {
-    overflow-y: auto;
-    height: 41em;
+  overflow-y: auto;
+  height: 41em;
   }
 
   #mapContainer {
-    float: right;
+  float: right;
   }
 
   #mapid {
-    height: 50em;
-    margin-bottom: 10px;
+  height: 50em;
+  margin-bottom: 10px;
   }
 
   #find_place_container {
-    display: none;
+  display: none;
   }
 
   #test_url_container {
-    display: none;
+  display: none;
   }
 
   /*
   #draw_polygon_container {
-    display: none;
+  display: none;
   }
   */
 
   #within_polygon_container {
-    display: none;
+  display: none;
   }
 
 </style>
@@ -53,46 +53,46 @@
 
 {% block portal_content %}
 
-  {% if account.affiliation %}
-    <div class="row" id="account_info">
-      <div class="col-xs-12">
-        <p><b>{{ account.user }}'s affiliation:</b> {{ account.affiliation }}</p>
-      </div>
-    </div>
-    <hr>
-  {% endif %}
-
-  <div class="row">
-    <div class="col-xs-12 col-md-4 col-lg-3">
-        <p>
-          <a href="{% url 'datasets:new_dataset' account.account_slug %}">
-          Add New Dataset
-        </a>
-        </p>
-        <p>
-        <a href="{% url 'accounts:account_update' account.account_slug %}">
-          Update Account
-        </a>
-        </p>
-        <p>
-        <a href="{% url 'accounts:account_remove' account.account_slug %}">
-          Remove Account
-        </a>
-        </p>
-    </div>
+{% if account.affiliation %}
+<div class="row" id="account_info">
+  <div class="col-xs-12">
+    <p><b>{{ account.user }}'s affiliation:</b> {{ account.affiliation }}</p>
   </div>
-  <hr>
+</div>
+<hr>
+{% endif %}
 
-  {% include "pieces/editmap.html" %}
-
-  <div class="row" id="main">
-    <div class="col-xs-12 col-md-8 col-lg-9" id="mapContainer">
-      {% include "pieces/mymap.html" %}
-    </div>
-
-    <div class="col-xs-12 col-md-4 col-lg-3" id="datasetsContainer">
-      {% include "pieces/datasetlist.html" %}
-    </div>
+<div class="row">
+  <div class="col-xs-12 col-md-4 col-lg-3">
+    <p>
+      <a href="{% url 'datasets:new_dataset' account.account_slug %}">
+        Add New Dataset
+      </a>
+    </p>
+    <p>
+      <a href="{% url 'accounts:account_update' account.account_slug %}">
+        Update Account
+      </a>
+    </p>
+    <p>
+      <a href="{% url 'accounts:account_remove' account.account_slug %}">
+        Remove Account
+      </a>
+    </p>
   </div>
+</div>
+<hr>
+
+{% include "pieces/editmap.html" %}
+
+<div class="row" id="main">
+  <div class="col-xs-12 col-md-8 col-lg-9" id="mapContainer">
+    {% include "pieces/mymap.html" %}
+  </div>
+
+  <div class="col-xs-12 col-md-4 col-lg-3" id="datasetsContainer">
+    {% include "pieces/datasetlist.html" %}
+  </div>
+</div>
 
 {% endblock portal_content %}

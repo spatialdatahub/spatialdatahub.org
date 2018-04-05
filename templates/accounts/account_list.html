@@ -8,19 +8,17 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-
-  <h1>Accounts</h1>
-  <form action="." method="GET">
-    <input id="account_query_input" class="form-control" type="text" title="Search Accounts" placeholder="Search Accounts" name="q"/>
-  </form>
-  <h5>Accounts: {{ total_accounts }}</h5>
-  <hr/>
-  {% for account in account_list %}
-    <p>
-      <a name="account_link" id="{{ account.pk }}" href="{{ account.get_absolute_url }}">
-        {{ account.user }}: {{ account.datasets.all|length }} datasets
-      </a>
-    </p>
-  {% endfor %}
-
+<h1>Accounts</h1>
+<form action="." method="GET">
+  <input id="account_query_input" type="text" title="Search Accounts" placeholder="Search Accounts" name="q"/>
+</form>
+<h5>Accounts: {{ total_accounts }}</h5>
+<hr/>
+{% for account in account_list %}
+<p>
+  <a name="account_link" id="{{ account.pk }}" href="{{ account.get_absolute_url }}">
+    {{ account.user }}: {{ account.datasets.all|length }} datasets
+  </a>
+</p>
+{% endfor %}
 {% endblock content %}

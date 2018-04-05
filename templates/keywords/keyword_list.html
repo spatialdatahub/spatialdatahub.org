@@ -4,23 +4,19 @@
 {% block title %}Keywords{% endblock title %}
 
 {% block breadcrumbs %}
-  / <a href="{% url 'keywords:keyword_list' %}" >keywords</a>
+/ <a href="{% url 'keywords:keyword_list' %}" >keywords</a>
 {% endblock breadcrumbs %}
 
 {% block content %}
-
-  <h1>Keywords</h1>
-  <form action="." method="GET">
-    <input id="keyword_query_input" class="form-control" type="text" title="Search Keywords" placeholder="Search Keywords" name="q"/>
-  </form>
-  <h5>Keywords: {{ total_keywords }}</h5>
-  <hr/>
-  {% for keyword in keyword_list %}
-    <p>
-      <a name="keyword_link" id="{{ keyword.pk }}" href="{{ keyword.get_absolute_url }}">
-        {{ keyword.keyword }}: {{ keyword.datasets.all|length }} datasets
-      </a>
-    </p>
-  {% endfor %}
-
+<h1>Keywords</h1>
+<form action="." method="GET">
+  <input id="keyword_query_input" type="text" title="Search Keywords" placeholder="Search Keywords" name="q"/>
+</form>
+<h5>Keywords: {{ total_keywords }}</h5>
+<hr/>
+{% for keyword in keyword_list %}
+<p><a name="keyword_link" id="{{ keyword.pk }}" href="{{ keyword.get_absolute_url }}">
+  {{ keyword.keyword }}: {{ keyword.datasets.all|length }} datasets
+</a></p>
+{% endfor %}
 {% endblock content %}
