@@ -1,12 +1,4 @@
-# currently working in 
-# ~/Dev/pcu_adm/webgis/main/settings/
-
-#from .base import *
-
-try:
-   from .local import *
-except:
-   pass
+# spatialdatahub.org/main/settings/__init__.py
 
 try:
     from .production import *
