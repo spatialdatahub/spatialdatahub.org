@@ -12,9 +12,3 @@ class KeywordCreateForm(forms.ModelForm):
         model = Keyword
 
         fields = ["keyword"]
-
-        basic_input_class = {"class": "form-control"}
-
-        widgets = {
-            "keyword": forms.TextInput(attrs=basic_input_class),
-        }
