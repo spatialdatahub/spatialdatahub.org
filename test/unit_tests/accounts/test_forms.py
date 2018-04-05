@@ -1,8 +1,10 @@
-#from django.test import TestCase
+from django.test import TestCase
 
-#from accounts.forms import AccountForm
+from accounts.forms import AccountForm
 
 
-#class AccountFormTest(TestCase):
+class AccountFormTest(TestCase):
 
-# there need to be tests for the input control type stuff here
+    def test_AccountForm_allows_blank_items(self):
+        form = AccountForm(data={"affiliation": ""})
+        self.assertTrue(form.is_valid())

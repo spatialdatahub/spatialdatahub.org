@@ -67,7 +67,7 @@ class KeywordModelTests(TestCase):
         kw2.datasets.add(self.ds1)
         kw2.save()
 
-        self.assertEqual(len(self.ds1.keyword_set.all()), 2)
+        self.assertEqual(len(self.ds1.keywords.all()), 2)
 
     def test_keywords_must_be_unique(self):
         with self.assertRaises(IntegrityError):
