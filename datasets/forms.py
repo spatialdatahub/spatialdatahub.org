@@ -16,31 +16,6 @@ class DatasetCreateForm(forms.ModelForm):
                   "public_access", "description",
                   "dataset_user", "dataset_password"]
 
-        basic_input_class = "form-control"
-
-        widgets = {
-            "title": forms.TextInput(attrs={"class": basic_input_class}),
-            "author": forms.TextInput(attrs={"class": basic_input_class}),
-            "url": forms.TextInput(
-                attrs={"class": basic_input_class,
-                       "placeholder": "For example: https://dataset.geojson"}),
-            "owncloud_instance": forms.TextInput(
-                attrs={"class": basic_input_class,
-                       "placeholder":
-                       "For example: https://zmtcloud.leibniz-zmt.de/"}),
-            "owncloud_path": forms.TextInput(
-                attrs={"class": basic_input_class,
-                       "placeholder":
-                       "For example: TestFolder/ownCloudPoint.kml"}),
-            "description": forms.Textarea(attrs={"class": basic_input_class,
-                                                 "rows": 4}),
-            "dataset_user": forms.PasswordInput(attrs={
-                                                "class": basic_input_class}),
-            "dataset_password": forms.PasswordInput(
-                attrs={"class": basic_input_class})
-        }
-
-
 class DatasetUpdateForm(forms.ModelForm):
     """
     After a while I might try and move away from boostrap, but that may never
@@ -56,16 +31,7 @@ class DatasetUpdateForm(forms.ModelForm):
         fields = ["title", "author", "url",
                   "public_access", "description"]
 
-        basic_input_class = "form-control"
-
-        widgets = {
-            "title": forms.TextInput(attrs={"class": basic_input_class}),
-            "author": forms.TextInput(attrs={"class": basic_input_class}),
-            "url": forms.TextInput(attrs={"class": basic_input_class}),
-            "description": forms.Textarea(attrs={"class": basic_input_class})
-        }
-
-
+        
 class DatasetUpdateAuthForm(forms.ModelForm):
     """
     This will only update the dataset_user and the dataset_password fields
@@ -75,16 +41,3 @@ class DatasetUpdateAuthForm(forms.ModelForm):
 
         fields = ["dataset_user", "dataset_password",
                   "owncloud", "owncloud_instance", "owncloud_path"]
-
-        basic_input_class = "form-control"
-
-        widgets = {
-            "dataset_user": forms.PasswordInput(
-                attrs={"class": basic_input_class}),
-            "dataset_password": forms.PasswordInput(
-                attrs={"class": basic_input_class}),
-            "owncloud_instance": forms.TextInput(
-                attrs={"class": basic_input_class}),
-            "owncloud_path": forms.TextInput(
-                attrs={"class": basic_input_class})
-        }
