@@ -16,6 +16,12 @@ class DatasetCreateForm(forms.ModelForm):
                   "public_access", "description",
                   "dataset_user", "dataset_password"]
 
+        widgets = {
+            "dataset_user": forms.PasswordInput(),
+            "dataset_password": forms.PasswordInput()
+        }
+
+
 class DatasetUpdateForm(forms.ModelForm):
     """
     After a while I might try and move away from boostrap, but that may never
@@ -41,3 +47,9 @@ class DatasetUpdateAuthForm(forms.ModelForm):
 
         fields = ["dataset_user", "dataset_password",
                   "owncloud", "owncloud_instance", "owncloud_path"]
+
+        widgets = {
+            "dataset_user": forms.PasswordInput(),
+            "dataset_password": forms.PasswordInput()
+        }
+
