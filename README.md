@@ -1,6 +1,5 @@
 # spatialdatahub.org
 
-#### Current location: https://map.leibniz-zmt.de/
 
 #### Target location: https://spatialdatahub.org/
 
@@ -240,3 +239,5 @@ Ajax for search functions - possibly - possibly not
 Maybe all the tests should just stay in their own apps as well. That way each app is a separate module.
 
 What about consuming a rest api, and having a rest api??? Hmmm
+
+### spatial data hub source code
