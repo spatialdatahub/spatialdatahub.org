@@ -49,7 +49,7 @@ def embed_dataset(request, account_slug=None, dataset_slug=None):
     response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
     response["Access-Control-Max-Age"] = "43200"
     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
-    response["X-Frame-Options"] = "ALLOW-FROM http://www.leibniz-zmt.de/"
+    response["X-Frame-Options"] = "ALLOW-FROM https://www.leibniz-zmt.de/"
     
     return response
 
