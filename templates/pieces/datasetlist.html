@@ -34,6 +34,7 @@
 </ul>
 <!-- end search bar and clear map button -->
 
+<div id="dataset-scroll-list">
   {% for dataset in dataset_list %}
     {% if dataset.dataset_password %}
       <div class="btn-group btn-group-justified" role="group">
@@ -75,3 +76,4 @@
 <!-- end list logic -->
 
 {% endif %}
+</div>
