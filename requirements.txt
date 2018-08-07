@@ -1,5 +1,5 @@
 Django==2.0.3
-cryptography==2.1.4
+cryptography==2.3
 psycopg2==2.7
 pyocclient==0.4
 requests==2.13.0
