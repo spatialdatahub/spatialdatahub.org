@@ -16,7 +16,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = False
 
 #ALLOWED_HOSTS = ["https://map.leibniz-zmt.de/"]
-ALLOWED_HOSTS = ["https://www.spatialdatahub.org"] # This must change
+ALLOWED_HOSTS = ["https://www.spatialdatahub.org"]
 
 # I am not sure why these are important.
 # This is https stuff I think.
