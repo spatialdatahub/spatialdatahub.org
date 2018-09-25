@@ -1,17 +1,14 @@
 # spatialdatahub.org
 
-
 #### Target location: https://spatialdatahub.org/
 
 
 ## Project Description
 
-This should be the abstract for the paper.
-Spatial data hub is the result of a project
+The number of online data repositories is growing and they are becoming increasingly difficult to navigate. Many repositories are plagued by convoluted architecture, link rot and site death. To access data users must rely on site specific tools or download datasets to their computers. These hurdles hinder data findability and accessibility and cost precious time. We developed the open source web application Spatial Data Hub to address these issues through simultaneous display and comparison of geospatial datasets from disparate internet sources on a single map. It aims to promote all data equally and provide the flexibility to connect to any storage system, effectively making difficult to find datasets as visible as those in large, established repositories. Its low barrier of entry allows scientists to add data throughout the research process, enhancing transparency, openness and reproducibility. This flexibility and functionality make Spatial Data Hub a new exciting platform for researchers to promote their work, develop new hypotheses and create new collaborations.
 
 
-
-The GIS Portal is a web application that allows anyone with remotely stored
+Spatial Data Hub is a web application that allows anyone with remotely stored
 GIS files of various formats to project their GIS files onto a leaflet map background.
 
 The site does this by making a request to the dataset's url (provided by the user)
@@ -30,9 +27,6 @@ cannot be modified from this site.
 
 
 
-
-
-
 ## Project Goals
 
 
@@ -44,9 +38,6 @@ Upgraded to Python 3.6 from Python 3.5, some string formatting stuff here and th
 
 ## Current Issues
 
-- I am trying to dockerize everything with docker and docker-compose. I was trying to get kubernetes involved, but that seems like overkill right now. I don't think that will be an issue in the short term.
-- I do not know how to set up continuous integration. I've read about it, tried tutorials, downloaded docker containers with jenkins and gitlab, tried to use travis ci and am still struggling.
-- Javascript testing is currently set up with mocha and karma, but everything has to be compiled with babel and with browserify so that the tests can be run by node. Setting up karma is not fun, but it is functional. It would be nice to have a less brittle setup, but completely learning a new method to do everything could be a huge waste of time. Also, I need to re-break up the javascript functions into reasonable files and import them into the main bundle file. Then each one of the files can have it's own set of tests, etc.
 - Currently the javascript in the app is getting difficult to control. State management specifically. It could be a good idea to add a library like React and Redux to the project, but that could be a huge amount of coding and energy spent.
 
 
@@ -86,10 +77,6 @@ Upgraded to Python 3.6 from Python 3.5, some string formatting stuff here and th
 - Restricting dataset access to those with permission
 
 ### Javascript
-- Filter function
-- Full screen view - perhaps this should be a specific view to be handled by django
-
-
 
 ## Important Questions
 
@@ -222,22 +209,11 @@ If you contribute, your contributions must pass unit and functional tests. There
 
 ## Support
 
-If you are having issues, please let Patrick Curry, the site developer, know.
-patrick.curry@leibniz-zmt.de
+If you are having issues please contact Patrick Curry at patrick.curry@leibniz-zmt.de.
 
 
 ## IDEAS
 
-npm with nominatim - yes
-babeljs - Definitely
 Vue instead of React... - Not important to use either of these yet
 
-cyclejs
-
-Ajax for search functions - possibly - possibly not
-
-Maybe all the tests should just stay in their own apps as well. That way each app is a separate module.
-
-What about consuming a rest api, and having a rest api??? Hmmm
-
-### spatial data hub source code
+What about consuming a rest api, and having a rest api???
