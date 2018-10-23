@@ -3,7 +3,7 @@
 #### Target location: https://spatialdatahub.org/
 
 ## Publication
-We have written a manuscript that describes the Spatial Data Hub concept, justifcation and development. It is currently in review.
+We have written a manuscript that describes the Spatial Data Hub concept, justification and development. It is currently in review.
 
 ## Project Description
 The number of online data repositories is growing and they are becoming increasingly difficult to navigate. Many repositories are plagued by convoluted architecture, link rot and site death. To access data users must rely on site specific tools or download datasets to their computers. These hurdles hinder data findability and accessibility and cost precious time. We developed the open source web application Spatial Data Hub to address these issues through simultaneous display and comparison of geospatial datasets from disparate internet sources on a single map. It aims to promote all data equally and provide the flexibility to connect to any storage system, effectively making difficult to find datasets as visible as those in large, established repositories. Its low barrier of entry allows scientists to add data throughout the research process, enhancing transparency, openness and reproducibility. This flexibility and functionality make Spatial Data Hub a new exciting platform for researchers to promote their work, develop new hypotheses and create new collaborations.
@@ -65,8 +65,15 @@ If you are having issues please contact Patrick Curry at patrick.curry@leibniz-z
 
 ## Future Directions
 
+### Software Directions
+- API
+- Dropbox
+- Google Drive
+- Box
+- SeaFile
+- Further GIS Functionality 
+
 ### Python / Django
-- Institution / Group app?
 - Restricting dataset access to those with permission
 
 ### JavaScript
