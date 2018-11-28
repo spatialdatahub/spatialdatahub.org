@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "/Users/pcu/work/spatialdatahub/spatialdatahub.org-static"
 		}
 	],
 	"settings": {
