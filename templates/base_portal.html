@@ -4,7 +4,6 @@
 {% block content %}
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-<link rel="stylesheet" href="{% static 'css/map.css' %}" />
 <link rel="stylesheet" href="{% static 'css/base-portal.css' %}" />
 
 <!-- marker cluster cdn -->
@@ -14,54 +13,64 @@
 {% block portal_content %}
 
 {% endblock portal_content %}
+<!-- extras buttons -->
+<div class="extras-button-group">
+  <button id="show_find_place_container_button" class="extras-button">
+    Search for a location
+  </button>
+  <button id="show_test_url_container_button" class="extras-button">
+    Test dataset at an open URL
+  </button>
+  <!--
+  <button id="show_within_polygon_container_button" class="extras-button">
+    Get data within a polygon
+  </button>
+      <button id="show_within_polygon_container_button" class="extras-button">
+        Get data within a polygon
+      </button>
 
-<div class="row" id="extras_buttons">
-    <div class="col-xs-12" id="add_extras">
-      <div class="btn-group" role="group">
-        <button id="show_find_place_container_button" class="btn btn-default">
-          Search for a location
-        </button>
-        <button id="show_test_url_container_button" class="btn btn-default">
-          Test dataset at an open URL
-        </button>
-        <button id="show_within_polygon_container_button" class="btn btn-default">
-          Get data within a polygon
-        </button>
-        <button id="toggle_marker_clusters" class="btn btn-default">
-          Cluster Points Markers
-        </button>
+  -->
+  <button id="toggle_marker_clusters" class="extras-button">
+    Cluster Points Markers
+  </button>
+</div>
+
+<!-- container for all the extra stuff -->
+
+  <section id="find_place_container">
+    <br />
+    <div id="nominatim">
+      <div class="nominatim-title">Find a place</div>
+      <div class="nominatim-description">
+          The nominatim function uses the openstreetmap location search function. Enter the name of a place you want to search for, for example california, and hit enter. Then select the most appropriate result from the drop down menu.
       </div>
+      <input id="place_input" class="nominatim-place-input" type="text" placeholder="Enter place name here">
+      <select id="selector" class="nominatim-place-selector"></select>
+      <input id="select_button" class="nominatim-place-select-button" type="submit" value="Add to map">
+      <input id="place_toggle" class="nominatim-place-toggle-button" type="submit" value="Toggle place">
     </div>
+    <br />
+  </section>
+
+  <section id="test_url_container">
+    <div class="test-url-grid">
+    <div class="test-url-title">Test a URL</div>
+    <input class="test-url-input" id="test_url_input" type="text" placeholder="Enter URL Here">
+    <div for="test_url_input">
+        Enter a full url that is linked to an open dataset without any cross origin issues into the input and hit enter to add it to the map. For example <a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson" target="_blank">these earthquake data points</a> can be added to the map with this method.
+    </div>
+    <div id="test_urls"> <!-- this is here to add small buttons to -->
+      <button id="toggle_test_urls">Toggle test datasets</button>
+    </div>
+    <br />
+    </div>
+  </section>
+    
+  <div id="within_polygon_container">
+    <input id="file_name_input" type="text" placeholder="Enter the file name here">
+    <button id="save_button" >Save to geojson file</button>
   </div>
-  <div class="col-xs-12" id="extras_containers">
-    <div class="row" id="find_place_container">
-      <div id="nominatim">
-        <h3>Find a place</h3>
-        <input id="place_input" type="text" placeholder="Enter place name here">
-        <div class="btn-group" role="group">
-          <input id="select_button" class="btn btn-default" type="submit" value="Submit">
-          <input id="place_toggle" class="btn btn-default" type="submit" value="Toggle">
-        </div>
-        <select id="selector"></select>
-      </div>
-      <br />
-    </div>
-    <div class="row" id="test_url_container">
-      <h3>Test a URL</h3>
-      <label for="test_url_input">For example copy and paste this into the input box then hit enter:
-        https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson</label>
-      <input id="test_url_input" type="text" placeholder="Enter URL Here">
-      <div id="test_urls" class="btn-group" role="group">
-        <button id="toggle_test_urls" class="btn btn-default">Toggle test datasets</button>
-      </div>
-      <br />
-    </div>
-    <hr />
-    <div class="row" id="within_polygon_container">
-      <input id="file_name_input" type="text" placeholder="Enter the file name here">
-      <button id="save_button" class="btn btn-default">Save to geojson file</button>
-    </div>
-  </div>
+
   <hr />
     
   <div class="row" id="main">

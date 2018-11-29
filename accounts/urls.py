@@ -11,11 +11,6 @@ urlpatterns = [
         views.AccountList.as_view(),
         name="account_list"),
 
-
-#    url(r'^account_ajax/(?P<account_slug>[-\w]*)/$',
-#        views.account_ajax,
-#        name="account_ajax"),
-
     url(r'^(?P<account_slug>[-\w]*)/$',
         views.account_detail,
         name="account_detail"),

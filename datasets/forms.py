@@ -24,10 +24,6 @@ class DatasetCreateForm(forms.ModelForm):
 
 class DatasetUpdateForm(forms.ModelForm):
     """
-    After a while I might try and move away from boostrap, but that may never
-    happen. If I do move away from bootstrap then all of these widgets will
-    be changed
-
     Until after the initial deployment i am removing "dataset_user" and
     "dataset_password"
     """
