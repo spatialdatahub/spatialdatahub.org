@@ -53,17 +53,18 @@
   </section>
 
   <section id="test_url_container">
-    <div class="test-url-grid">
-    <div class="test-url-title">Test a URL</div>
-    <input class="test-url-input" id="test_url_input" type="text" placeholder="Enter URL Here">
-    <div for="test_url_input">
-        Enter a full url that is linked to an open dataset without any cross origin issues into the input and hit enter to add it to the map. For example <a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson" target="_blank">these earthquake data points</a> can be added to the map with this method.
-    </div>
-    <div id="test_urls"> <!-- this is here to add small buttons to -->
-      <button id="toggle_test_urls">Toggle test datasets</button>
-    </div>
     <br />
+    <div class="test-url-grid">
+      <div class="test-url-title">Test a URL</div>
+      <input class="test-url-input" id="test_url_input" type="text" placeholder="Enter URL Here">
+      <div for="test_url_input">
+        Enter a full url that is linked to an open dataset without any cross origin issues into the input and hit enter to add it to the map. For example <a href="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson" target="_blank">these earthquake data points</a> can be added to the map with this method.
+      </div>
+      <div id="test_urls"> <!-- this is here to add small buttons to -->
+        <button id="toggle_test_urls">Toggle test datasets</button>
+      </div>
     </div>
+      <br />
   </section>
     
   <div id="within_polygon_container">
@@ -73,7 +74,7 @@
 
   <hr />
     
-  <div class="row" id="main">
+  <section id="main"> <!-- class="row" -->
   <!-- a bit hacky, but it's a start -->
 
   {% if dataset %}
@@ -162,7 +163,7 @@
   
         {% endif %}
       </div>
-    </div>
+    </section>
   </div>
 
 <script src="{% static 'js/bundle.js' %}"></script>
