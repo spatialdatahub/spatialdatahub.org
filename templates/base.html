@@ -1,85 +1,91 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>ZMT | {% block title %}{% endblock title%}</title>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/zmt_favicon.ico' %}">
+  <title>ZMT | {% block title %}{% endblock title%}</title>
 
-    <!-- Latest compiled and minified CSS -->
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/zmt_favicon.ico' %}">
+
+  <!-- Latest compiled and minified CSS 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+-->
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  </head>
-  <body>
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
 
-    <!-- NEW HEADER / NAVBAR -->
-    <div class="header">
-      <a href="https://www.leibniz-zmt.de/en/" terget="_blank">
-        <img src="{% static 'images/zmt_logo_white.png' %}" height="32" alt="ZMT Logo" />
-      </a>
-      <a href="{% url 'portal' %}">Home</a>
-      <a href="{% url 'accounts:account_list' %}">Accounts</a>
-      <a href="{% url 'keywords:keyword_list' %}">Keywords</a>
-      {% if user.is_authenticated %}
-      <a href="{{ user.account.get_absolute_url }}">{{ user.account }}</a>
-      <a href="{% url 'logout' %}?next=/">Logout</a>
-      {% else %}
-      <a href="{%url 'register' %}">Register</a>
-      <a href="{% url 'login' %}">Login</a>
-      {% endif %}
-    </div>
-    <!-- END NAVBAR -->
+<body>
 
-    <!-- NOSCRIPT -->
+  <!-- NEW HEADER / NAVBAR -->
+  <header>
+    <a href="https://www.leibniz-zmt.de/en/" terget="_blank">
+      <img src="{% static 'images/zmt_logo_white.png' %}" height="32" alt="ZMT Logo" />
+    </a>
+    <a href="{% url 'portal' %}">Home</a>
+    <a href="{% url 'accounts:account_list' %}">Accounts</a>
+    <a href="{% url 'keywords:keyword_list' %}">Keywords</a>
+    {% if user.is_authenticated %}
+    <a href="{{ user.account.get_absolute_url }}">{{ user.account }}</a>
+    <a href="{% url 'logout' %}?next=/">Logout</a>
+    {% else %}
+    <a href="{%url 'register' %}">Register</a>
+    <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+  </header>
+  <!-- END NAVBAR -->
+
+  <!-- NOSCRIPT -->
+  <div>
+    <noscript>
+      <h2>Warning: without javascript enabled this site will not show maps or retreive data. Also, the buttons will be
+        broken and dataset links will not show up.</h2>
+    </noscript>
+  </div>
+  <!-- END NOSCRIPT -->
+
+  <div>
+    <!-- All the pages should have breadcrumbs -->
     <div>
-      <noscript>
-        <h2>Warning: without javascript enabled this site will not show maps or retreive data. Also, the buttons will be broken and dataset links will not show up.</h2>
-      </noscript>
-    </div>
-    <!-- END NOSCRIPT -->
-
-    <div class="container">
-      <!-- All the pages should have breadcrumbs -->
-      <div>
-        <h4>
-          <a href="{% url 'portal' %}" >Home</a>
-          {% block breadcrumbs %}{% endblock breadcrumbs %}
-        </h4>
-      </div>
-      <hr />
-
-      {% if user.is_authenticated %}
       <h4>
-        <a href="{% url 'datasets:new_dataset' user.account.account_slug %}">
-          * Add New Dataset *
-        </a>
+        <a href="{% url 'portal' %}">Home</a>
+        {% block breadcrumbs %}{% endblock breadcrumbs %}
       </h4>
-      <hr />
-      {% endif %}
-
-      {% block content %}
-      {% endblock content %}
     </div>
-    <!-- CONTENT -->
+    <hr />
 
-    <!-- FOOTER -->
-    <hr>
-    <div class="footer">
-      <a href="{% url 'about' %}">About</a>
-      <a href="{% url 'contact' %}">Contact</a>
-      <a href="https://github.com/spatialdatahub/spatialdatahub.org" target="_blank">GitHub</a>
-    </div>
-    <!-- END FOOTER -->
-    <!-- or cdnjs repo -->
+    {% if user.is_authenticated %}
+    <h4>
+      <a href="{% url 'datasets:new_dataset' user.account.account_slug %}">
+        * Add New Dataset *
+      </a>
+    </h4>
+    <hr />
+    {% endif %}
 
-    <!-- or cdnjs repo -->
+    {% block content %}
+    {% endblock content %}
+  </div>
+  <!-- CONTENT -->
+
+  <!-- FOOTER -->
+  <hr />
+  <footer>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+    <a href="https://github.com/spatialdatahub/spatialdatahub.org" target="_blank">GitHub</a>
+  </footer>
+  <!-- END FOOTER -->
+
+  <!--
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap.native/2.0.10/bootstrap-native.min.js"></script>
+    -->
 
-  </body>
+</body>
+
 </html>
