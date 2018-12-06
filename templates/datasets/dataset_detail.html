@@ -57,6 +57,12 @@
     </h4>
     {% endif %}
     <hr />
+    <h4>
+      <a href="{% url 'datasets:embed_dataset' account.account_slug dataset.dataset_slug %}">
+        * View map in full screen *
+      </a>
+    </h4>
+    <hr />
   </div>
 </div>
 {% endblock portal_content %}
