@@ -21,7 +21,7 @@
     {% if keyword_list %}
     <p><b>Keywords:</b>
       {% for keyword in keyword_list %}
-      <a href="{{ keyword.get_absolute_url }}">{{ keyword.keyword }}</a>
+      <a href="{{ keyword.get_absolute_url }}">{{ keyword.keyword }}</a>, 
       {% endfor %}
     </p>
     {% endif %}
