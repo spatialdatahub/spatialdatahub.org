@@ -2,6 +2,9 @@
 
 sudo: required
 
+services:
+  - postgresql
+
 language:
   - python
 
@@ -10,6 +13,7 @@ python:
 
 install:
   - "pip install -r requirements.txt"
+
 
 script:
   - "echo 'hey!'"
