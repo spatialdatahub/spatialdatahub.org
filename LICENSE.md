@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) [2018] [Patrick A. Curry]
+Copyright (c) [2016-2019] [Patrick A. Curry]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
