@@ -11,4 +11,4 @@ pip install -r requirements.txt
 
 #python manage.py makemigrations
 #python manage.py migrate
-python manage.py test --settings=main.settings.dev
+python manage.py test --settings=main.settings.dev -v2

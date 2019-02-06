@@ -13,7 +13,8 @@ install:
 
 script:
   - "echo 'hey!'"
-  - "python manage.py test test.unit_tests --settings=main.settings.dev -v2"
+    #- "python manage.py test test.unit_tests --settings=main.settings.dev -v2"
+  - "sh dev-test.sh"
 
 before_deploy: "echo 'ready to deploy'"
 
