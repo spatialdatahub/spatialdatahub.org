@@ -5,15 +5,26 @@ sudo: required
 language:
   - python
 
-python:
-  - "3.6"
+#python:
+#  - "3.5"
+#  - "3.6"
+#  - "3.7"
+
+matrix:
+  include:
+    - python: 3.5
+    - python: 3.6
+    - python: 3.7
+      dist: xenial
+      sudo: true
 
 install:
   - "pip install -r requirements.txt"
 
 script:
   - "echo 'hey!'"
-  - "python manage.py test test.unit_tests --settings=main.settings.dev -v2"
+    #- "python manage.py test test.unit_tests --settings=main.settings.dev -v2"
+  - "sh dev-test.sh"
 
 before_deploy: "echo 'ready to deploy'"
 
