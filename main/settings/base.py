@@ -148,17 +148,23 @@ LOGIN_REDIRECT_URL = '/'
 # this all must be changed to environmental variables in the aws elastic beanstalk setup
 # also this email account needs to be destroyed.
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'zmtdummy'
-EMAIL_HOST_PASSWORD = 'zmtBremen1991'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'zmtdummy@gmail.com'
+
+#EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_PORT = 587
+#EMAIL_HOST_USER = 'zmtdummy'
+#EMAIL_HOST_PASSWORD = 'zmtBremen1991'
+#EMAIL_USE_TLS = True
+#DEFAULT_FROM_EMAIL = 'zmtdummy@gmail.com'
+
 
 # new with info from ZMT
-EMAIL_HOST = 'https://webmail.zmt-bremen.de/'
-EMAIL_PORT = 465
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = os.environ.get("EMAIL_PORT")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_PASSWORD")
 
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'zmtdummy@gmail'
+
+
 
