@@ -2,6 +2,7 @@
 """
 THIS PROJECT IS NOW USING DJANGO VERSION 1.11
 THIS PROJECT IS NOW USING DJANGO VERSION 2.0
+THIS PROJECT IS NOW USING DJANGO VERSION 2.1
 """
 
 import os
@@ -153,3 +154,11 @@ EMAIL_HOST_USER = 'zmtdummy'
 EMAIL_HOST_PASSWORD = 'zmtBremen1991'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'zmtdummy@gmail.com'
+
+# new with info from ZMT
+EMAIL_HOST = 'https://webmail.zmt-bremen.de/'
+EMAIL_PORT = 465
+
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'zmtdummy@gmail'
+
