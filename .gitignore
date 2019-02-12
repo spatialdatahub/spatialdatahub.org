@@ -5,7 +5,8 @@
 # need to figure out.
 ############################
 
-
+#### Secrets
+other-secrets.json
 
 
 ###### Old .gitignore ######
@@ -36,6 +37,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+ENV/
 amazon_web_env/
 build/
 develop-eggs/
