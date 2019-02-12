@@ -9,7 +9,6 @@
 other-secrets.json
 
 
-
 ###### Old .gitignore ######
 db.sqlite3
 *.pyc
