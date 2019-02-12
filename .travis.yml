@@ -5,16 +5,16 @@ sudo: required
 language:
   - python
 
-#python:
-#  - "3.5"
-#  - "3.6"
-#  - "3.7"
-
 matrix:
   include:
     - python: 3.5
+      env: SECRET_KEY="secret" CRYPTO_KEY="HsxAfguf_gRBGNx6C5LFv4LikkrhZZsK_zOhuP2-qsc="
+
     - python: 3.6
+      env: SECRET_KEY="secret" CRYPTO_KEY="HsxAfguf_gRBGNx6C5LFv4LikkrhZZsK_zOhuP2-qsc="
+
     - python: 3.7
+      env: SECRET_KEY="secret" CRYPTO_KEY="HsxAfguf_gRBGNx6C5LFv4LikkrhZZsK_zOhuP2-qsc="
       dist: xenial
       sudo: true
 
@@ -23,8 +23,7 @@ install:
 
 script:
   - "echo 'hey!'"
-    #- "python manage.py test test.unit_tests --settings=main.settings.dev -v2"
-  - "sh dev-test.sh"
+  - "python manage.py test test.unit_tests --settings=main.settings.dev -v2"
 
 before_deploy: "echo 'ready to deploy'"
 

@@ -12,12 +12,8 @@ export EMAIL_HOST_USER=`jq -r '.EMAIL_HOST_USER' other-secrets.json`
 export EMAIL_HOST_PASSWORD=`jq -r '.EMAIL_HOST_PASSWORD' other-secrets.json`
 export DEFAULT_FROM_EMAIL=`jq -r '.DEFAULT_FROM_EMAIL' other-secrets.json`
 
-#printenv
-
 pip install --upgrade pip
 pip install -r requirements.txt
 
-#python manage.py makemigrations
 python manage.py migrate
-#python manage.py test --settings=main.settings.dev
 python manage.py runserver --settings=main.settings.dev
