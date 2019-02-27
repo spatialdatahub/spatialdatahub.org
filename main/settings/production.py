@@ -15,7 +15,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["spatialdatahub.org", "www.spatialdatahub.org"]
+ALLOWED_HOSTS = ["spatialdatahub.org", "www.spatialdatahub.org", "localhost", os.environ.get("IP")]
 
 # I am not sure why these are important.
 # This is https stuff I think.

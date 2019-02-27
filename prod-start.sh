@@ -6,6 +6,7 @@ source ENV/bin/activate
 # that is not under version control
 export ENVIRONMENT=`jq -r '.ENVIRONMENT' secrets.json`
 export DJANGO_SETTINGS_MODULE=main.settings.production
+export IP=`jq -r '.IP' secrets.json`
 
 # secret and crypto key
 export SECRET_KEY=`jq -r '.SECRET_KEY' secrets.json`
@@ -29,5 +30,4 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 python manage.py migrate
-#python manage.py runserver
-gunicorn main.wsgi:application --bind 0.0.0.0:80
+#gunicorn main.wsgi:application --bind 0.0.0.0:8000
